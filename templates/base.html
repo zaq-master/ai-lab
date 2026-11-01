@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{title}}｜{{site}}</title>
+<meta name="description" content="{{desc}}">
+<link rel="canonical" href="{{url}}">
+<meta property="og:title" content="{{title}}">
+<meta property="og:description" content="{{desc}}">
+<meta property="og:url" content="{{url}}">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f7f8fa;--fg:#1d2330;--sub:#5b6475;--card:#fff;--line:#e3e6ec;--acc:#3b5bdb;--pr:#fff7e6}
+@media (prefers-color-scheme:dark){:root{--bg:#12151c;--fg:#e8ebf1;--sub:#9aa3b5;--card:#1b1f29;--line:#2b3140;--acc:#8ea6ff;--pr:#2a2416}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font-family:"Noto Sans JP",system-ui,sans-serif;line-height:1.85}
+a{color:var(--acc)}header,footer{max-width:760px;margin:auto;padding:16px}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+header .logo{font-weight:700;text-decoration:none;color:var(--fg)}nav a{margin-left:14px;font-size:.9rem;text-decoration:none}
+main{max-width:760px;margin:auto;padding:0 16px 40px}
+.hero{padding:32px 0 8px}.hero h1{margin:0 0 6px;font-size:1.7rem}.hero p{color:var(--sub);margin:0}
+.list{display:grid;gap:14px;margin-top:20px}
+.card{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;text-decoration:none;color:var(--fg)}
+.card h2{font-size:1.1rem;margin:4px 0}.card p{margin:0;color:var(--sub);font-size:.92rem}
+.meta{color:var(--sub);font-size:.82rem}
+article{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;margin-top:16px}
+article h1{font-size:1.5rem;line-height:1.5}article h2{border-left:4px solid var(--acc);padding-left:10px;margin-top:2em}
+.pr{background:var(--pr);border-radius:8px;padding:8px 12px;font-size:.85rem;color:var(--sub)}
+table{border-collapse:collapse;width:100%;display:block;overflow-x:auto}th,td{border:1px solid var(--line);padding:8px;font-size:.9rem;white-space:nowrap}
+footer{color:var(--sub);font-size:.85rem;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+<header><a class="logo" href="{{p}}index.html">{{site}}</a>
+<nav><a href="{{p}}about.html">運営者・方針</a><a href="{{x}}">X</a><a href="{{ig}}">Instagram</a><a href="{{note}}">note</a></nav></header>
+<main>{{body}}</main>
+<footer>© {{year}} {{site}} ／ 運営：{{author}}（AIを活用して運営しています）</footer>
+</body>
+</html>
