@@ -7,6 +7,7 @@
 ## 資産
 - サイト：https://zaq-master.github.io/ai-lab （このリポジトリ。`content/posts/*.md` を追加 → `python3 build.py` → commit & push で公開）
 - X：@qol_gadget_life ／ Instagram：@qol_gadget_life ／ note：note.com/zaqmaster（表示名：電脳アリス）
+- アフィリエイト：もしもアフィリエイト（af.moshimo.com、内蔵ブラウザでログイン済み）。メディア「QOLガジェット研究所」登録済み。楽天市場=提携中、Amazon=申請中（2026-11-02申請、審査待ち）。リンクは「かんたんリンク」で作成し、記事に「PR」表記を入れる
 - 決済：Stripe（アカウント名がまだ「音ゲーコネクト」。変更はオーナーに確認してから）
 - Slack（Ryoga-AI-Lab）：#daily-report = C0CDF2L2N2K ／ #note = C0CDQ64CFK5
 - X・Instagram・noteはオーナーPCのClaudeデスクトップアプリ「内蔵ブラウザ」でログイン済み。操作は mcp__remote-devices__Claude_Browser__* で行う。PCがオフなら、その回は投稿をスキップし、Slackに「PCオフで未投稿」と書く。
