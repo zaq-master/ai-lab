@@ -29,3 +29,6 @@
 ## リンク先
 https://zaq-master.github.io/ai-lab/posts/heater-denkidai-hikaku.html
 （補助：https://zaq-master.github.io/ai-lab/posts/denki-moufu-kotatsu-denkidai-telework.html）
+
+
+※R6監査：プロフィールのリンクは「冬の電気代まとめ」（posts/fuyu-denkidai-matome.html）に固定する方針。比較ツールはまとめページの先頭近くから1タップで行ける。投稿文の「プロフィールのリンクから」はそのままでよい。
