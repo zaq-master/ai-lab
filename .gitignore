@@ -1,1 +1,5 @@
 ops/out/
+
+# 販売商品の本体は公開リポジトリに置かない（Google Driveで非公開保管／スクリプトで再生成）
+ops/products/**/*.xlsx
+ops/etsy/products/**/*.pdf

@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>固定費・サブスク管理（試作）</title>
+<style>
+:root{--bg:#f7f7fb;--card:#fff;--ink:#222;--sub:#666;--line:#ddd;--accent:#6c4cf1;--warn:#c0392b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Hiragino Sans","Noto Sans JP",sans-serif;line-height:1.6}
+main{max-width:720px;margin:0 auto;padding:16px}
+h1{font-size:1.3em;margin:8px 0}
+.note{font-size:.85em;color:var(--sub)}
+.box{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin:12px 0}
+.sum{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.sum div{background:var(--bg);border-radius:8px;padding:8px}
+.sum b{display:block;font-size:1.25em}
+form{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+form label{font-size:.85em;display:flex;flex-direction:column}
+form .wide{grid-column:1/-1}
+input,select,button{font:inherit;padding:8px;border:1px solid var(--line);border-radius:8px;width:100%;min-width:0}
+button{background:var(--accent);color:#fff;border:0;cursor:pointer}
+button.ghost{background:#fff;color:var(--accent);border:1px solid var(--accent)}
+.item{display:flex;justify-content:space-between;gap:8px;border-top:1px solid var(--line);padding:10px 0}
+.item:first-child{border-top:0}
+.item .nm{font-weight:700;word-break:break-all}
+.item .meta{font-size:.8em;color:var(--sub)}
+.item .pr{text-align:right;white-space:nowrap}
+.soon{color:var(--warn);font-weight:700}
+.del{background:#fff;color:var(--warn);border:1px solid var(--line);width:auto;padding:2px 10px;margin-top:4px}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.row button{flex:1}
+</style>
+</head>
+<body>
+<main>
+<h1>固定費・サブスク管理（無料・試作版）</h1>
+<p class="note">サブスクや固定費を登録すると、月額・年額の合計、次の支払日、仕事用の割合（按分）をかけた経費の見込みを出します。データはこの端末のブラウザ内だけに保存され、外部に送信しません。※AI（電脳アリス）が作成した試作ツールです。税務上の判断は税理士・税務署にご確認ください。</p>
+
+<section class="box" aria-label="合計">
+<div class="sum">
+<div>月あたり合計<b id="sMonth">¥0</b></div>
+<div>年あたり合計<b id="sYear">¥0</b></div>
+<div>年間の経費見込み（按分後）<b id="sBiz">¥0</b></div>
+<div>7日以内の支払い<b id="sSoon">0件</b></div>
+</div>
+</section>
+
+<section class="box" aria-label="登録">
+<form id="f">
+<label class="wide">名前<input id="name" required maxlength="40" placeholder="例：動画配信サービス"></label>
+<label>金額（円）<input id="price" type="number" min="0" step="1" required inputmode="numeric"></label>
+<label>支払い周期<select id="cycle"><option value="1">毎月</option><option value="12">毎年</option><option value="3">3ヶ月ごと</option><option value="6">6ヶ月ごと</option></select></label>
+<label>次回の支払日<input id="next" type="date" required></label>
+<label>仕事用の割合（%）<input id="biz" type="number" min="0" max="100" step="5" value="0" inputmode="numeric"></label>
+<div class="wide"><button type="submit">追加する</button></div>
+</form>
+</section>
+
+<section class="box" aria-label="一覧">
+<div id="list"><p class="note">まだ登録がありません。</p></div>
+</section>
+
+<div class="row">
+<button type="button" class="ghost" id="csv">CSVで書き出す</button>
+<button type="button" class="ghost" id="clear">すべて削除</button>
+</div>
+<p class="note">計算：月あたり＝金額÷周期（月数）、年あたり＝月あたり×12、経費見込み＝年あたり×仕事用の割合。支払日を過ぎた項目は、周期に合わせて次回日を自動で進めます。</p>
+</main>
+<script>
+(function(){
+var KEY='koteihi_v1',items=[];
+function load(){try{items=JSON.parse(localStorage.getItem(KEY))||[];}catch(e){items=[];}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(items));}catch(e){}}
+function yen(v){return '¥'+Math.round(v).toLocaleString('ja-JP');}
+function today(){var d=new Date();d.setHours(0,0,0,0);return d;}
+function parse(s){var p=s.split('-');return new Date(+p[0],+p[1]-1,+p[2]);}
+function fmt(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function addMonths(d,n){var day=d.getDate(),r=new Date(d.getFullYear(),d.getMonth()+n,1),last=new Date(r.getFullYear(),r.getMonth()+1,0).getDate();r.setDate(Math.min(day,last));return r;}
+function roll(it){var d=parse(it.next),t=today(),k=0;while(d<t&&k<600){d=addMonths(d,it.cycle);k++;}it.next=fmt(d);}
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+var CY={1:'毎月',3:'3ヶ月ごと',6:'6ヶ月ごと',12:'毎年'};
+function render(){
+items.forEach(roll);save();
+items.sort(function(a,b){return a.next<b.next?-1:a.next>b.next?1:0;});
+var m=0,biz=0,soon=0,t=today(),html='';
+items.forEach(function(it,i){
+var pm=it.price/it.cycle;m+=pm;biz+=pm*12*it.biz/100;
+var days=Math.round((parse(it.next)-t)/864e5),isSoon=days<=7;if(isSoon)soon++;
+html+='<div class="item"><div><div class="nm">'+esc(it.name)+'</div><div class="meta">'+CY[it.cycle]+' '+yen(it.price)+'／仕事用'+it.biz+'%</div><div class="meta'+(isSoon?' soon':'')+'">次回 '+it.next+'（'+(days===0?'今日':'あと'+days+'日')+'）</div></div><div class="pr">'+yen(pm)+'/月<br><button type="button" class="del" data-i="'+i+'" aria-label="'+esc(it.name)+'を削除">削除</button></div></div>';
+});
+document.getElementById('list').innerHTML=html||'<p class="note">まだ登録がありません。</p>';
+document.getElementById('sMonth').textContent=yen(m);
+document.getElementById('sYear').textContent=yen(m*12);
+document.getElementById('sBiz').textContent=yen(biz);
+document.getElementById('sSoon').textContent=soon+'件';
+}
+document.getElementById('list').addEventListener('click',function(e){var b=e.target.closest('.del');if(!b)return;items.splice(+b.dataset.i,1);save();render();});
+document.getElementById('f').addEventListener('submit',function(e){
+e.preventDefault();
+var it={name:document.getElementById('name').value.trim(),price:Math.max(0,parseFloat(document.getElementById('price').value)||0),cycle:+document.getElementById('cycle').value,next:document.getElementById('next').value,biz:Math.min(100,Math.max(0,parseFloat(document.getElementById('biz').value)||0))};
+if(!it.name||!it.next)return;
+items.push(it);save();render();e.target.reset();document.getElementById('next').value=fmt(today());
+});
+document.getElementById('csv').addEventListener('click',function(){
+var rows=[['名前','金額','周期(月)','次回支払日','仕事用%','月あたり','年間経費見込み']];
+items.forEach(function(it){var pm=it.price/it.cycle;rows.push([it.name,it.price,it.cycle,it.next,it.biz,Math.round(pm),Math.round(pm*12*it.biz/100)]);});
+var csv='﻿'+rows.map(function(r){return r.map(function(v){return '"'+String(v).replace(/"/g,'""')+'"';}).join(',');}).join('\r\n');
+var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='koteihi.csv';a.click();
+});
+document.getElementById('clear').addEventListener('click',function(){if(confirm('登録をすべて削除しますか？')){items=[];save();render();}});
+document.getElementById('next').value=fmt(today());
+load();render();
+})();
+</script>
+</body>
+</html>
