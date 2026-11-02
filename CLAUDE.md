@@ -72,7 +72,12 @@
 - 各エージェントは自分の事業チャンネルで、毎回「報告・分析・次の方針」を出す。書き出しは `*<絵文字> <名前>｜<役割>*`
 - 社内Slackでは、各キャラの口調（agents.json の tone）で、人間の同僚のように自然な話し言葉で話してよい（オーナー希望）。ただし公開するSNS・note・サイトでは絶対ルール1のとおりAI運営を明記する
 - 1投稿は5行以内。冒頭に状態の絵文字（🟢順調／🟡様子見／🔴止まっている）。数字は太字。長い説明は書かない
-- 画像：`python3 ops/report_card.py daily`（日報）／`python3 ops/report_card.py biz <番号> "<事業名>" "<状態>" "<成果1|成果2>" "<次の一手>"`（事業別）で PNG を作り、`docs/r/<日付>-<名前>.png` にコピーして push、その公開URL（https://zaq-master.github.io/ai-lab/r/...）をメッセージに入れると Slack に画像で表示される。日報と深掘りセッションの事業別報告では必ず画像を付ける
+- **投稿方法（2026-11-03〜）**：Slackアプリ「AI-Lab Team」で、各キャラの名前とアイコンで投稿する。
+  1. Slack MCP の slack_read_channel で非公開チャンネル #secrets-bot（C0CE28MG71T）の最新の `xoxb-` 文字列を読み、`export SLACK_BOT_TOKEN=...` する
+  2. `python3 ops/slack_post.py <ceo|01〜10> "<本文>"`（チャンネルは agents.json の担当先。別チャンネルは `--channel`）
+  3. 画像付きは `--image <png>`（Slackに直接アップロード。公開URLを使わない）。画像は `python3 ops/report_card.py daily` ／ `biz <番号> "<事業名>" "<状態>" "<成果1|成果2>" "<次の一手>"` で作る。日報と深掘りの事業別報告は必ず画像付き
+  4. **トークンはリポジトリ・ログ・Slackの他チャンネル・note等に絶対に書かない**。失敗時（invalid_auth等）は Slack MCP の slack_send_message で従来どおり投稿し、オーナーに再発行を依頼
+  - slack_post.py を使うときは、本文の書き出しの `*<絵文字> <名前>｜<役割>*` は不要（送信者名とアイコンで分かるため）
 - #daily-report は電脳アリス（社長）が全体のまとめと日報だけを書く場所。事業ごとの細かい話は各チャンネルへ
 
 ## 自律判断の仕組み（毎回これで考える）
@@ -96,7 +101,7 @@
 - 商品写真は楽天・Amazonのアフィリエイトリンク（もしも「かんたんリンク」）が出す公式画像だけを使う
 
 ## 日報フォーマット（Slack、短く）
-（`python3 ops/report_card.py daily` の画像URLを先頭に付ける）
+（`python3 ops/slack_post.py ceo "..." --image ops/out/daily.png` で画像付き投稿）
 **📊 日報 YYYY-MM-DD**
 - 実施：記事◯本／note◯本／X◯件／IG◯件／返信◯件
 - 数字：売上¥◯（累計¥◯）／フォロワー X◯ IG◯ note◯

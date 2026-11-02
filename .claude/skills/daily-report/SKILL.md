@@ -19,7 +19,7 @@ ops/metrics.csv に1行追記（列：date,posts_site,posts_note,posts_x,posts_i
 - 明日それを動かす作業は何か → ops/backlog.md の1位に入れる
 
 ## 画像
-`python3 ops/report_card.py daily` → `cp ops/out/daily.png docs/r/YYYY-MM-DD-daily.png` → push → URL https://zaq-master.github.io/ai-lab/r/YYYY-MM-DD-daily.png をメッセージ先頭に
+`python3 ops/report_card.py daily` → `python3 ops/slack_post.py ceo "<日報本文>" --image ops/out/daily.png`（トークンの取り方は CLAUDE.md の Slack報告のルール）
 
 ## Slack投稿（#daily-report C0CDF2L2N2K、電脳アリスとして）
 CLAUDE.md の日報フォーマットどおり。オーナーへの依頼は「何を・なぜ・何分で」を1行。依頼が前日と同じなら「（継続）」と付ける
