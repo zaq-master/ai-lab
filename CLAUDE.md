@@ -53,6 +53,14 @@
 - daily-report：数字集めと日報（17:00・21:00）
 - ai-meeting：月曜07:00のAI経営会議
 - deep-session：深掘りセッション（03:00・10:00・13:00・19:00）
+- 外部スキル（2026-11-03導入、オーナー指定の動画「Claudeに入れるべき神スキル」より）：
+  - hyperframes／hyperframes-cli／hyperframes-registry（HeyGen製、Apache-2.0）：HTMLで動画を作る。YouTubeショート・Instagramリール・Xの動画に使う（エイゾウ担当）。**無料のローカル描画だけ**：HeyGenへのサインイン、クレジット、cloud render／lambda／publish、有料素材は禁止（ルール8）。音声はVOICEVOX（クレジット表記）か `npx hyperframes tts`（端末内のKokoro）。npmに繋がらず `npx hyperframes` が動かない回は、ffmpeg＋Python（PIL/matplotlib）で静止画を連結し字幕を焼き込む方式に切り替える
+  - brainstorming／writing-plans（obra/superpowers、MIT）：新事業・新商品の企画は brainstorming → writing-plans の順で考えてから着手（ただしオーナーへの質問は最小限にし、無人の回では自分で決めて理由を ops/decisions.md に残す）
+  - dispatching-parallel-agents：深掘りセッションで10体を並列に動かすときの指示の出し方
+  - verification-before-completion：「公開した」「直した」と報告する前に、必ず確認（ページが開く、ビルドが通る、画像が出る）
+  - systematic-debugging：エラーやうまく動かないときの原因の切り分け
+  - frontend-design／skill-creator：Claudeに最初から入っている（追加不要）。ツールやLPのデザインは frontend-design、新しい「型」を作るときは skill-creator
+  - 導入しなかったもの：browser-use（クラウドからは外部サイトに繋がらず、オーナーPCの内蔵ブラウザで代替済み。クラウド版は有料）、Discord連携（報告はSlackに一本化）
 時間のかかる調べ物は Agent ツールでサブエージェントを並列に動かして短縮する。
 
 ## 深掘りセッション（1日4回×2時間：03:00・10:00・13:00・19:00）
