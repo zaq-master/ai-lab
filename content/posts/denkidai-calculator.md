@@ -58,6 +58,7 @@ calc();
 - 正確に知りたいときは、**消費電力を測れるスマートプラグ**（電力モニター付き）で実測する方法もあります
 
 ## 関連記事
+- 何から対策するか迷ったら → [冬の寒さ対策診断（5問）](winter-heating-shindan.html)
 - 足元暖房の種類ごとの考え方と早見表 → [在宅ワークの足元暖房、電気代はいくら？](foot-heater-electricity-cost.html)
 - 電力を見える化するなら → [スマートプラグの選び方](smart-plug-guide.html)
 - エアコンをスマホで操作して切り忘れを防ぐ → [賃貸でエアコン2台をスマホ操作](smart-remote-rental-two-aircon.html)
