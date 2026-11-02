@@ -17,6 +17,19 @@ ROOT = Path(__file__).parent
 CFG = json.loads((ROOT / "config.json").read_text(encoding="utf-8"))
 OUT = ROOT / "docs"
 TPL = (ROOT / "templates" / "base.html").read_text(encoding="utf-8")
+PRODUCTS = json.loads((ROOT / "content" / "products.json").read_text(encoding="utf-8"))
+
+
+def product_box(m):
+    """<!-- products: key1,key2 --> を商品枠に置換。リンク未設定(html空)の枠は出さない。"""
+    items = [PRODUCTS.get(k.strip(), {}) for k in m.group(1).split(",")]
+    items = [i for i in items if i.get("html")]
+    if not items:
+        return ""
+    inner = "".join(f'<div class="prod"><p class="prod-l">{html.escape(i["label"])}</p>{i["html"]}</div>' for i in items)
+    return ('<section class="prods"><h2>候補の商品 <span class="badge">PR</span></h2>'
+            '<p class="pr">※広告リンクです。価格・在庫・仕様は変わるため、購入前に販売ページで必ずご確認ください。実機レビューではありません。</p>'
+            f'{inner}</section>')
 
 
 def parse(p):
@@ -24,7 +37,8 @@ def parse(p):
     m = re.match(r"^---\n(.*?)\n---\n(.*)$", raw, re.S)
     meta = dict(l.split(":", 1) for l in m.group(1).splitlines() if ":" in l)
     meta = {k.strip(): v.strip() for k, v in meta.items()}
-    meta["body"] = markdown.markdown(m.group(2), extensions=["tables", "toc"])
+    body = markdown.markdown(m.group(2), extensions=["tables", "toc"])
+    meta["body"] = re.sub(r"<!--\s*products:\s*(.*?)\s*-->", product_box, body)
     meta["slug"] = p.stem
     return meta
 
