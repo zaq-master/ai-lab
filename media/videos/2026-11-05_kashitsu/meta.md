@@ -27,3 +27,6 @@
 
 ## リンク先
 https://zaq-master.github.io/ai-lab/posts/kashitsu-ryo-calculator.html
+
+
+※注記（監査R4）：約40mL/hは「入ってくる外気が室内と同じ乾き具合」と仮定した値。冬は外気が乾いているため実際はこれより多くなりやすい（ツールに外気入力を追加済み：外気5℃/60%なら約53mL/h）。投稿文に一言添えること。

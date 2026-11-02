@@ -99,6 +99,31 @@ def related(x, posts, n=3):
             f'<a href="{CFG["note"]}" rel="noopener">note</a>で公開中。</p></section>')
 
 
+# トップの導線ブロック（冬の電気代ハブ＋無料ツール一覧）。リンク先が docs/ に無いものは出さない。
+HUB = ("posts/fuyu-denkidai-matome.html", "冬の電気代まとめ",
+       "暖房・加湿・エアコン自動化の電気代を、悩み別に記事とツールで整理")
+TOOLS = [
+    ("posts/denkidai-calculator.html", "電気代計算", "W数と時間で1日・1ヶ月・ひと冬の目安"),
+    ("posts/heater-denkidai-hikaku.html", "暖房器具の電気代比較", "エアコン・ヒーター・こたつを並べて計算"),
+    ("posts/kashitsu-ryo-calculator.html", "加湿量計算", "部屋に合う加湿器のmL/hを計算"),
+    ("posts/winter-heating-shindan.html", "冬の寒さ対策診断", "5問で最初に試す対策がわかる"),
+    ("posts/smart-remote-count-shindan.html", "スマートリモコン台数診断", "6問で必要台数がわかる"),
+    ("apps/sub-check/index.html", "サブスク見直しチェッカー", "月額・年額を一覧にして固定費を見直す"),
+]
+
+
+def hub_block():
+    ok = lambda p: (OUT / p).exists()
+    tools = "".join(f'<li><a href="{p}"><b>{html.escape(n)}</b><span>{html.escape(d)}</span></a></li>'
+                    for p, n, d in TOOLS if ok(p))
+    hub = (f'<a class="hub-main" href="{HUB[0]}"><span class="badge">特集</span><b>{HUB[1]}</b>'
+           f'<span>{HUB[2]} →</span></a>') if ok(HUB[0]) else ""
+    if not (hub or tools):
+        return ""
+    return (f'<section class="hub" aria-label="特集と無料ツール">{hub}'
+            + (f'<h2>無料ツール</h2><ul class="tools">{tools}</ul>' if tools else "") + '</section>')
+
+
 def main():
     posts = sorted((parse(p) for p in (ROOT / "content" / "posts").glob("*.md")),
                    key=lambda x: x["date"], reverse=True)
@@ -114,6 +139,7 @@ def main():
         f'<a class="card" href="posts/{x["slug"]}.html"><img class="eye" src="posts/{x["slug"]}.svg" alt="" width="1200" height="630" loading="lazy"><span class="meta">{x["date"]}・{html.escape(x.get("category",""))}</span>'
         f'<h2>{html.escape(x["title"])}</h2><p>{html.escape(x["description"])}</p></a>' for x in posts)
     hero = (f'<section class="hero"><h1>{CFG["site_name"]}</h1><p>{CFG["tagline"]}</p></section>'
+            f'{hub_block()}'
             f'<section class="list">{cards or "<p>記事を準備中です。</p>"}</section>')
     urls.append(page(CFG["site_name"], CFG["tagline"], hero, "index.html", ""))
     for name in ["about"]:
