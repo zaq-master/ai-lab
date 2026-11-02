@@ -89,4 +89,6 @@ calc();
 - 家電の電気代をまとめて計算するなら → [家電の電気代計算ツール](denkidai-calculator.html)
 - 何から対策するか迷ったら → [冬の寒さ対策診断（5問）](winter-heating-shindan.html)
 
+冬の電気代・寒さ対策の記事とツールは、悩み別に[冬の電気代まとめ](fuyu-denkidai-matome.html)で一覧にしています。
+
 <!-- products: humidifier-vaporize,humidifier-steam -->

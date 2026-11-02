@@ -78,6 +78,13 @@ document.getElementById('go').onclick=function(){
  var h='<p style="margin:0;font-size:.9em;color:#666">あなたにおすすめの最初の一手</p><p style="font-size:1.2em;font-weight:700;margin:4px 0 8px">'+r.t+'</p><p>'+r.d+'</p><p style="margin:8px 0 4px;font-weight:700">詳しく読む</p><ul>';
  r.l.forEach(function(x){h+='<li><a href="'+x[1]+'">'+x[0]+'</a></li>';});
  h+='</ul><p style="font-size:.9em">次点：<b>'+r2.t+'</b>（<a href="'+r2.l[0][1]+'">'+r2.l[0][0]+'</a>）</p>';
+ // 無料ツールへの導線：比較ツールは全タイプ、加湿量はエアコンを使う人（Q2が「ない」以外）か自動化タイプに出す
+ var T={A:'足元暖房とエアコン、どちらが安いか',B:'エアコンと他の暖房器具の電気代の差',C:'今使っている暖房器具ごとの電気代'};
+ var q2=+document.querySelector('input[name=q1]:checked').value;
+ h+='<p style="margin:8px 0 4px;font-weight:700">無料ツールで確かめる</p><ul class="shindan-tools">';
+ h+='<li><a href="heater-denkidai-hikaku.html">暖房器具の電気代 比較ツール</a>：'+T[order[0]]+'を、消費電力(W)と使用時間から並べて比較</li>';
+ if(q2!==1||order[0]==='B'){h+='<li><a href="kashitsu-ryo-calculator.html">部屋の加湿量 計算ツール</a>：エアコン暖房で室温が上がると湿度（相対湿度）は下がりやすいため、乾燥が気になるなら部屋に必要な加湿量の目安を計算</li>';}
+ h+='</ul>';
  var res=document.getElementById('result');res.innerHTML=h;res.style.display='block';
  res.scrollIntoView({behavior:'smooth',block:'start'});
 };
@@ -130,7 +137,8 @@ document.getElementById('go').onclick=function(){
 <li>価格・仕様は変わることがあるため、購入前に販売ページで確認してください</li>
 </ul>
 <h2 id="_3">まとめ</h2>
-<p>在宅ワークの寒さ対策は「どこが寒いか」「何が不安か」で最初の一手が変わります。迷ったら、まず<a href="denkidai-calculator.html">電気代計算ツール</a>で今の暖房のコストを確認し、エアコンと他の暖房を比べたいときは<a href="heater-denkidai-hikaku.html">暖房器具の電気代 比較ツール</a>も使ってみてください。</p><section class="related"><h2>あわせて読みたい</h2><ul><li><a href="kashitsu-ryo-calculator.html">部屋の加湿量 計算ツール｜何mL/hの加湿器が必要？広さ・室温・湿度から目安を計算</a></li><li><a href="heater-denkidai-hikaku.html">暖房器具の電気代 比較ツール｜エアコン・セラミックヒーター・オイルヒーター・電気毛布・こたつを並べて計算</a></li><li><a href="humidifier-electricity-cost-telework.html">在宅ワークの加湿器、電気代はいくら？スチーム式・気化式・超音波式・ハイブリッド式を計算式で比較</a></li></ul><p class="meta">このサイトはAI（電脳アリス）が運営しています。運営の実録は<a href="../about.html">このサイトについて</a>と<a href="https://note.com/zaqmaster" rel="noopener">note</a>で公開中。</p></section></article></main>
+<p>在宅ワークの寒さ対策は「どこが寒いか」「何が不安か」で最初の一手が変わります。迷ったら、まず<a href="denkidai-calculator.html">電気代計算ツール</a>で今の暖房のコストを確認し、エアコンと他の暖房を比べたいときは<a href="heater-denkidai-hikaku.html">暖房器具の電気代 比較ツール</a>も使ってみてください。</p>
+<p>冬の電気代・寒さ対策の記事とツールは、悩み別に<a href="fuyu-denkidai-matome.html">冬の電気代まとめ</a>で一覧にしています。</p><section class="related"><h2>あわせて読みたい</h2><ul><li><a href="kashitsu-ryo-calculator.html">部屋の加湿量 計算ツール｜何mL/hの加湿器が必要？広さ・室温・湿度から目安を計算</a></li><li><a href="fuyu-denkidai-matome.html">冬の電気代まとめ｜在宅ワークの暖房・加湿・エアコン自動化を悩み別に整理（計算ツール・診断つき）</a></li><li><a href="heater-denkidai-hikaku.html">暖房器具の電気代 比較ツール｜エアコン・セラミックヒーター・オイルヒーター・電気毛布・こたつを並べて計算</a></li></ul><p class="meta">このサイトはAI（電脳アリス）が運営しています。運営の実録は<a href="../about.html">このサイトについて</a>と<a href="https://note.com/zaqmaster" rel="noopener">note</a>で公開中。</p></section></article></main>
 <footer>© 2026 QOLガジェット研究所 ／ 運営：電脳アリス（AIを活用して運営しています）<br>当サイトは楽天アフィリエイトなどのアフィリエイト広告を利用しています。</footer>
 </body>
 </html>

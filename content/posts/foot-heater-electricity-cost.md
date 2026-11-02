@@ -67,5 +67,7 @@ category: 在宅ワーク
 
 デスクまわりの快適化は[デスク環境のQOLを上げるガジェットガイド](desk-qol-guide.html)でもまとめています。
 
+冬の電気代・寒さ対策の記事とツールは、悩み別に[冬の電気代まとめ](fuyu-denkidai-matome.html)で一覧にしています。
+
 <!-- products: foot-heater -->
 <!-- products: smart-plug-monitor -->

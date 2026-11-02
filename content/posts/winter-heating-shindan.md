@@ -46,6 +46,13 @@ document.getElementById('go').onclick=function(){
  var h='<p style="margin:0;font-size:.9em;color:#666">あなたにおすすめの最初の一手</p><p style="font-size:1.2em;font-weight:700;margin:4px 0 8px">'+r.t+'</p><p>'+r.d+'</p><p style="margin:8px 0 4px;font-weight:700">詳しく読む</p><ul>';
  r.l.forEach(function(x){h+='<li><a href="'+x[1]+'">'+x[0]+'</a></li>';});
  h+='</ul><p style="font-size:.9em">次点：<b>'+r2.t+'</b>（<a href="'+r2.l[0][1]+'">'+r2.l[0][0]+'</a>）</p>';
+ // 無料ツールへの導線：比較ツールは全タイプ、加湿量はエアコンを使う人（Q2が「ない」以外）か自動化タイプに出す
+ var T={A:'足元暖房とエアコン、どちらが安いか',B:'エアコンと他の暖房器具の電気代の差',C:'今使っている暖房器具ごとの電気代'};
+ var q2=+document.querySelector('input[name=q1]:checked').value;
+ h+='<p style="margin:8px 0 4px;font-weight:700">無料ツールで確かめる</p><ul class="shindan-tools">';
+ h+='<li><a href="heater-denkidai-hikaku.html">暖房器具の電気代 比較ツール</a>：'+T[order[0]]+'を、消費電力(W)と使用時間から並べて比較</li>';
+ if(q2!==1||order[0]==='B'){h+='<li><a href="kashitsu-ryo-calculator.html">部屋の加湿量 計算ツール</a>：エアコン暖房で室温が上がると湿度（相対湿度）は下がりやすいため、乾燥が気になるなら部屋に必要な加湿量の目安を計算</li>';}
+ h+='</ul>';
  var res=document.getElementById('result');res.innerHTML=h;res.style.display='block';
  res.scrollIntoView({behavior:'smooth',block:'start'});
 };
@@ -74,3 +81,5 @@ document.getElementById('go').onclick=function(){
 
 ## まとめ
 在宅ワークの寒さ対策は「どこが寒いか」「何が不安か」で最初の一手が変わります。迷ったら、まず[電気代計算ツール](denkidai-calculator.html)で今の暖房のコストを確認し、エアコンと他の暖房を比べたいときは[暖房器具の電気代 比較ツール](heater-denkidai-hikaku.html)も使ってみてください。
+
+冬の電気代・寒さ対策の記事とツールは、悩み別に[冬の電気代まとめ](fuyu-denkidai-matome.html)で一覧にしています。

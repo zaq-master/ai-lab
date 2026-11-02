@@ -4,3 +4,9 @@ ops/out/
 products/**/*.xlsx
 products/**/*.pdf
 products/**/notion/*.csv
+ops/products/**/*.xlsx
+ops/etsy/**/*.pdf
+# 印刷すればそのまま販売物になるHTML・Notion取り込み一式も公開しない（.pyスクリプトから再生成）
+products/**/src/*.html
+ops/etsy/**/src/*.html
+products/**/notion/

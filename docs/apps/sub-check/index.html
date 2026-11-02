@@ -57,7 +57,7 @@ a.btn{display:inline-block;text-decoration:none;border-radius:8px;border:1px sol
 </style>
 </head>
 <body>
-<header><a href="../../index.html">QOLガジェット研究所</a><span class="note" style="padding:2px 8px">無料・登録不要</span></header>
+<header><a href="../../index.html">QOLガジェット研究所</a><span class="note" style="padding:2px 8px">無料・登録不要・AI運営</span></header>
 <main>
 <h1>サブスク見直しチェッカー</h1>
 <p class="lead">払っているサブスクや固定費を入れると、月・年の合計と「解約したら浮くお金」がすぐ分かります。</p>
@@ -117,7 +117,7 @@ a.btn{display:inline-block;text-decoration:none;border-radius:8px;border:1px sol
     <button type="button" id="clearBtn">全部消す</button>
     <input type="file" id="importFile" accept="application/json,.json" hidden>
   </div>
-  <p class="note" style="margin-top:10px">.ics ファイルを開くと、スマホやPCのカレンダーに「支払日の前日のお知らせ」付きで登録できます。<br>CSV は「サービス名・カテゴリ・支払周期・料金（円）・契約開始日・支払方法・月の利用回数・使っていない」の順です。開いて2行目以降をコピーし、テンプレの「入力」シートの B5 に貼り付けてください（契約開始日の列には「次の支払日」が入ります。カテゴリ・支払方法・利用回数は空欄なので、あとで選んでください）。</p>
+  <p class="note" style="margin-top:10px">.ics ファイルを開くと、スマホやPCのカレンダーに「支払日の前日のお知らせ」付きで登録できます。29〜31日払いは、その日がない月は月末（例：31日払い→2月は28日、うるう年は29日）にして12ヶ月分を登録します（1年たったらもう一度書き出してください）。<br>CSV は「サービス名・カテゴリ・支払周期・料金（円）・契約開始日・支払方法・月の利用回数・使っていない」の順です。開いて2行目以降をコピーし、テンプレの「入力」シートの B5 に貼り付けてください（契約開始日の列には「次の支払日」が入ります。カテゴリ・支払方法・利用回数は空欄なので、あとで選んでください）。</p>
 </section>
 
 <section class="box rel" aria-label="関連ツール">
@@ -137,6 +137,59 @@ a.btn{display:inline-block;text-decoration:none;border-radius:8px;border:1px sol
 </footer>
 <div id="toast" role="status" aria-live="polite"></div>
 
+<script id="sc-dates">
+// 支払日の計算（テスト：ops/tests/sub_check_dates.test.js がこのブロックだけを読み込んで検証する）
+// ルール：支払日は「最初に入れた日付の日」を基準にし、その日がない月は月末に丸める。
+//   例）1/31払い → 2/28（うるう年は2/29）→ 3/31 → 4/30 …（丸めた日に引きずられない）
+//   年払いの2/29 → うるう年でない年は2/28
+var SubCheckDates = (function(){
+  "use strict";
+  function lastDay(y, m0){ return new Date(y, m0 + 1, 0).getDate(); }
+  function parse(s){
+    if(typeof s !== "string") return null; var p = s.split("-"); if(p.length !== 3) return null;
+    var y = +p[0], m = +p[1], d = +p[2];
+    if(!(y > 0 && m >= 1 && m <= 12 && d >= 1 && d <= 31)) return null;
+    return {y:y, m0:m - 1, d:d};
+  }
+  // 基準日から k 回目（0 = 基準日そのもの）の支払日
+  function nth(a, cycle, k){
+    var y, m0;
+    if(cycle === "y"){ y = a.y + k; m0 = a.m0; }
+    else { var t = a.m0 + k; y = a.y + Math.floor(t / 12); m0 = ((t % 12) + 12) % 12; }
+    return new Date(y, m0, Math.min(a.d, lastDay(y, m0)));
+  }
+  // from（その日を含む）以降の支払日を count 回分
+  function upcoming(next, cycle, from, count){
+    var a = parse(next); if(!a) return [];
+    var f = new Date(from.getFullYear(), from.getMonth(), from.getDate()), k = 0, out = [];
+    if(nth(a, cycle, 0) < f){
+      var diff = (f.getFullYear() - a.y) * (cycle === "y" ? 1 : 12) + (cycle === "y" ? 0 : f.getMonth() - a.m0);
+      k = Math.max(0, diff - 1);
+      while(nth(a, cycle, k) < f) k++;
+    }
+    for(var i = 0; i < count; i++) out.push(nth(a, cycle, k + i));
+    return out;
+  }
+  function ymd(d){ return d.getFullYear() + String(d.getMonth()+1).padStart(2,"0") + String(d.getDate()).padStart(2,"0"); }
+  // 29日以降の月払い／2/29の年払いは、どのカレンダーでも同じに見えるよう個別の予定で書き出す
+  function needsExpand(next, cycle){ var a = parse(next); if(!a) return false; return cycle === "m" ? a.d >= 29 : (a.m0 === 1 && a.d === 29); }
+  // .ics の VEVENT 行（配列）を返す。item = {id, next, cycle}, title = 予定名
+  function icsEvents(item, title, from, stamp){
+    var lines = [], expand = needsExpand(item.next, item.cycle);
+    var dates = upcoming(item.next, item.cycle, from, expand ? (item.cycle === "m" ? 12 : 4) : 1);
+    dates.forEach(function(d, i){
+      var e = new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1);
+      lines.push("BEGIN:VEVENT", "UID:" + item.id + (expand ? "-" + ymd(d) : "") + "@sub-check", "DTSTAMP:" + stamp,
+        "DTSTART;VALUE=DATE:" + ymd(d), "DTEND;VALUE=DATE:" + ymd(e));
+      if(!expand) lines.push("RRULE:FREQ=" + (item.cycle === "m" ? "MONTHLY" : "YEARLY"));
+      lines.push("SUMMARY:" + title, "BEGIN:VALARM", "ACTION:DISPLAY", "DESCRIPTION:" + title, "TRIGGER:-PT15H", "END:VALARM", "END:VEVENT");
+    });
+    return lines;
+  }
+  return {parse:parse, nth:nth, upcoming:upcoming, ymd:ymd, needsExpand:needsExpand, icsEvents:icsEvents};
+})();
+if(typeof module !== "undefined" && module.exports) module.exports = SubCheckDates;
+</script>
 <script>
 (function(){
   "use strict";
@@ -162,14 +215,10 @@ a.btn{display:inline-block;text-decoration:none;border-radius:8px;border:1px sol
 
   function today(){ var d = new Date(); d.setHours(0,0,0,0); return d; }
   function parseDate(s){ if(!s) return null; var p = s.split("-"); if(p.length !== 3) return null; var d = new Date(+p[0], +p[1]-1, +p[2]); return isNaN(d) ? null : d; }
-  // 過去の支払日は周期ぶん進めて「次の支払日」にする
-  function nextDate(x){
-    var d = parseDate(x.next); if(!d) return null; var t = today(), guard = 0;
-    while(d < t && guard++ < 1200){ if(x.cycle === "m"){ var day = parseDate(x.next).getDate(); d = new Date(d.getFullYear(), d.getMonth()+1, 1); var last = new Date(d.getFullYear(), d.getMonth()+1, 0).getDate(); d.setDate(Math.min(day, last)); } else { d = new Date(d.getFullYear()+1, d.getMonth(), d.getDate()); } }
-    return d;
-  }
+  // 過去の支払日は周期ぶん進めて「次の支払日」にする（その日がない月は月末。SubCheckDates 参照）
+  function nextDate(x){ return SubCheckDates.upcoming(x.next, x.cycle, today(), 1)[0] || null; }
   function fmt(d){ return (d.getMonth()+1) + "/" + d.getDate(); }
-  function ymd(d){ return d.getFullYear() + String(d.getMonth()+1).padStart(2,"0") + String(d.getDate()).padStart(2,"0"); }
+  var ymd = SubCheckDates.ymd;
 
   function render(){
     var m = 0, y = 0, s = 0, maybe = 0;
@@ -208,7 +257,7 @@ a.btn{display:inline-block;text-decoration:none;border-radius:8px;border:1px sol
   $("list").addEventListener("click", function(e){
     var b = e.target.closest("button"); if(!b) return; var id = b.closest("li").dataset.id;
     var x = items.find(function(i){ return i.id === id; }); if(!x) return;
-    if(b.dataset.act === "del"){ if(!confirm("「" + x.name + "」を削除しますか？")) return; items = items.filter(function(i){ return i.id !== id; }); toast("削除しました"); }
+    if(b.dataset.act === "del"){ if(!confirm("「" + x.name + "」を削除しますか？")) return; items = items.filter(function(i){ return i.id !== id; }); if(editing === id) resetForm(); toast("削除しました"); }
     else if(b.dataset.act === "toggle"){ x.use = x.use === "cut" ? "keep" : "cut"; }
     else if(b.dataset.act === "edit"){ editing = id; $("name").value = x.name; $("amount").value = x.amount; $("cycle").value = x.cycle; $("next").value = x.next || ""; $("use").value = x.use || "keep"; $("formTitle").textContent = "「" + x.name + "」を編集"; $("submitBtn").textContent = "更新する"; $("cancelEdit").hidden = false; $("f").scrollIntoView({behavior:"smooth", block:"start"}); return; }
     save(); render();
@@ -219,7 +268,7 @@ a.btn{display:inline-block;text-decoration:none;border-radius:8px;border:1px sol
   $("importBtn").addEventListener("click", function(){ $("importFile").click(); });
   $("importFile").addEventListener("change", function(e){
     var file = e.target.files[0]; if(!file) return; var r = new FileReader();
-    r.onload = function(){ try { var d = JSON.parse(r.result); var arr = (Array.isArray(d) ? d : d.items || []).filter(valid).map(function(x){ return {id:x.id || uid(), name:String(x.name).slice(0,40), amount:Math.max(0, Math.round(+x.amount)), cycle:x.cycle, next:typeof x.next === "string" ? x.next : "", use:USE[x.use] ? x.use : "keep"}; });
+    r.onload = function(){ try { var d = JSON.parse(r.result); var arr = (Array.isArray(d) ? d : d.items || []).filter(valid).map(function(x){ return {id:String(x.id || uid()), name:String(x.name).slice(0,40), amount:Math.max(0, Math.round(+x.amount)), cycle:x.cycle, next:typeof x.next === "string" ? x.next : "", use:USE[x.use] ? x.use : "keep"}; });
       if(!arr.length){ toast("読み込める項目がありませんでした"); return; }
       if(items.length && !confirm("今の記録を、バックアップの" + arr.length + "件で置き換えますか？")) return;
       items = arr; save(); render(); toast(arr.length + "件を戻しました"); } catch(err){ toast("ファイルを読めませんでした"); } e.target.value = ""; };
@@ -230,11 +279,14 @@ a.btn{display:inline-block;text-decoration:none;border-radius:8px;border:1px sol
     if(!withDate.length){ toast("「次の支払日」を入れた項目がありません"); return; }
     var stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d+/, "");
     var lines = ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//QOL Gadget Lab//sub-check//JA","CALSCALE:GREGORIAN"];
-    withDate.forEach(function(x){ var d = nextDate(x), e = new Date(d.getFullYear(), d.getMonth(), d.getDate()+1);
+    var expanded = 0;
+    withDate.forEach(function(x){
       var t = (x.name + " の支払日（" + yen(x.amount) + "）").replace(/[,;\\]/g, " ");
-      lines.push("BEGIN:VEVENT","UID:" + x.id + "@sub-check","DTSTAMP:" + stamp,"DTSTART;VALUE=DATE:" + ymd(d),"DTEND;VALUE=DATE:" + ymd(e),"RRULE:FREQ=" + (x.cycle === "m" ? "MONTHLY" : "YEARLY"),"SUMMARY:" + t,"BEGIN:VALARM","ACTION:DISPLAY","DESCRIPTION:" + t,"TRIGGER:-PT15H","END:VALARM","END:VEVENT"); });
+      if(SubCheckDates.needsExpand(x.next, x.cycle)) expanded++;
+      lines = lines.concat(SubCheckDates.icsEvents(x, t, today(), stamp)); });
     lines.push("END:VCALENDAR");
-    download("subcheck-payments.ics", lines.join("\r\n"), "text/calendar"); toast(withDate.length + "件をカレンダー用に書き出しました");
+    download("subcheck-payments.ics", lines.join("\r\n"), "text/calendar");
+    toast(withDate.length + "件をカレンダー用に書き出しました" + (expanded ? "（月末払い" + expanded + "件は先の分まで個別に登録）" : ""));
   });
   // テンプレ（products/templates/subscription-manager）の「入力」シート B〜I 列と同じ順
   var CSV_HEAD = ["サービス名","カテゴリ","支払周期","料金（円）","契約開始日","支払方法","月の利用回数","使っていない"];

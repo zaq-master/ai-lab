@@ -64,5 +64,7 @@ calc();
 - 電力を見える化するなら → [スマートプラグの選び方](smart-plug-guide.html)
 - エアコンをスマホで操作して切り忘れを防ぐ → [賃貸でエアコン2台をスマホ操作](smart-remote-rental-two-aircon.html)
 
+冬の電気代・寒さ対策の記事とツールは、悩み別に[冬の電気代まとめ](fuyu-denkidai-matome.html)で一覧にしています。
+
 <!-- products: foot-heater -->
 <!-- products: smart-plug-monitor -->

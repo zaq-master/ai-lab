@@ -102,3 +102,5 @@ document.getElementById('go').onclick=function(){
 
 ## まとめ
 スマートリモコンの台数は「赤外線で操作したい家電がある部屋の数」がひとつの目安です。台数が決まったら、エアコンをどれくらい使うと電気代がいくらになるかを[電気代計算ツール](denkidai-calculator.html)で確認してみてください。
+
+冬の電気代・寒さ対策の記事とツールは、悩み別に[冬の電気代まとめ](fuyu-denkidai-matome.html)で一覧にしています。

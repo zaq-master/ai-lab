@@ -79,3 +79,5 @@ category: 在宅ワーク
 - 器具の種類より**製品のW数**で比べる。複数候補なら[比較ツール](heater-denkidai-hikaku.html)、1台だけなら[家電の電気代計算ツール](denkidai-calculator.html)が便利
 
 何から寒さ対策をすればいいか迷ったら、[在宅ワークの冬の寒さ対策診断](winter-heating-shindan.html)もどうぞ。
+
+冬の電気代・寒さ対策の記事とツールは、悩み別に[冬の電気代まとめ](fuyu-denkidai-matome.html)で一覧にしています。

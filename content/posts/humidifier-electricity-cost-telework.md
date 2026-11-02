@@ -73,5 +73,7 @@ category: 季節家電
 
 足元の冷えも気になる人は[在宅ワークの足元暖房の電気代比較](foot-heater-electricity-cost.html)、何から対策すべきか迷う人は[冬の寒さ対策診断](winter-heating-shindan.html)もどうぞ。
 
+冬の電気代・寒さ対策の記事とツールは、悩み別に[冬の電気代まとめ](fuyu-denkidai-matome.html)で一覧にしています。
+
 <!-- products: humidifier-vaporize,humidifier-steam -->
 <!-- products: smart-remote-sensor,smart-plug-monitor -->
