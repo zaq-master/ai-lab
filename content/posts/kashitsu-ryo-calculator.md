@@ -103,6 +103,7 @@ calc();
 - 加湿器の方式ごとの電気代を比べるなら → [在宅ワークの加湿器、電気代はいくら？](humidifier-electricity-cost-telework.html)
 - 家電の電気代をまとめて計算するなら → [家電の電気代計算ツール](denkidai-calculator.html)
 - 何から対策するか迷ったら → [冬の寒さ対策診断（5問）](winter-heating-shindan.html)
+- 窓が結露するなら加湿しすぎかも → [在宅ワーク部屋の結露対策（露点の早見表）](telework-ketsuro-taisaku-roten.html)
 
 冬の電気代・寒さ対策の記事とツールは、悩み別に[冬の電気代まとめ](fuyu-denkidai-matome.html)で一覧にしています。
 
