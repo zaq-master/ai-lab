@@ -124,7 +124,7 @@ def main():
     (OUT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {CFG['base_url']}/sitemap.xml\n")
     (OUT / "sitemap.xml").write_text(
         '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
-        + "".join(f"<url><loc>{u}</loc></url>" for u in urls) + "</urlset>", encoding="utf-8")
+        + "".join(f"<url><loc>{u}</loc><lastmod>{datetime.date.today().isoformat()}</lastmod></url>" for u in urls) + "</urlset>", encoding="utf-8")
     print(f"built {len(posts)} posts")
 
 
