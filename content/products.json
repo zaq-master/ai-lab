@@ -1,12 +1,43 @@
 {
   "_help": "もしも『かんたんリンク』のHTMLを html に貼るだけで、記事の <!-- products: key --> に商品枠が表示される。html が空の枠は非表示。",
-  "smart-plug-monitor": {"label": "スマートプラグ（電力モニター付き）", "html": ""},
-  "smart-plug-basic": {"label": "スマートプラグ（シンプルなタイマー用途）", "html": ""},
-  "smart-remote-std": {"label": "スマートリモコン（定番タイプ）", "html": ""},
-  "smart-remote-sensor": {"label": "スマートリモコン（温湿度センサー付き）", "html": ""},
-  "charger-65w": {"label": "USB-C充電器 65W（ノートPC＋スマホ）", "html": ""},
-  "charger-30w": {"label": "USB-C充電器 20〜30W（スマホ用）", "html": ""},
-  "cable-c2c": {"label": "USB-C to Cケーブル（100W/5A対応表記）", "html": ""},
-  "monitor-light": {"label": "モニターライト", "html": ""},
-  "monitor-arm": {"label": "モニターアーム", "html": ""}
+  "smart-plug-monitor": {
+    "label": "スマートプラグ（電力モニター付き）",
+    "html": ""
+  },
+  "smart-plug-basic": {
+    "label": "スマートプラグ（シンプルなタイマー用途）",
+    "html": ""
+  },
+  "smart-remote-std": {
+    "label": "スマートリモコン（定番タイプ）",
+    "html": ""
+  },
+  "smart-remote-sensor": {
+    "label": "スマートリモコン（温湿度センサー付き）",
+    "html": ""
+  },
+  "charger-65w": {
+    "label": "USB-C充電器 65W（ノートPC＋スマホ）",
+    "html": ""
+  },
+  "charger-30w": {
+    "label": "USB-C充電器 20〜30W（スマホ用）",
+    "html": ""
+  },
+  "cable-c2c": {
+    "label": "USB-C to Cケーブル（100W/5A対応表記）",
+    "html": ""
+  },
+  "monitor-light": {
+    "label": "モニターライト",
+    "html": ""
+  },
+  "monitor-arm": {
+    "label": "モニターアーム",
+    "html": ""
+  },
+  "foot-heater": {
+    "label": "足元暖房（足温器・ホットマット・デスク下ヒーター）",
+    "html": ""
+  }
 }
