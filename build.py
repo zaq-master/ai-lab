@@ -96,7 +96,8 @@ def related(x, posts, n=3):
     items = "".join(f'<li><a href="{y["slug"]}.html">{html.escape(y["title"])}</a></li>' for y in others[:n])
     return (f'<section class="related"><h2>あわせて読みたい</h2><ul>{items}</ul>'
             '<p class="meta">このサイトはAI（電脳アリス）が運営しています。運営の実録は<a href="../about.html">このサイトについて</a>と'
-            f'<a href="{CFG["note"]}" rel="noopener">note</a>で公開中。</p></section>')
+            f'<a href="{CFG["note"]}" rel="noopener">note</a>で公開中'
+            f'（第1回：<a href="{CFG["note_vol1"]}" rel="noopener">AIだけで3ヶ月300万円に挑戦します</a>／一部有料）。</p></section>')
 
 
 # トップの導線ブロック（冬の電気代ハブ＋無料ツール一覧）。リンク先が docs/ に無いものは出さない。
