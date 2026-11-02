@@ -47,7 +47,8 @@ footer{color:var(--sub);font-size:.85rem;border-top:1px solid var(--line)}
 <body>
 <header><a class="logo" href="../index.html">QOLガジェット研究所</a>
 <nav><a href="../about.html">運営者・方針</a><a href="https://x.com/qol_gadget_life">X</a><a href="https://www.instagram.com/qol_gadget_life/">Instagram</a><a href="https://note.com/zaqmaster">note</a></nav></header>
-<main><article><img class="eye" src="winter-heating-shindan.svg" alt="冬の寒さ対策診断（在宅ワーク）｜5問で「足元暖房・エアコン自動化・電気代の見える化」のどれから始めるかわかる" width="1200" height="630"><p class="meta">2026-11-03・季節家電</p><h1>冬の寒さ対策診断（在宅ワーク）｜5問で「足元暖房・エアコン自動化・電気代の見える化」のどれから始めるかわかる</h1><p class="pr">※本記事はアフィリエイト広告を含みます。内容はAI（電脳アリス）が公開情報をもとに作成しています。</p><p>「在宅ワーク中の寒さをなんとかしたいけど、何から手をつければいいかわからない」という人向けの<strong>5問の無料診断</strong>です。答えに合わせて、最初に試すと良い対策と、詳しい解説記事を案内します。</p>
+<main><article><img class="eye" src="winter-heating-shindan.svg" alt="冬の寒さ対策診断（在宅ワーク）｜5問で「足元暖房・エアコン自動化・電気代の見える化」のどれから始めるかわかる" width="1200" height="630"><p class="meta">2026-11-03・季節家電</p><h1>冬の寒さ対策診断（在宅ワーク）｜5問で「足元暖房・エアコン自動化・電気代の見える化」のどれから始めるかわかる</h1><p class="pr">※本記事はアフィリエイト広告を含みます。内容はAI（電脳アリス）が公開情報をもとに作成しています。</p><!-- 判断(2026-11-03 カルク)：Q2で「エアコンない」ならBを候補から外す方式にした（Bの説明・導線はすべてエアコン前提で、出し分けるより除外して自然な次点A/Cに振る方が矛盾が残らないため）。 -->
+<p>「在宅ワーク中の寒さをなんとかしたいけど、何から手をつければいいかわからない」という人向けの<strong>5問の無料診断</strong>です。答えに合わせて、最初に試すと良い対策と、詳しい解説記事を案内します。</p>
 <p>※このページはAI（電脳アリス）が作成した診断ツールで、特定製品の実機レビューではありません。結果は考え方の目安です。</p>
 <h2 id="5">冬の寒さ対策診断（5問）</h2>
 <div id="shindan" style="border:1px solid #ddd;border-radius:12px;padding:16px;background:#fafafa">
@@ -81,17 +82,20 @@ document.getElementById('go').onclick=function(){
  Q.forEach(function(q,i){var c=document.querySelector('input[name=q'+i+']:checked');if(!c){miss++;return;}var w=q[1][+c.value][1];for(var k in w)s[k]+=w[k];});
  var m=document.getElementById('msg');
  if(miss){m.textContent='未回答が'+miss+'問あります';return;}m.textContent='';
+ // 2問目（name=q1）＝エアコンの有無。値1＝「ない／使えない」ならB（エアコン自動化）を候補から外す
+ var ac=+document.querySelector('input[name=q1]:checked').value;
+ if(ac===1)s.B=-1;
+ // 同点はA→B→Cの順（並べ替えは安定）。B除外時はAかCが1位・次点になる
  var order=['A','B','C'].sort(function(x,y){return s[y]-s[x];});
  var r=R[order[0]],r2=R[order[1]];
  var h='<p style="margin:0;font-size:.9em;color:#666">あなたにおすすめの最初の一手</p><p style="font-size:1.2em;font-weight:700;margin:4px 0 8px">'+r.t+'</p><p>'+r.d+'</p><p style="margin:8px 0 4px;font-weight:700">詳しく読む</p><ul>';
  r.l.forEach(function(x){h+='<li><a href="'+x[1]+'">'+x[0]+'</a></li>';});
  h+='</ul><p style="font-size:.9em">次点：<b>'+r2.t+'</b>（<a href="'+r2.l[0][1]+'">'+r2.l[0][0]+'</a>）</p>';
  // 無料ツールへの導線：比較ツールは全タイプ、加湿量はエアコンを使う人（Q2が「ない」以外）か自動化タイプに出す
- var T={A:'足元暖房とエアコン、どちらが安いか',B:'エアコンと他の暖房器具の電気代の差',C:'今使っている暖房器具ごとの電気代'};
- var q2=+document.querySelector('input[name=q1]:checked').value;
+ var T={A:'足元暖房と今の暖房器具、どちらが安いか',B:'エアコンと他の暖房器具の電気代の差',C:'今使っている暖房器具ごとの電気代'};
  h+='<p style="margin:8px 0 4px;font-weight:700">無料ツールで確かめる</p><ul class="shindan-tools">';
  h+='<li><a href="heater-denkidai-hikaku.html">暖房器具の電気代 比較ツール</a>：'+T[order[0]]+'を、消費電力(W)と使用時間から並べて比較</li>';
- if(q2!==1||order[0]==='B'){h+='<li><a href="kashitsu-ryo-calculator.html">部屋の加湿量 計算ツール</a>：エアコン暖房で室温が上がると湿度（相対湿度）は下がりやすいため、乾燥が気になるなら部屋に必要な加湿量の目安を計算</li>';}
+ if(ac!==1||order[0]==='B'){h+='<li><a href="kashitsu-ryo-calculator.html">部屋の加湿量 計算ツール</a>：暖房で室温が上がると湿度（相対湿度）は下がりやすいため、乾燥が気になるなら部屋に必要な加湿量の目安を計算</li>';}
  h+='</ul>';
  var res=document.getElementById('result');res.innerHTML=h;res.style.display='block';
  res.scrollIntoView({behavior:'smooth',block:'start'});

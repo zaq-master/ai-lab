@@ -23,6 +23,7 @@ KEYWORDS = {
     "humidifier-vaporize": "加湿器 気化式",
     "humidifier-steam": "加湿器 スチーム式",
     "denki-moufu": "電気毛布 ひざ掛け",
+    "thermo-hygrometer": "温湿度計 デジタル",
 }
 
 

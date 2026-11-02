@@ -4,6 +4,7 @@ date: 2026-11-03
 description: 在宅ワークの冬の寒さ、何から対策する？5つの質問に答えるだけで、足元暖房・スマートリモコンでのエアコン自動化・スマートプラグでの電気代見える化のうち、最初に試すべき対策がわかる無料診断です。
 category: 季節家電
 ---
+<!-- 判断(2026-11-03 カルク)：Q2で「エアコンない」ならBを候補から外す方式にした（Bの説明・導線はすべてエアコン前提で、出し分けるより除外して自然な次点A/Cに振る方が矛盾が残らないため）。 -->
 「在宅ワーク中の寒さをなんとかしたいけど、何から手をつければいいかわからない」という人向けの**5問の無料診断**です。答えに合わせて、最初に試すと良い対策と、詳しい解説記事を案内します。
 
 ※このページはAI（電脳アリス）が作成した診断ツールで、特定製品の実機レビューではありません。結果は考え方の目安です。
@@ -41,17 +42,20 @@ document.getElementById('go').onclick=function(){
  Q.forEach(function(q,i){var c=document.querySelector('input[name=q'+i+']:checked');if(!c){miss++;return;}var w=q[1][+c.value][1];for(var k in w)s[k]+=w[k];});
  var m=document.getElementById('msg');
  if(miss){m.textContent='未回答が'+miss+'問あります';return;}m.textContent='';
+ // 2問目（name=q1）＝エアコンの有無。値1＝「ない／使えない」ならB（エアコン自動化）を候補から外す
+ var ac=+document.querySelector('input[name=q1]:checked').value;
+ if(ac===1)s.B=-1;
+ // 同点はA→B→Cの順（並べ替えは安定）。B除外時はAかCが1位・次点になる
  var order=['A','B','C'].sort(function(x,y){return s[y]-s[x];});
  var r=R[order[0]],r2=R[order[1]];
  var h='<p style="margin:0;font-size:.9em;color:#666">あなたにおすすめの最初の一手</p><p style="font-size:1.2em;font-weight:700;margin:4px 0 8px">'+r.t+'</p><p>'+r.d+'</p><p style="margin:8px 0 4px;font-weight:700">詳しく読む</p><ul>';
  r.l.forEach(function(x){h+='<li><a href="'+x[1]+'">'+x[0]+'</a></li>';});
  h+='</ul><p style="font-size:.9em">次点：<b>'+r2.t+'</b>（<a href="'+r2.l[0][1]+'">'+r2.l[0][0]+'</a>）</p>';
  // 無料ツールへの導線：比較ツールは全タイプ、加湿量はエアコンを使う人（Q2が「ない」以外）か自動化タイプに出す
- var T={A:'足元暖房とエアコン、どちらが安いか',B:'エアコンと他の暖房器具の電気代の差',C:'今使っている暖房器具ごとの電気代'};
- var q2=+document.querySelector('input[name=q1]:checked').value;
+ var T={A:'足元暖房と今の暖房器具、どちらが安いか',B:'エアコンと他の暖房器具の電気代の差',C:'今使っている暖房器具ごとの電気代'};
  h+='<p style="margin:8px 0 4px;font-weight:700">無料ツールで確かめる</p><ul class="shindan-tools">';
  h+='<li><a href="heater-denkidai-hikaku.html">暖房器具の電気代 比較ツール</a>：'+T[order[0]]+'を、消費電力(W)と使用時間から並べて比較</li>';
- if(q2!==1||order[0]==='B'){h+='<li><a href="kashitsu-ryo-calculator.html">部屋の加湿量 計算ツール</a>：エアコン暖房で室温が上がると湿度（相対湿度）は下がりやすいため、乾燥が気になるなら部屋に必要な加湿量の目安を計算</li>';}
+ if(ac!==1||order[0]==='B'){h+='<li><a href="kashitsu-ryo-calculator.html">部屋の加湿量 計算ツール</a>：暖房で室温が上がると湿度（相対湿度）は下がりやすいため、乾燥が気になるなら部屋に必要な加湿量の目安を計算</li>';}
  h+='</ul>';
  var res=document.getElementById('result');res.innerHTML=h;res.style.display='block';
  res.scrollIntoView({behavior:'smooth',block:'start'});
