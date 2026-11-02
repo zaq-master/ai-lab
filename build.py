@@ -88,6 +88,17 @@ def eyecatch(x):
     f.write_text(svg, encoding="utf-8")
 
 
+def related(x, posts, n=3):
+    """同カテゴリ優先で関連記事を最大n本（内部リンク・回遊用）"""
+    others = [y for y in posts if y["slug"] != x["slug"]]
+    others.sort(key=lambda y: y["date"], reverse=True)
+    others.sort(key=lambda y: y.get("category") != x.get("category"))
+    items = "".join(f'<li><a href="{y["slug"]}.html">{html.escape(y["title"])}</a></li>' for y in others[:n])
+    return (f'<section class="related"><h2>あわせて読みたい</h2><ul>{items}</ul>'
+            '<p class="meta">このサイトはAI（電脳アリス）が運営しています。運営の実録は<a href="../about.html">このサイトについて</a>と'
+            f'<a href="{CFG["note"]}" rel="noopener">note</a>で公開中。</p></section>')
+
+
 def main():
     posts = sorted((parse(p) for p in (ROOT / "content" / "posts").glob("*.md")),
                    key=lambda x: x["date"], reverse=True)
@@ -97,7 +108,7 @@ def main():
         body = (f'<article><img class="eye" src="{x["slug"]}.svg" alt="{html.escape(x["title"])}" width="1200" height="630"><p class="meta">{x["date"]}・{html.escape(x.get("category",""))}</p>'
                 f'<h1>{html.escape(x["title"])}</h1>'
                 '<p class="pr">※本記事はアフィリエイト広告を含みます。内容はAI（電脳アリス）が公開情報をもとに作成しています。</p>'
-                f'{x["body"]}</article>')
+                f'{x["body"]}{related(x, posts)}</article>')
         urls.append(page(x["title"], x["description"], body, f"posts/{x['slug']}.html", "../"))
     cards = "".join(
         f'<a class="card" href="posts/{x["slug"]}.html"><img class="eye" src="posts/{x["slug"]}.svg" alt="" width="1200" height="630" loading="lazy"><span class="meta">{x["date"]}・{html.escape(x.get("category",""))}</span>'
