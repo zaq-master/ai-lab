@@ -33,6 +33,7 @@ Agentツールを1メッセージで**10体まで**並列に呼ぶ（オーナ�
 ## 2. ラウンドごとの検収と各チャンネル報告（5分）
 - 各エージェントの要約を、そのキャラの口調で `python3 ops/slack_post.py <番号> "..."` により担当チャンネルへ投稿（状態の絵文字＋成果＋分析1行＋次の方針1行）
 - セッション最後のラウンドでは、事業別の画像（report_card.py biz）を作り、`--image` で各チャンネルの報告に付ける
+- 掛け合い：各報告のtsを控え、カンサの指摘を `python3 ops/slack_post.py 10 "..." --channel <担当ch> --thread <ts>` で返信、担当が同じスレッドで1回返す（CLAUDE.md の掛け合いルール）
 - 監査でNGのものは直させるか捨てる
 - 公開してよいサイト変更は `git pull --rebase && python3 build.py && git add -A && git commit && git push`
 - ops/ventures.md の状態と次の一手を更新
