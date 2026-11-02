@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>サブスク見直しチェッカー｜QOLガジェット研究所</title>
+<meta name="description" content="登録不要・無料。サブスクと固定費を入れると、月・年の合計と「解約したら浮くお金」がすぐ分かります。データはこの端末の中だけに保存。">
+<link rel="canonical" href="https://zaq-master.github.io/ai-lab/apps/sub-check/">
+<style>
+:root{--bg:#f7f8fa;--fg:#1d2330;--sub:#5b6475;--card:#fff;--line:#e3e6ec;--acc:#3b5bdb;--pr:#fff7e6;--good:#2b8a3e;--warn:#c92a2a;--soft:rgba(127,127,127,.08)}
+@media (prefers-color-scheme:dark){:root{--bg:#12151c;--fg:#e8ebf1;--sub:#9aa3b5;--card:#1b1f29;--line:#2b3140;--acc:#8ea6ff;--pr:#2a2416;--good:#69db7c;--warn:#ff8787}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,"Hiragino Sans","Noto Sans JP",sans-serif;line-height:1.7}
+header,main,footer{max-width:720px;margin:auto;padding:0 16px}
+header{padding-top:16px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+header a{color:var(--fg);font-weight:700;text-decoration:none}
+h1{font-size:1.45rem;margin:18px 0 4px}
+.lead{color:var(--sub);margin:0 0 14px;font-size:.95rem}
+.box{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin:14px 0}
+.note{background:var(--soft);border-radius:8px;padding:8px 12px;font-size:.82rem;color:var(--sub)}
+.sum{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.sum div{background:var(--soft);border-radius:10px;padding:10px;text-align:center}
+.sum small{display:block;color:var(--sub);font-size:.75rem}
+.sum b{font-size:1.15rem;font-variant-numeric:tabular-nums}
+.sum .save b{color:var(--good)}
+form{display:grid;gap:10px}
+label{font-size:.82rem;color:var(--sub);display:grid;gap:4px}
+input,select{font:inherit;font-size:16px;padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);width:100%}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button{font:inherit;cursor:pointer;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--fg);padding:9px 14px}
+button.main{background:var(--acc);color:#fff;border-color:var(--acc);font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips button{font-size:.8rem;padding:5px 10px;border-radius:999px}
+ul{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+li{border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:grid;grid-template-columns:1fr auto;gap:4px 10px;align-items:center}
+li.cut{border-color:var(--good);background:rgba(43,138,62,.06)}
+li .nm{font-weight:700;word-break:break-all}
+li .am{font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+li .mt{font-size:.78rem;color:var(--sub)}
+li .ac{display:flex;gap:6px;justify-content:flex-end;flex-wrap:wrap}
+li .ac button{font-size:.78rem;padding:4px 8px}
+.soon{color:var(--warn);font-weight:700}
+.empty{color:var(--sub);text-align:center;padding:18px 0;font-size:.9rem}
+.tools{display:flex;flex-wrap:wrap;gap:8px}
+h2{font-size:1.05rem;margin:0 0 10px}
+footer{color:var(--sub);font-size:.8rem;padding-bottom:30px;border-top:1px solid var(--line);margin-top:24px}
+footer p{margin:10px 0}
+#toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:8px 14px;border-radius:8px;font-size:.85rem;opacity:0;transition:opacity .2s;pointer-events:none}
+#toast.on{opacity:1}
+</style>
+</head>
+<body>
+<header><a href="../../index.html">QOLガジェット研究所</a><span class="note" style="padding:2px 8px">無料・登録不要</span></header>
+<main>
+<h1>サブスク見直しチェッカー</h1>
+<p class="lead">払っているサブスクや固定費を入れると、月・年の合計と「解約したら浮くお金」がすぐ分かります。</p>
+
+<p class="note">🔒 <b>データはこの端末のブラウザの中（localStorage）にだけ保存</b>されます。サーバーには送りません。アカウント登録もありません。ブラウザのデータを消すと記録も消えるので、ときどき「バックアップ」を保存してください。</p>
+
+<section class="box" aria-label="合計">
+  <div class="sum">
+    <div><small>月の合計</small><b id="sMonth">¥0</b></div>
+    <div><small>年の合計</small><b id="sYear">¥0</b></div>
+    <div class="save"><small>見直しで浮く（年）</small><b id="sSave">¥0</b></div>
+  </div>
+  <p class="mt" id="sInfo" style="margin:8px 0 0;font-size:.8rem;color:var(--sub)"></p>
+</section>
+
+<section class="box">
+  <h2 id="formTitle">サブスク・固定費を追加</h2>
+  <div class="chips" id="presets" aria-label="よくある項目"></div>
+  <form id="f" style="margin-top:10px">
+    <label>名前<input id="name" required maxlength="40" placeholder="例：動画配信サービス"></label>
+    <div class="row">
+      <label>金額（円）<input id="amount" type="number" inputmode="numeric" min="0" step="1" required placeholder="990"></label>
+      <label>支払いの間隔<select id="cycle"><option value="m">毎月</option><option value="y">毎年</option></select></label>
+    </div>
+    <div class="row">
+      <label>次の支払日（任意）<input id="next" type="date"></label>
+      <label>使っている？<select id="use"><option value="keep">使っている</option><option value="maybe">あまり使っていない</option><option value="cut">解約する予定</option></select></label>
+    </div>
+    <div class="tools"><button class="main" type="submit" id="submitBtn">追加する</button><button type="button" id="cancelEdit" hidden>編集をやめる</button></div>
+  </form>
+</section>
+
+<section class="box">
+  <h2>登録したもの</h2>
+  <ul id="list"></ul>
+</section>
+
+<section class="box">
+  <h2>バックアップ・リマインダー</h2>
+  <div class="tools">
+    <button type="button" id="exportBtn">バックアップを保存</button>
+    <button type="button" id="importBtn">バックアップから戻す</button>
+    <button type="button" id="icsBtn">支払日をカレンダーに入れる（.ics）</button>
+    <button type="button" id="clearBtn">全部消す</button>
+    <input type="file" id="importFile" accept="application/json,.json" hidden>
+  </div>
+  <p class="note" style="margin-top:10px">.ics ファイルを開くと、スマホやPCのカレンダーに「支払日の前日のお知らせ」付きで登録できます。</p>
+</section>
+</main>
+
+<footer>
+<p>このツールは「QOLガジェット研究所」が<b>AIを活用して</b>作成・運営しています。計算は入力された金額をそのまま足しているだけで、実際の請求額や解約方法は各サービスの公式情報で確認してください。</p>
+<p>プライバシー：入力内容はこの端末のブラウザ内にだけ保存され、運営者を含め外部には送信されません。</p>
+<p><a href="../../index.html">QOLガジェット研究所トップへ</a></p>
+</footer>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY = "subcheck.v1";
+  var PRESETS = [["動画配信","m"],["音楽配信","m"],["クラウド容量","m"],["スマホ代","m"],["ネット回線","m"],["ジム","m"],["カード年会費","y"]];
+  var USE = {keep:"使っている", maybe:"あまり使っていない", cut:"解約する予定"};
+  var items = load();
+  var editing = null;
+  var $ = function(id){ return document.getElementById(id); };
+
+  function load(){
+    try { var v = JSON.parse(localStorage.getItem(KEY) || "[]"); return Array.isArray(v) ? v.filter(valid) : []; }
+    catch(e){ return []; }
+  }
+  function save(){ try { localStorage.setItem(KEY, JSON.stringify(items)); } catch(e){ toast("保存できませんでした（プライベートモード等）"); } }
+  function valid(x){ return x && typeof x.name === "string" && isFinite(x.amount) && (x.cycle === "m" || x.cycle === "y"); }
+  function yen(n){ return "¥" + Math.round(n).toLocaleString("ja-JP"); }
+  function perMonth(x){ return x.cycle === "m" ? x.amount : x.amount / 12; }
+  function perYear(x){ return x.cycle === "m" ? x.amount * 12 : x.amount; }
+  function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
+  function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]; }); }
+  function toast(t){ var el = $("toast"); el.textContent = t; el.classList.add("on"); clearTimeout(toast.t); toast.t = setTimeout(function(){ el.classList.remove("on"); }, 2200); }
+
+  function today(){ var d = new Date(); d.setHours(0,0,0,0); return d; }
+  function parseDate(s){ if(!s) return null; var p = s.split("-"); if(p.length !== 3) return null; var d = new Date(+p[0], +p[1]-1, +p[2]); return isNaN(d) ? null : d; }
+  // 過去の支払日は周期ぶん進めて「次の支払日」にする
+  function nextDate(x){
+    var d = parseDate(x.next); if(!d) return null; var t = today(), guard = 0;
+    while(d < t && guard++ < 1200){ if(x.cycle === "m"){ var day = parseDate(x.next).getDate(); d = new Date(d.getFullYear(), d.getMonth()+1, 1); var last = new Date(d.getFullYear(), d.getMonth()+1, 0).getDate(); d.setDate(Math.min(day, last)); } else { d = new Date(d.getFullYear()+1, d.getMonth(), d.getDate()); } }
+    return d;
+  }
+  function fmt(d){ return (d.getMonth()+1) + "/" + d.getDate(); }
+  function ymd(d){ return d.getFullYear() + String(d.getMonth()+1).padStart(2,"0") + String(d.getDate()).padStart(2,"0"); }
+
+  function render(){
+    var m = 0, y = 0, s = 0, maybe = 0;
+    items.forEach(function(x){ m += perMonth(x); y += perYear(x); if(x.use === "cut") s += perYear(x); if(x.use === "maybe") maybe += perYear(x); });
+    $("sMonth").textContent = yen(m); $("sYear").textContent = yen(y); $("sSave").textContent = yen(s);
+    $("sInfo").textContent = items.length ? (items.length + "件を登録中。" + (maybe ? "「あまり使っていない」も全部やめると、さらに年 " + yen(maybe) + " 浮きます。" : "")) : "";
+    var list = $("list");
+    if(!items.length){ list.innerHTML = '<li class="empty" style="display:block;border:0">まだありません。上のボタンか入力欄から追加してください。</li>'; return; }
+    var sorted = items.slice().sort(function(a,b){ var da = nextDate(a), db = nextDate(b); if(da && db) return da - db; if(da) return -1; if(db) return 1; return perYear(b) - perYear(a); });
+    list.innerHTML = sorted.map(function(x){
+      var d = nextDate(x), when = "";
+      if(d){ var days = Math.round((d - today()) / 86400000); when = '次回 ' + fmt(d) + '（' + (days === 0 ? '<span class="soon">今日</span>' : days <= 3 ? '<span class="soon">あと' + days + '日</span>' : 'あと' + days + '日') + '）'; }
+      return '<li class="' + (x.use === "cut" ? "cut" : "") + '" data-id="' + esc(x.id) + '">' +
+        '<span class="nm">' + esc(x.name) + '</span><span class="am">' + yen(x.amount) + (x.cycle === "m" ? "/月" : "/年") + '</span>' +
+        '<span class="mt">' + USE[x.use || "keep"] + (when ? "・" + when : "") + '<br>年換算 ' + yen(perYear(x)) + '</span>' +
+        '<span class="ac"><button type="button" data-act="toggle">' + (x.use === "cut" ? "残す" : "解約候補に") + '</button><button type="button" data-act="edit">編集</button><button type="button" data-act="del">削除</button></span></li>';
+    }).join("");
+  }
+
+  function resetForm(){ editing = null; $("f").reset(); $("formTitle").textContent = "サブスク・固定費を追加"; $("submitBtn").textContent = "追加する"; $("cancelEdit").hidden = true; }
+
+  $("presets").innerHTML = PRESETS.map(function(p, i){ return '<button type="button" data-i="' + i + '">＋' + p[0] + '</button>'; }).join("");
+  $("presets").addEventListener("click", function(e){ var b = e.target.closest("button"); if(!b) return; var p = PRESETS[+b.dataset.i]; $("name").value = p[0]; $("cycle").value = p[1]; $("amount").value = ""; $("amount").focus(); toast("金額はご自身の契約どおりに入れてください"); });
+
+  $("f").addEventListener("submit", function(e){
+    e.preventDefault();
+    var name = $("name").value.trim(), amount = Math.max(0, Math.round(Number($("amount").value)));
+    if(!name || !isFinite(amount)){ toast("名前と金額を入れてください"); return; }
+    var data = {name:name, amount:amount, cycle:$("cycle").value, next:$("next").value, use:$("use").value};
+    if(editing){ var x = items.find(function(i){ return i.id === editing; }); if(x) Object.assign(x, data); toast("更新しました"); }
+    else { data.id = uid(); items.push(data); toast("追加しました"); }
+    save(); resetForm(); render();
+  });
+  $("cancelEdit").addEventListener("click", resetForm);
+
+  $("list").addEventListener("click", function(e){
+    var b = e.target.closest("button"); if(!b) return; var id = b.closest("li").dataset.id;
+    var x = items.find(function(i){ return i.id === id; }); if(!x) return;
+    if(b.dataset.act === "del"){ if(!confirm("「" + x.name + "」を削除しますか？")) return; items = items.filter(function(i){ return i.id !== id; }); toast("削除しました"); }
+    else if(b.dataset.act === "toggle"){ x.use = x.use === "cut" ? "keep" : "cut"; }
+    else if(b.dataset.act === "edit"){ editing = id; $("name").value = x.name; $("amount").value = x.amount; $("cycle").value = x.cycle; $("next").value = x.next || ""; $("use").value = x.use || "keep"; $("formTitle").textContent = "「" + x.name + "」を編集"; $("submitBtn").textContent = "更新する"; $("cancelEdit").hidden = false; $("f").scrollIntoView({behavior:"smooth", block:"start"}); return; }
+    save(); render();
+  });
+
+  function download(name, text, type){ var a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([text], {type:type})); a.download = name; document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 500); }
+  $("exportBtn").addEventListener("click", function(){ if(!items.length){ toast("まだ何もありません"); return; } download("subcheck-backup-" + ymd(new Date()) + ".json", JSON.stringify({app:"sub-check", v:1, items:items}, null, 2), "application/json"); toast("バックアップを保存しました"); });
+  $("importBtn").addEventListener("click", function(){ $("importFile").click(); });
+  $("importFile").addEventListener("change", function(e){
+    var file = e.target.files[0]; if(!file) return; var r = new FileReader();
+    r.onload = function(){ try { var d = JSON.parse(r.result); var arr = (Array.isArray(d) ? d : d.items || []).filter(valid).map(function(x){ return {id:x.id || uid(), name:String(x.name).slice(0,40), amount:Math.max(0, Math.round(+x.amount)), cycle:x.cycle, next:typeof x.next === "string" ? x.next : "", use:USE[x.use] ? x.use : "keep"}; });
+      if(!arr.length){ toast("読み込める項目がありませんでした"); return; }
+      if(items.length && !confirm("今の記録を、バックアップの" + arr.length + "件で置き換えますか？")) return;
+      items = arr; save(); render(); toast(arr.length + "件を戻しました"); } catch(err){ toast("ファイルを読めませんでした"); } e.target.value = ""; };
+    r.readAsText(file);
+  });
+  $("icsBtn").addEventListener("click", function(){
+    var withDate = items.filter(function(x){ return nextDate(x); });
+    if(!withDate.length){ toast("「次の支払日」を入れた項目がありません"); return; }
+    var stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d+/, "");
+    var lines = ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//QOL Gadget Lab//sub-check//JA","CALSCALE:GREGORIAN"];
+    withDate.forEach(function(x){ var d = nextDate(x), e = new Date(d.getFullYear(), d.getMonth(), d.getDate()+1);
+      var t = (x.name + " の支払日（" + yen(x.amount) + "）").replace(/[,;\\]/g, " ");
+      lines.push("BEGIN:VEVENT","UID:" + x.id + "@sub-check","DTSTAMP:" + stamp,"DTSTART;VALUE=DATE:" + ymd(d),"DTEND;VALUE=DATE:" + ymd(e),"RRULE:FREQ=" + (x.cycle === "m" ? "MONTHLY" : "YEARLY"),"SUMMARY:" + t,"BEGIN:VALARM","ACTION:DISPLAY","DESCRIPTION:" + t,"TRIGGER:-PT15H","END:VALARM","END:VEVENT"); });
+    lines.push("END:VCALENDAR");
+    download("subcheck-payments.ics", lines.join("\r\n"), "text/calendar"); toast(withDate.length + "件をカレンダー用に書き出しました");
+  });
+  $("clearBtn").addEventListener("click", function(){ if(!items.length) return; if(!confirm("登録したものを全部消しますか？（元に戻せません）")) return; items = []; save(); resetForm(); render(); toast("全部消しました"); });
+
+  render();
+})();
+</script>
+</body>
+</html>

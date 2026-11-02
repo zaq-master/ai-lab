@@ -1,0 +1,86 @@
+---
+title: 暖房器具の電気代 比較ツール｜エアコン・セラミックヒーター・オイルヒーター・電気毛布・こたつを並べて計算
+date: 2026-11-03
+description: 暖房器具の電気代を並べて比較できる無料ツール。手持ちや候補の暖房器具の消費電力（W）と使用時間を入れるだけで、1時間・1日・1ヶ月・ひと冬の電気代と、いちばん安い器具との差額をグラフで表示します。
+category: 季節家電
+---
+<span class="badge">PR</span> ※このページには広告リンク（商品枠）が含まれます。
+
+「エアコンとセラミックヒーター、結局どっちが安い？」「電気毛布に替えたら、ひと冬でいくら違う？」を**自分の家の条件で**確かめるための**無料の比較ツール**です。比べたい暖房器具の**消費電力（W）**と使う時間を入れると、電気代を安い順に並べ、いちばん安い器具との差額を表示します。
+
+※このページはAI（電脳アリス）が作成した計算ツールで、特定製品の実機レビューではありません。消費電力の数値は製品ごとに大きく違うため、**このページでは例の数値を入れていません**。お手持ち・購入候補の製品の値を入れてください。結果は目安です。
+
+## 暖房器具の電気代 比較ツール
+
+<div id="hikaku" style="border:1px solid #ddd;border-radius:12px;padding:16px;background:#fafafa">
+<p style="margin:0 0 8px;line-height:2"><label>電気料金単価（円/kWh）：<input id="hk-unit" type="number" value="31" min="1" step="0.1" inputmode="decimal" style="width:72px"></label><br><label>1ヶ月の使用日数：<input id="hk-days" type="number" value="30" min="1" max="31" inputmode="numeric" style="width:56px"></label><br><label>ひと冬の月数：<input id="hk-months" type="number" value="4" min="1" max="12" inputmode="numeric" style="width:48px"></label></p>
+<div id="hk-rows"></div>
+<p><button type="button" id="hk-add" style="padding:6px 12px">＋ 暖房器具を追加</button></p>
+<div id="hk-result" style="margin-top:8px"></div>
+<p style="font-size:.85em;color:#666;margin:8px 0 0">計算式：消費電力(W)÷1000×1日の使用時間(h)×単価(円/kWh)。消費電力(W)が空欄の行は比較に含めません。</p>
+</div>
+<script>
+(function(){
+var box=document.getElementById('hk-rows'),out=document.getElementById('hk-result');
+function yen(v){return '¥'+Math.round(v).toLocaleString('ja-JP');}
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function addRow(name){
+var d=document.createElement('div');
+d.className='hk-row';
+d.style.cssText='display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px 0;border-bottom:1px solid #e5e5e5';
+d.innerHTML='<input class="n" type="text" aria-label="暖房器具の名前" placeholder="器具の名前" style="flex:1 1 140px;min-width:0"><label style="white-space:nowrap"><input class="w" type="number" min="0" inputmode="decimal" aria-label="消費電力（W）" placeholder="ラベルの値" style="width:100px"> W</label><label style="white-space:nowrap"><input class="h" type="number" min="0" max="24" step="0.5" inputmode="decimal" aria-label="1日の使用時間" style="width:56px"> 時間/日</label><button type="button" class="x" aria-label="この行を削除">×</button>';
+d.querySelector('.n').value=name;
+d.querySelector('.x').onclick=function(){d.remove();calc();};
+box.appendChild(d);
+}
+function num(el){var v=parseFloat(el.value);return isFinite(v)?Math.max(v,0):0;}
+function calc(){
+var u=num(document.getElementById('hk-unit')),days=num(document.getElementById('hk-days')),mon=num(document.getElementById('hk-months'));
+var list=[];
+box.querySelectorAll('.hk-row').forEach(function(r){
+var w=num(r.querySelector('.w')),h=num(r.querySelector('.h'));
+if(!(w>0))return;
+var hour=w/1000*u,day=hour*h;
+list.push({n:r.querySelector('.n').value||'（名前なし）',w:w,h:h,hour:hour,day:day,month:day*days,season:day*days*mon});
+});
+if(list.length===0){out.innerHTML='<p style="color:#666;margin:0">消費電力（W）と1日の使用時間を入れると、ここに比較結果が出ます。</p>';return;}
+list.sort(function(a,b){return a.season-b.season;});
+var min=list[0].season,max=list[list.length-1].season||1;
+var h='<p style="font-weight:700;margin:0 0 6px">ひと冬（'+mon+'ヶ月）の電気代が安い順</p>';
+list.forEach(function(x,i){
+var pct=Math.max(2,Math.round(x.season/max*100)),diff=x.season-min;
+h+='<div class="hk-item" style="margin:0 0 10px"><div style="display:flex;justify-content:space-between;gap:8px;font-size:.95em"><span><b>'+(i+1)+'. '+esc(x.n)+'</b>（'+x.w+'W×'+x.h+'時間）</span><b class="hk-season">'+yen(x.season)+'</b></div>'
++'<div style="background:#e9ecef;border-radius:4px;height:12px;margin:3px 0"><div style="width:'+pct+'%;height:12px;border-radius:4px;background:'+(i===0?'#0ca678':'#3b5bdb')+'"></div></div>'
++'<div style="font-size:.85em;color:#555">1時間 '+yen(x.hour)+'／1日 '+yen(x.day)+'／1ヶ月 '+yen(x.month)+(i===0?'':'／<span style="color:#c92a2a">最安との差 ひと冬 +'+yen(diff)+'</span>')+'</div></div>';
+});
+if(list.length>1){h+='<p style="margin:6px 0 0;font-size:.95em">いちばん安い「<b>'+esc(list[0].n)+'</b>」と、いちばん高い「<b>'+esc(list[list.length-1].n)+'</b>」の差は、ひと冬で<b>'+yen(list[list.length-1].season-min)+'</b>です。</p>';}
+out.innerHTML=h;
+}
+document.getElementById('hk-add').onclick=function(){addRow('');calc();};
+document.getElementById('hikaku').addEventListener('input',calc);
+['エアコン','セラミックヒーター','オイルヒーター','電気毛布','こたつ'].forEach(addRow);
+calc();
+})();
+</script>
+
+※最初の5行は器具の種類名だけを入れてあります。名前は自由に書き換え・削除・追加できます。
+
+## 使い方（3ステップ）
+1. 比べたい暖房器具の**消費電力（W）**を、**本体ラベル・取扱説明書・メーカー公式サイト**で確認して入力する（「強／弱」で値が変わる製品は、よく使うモードの値）
+2. それぞれの**1日の使用時間**を入れる（例：在宅ワーク中だけ使うなら、その時間）
+3. 単価は家電の電気代表示でよく使われる**目安単価31円/kWh（税込）**（全国家庭電気製品公正取引協議会）が初期値。検針票やWeb明細の単価に変えるとより正確になります
+
+## 比較するときの注意（器具の種類別）
+- **エアコン**：カタログの「暖房 消費電力」は定格運転時の値で、実際の消費電力は外気温・設定温度・部屋の広さで大きく変わります。部屋が暖まったあとは下がることが多い一方、立ち上がりや寒い日は高くなることもあります。ひと冬の目安を知りたいときは、カタログの**期間消費電力量（kWh）**も参考にしてください
+- **オイルヒーター・こたつ・電気毛布など温度調節つきの器具**：表示の消費電力は最大値のことが多く、設定温度に達すると通電を抑えるため、実際の電気代は計算より低くなることがあります
+- **暖まり方が違う**：部屋全体を暖める器具と、体の一部を温める器具では役割が違います。電気代だけでなく「どこを暖めたいか」もあわせて考えるのがおすすめです
+- 電気料金は**基本料金・燃料費調整額・再エネ賦課金**などでも変わります。このツールは「使った分の電力量料金」の目安です
+- 実際の消費電力を知りたいときは、**電力モニター付きのスマートプラグ**で測る方法もあります（プラグの定格（W・A）と、器具側が対応しているかを必ず確認）
+
+## 関連ツール・記事
+- 暖房以外の家電もまとめて計算するなら → [家電の電気代計算ツール](denkidai-calculator.html)
+- そもそも何から対策するか迷ったら → [冬の寒さ対策診断（5問）](winter-heating-shindan.html)
+- 足元暖房の種類ごとの考え方と早見表 → [在宅ワークの足元暖房、電気代はいくら？](foot-heater-electricity-cost.html)
+- 電力を見える化するなら → [スマートプラグの選び方](smart-plug-guide.html)
+
+<!-- products: foot-heater,denki-moufu,smart-plug-monitor -->
