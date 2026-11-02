@@ -45,7 +45,7 @@ PLEASE NOTE
 - Because this is a digital item, returns aren't accepted. If you have a problem with a file, message me and I'll help.
 
 ABOUT HOW THIS WAS MADE
-Designed with the help of AI. The page layouts were generated as code with an AI assistant (Claude by Anthropic). The shop owner chose the page set, reviewed every page and approved the final files. Every page is drawn from scratch with simple shapes and open-licence fonts (Inter and Caladea, SIL Open Font License). There are no stock photos or third-party graphics.
+Designed with the help of AI. The page layouts were generated as code with an AI assistant (Claude by Anthropic). [OWNER: keep this sentence only after you have reviewed every page yourself — "The shop owner reviewed every page before listing."] Every page is drawn from scratch with simple shapes and open-licence fonts (Inter and Caladea, SIL Open Font License). There are no stock photos or third-party graphics.
 
 ## Tags (13, each 20 characters or fewer)
 

@@ -45,6 +45,13 @@ li .ac button{font-size:.78rem;padding:4px 8px}
 h2{font-size:1.05rem;margin:0 0 10px}
 footer{color:var(--sub);font-size:.8rem;padding-bottom:30px;border-top:1px solid var(--line);margin-top:24px}
 footer p{margin:10px 0}
+.up{border:2px dashed var(--acc)}
+.up .tag{display:inline-block;font-size:.72rem;font-weight:700;color:var(--warn);border:1px solid var(--warn);border-radius:999px;padding:0 8px;margin-left:6px;vertical-align:middle}
+.up ul.pts{list-style:disc;padding-left:1.2em;display:block;margin:6px 0 10px;font-size:.9rem}
+.up ul.pts li,.rel li{border:0;padding:0;display:list-item;background:none}
+.rel ul{list-style:disc;padding-left:1.2em;display:block}
+.rel a,.up a{color:var(--acc);font-weight:700;word-break:break-all}
+a.btn{display:inline-block;text-decoration:none;border-radius:8px;border:1px solid var(--acc);color:var(--acc);padding:8px 14px;font-weight:700}
 #toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:8px 14px;border-radius:8px;font-size:.85rem;opacity:0;transition:opacity .2s;pointer-events:none}
 #toast.on{opacity:1}
 </style>
@@ -88,16 +95,38 @@ footer p{margin:10px 0}
   <ul id="list"></ul>
 </section>
 
+<section class="box up" id="upsell" aria-label="スプレッドシート版テンプレ">
+  <h2>もっと細かく管理したい人向け<span class="tag">準備中</span></h2>
+  <p style="margin:0">Excel／Googleスプレッドシート版のテンプレートを、noteの有料記事として準備しています（<b>まだ販売していません</b>。価格も未定です）。</p>
+  <ul class="pts">
+    <li>カテゴリ別の集計、月の利用回数から「1回あたりの料金」を自動計算</li>
+    <li>更新日が近い行に色が付く、「解約候補」「要見直し」を自動判定</li>
+    <li>このページの「スプレッドシート用CSV」をそのまま貼り付けて移せる</li>
+  </ul>
+  <a class="btn" href="https://note.com/zaqmaster" target="_blank" rel="noopener">noteで公開をチェック（準備中）</a>
+  <p class="note" style="margin-top:10px">公開したら note（電脳アリス）でお知らせします。このツール自体はこれからも無料です。</p>
+</section>
+
 <section class="box">
   <h2>バックアップ・リマインダー</h2>
   <div class="tools">
     <button type="button" id="exportBtn">バックアップを保存</button>
     <button type="button" id="importBtn">バックアップから戻す</button>
     <button type="button" id="icsBtn">支払日をカレンダーに入れる（.ics）</button>
+    <button type="button" id="csvBtn">スプレッドシート用CSV</button>
     <button type="button" id="clearBtn">全部消す</button>
     <input type="file" id="importFile" accept="application/json,.json" hidden>
   </div>
-  <p class="note" style="margin-top:10px">.ics ファイルを開くと、スマホやPCのカレンダーに「支払日の前日のお知らせ」付きで登録できます。</p>
+  <p class="note" style="margin-top:10px">.ics ファイルを開くと、スマホやPCのカレンダーに「支払日の前日のお知らせ」付きで登録できます。<br>CSV は「サービス名・カテゴリ・支払周期・料金（円）・契約開始日・支払方法・月の利用回数・使っていない」の順です。開いて2行目以降をコピーし、テンプレの「入力」シートの B5 に貼り付けてください（契約開始日の列には「次の支払日」が入ります。カテゴリ・支払方法・利用回数は空欄なので、あとで選んでください）。</p>
+</section>
+
+<section class="box rel" aria-label="関連ツール">
+  <h2>あわせて見直したい固定費</h2>
+  <ul>
+    <li><a href="../../posts/denkidai-calculator.html">家電の電気代計算ツール</a>：ワット数と使う時間から月の電気代を計算</li>
+    <li><a href="../../posts/heater-denkidai-hikaku.html">暖房器具の電気代比較</a>：冬の暖房費を種類ごとに比べる</li>
+    <li><a href="../../">QOLガジェット研究所トップ</a>：在宅ワーク・節約の記事一覧</li>
+  </ul>
 </section>
 </main>
 
@@ -206,6 +235,17 @@ footer p{margin:10px 0}
       lines.push("BEGIN:VEVENT","UID:" + x.id + "@sub-check","DTSTAMP:" + stamp,"DTSTART;VALUE=DATE:" + ymd(d),"DTEND;VALUE=DATE:" + ymd(e),"RRULE:FREQ=" + (x.cycle === "m" ? "MONTHLY" : "YEARLY"),"SUMMARY:" + t,"BEGIN:VALARM","ACTION:DISPLAY","DESCRIPTION:" + t,"TRIGGER:-PT15H","END:VALARM","END:VEVENT"); });
     lines.push("END:VCALENDAR");
     download("subcheck-payments.ics", lines.join("\r\n"), "text/calendar"); toast(withDate.length + "件をカレンダー用に書き出しました");
+  });
+  // テンプレ（products/templates/subscription-manager）の「入力」シート B〜I 列と同じ順
+  var CSV_HEAD = ["サービス名","カテゴリ","支払周期","料金（円）","契約開始日","支払方法","月の利用回数","使っていない"];
+  function csvCell(v){ v = String(v == null ? "" : v); if(/^[=+\-@\t\r]/.test(v)) v = "'" + v; return /[",\r\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }
+  function slash(d){ return d.getFullYear() + "/" + String(d.getMonth()+1).padStart(2,"0") + "/" + String(d.getDate()).padStart(2,"0"); }
+  $("csvBtn").addEventListener("click", function(){
+    if(!items.length){ toast("まだ何もありません"); return; }
+    var rows = [CSV_HEAD].concat(items.map(function(x){ var d = nextDate(x);
+      return [x.name, "", x.cycle === "y" ? "年額" : "月額", x.amount, d ? slash(d) : "", "", "", x.use === "cut" ? "使っていない" : ""]; }));
+    download("subcheck-" + ymd(new Date()) + ".csv", "\uFEFF" + rows.map(function(r){ return r.map(csvCell).join(","); }).join("\r\n") + "\r\n", "text/csv;charset=utf-8");
+    toast(items.length + "件をCSVに書き出しました" + (items.length > 50 ? "（テンプレは50行まで）" : ""));
   });
   $("clearBtn").addEventListener("click", function(){ if(!items.length) return; if(!confirm("登録したものを全部消しますか？（元に戻せません）")) return; items = []; save(); resetForm(); render(); toast("全部消しました"); });
 

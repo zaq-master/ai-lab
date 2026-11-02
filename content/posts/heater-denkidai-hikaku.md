@@ -39,7 +39,7 @@ var u=num(document.getElementById('hk-unit')),days=num(document.getElementById('
 var list=[];
 box.querySelectorAll('.hk-row').forEach(function(r){
 var w=num(r.querySelector('.w')),h=num(r.querySelector('.h'));
-if(!(w>0))return;
+if(!(w>0&&h>0))return;
 var hour=w/1000*u,day=hour*h;
 list.push({n:r.querySelector('.n').value||'（名前なし）',w:w,h:h,hour:hour,day:day,month:day*days,season:day*days*mon});
 });
