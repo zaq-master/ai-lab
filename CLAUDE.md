@@ -59,6 +59,7 @@
   - dispatching-parallel-agents：深掘りセッションで10体を並列に動かすときの指示の出し方
   - verification-before-completion：「公開した」「直した」と報告する前に、必ず確認（ページが開く、ビルドが通る、画像が出る）
   - systematic-debugging：エラーやうまく動かないときの原因の切り分け
+  - Canva：コネクタとして接続済み（2026-11-02）。Instagram図解・サムネ・動画素材に使う。無料範囲のみ（有料素材・Pro機能は使わない）
   - frontend-design／skill-creator：Claudeに最初から入っている（追加不要）。ツールやLPのデザインは frontend-design、新しい「型」を作るときは skill-creator
   - 導入しなかったもの：browser-use（クラウドからは外部サイトに繋がらず、オーナーPCの内蔵ブラウザで代替済み。クラウド版は有料）、Discord連携（報告はSlackに一本化）
 時間のかかる調べ物は Agent ツールでサブエージェントを並列に動かして短縮する。
