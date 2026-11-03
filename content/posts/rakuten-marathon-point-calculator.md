@@ -139,6 +139,7 @@ calc();
 - [冬の電気代まとめ（セール前チェックリストつき）](fuyu-denkidai-matome.html)：W数の確認→月の電気代→加湿量→置き場所の4ステップ
 - [家電の電気代計算ツール](denkidai-calculator.html)：消費電力（W）と時間から1ヶ月・ひと冬の目安
 - [暖房器具の電気代 比較ツール](heater-denkidai-hikaku.html)：エアコン・セラミックヒーター・こたつなどの差額
+- [エアコン暖房の電気代 計算ツール](aircon-danbou-denkidai-calculator.html)：エアコンの暖房の消費電力（W）から1日・ひと冬の目安
 - [電気毛布・ひざ掛けヒーター・こたつの電気代](denki-moufu-kotatsu-denkidai-telework.html)
 - [部屋の加湿量 計算ツール](kashitsu-ryo-calculator.html)
 

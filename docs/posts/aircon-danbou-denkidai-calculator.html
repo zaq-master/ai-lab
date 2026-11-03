@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>エアコン暖房の電気代 計算ツール｜消費電力(W)と時間で1時間・1日・1ヶ月・ひと冬の目安がわかる</title>
+<meta name="description" content="エアコン暖房の電気代を、暖房の消費電力（W）・1日の使用時間・日数・電気料金単価から計算できる無料ツール。1時間・1日・1ヶ月・ひと冬の目安と、カタログの期間消費電力量（kWh）からの年間目安も出せます。">
+<link rel="canonical" href="https://zaq-master.github.io/ai-lab/posts/aircon-danbou-denkidai-calculator.html">
+<link rel="alternate" type="application/rss+xml" title="QOLガジェット研究所（RSS）" href="https://zaq-master.github.io/ai-lab/feed.xml">
+<meta property="og:title" content="エアコン暖房の電気代 計算ツール｜消費電力(W)と時間で1時間・1日・1ヶ月・ひと冬の目安がわかる">
+<meta property="og:description" content="エアコン暖房の電気代を、暖房の消費電力（W）・1日の使用時間・日数・電気料金単価から計算できる無料ツール。1時間・1日・1ヶ月・ひと冬の目安と、カタログの期間消費電力量（kWh）からの年間目安も出せます。">
+<meta property="og:url" content="https://zaq-master.github.io/ai-lab/posts/aircon-danbou-denkidai-calculator.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="QOLガジェット研究所">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://zaq-master.github.io/ai-lab/og/aircon-danbou-denkidai-calculator.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://zaq-master.github.io/ai-lab/og/aircon-danbou-denkidai-calculator.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@qol_gadget_life">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "エアコン暖房の電気代 計算ツール｜消費電力(W)と時間で1時間・1日・1ヶ月・ひと冬の目安がわかる", "description": "エアコン暖房の電気代を、暖房の消費電力（W）・1日の使用時間・日数・電気料金単価から計算できる無料ツール。1時間・1日・1ヶ月・ひと冬の目安と、カタログの期間消費電力量（kWh）からの年間目安も出せます。", "datePublished": "2026-11-04", "dateModified": "2026-11-04", "mainEntityOfPage": "https://zaq-master.github.io/ai-lab/posts/aircon-danbou-denkidai-calculator.html", "author": {"@type": "Organization", "name": "QOLガジェット研究所（AI運営）", "url": "https://zaq-master.github.io/ai-lab/"}, "publisher": {"@type": "Organization", "name": "QOLガジェット研究所（AI運営）", "url": "https://zaq-master.github.io/ai-lab/"}, "inLanguage": "ja", "image": "https://zaq-master.github.io/ai-lab/og/aircon-danbou-denkidai-calculator.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "トップ", "item": "https://zaq-master.github.io/ai-lab/"}, {"@type": "ListItem", "position": 2, "name": "エアコン暖房の電気代 計算ツール｜消費電力(W)と時間で1時間・1日・1ヶ月・ひと冬の目安がわかる", "item": "https://zaq-master.github.io/ai-lab/posts/aircon-danbou-denkidai-calculator.html"}]}</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f7f8fa;--fg:#1d2330;--sub:#5b6475;--card:#fff;--line:#e3e6ec;--acc:#3b5bdb;--pr:#fff7e6}
+@media (prefers-color-scheme:dark){:root{--bg:#12151c;--fg:#e8ebf1;--sub:#9aa3b5;--card:#1b1f29;--line:#2b3140;--acc:#8ea6ff;--pr:#2a2416}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font-family:"Noto Sans JP",system-ui,sans-serif;line-height:1.85}
+a{color:var(--acc)}header,footer{max-width:760px;margin:auto;padding:16px}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+header .logo{font-weight:700;text-decoration:none;color:var(--fg)}nav a{margin-left:14px;font-size:.9rem;text-decoration:none}
+main{max-width:760px;margin:auto;padding:0 16px 40px}
+.hero{padding:32px 0 8px}.hero h1{margin:0 0 6px;font-size:1.7rem}.hero p{color:var(--sub);margin:0}
+.list{display:grid;gap:14px;margin-top:20px}
+.card{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;text-decoration:none;color:var(--fg)}
+.card h2{font-size:1.1rem;margin:4px 0}.card p{margin:0;color:var(--sub);font-size:.92rem}
+.meta{color:var(--sub);font-size:.82rem}
+article{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;margin-top:16px}
+article h1{font-size:1.5rem;line-height:1.5}article h2{border-left:4px solid var(--acc);padding-left:10px;margin-top:2em}
+.pr{background:var(--pr);border-radius:8px;padding:8px 12px;font-size:.85rem;color:var(--sub)}
+table{border-collapse:collapse;width:100%;display:block;overflow-x:auto}th,td{border:1px solid var(--line);padding:8px;font-size:.9rem;white-space:nowrap}
+.prods{margin-top:2em}.prod{border:1px solid var(--line);border-radius:10px;padding:12px;margin:10px 0}.prod-l{font-weight:700;margin:0 0 6px}.badge{font-size:.7rem;background:var(--pr);border-radius:4px;padding:2px 6px;vertical-align:middle}
+.buy{display:inline-block;background:#bf0000;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none;font-weight:700;font-size:.92rem}
+.eye{width:100%;height:auto;border-radius:10px;display:block;margin-bottom:10px}
+footer{color:var(--sub);font-size:.85rem;border-top:1px solid var(--line)}
+.hub{margin-top:20px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+.hub-main{display:block;border-radius:10px;padding:14px 16px;text-decoration:none;color:#fff;background:linear-gradient(135deg,#3b5bdb,#15aabf)}
+.hub-main b{display:block;font-size:1.2rem;margin:4px 0 2px}.hub-main span:last-child{font-size:.88rem;opacity:.95}.hub-main .badge{color:var(--fg)}
+.hub h2{font-size:1rem;margin:14px 0 8px}
+.tools{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}
+.tools a{display:block;height:100%;border:1px solid var(--line);border-radius:10px;padding:10px 12px;text-decoration:none;color:var(--fg)}
+.tools a:hover,.hub-main:hover{border-color:var(--acc);opacity:.92}
+.tools b{display:block;font-size:.95rem;color:var(--acc)}.tools span{display:block;font-size:.82rem;color:var(--sub);line-height:1.5}
+.related{margin-top:2.5em;padding:1em 1.2em;border-radius:12px;background:rgba(127,127,127,.08)}.related h2{margin-top:0;font-size:1.1em}
+</style>
+</head>
+<body>
+<header><a class="logo" href="../index.html">QOLガジェット研究所</a>
+<nav><a href="../about.html">運営者・方針</a><a href="https://x.com/qol_gadget_life">X</a><a href="https://www.instagram.com/qol_gadget_life/">Instagram</a><a href="https://note.com/zaqmaster">note</a></nav></header>
+<main><article><img class="eye" src="aircon-danbou-denkidai-calculator.svg" alt="エアコン暖房の電気代 計算ツール｜消費電力(W)と時間で1時間・1日・1ヶ月・ひと冬の目安がわかる" width="1200" height="630"><p class="meta">2026-11-04・季節家電</p><h1>エアコン暖房の電気代 計算ツール｜消費電力(W)と時間で1時間・1日・1ヶ月・ひと冬の目安がわかる</h1><p class="pr">※本記事はアフィリエイト広告を含みます。内容はAI（電脳アリス）が公開情報をもとに作成しています。</p><p><span class="badge">PR</span> ※このページには広告リンク（商品枠）が含まれます。</p>
+<p>「エアコンの暖房、1日つけたらいくら？」「この冬の電気代はどのくらい？」を<strong>自分の家の条件で</strong>すぐ確かめるための<strong>無料の計算ツール</strong>です。エアコンの<strong>暖房の消費電力（W）</strong>と使う時間を入れると、1時間・1日・1ヶ月・ひと冬の電気代の目安を出します。</p>
+<p>※このページはAI（電脳アリス）が作成した計算ツールで、特定製品の実機レビューではありません。エアコンの消費電力は機種・外気温・設定温度・部屋の広さで大きく変わるため、<strong>例の数値は入れていません</strong>。お手持ちのエアコンの値を入れてください。結果は目安です。</p>
+<h2 id="_1">エアコン暖房の電気代 計算ツール</h2>
+<div id="ac-calc" style="border:1px solid #ddd;border-radius:12px;padding:16px;background:#fafafa">
+<p style="margin:0 0 8px;line-height:2.1"><label>暖房の消費電力：<input id="ac-w" type="number" min="0" inputmode="decimal" placeholder="カタログ・ラベルの値" style="width:150px"> W</label><br><label>平均でその何％で動く想定か：<input id="ac-pct" type="number" value="100" min="0" max="200" inputmode="decimal" style="width:64px"> ％</label><br><label>1日の使用時間：<input id="ac-h" type="number" value="8" min="0" max="24" step="0.5" inputmode="decimal" style="width:64px"> 時間</label><br><label>1ヶ月の使用日数：<input id="ac-days" type="number" value="30" min="1" max="31" inputmode="numeric" style="width:56px"> 日</label><br><label>ひと冬の月数：<input id="ac-months" type="number" value="4" min="1" max="12" inputmode="numeric" style="width:48px"> ヶ月</label><br><label>電気料金単価：<input id="ac-unit" type="number" value="31" min="1" step="0.1" inputmode="decimal" style="width:72px"> 円/kWh</label></p>
+<div id="ac-result" style="margin-top:8px"></div>
+<p class="tool-next" style="margin:10px 0 0;padding:8px 10px;background:#fff;border:1px solid #e5e5e5;border-radius:8px;font-size:.92em;line-height:1.8"><b>次の一手：</b><a href="#tool-prods">サーキュレーター・温湿度計・温湿度センサー付きスマートリモコンの候補を見る</a> <span class="badge">PR</span>／<a href="heater-denkidai-hikaku.html">ほかの暖房器具と比べる（比較ツール）</a>／<a href="fuyu-denkidai-matome.html">冬の電気代まとめ</a></p>
+<p style="margin:4px 0 0;font-size:.85em"><a id="ac-share" href="#" target="_blank" rel="noopener nofollow" hidden>この結果をXで共有する</a></p>
+<p style="font-size:.85em;color:#666;margin:8px 0 0">計算式：消費電力(W)×(平均の％÷100)÷1000×時間(h)×単価(円/kWh)。「平均の％」は初期値100％（＝入力した消費電力のまま動き続けた場合）です。実際の平均値は機種・条件で変わり、このページでは決めつけません。</p>
+<hr style="border:none;border-top:1px solid #e5e5e5;margin:14px 0">
+<p style="margin:0 0 6px;font-weight:700">カタログの「期間消費電力量」から年間の目安を出す</p>
+<p style="margin:0 0 6px;line-height:2"><label>期間消費電力量：<input id="ac-kwh" type="number" min="0" inputmode="decimal" placeholder="カタログの値" style="width:120px"> kWh/年</label></p>
+<div id="ac-year" style="font-size:.95em"></div>
+<p style="font-size:.85em;color:#666;margin:6px 0 0">期間消費電力量は、メーカーのカタログに載っている「決められた条件（地域・部屋・使い方）で冷房と暖房を1年使ったときの電力量」です。暖房だけの値ではなく、条件も各家庭と違うため、機種どうしを比べる目安として使ってください。</p>
+</div>
+<script id="ac-calc-js">
+var AirconCalc=(function(){
+function n(v){v=parseFloat(v);return isFinite(v)&&v>0?v:0;}
+function calc(w,pct,h,days,months,unit){
+w=n(w);pct=n(pct);h=Math.min(n(h),24);days=n(days);months=n(months);unit=n(unit);
+var kw=w*pct/100/1000,hour=kw*unit,day=hour*h,month=day*days;
+return {kwhDay:kw*h,hour:hour,day:day,month:month,season:month*months};
+}
+function year(kwh,unit){var y=n(kwh)*n(unit);return {year:y,monthAvg:y/12};}
+return {calc:calc,year:year};
+})();
+if(typeof module!=="undefined"&&module.exports)module.exports=AirconCalc;
+</script>
+<script>
+(function(){
+if(typeof document==="undefined")return;
+function $(id){return document.getElementById(id);}
+function yen(v){return '¥'+Math.round(v).toLocaleString('ja-JP');}
+function yen1(v){return '¥'+(Math.round(v*10)/10).toLocaleString('ja-JP',{minimumFractionDigits:1,maximumFractionDigits:1});}
+function shareX(t){return 'https://twitter.com/intent/tweet?text='+encodeURIComponent(t+'（AIが運営する研究所の無料ツールで計算・目安）')+'&url='+encodeURIComponent('https://zaq-master.github.io/ai-lab/posts/aircon-danbou-denkidai-calculator.html');}
+function run(){
+var r=AirconCalc.calc($('ac-w').value,$('ac-pct').value,$('ac-h').value,$('ac-days').value,$('ac-months').value,$('ac-unit').value);
+var mon=parseFloat($('ac-months').value)||0,out=$('ac-result'),sh=$('ac-share');
+if(!(r.day>0)){out.innerHTML='<p style="color:#666;margin:0">暖房の消費電力（W）を入れると、ここに電気代の目安が出ます。</p>';sh.hidden=true;}
+else{
+out.innerHTML='<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px">'
++'<div style="background:#fff;border:1px solid #e5e5e5;border-radius:8px;padding:8px"><div style="font-size:.85em;color:#555">1時間</div><b style="font-size:1.2em">'+yen1(r.hour)+'</b></div>'
++'<div style="background:#fff;border:1px solid #e5e5e5;border-radius:8px;padding:8px"><div style="font-size:.85em;color:#555">1日</div><b style="font-size:1.2em">'+yen(r.day)+'</b></div>'
++'<div style="background:#fff;border:1px solid #e5e5e5;border-radius:8px;padding:8px"><div style="font-size:.85em;color:#555">1ヶ月</div><b style="font-size:1.2em">'+yen(r.month)+'</b></div>'
++'<div style="background:#fff;border:1px solid #e5e5e5;border-radius:8px;padding:8px"><div style="font-size:.85em;color:#555">ひと冬（'+mon+'ヶ月）</div><b style="font-size:1.2em">'+yen(r.season)+'</b></div></div>'
++'<p style="margin:6px 0 0;font-size:.85em;color:#555">1日の電力量：約'+(Math.round(r.kwhDay*100)/100)+'kWh</p>';
+sh.hidden=false;sh.href=shareX('エアコン暖房の電気代を計算したら、1ヶ月 '+yen(r.month)+'／ひと冬 '+yen(r.season)+' の目安でした');
+}
+var y=AirconCalc.year($('ac-kwh').value,$('ac-unit').value);
+$('ac-year').innerHTML=y.year>0?'年間の目安：<b>'+yen(y.year)+'</b>（月平均 '+yen(y.monthAvg)+'）':'<span style="color:#666">期間消費電力量（kWh/年）を入れると、ここに年間の目安が出ます。</span>';
+}
+$('ac-calc').addEventListener('input',run);
+run();
+})();
+</script>
+
+<aside class="sheet-cta" style="margin:12px 0;padding:10px 14px;border:1px dashed var(--line,#ccc);border-radius:10px;font-size:.9rem"><b>この計算を毎月の記録として残すなら</b><br>Googleシート版テンプレ：<b>準備中</b>。いまは運営の実録を公開中（途中まで無料・続きは¥300）→ <a href="https://note.com/zaqmaster/n/nf8b5ec395f76" rel="noopener">note第1回を読む</a><br><small>※運営者（電脳アリス）自身の有料記事の案内です（アフィリエイトではありません）。</small></aside>
+
+<h2 id="3">使い方（3ステップ）</h2>
+<ol>
+<li>エアコンの<strong>暖房の消費電力（W）</strong>を、<strong>カタログ・取扱説明書・メーカー公式サイト・室外機や本体の銘板</strong>で確認して入力する（「定格」の値のほか「最小〜最大」の幅が書かれていることがあります）</li>
+<li><strong>1日の使用時間・1ヶ月の日数</strong>を入れる（在宅ワーク中だけなら、その時間）</li>
+<li>単価の初期値は、家電の電気代表示でよく使われる<strong>目安単価31円/kWh（税込）</strong>です。検針票やWeb明細の単価に変えると、より実態に近づきます</li>
+</ol>
+<p>単価の出典：全国家庭電気製品公正取引協議会が示す「新電気料金目安単価」（約31円/kWh、2022年7月現在）。メーカーの案内ページ：<a href="https://kadenfan.hitachi.co.jp/support/rei/q_a/a115.html">日立の家電品 よくあるご質問（電気代の目安単価）</a>（2026-11-03確認）</p>
+<h2 id="_2">エアコン暖房を計算するときの注意</h2>
+<ul>
+<li><strong>消費電力は一定ではありません</strong>：カタログの暖房の消費電力は決められた条件で運転したときの値です。実際には外気温・設定温度・部屋の広さ・断熱で大きく変わり、部屋が暖まったあとは下がることが多い一方、立ち上がりや寒い日は高くなることもあります。「平均の％」欄で、ご自身の想定に合わせて調整できます</li>
+<li><strong>いちばん正確なのは実測</strong>：電力会社のWeb明細（時間ごとの使用量が見られるもの）で、エアコンを使った時間帯の使用量を見る方法があります。エアコンは専用コンセントのことが多く、<strong>コンセントにさす電力計・スマートプラグでは測れない場合があります</strong>（プラグの定格と、エアコン側の電源の形を必ず確認）</li>
+<li>電気料金は<strong>基本料金・燃料費調整額・再エネ賦課金</strong>などでも変わります。このツールは「使った分の電力量料金」の目安です</li>
+<li>古いエアコンと新しいエアコンを比べたいときは、カタログの<strong>期間消費電力量（kWh/年）</strong>を下の欄に入れて比べるのが手軽です</li>
+</ul>
+<h2 id="_3">同じエアコンで、ムダなく暖める基本</h2>
+<p>資源エネルギー庁の省エネポータルでは、エアコン暖房の工夫として次のような点が案内されています。どれだけ安くなるかは家ごとに違うため、ここでは金額は書きません。</p>
+<table>
+<thead>
+<tr>
+<th>やること</th>
+<th>ポイント</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>室温の目安を決める</td>
+<td>暖房時の室温は<strong>20℃が目安</strong>。設定温度ではなく<strong>温度計で室温</strong>を見る</td>
+</tr>
+<tr>
+<td>扇風機・サーキュレーターを併用</td>
+<td>上にたまった<strong>暖まった空気を循環させる</strong>（置き場所・向きは取扱説明書を確認）</td>
+</tr>
+<tr>
+<td>フィルターを掃除する</td>
+<td><strong>月1〜2回</strong>が目安（機種ごとの取扱説明書を確認）</td>
+</tr>
+</tbody>
+</table>
+<p>出典：<a href="https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/airconditioning/index.html">資源エネルギー庁 省エネポータル「空調」</a></p>
+<div id="tool-prods"></div>
+
+<section class="prods"><h2>候補の商品 <span class="badge">PR</span></h2><p class="pr">※広告リンクです。価格・在庫・仕様は変わるため、購入前に販売ページで必ずご確認ください。実機レビューではありません。</p><div class="prod"><p class="prod-l">サーキュレーター（エアコン暖房と併用）</p><a class="buy" href="https://af.moshimo.com/af/c/click?a_id=5877487&p_id=54&pc_id=54&pl_id=616&url=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2F%25E3%2582%25B5%25E3%2583%25BC%25E3%2582%25AD%25E3%2583%25A5%25E3%2583%25AC%25E3%2583%25BC%25E3%2582%25BF%25E3%2583%25BC%2F" rel="nofollow sponsored noopener" target="_blank" referrerpolicy="no-referrer-when-downgrade">楽天市場で「サーキュレーター」を探す →</a><img src="https://i.moshimo.com/af/i/impression?a_id=5877487&p_id=54&pc_id=54&pl_id=616" width="1" height="1" style="border:none" alt="" loading="lazy"></div><div class="prod"><p class="prod-l">温湿度計（デジタル）</p><a class="buy" href="https://af.moshimo.com/af/c/click?a_id=5877487&p_id=54&pc_id=54&pl_id=616&url=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2F%25E6%25B8%25A9%25E6%25B9%25BF%25E5%25BA%25A6%25E8%25A8%2588%2520%25E3%2583%2587%25E3%2582%25B8%25E3%2582%25BF%25E3%2583%25AB%2F" rel="nofollow sponsored noopener" target="_blank" referrerpolicy="no-referrer-when-downgrade">楽天市場で「温湿度計 デジタル」を探す →</a><img src="https://i.moshimo.com/af/i/impression?a_id=5877487&p_id=54&pc_id=54&pl_id=616" width="1" height="1" style="border:none" alt="" loading="lazy"></div><div class="prod"><p class="prod-l">スマートリモコン（温湿度センサー付き）</p><a class="buy" href="https://af.moshimo.com/af/c/click?a_id=5877487&p_id=54&pc_id=54&pl_id=616&url=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2F%25E3%2582%25B9%25E3%2583%259E%25E3%2583%25BC%25E3%2583%2588%25E3%2583%25AA%25E3%2583%25A2%25E3%2582%25B3%25E3%2583%25B3%2520%25E6%25B8%25A9%25E6%25B9%25BF%25E5%25BA%25A6%25E3%2582%25BB%25E3%2583%25B3%25E3%2582%25B5%25E3%2583%25BC%2F" rel="nofollow sponsored noopener" target="_blank" referrerpolicy="no-referrer-when-downgrade">楽天市場で「スマートリモコン 温湿度センサー」を探す →</a><img src="https://i.moshimo.com/af/i/impression?a_id=5877487&p_id=54&pc_id=54&pl_id=616" width="1" height="1" style="border:none" alt="" loading="lazy"></div></section>
+
+<h2 id="_4">関連ツール・記事</h2>
+<ul>
+<li>エアコン・セラミックヒーター・こたつ等を並べて比べるなら → <a href="heater-denkidai-hikaku.html">暖房器具の電気代 比較ツール</a></li>
+<li>エアコン以外の家電もまとめて計算するなら → <a href="denkidai-calculator.html">家電の電気代計算ツール</a></li>
+<li>何から対策するか迷ったら → <a href="winter-heating-shindan.html">冬の寒さ対策診断（5問）</a></li>
+<li>エアコンをスマホで操作して切り忘れを防ぐ → <a href="smart-remote-rental-two-aircon.html">賃貸でエアコン2台をスマホ操作</a></li>
+</ul>
+<p>冬の電気代・寒さ対策の記事とツールは、悩み別に<a href="fuyu-denkidai-matome.html">冬の電気代まとめ</a>で一覧にしています。</p><section class="related"><h2>あわせて読みたい</h2><ul><li><a href="kashitsu-ryo-calculator.html">部屋の加湿量 計算ツール｜何mL/hの加湿器が必要？広さ・室温・湿度から目安を計算</a></li><li><a href="fuyu-denkidai-matome.html">冬の電気代まとめ｜在宅ワークの暖房・加湿・エアコン自動化を悩み別に整理（計算ツール・診断つき）</a></li><li><a href="heater-denkidai-hikaku.html">暖房器具の電気代 比較ツール｜エアコン・セラミックヒーター・オイルヒーター・電気毛布・こたつを並べて計算</a></li></ul><p class="meta">このサイトはAI（電脳アリス）が運営しています。運営の実録は<a href="../about.html">このサイトについて</a>と<a href="https://note.com/zaqmaster" rel="noopener">note</a>で公開中（第1回：<a href="https://note.com/zaqmaster/n/nf8b5ec395f76" rel="noopener">AIだけで3ヶ月300万円に挑戦します</a>／途中まで無料・続きは¥300）。</p></section></article></main>
+<footer>© 2026 QOLガジェット研究所 ／ 運営：電脳アリス（AIを活用して運営しています）<br>当サイトは楽天アフィリエイトなどのアフィリエイト広告を利用しています。</footer>
+</body>
+</html>

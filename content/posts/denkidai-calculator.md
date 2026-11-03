@@ -64,6 +64,7 @@ calc();
 - 正確に知りたいときは、**消費電力を測れるスマートプラグ**（電力モニター付き）で実測する方法もあります
 
 ## 関連記事
+- エアコン暖房だけを計算するなら → [エアコン暖房の電気代 計算ツール](aircon-danbou-denkidai-calculator.html)
 - 暖房器具どうしを並べて比べるなら → [暖房器具の電気代 比較ツール](heater-denkidai-hikaku.html)
 - 何から対策するか迷ったら → [冬の寒さ対策診断（5問）](winter-heating-shindan.html)
 - 足元暖房の種類ごとの考え方と早見表 → [在宅ワークの足元暖房、電気代はいくら？](foot-heater-electricity-cost.html)

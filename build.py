@@ -272,6 +272,7 @@ TOOLS = [
     ("posts/rakuten-marathon-point-calculator.html", "楽天お買い物マラソン 買いまわり計算（非公式）",
      "何店舗で何倍か・あと何店舗かの目安。条件は楽天公式で確認", "2026-11-11"),
     ("posts/denkidai-calculator.html", "電気代計算", "W数と時間で1日・1ヶ月・ひと冬の目安"),
+    ("posts/aircon-danbou-denkidai-calculator.html", "エアコン暖房の電気代計算", "W数と時間で1時間・1日・1ヶ月・ひと冬の目安"),
     ("posts/heater-denkidai-hikaku.html", "暖房器具の電気代比較", "エアコン・ヒーター・こたつを並べて計算"),
     ("posts/kashitsu-ryo-calculator.html", "加湿量計算", "部屋に合う加湿器のmL/hを計算"),
     ("posts/winter-heating-shindan.html", "冬の寒さ対策診断", "5問で最初に試す対策がわかる"),
