@@ -44,7 +44,8 @@ category: 季節家電
 
 ※セールの開催期間・ポイント条件は変わるため、楽天市場の公式ページでご確認ください。このページでは価格・ポイント倍率は扱いません。
 
-### 冬家電の候補（楽天市場の検索結果へ）
+冬家電の候補は、楽天市場の検索結果から選べます。
+
 <!-- products: kotatsu-hitori,denki-moufu,humidifier-vaporize,humidifier-steam,thermo-hygrometer -->
 
 ## 悩み1：何から手をつければいいかわからない

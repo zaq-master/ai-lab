@@ -46,13 +46,13 @@ jobs:
           if ev == "workflow_dispatch" or not before or set(before) == {"0"}:
               mode, urls = "full", list(sitemap)
           else:
-              r = subprocess.run(["git", "diff", "--name-only", "--diff-filter=AMR", before, after, "--", "docs"],
+              r = subprocess.run(["git", "-c", "core.quotepath=false", "diff", "-z", "--name-only", "--diff-filter=AMR", before, after, "--", "docs"],
                                  capture_output=True, text=True)
               if r.returncode != 0:  # 比較元が取れない（force push 等）→ 送り過ぎを避けてスキップ
                   print(f"::warning::git diff failed ({r.stderr.strip()[:200]}); skip")
                   mode, urls = "skip", []
               else:
-                  changed = [page_url(f[len("docs/"):]) for f in r.stdout.split() if f.endswith(".html")]
+                  changed = [page_url(f[len("docs/"):]) for f in r.stdout.split("\0") if f.endswith(".html")]
                   mode, urls = "diff", [u for u in dict.fromkeys(changed) if u in set(sitemap)]  # sitemap にあるものだけ
           urls = [u for u in urls if u.startswith(base + "/")][:10000]  # 鍵の場所（/ai-lab/）の範囲内だけ
           print(f"mode={mode} urls={len(urls)}")
@@ -76,7 +76,7 @@ jobs:
           local = open("docs/" + (rel + "index.html" if rel.endswith("/") or rel == "" else rel), "rb").read()
           def get(u):
               try:
-                  with urllib.request.urlopen(urllib.request.Request(u, headers={"Cache-Control": "no-cache"}), timeout=30) as r:
+                  with urllib.request.urlopen(urllib.request.Request(u, headers={"Cache-Control": "no-cache"}), timeout=10) as r:
                       return r.status, r.read()
               except Exception as e:
                   return getattr(e, "code", 0), b""
