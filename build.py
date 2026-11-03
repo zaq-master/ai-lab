@@ -79,8 +79,23 @@ def parse(p):
     return meta
 
 
+TITLE_MAX = 60  # <title> の目安上限（site_health.py と同じ）。超える長い記事タイトルはサイト名を付けない
+
+
+def page_url(path):
+    """公開URL。トップと各ディレクトリの index.html は末尾スラッシュのURLを正規URLにする（canonical・sitemap共通）"""
+    if path == "index.html":
+        return CFG["base_url"] + "/"
+    if path.endswith("/index.html"):
+        return f"{CFG['base_url']}/{path[:-len('index.html')]}"
+    return f"{CFG['base_url']}/{path}"
+
+
 def page(title, desc, body, path, prefix, ogtype="website", image="", jsonld=None):
-    url = f"{CFG['base_url']}/{path}"
+    url = page_url(path)
+    full = title if title == CFG["site_name"] else f"{title}｜{CFG['site_name']}"
+    if len(full) > TITLE_MAX:
+        full = title
     out = TPL
     ogimg = (f'<meta property="og:image" content="{image}">\n<meta property="og:image:width" content="1200">\n'
              f'<meta property="og:image:height" content="630">\n<meta name="twitter:image" content="{image}">\n') if image else ""
@@ -91,6 +106,7 @@ def page(title, desc, body, path, prefix, ogtype="website", image="", jsonld=Non
         "{{ogimage}}": ogimg,
         "{{twcard}}": "summary_large_image" if image else "summary",
         "{{jsonld}}": ld,
+        "{{fulltitle}}": html.escape(full),
         "{{title}}": html.escape(title),
         "{{desc}}": html.escape(desc),
         "{{url}}": url,
@@ -266,16 +282,37 @@ def main():
             f'{hub_block()}'
             f'<section class="list">{cards or "<p>記事を準備中です。</p>"}</section>')
     site_img = og_png("index", CFG["tagline"], CFG["site_name"])
+    site_desc = (CFG["tagline"] + "電気代計算・暖房器具の比較・加湿量計算などの無料ツールと、"
+                 "在宅ワークのQOLを上げるガジェットの比較記事を公開しています（AI運営）。")
     site_ld = [{"@context": "https://schema.org", "@type": "WebSite", "name": CFG["site_name"],
                 "url": CFG["base_url"] + "/", "inLanguage": "ja", "publisher": ORG}]
     newest = max((d for _, d in urls), default=jst_today().isoformat())
-    urls.append((page(CFG["site_name"], CFG["tagline"], hero, "index.html", "", "website", site_img, site_ld), newest))
+    urls.append((page(CFG["site_name"], site_desc, hero, "index.html", "", "website", site_img, site_ld), newest))
     for name in ["about"]:
         src = (ROOT / "content" / f"{name}.md").read_text(encoding="utf-8")
         t = src.splitlines()[0].lstrip("# ")
-        urls.append((page(t, t, f"<article>{markdown.markdown(src)}</article>", f"{name}.html", "", "website", site_img),
+        # description：見出し・リンク記法を除いた本文の冒頭（タイトルの繰り返しにしない）
+        plain = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", "".join(l for l in src.splitlines()[1:] if not l.startswith("#")))
+        d = re.sub(r"[*_`]", "", plain).strip()
+        d = d if len(d) <= 120 else d[:119] + "…"
+        urls.append((page(t, d, f"<article>{markdown.markdown(src)}</article>", f"{name}.html", "", "website", site_img),
                      git_date(ROOT / "content" / f"{name}.md") or newest))
+    # 無料ツール（docs/apps/<名前>/index.html、手書きのHTML）も sitemap に載せる
+    for f in sorted((OUT / "apps").glob("*/index.html")):
+        rel = f.relative_to(OUT).as_posix()
+        urls.append((page_url(rel), git_date(f) or newest))
+    # SNS画像の元HTML（docs/sns/*.html）は検索に出さない
+    for f in sorted((OUT / "sns").glob("*.html")):
+        s = f.read_text(encoding="utf-8")
+        if 'name="robots"' not in s:
+            s2 = re.sub(r"(<head[^>]*>)", r'\1<meta name="robots" content="noindex">', s, count=1)
+            if s2 != s:
+                f.write_text(s2, encoding="utf-8")
     (OUT / ".nojekyll").write_text("")
+    # IndexNow の鍵ファイル（docs/<key>.txt、中身は鍵だけ）。仕様上公開ファイル。ops/seo/indexnow.md 参照
+    key = CFG.get("indexnow_key", "").strip()
+    if re.fullmatch(r"[A-Za-z0-9-]{8,128}", key):
+        (OUT / f"{key}.txt").write_text(key, encoding="utf-8")
     (OUT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {CFG['base_url']}/sitemap.xml\n")
     (OUT / "sitemap.xml").write_text(
         '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
