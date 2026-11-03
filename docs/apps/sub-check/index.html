@@ -52,6 +52,8 @@ footer p{margin:10px 0}
 .rel ul{list-style:disc;padding-left:1.2em;display:block}
 .rel a,.up a{color:var(--acc);font-weight:700;word-break:break-all}
 a.btn{display:inline-block;text-decoration:none;border-radius:8px;border:1px solid var(--acc);color:var(--acc);padding:8px 14px;font-weight:700}
+.cta{margin:10px 0 0;padding:8px 12px;border-top:1px dashed var(--line);font-size:.85rem;color:var(--sub)}
+.cta a{color:var(--acc);font-weight:700}
 #toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:8px 14px;border-radius:8px;font-size:.85rem;opacity:0;transition:opacity .2s;pointer-events:none}
 #toast.on{opacity:1}
 </style>
@@ -71,6 +73,7 @@ a.btn{display:inline-block;text-decoration:none;border-radius:8px;border:1px sol
     <div class="save"><small>見直しで浮く（年）</small><b id="sSave">¥0</b></div>
   </div>
   <p class="mt" id="sInfo" style="margin:8px 0 0;font-size:.8rem;color:var(--sub)"></p>
+  <p class="cta" id="sheetCta" hidden></p>
 </section>
 
 <section class="box">
@@ -190,6 +193,29 @@ var SubCheckDates = (function(){
 })();
 if(typeof module !== "undefined" && module.exports) module.exports = SubCheckDates;
 </script>
+<script id="sc-sheet">
+// 結果画面の導線（テスト：ops/tests/sub_check_sheet.test.js がこのブロックだけを読み込んで検証する）
+// 販売記事（自社のnote有料記事）を公開したら SHEET_SALES_URL に https:// のURLを入れる。空の間は「準備中」で note 連載トップへ。
+var SHEET_SALES_URL = "";
+var NOTE_TOP_URL = "https://note.com/zaqmaster"; // config.json の "note" と同じ値
+var SubCheckSheet = (function(){
+  "use strict";
+  // candidates = 見直し候補（解約する予定／あまり使っていない）の件数。0件なら何も出さない
+  function cta(candidates, salesUrl, noteUrl){
+    if(!(candidates > 0)) return null;
+    var ready = typeof salesUrl === "string" && /^https:\/\//.test(salesUrl);
+    return {
+      href: ready ? salesUrl : noteUrl,
+      ready: ready,
+      lead: "毎月の管理を続けるなら：サブスク管理表（Googleシート版）",
+      label: ready ? "販売ページを見る" : "準備中（noteで公開予定）",
+      disclosure: "※広告ではなく、当サイト運営者（電脳アリス）自身の有料記事です。このツールは無料のままです。"
+    };
+  }
+  return {cta:cta};
+})();
+if(typeof module !== "undefined" && module.exports) module.exports = SubCheckSheet;
+</script>
 <script>
 (function(){
   "use strict";
@@ -225,6 +251,9 @@ if(typeof module !== "undefined" && module.exports) module.exports = SubCheckDat
     items.forEach(function(x){ m += perMonth(x); y += perYear(x); if(x.use === "cut") s += perYear(x); if(x.use === "maybe") maybe += perYear(x); });
     $("sMonth").textContent = yen(m); $("sYear").textContent = yen(y); $("sSave").textContent = yen(s);
     $("sInfo").textContent = items.length ? (items.length + "件を登録中。" + (maybe ? "「あまり使っていない」も全部やめると、さらに年 " + yen(maybe) + " 浮きます。" : "")) : "";
+    var c = SubCheckSheet.cta(items.filter(function(x){ return x.use === "cut" || x.use === "maybe"; }).length, SHEET_SALES_URL, NOTE_TOP_URL), cEl = $("sheetCta");
+    cEl.hidden = !c;
+    cEl.innerHTML = c ? esc(c.lead) + '：<a href="' + esc(c.href) + '" target="_blank" rel="noopener">' + esc(c.label) + '</a><br><small>' + esc(c.disclosure) + '</small>' : "";
     var list = $("list");
     if(!items.length){ list.innerHTML = '<li class="empty" style="display:block;border:0">まだありません。上のボタンか入力欄から追加してください。</li>'; return; }
     var sorted = items.slice().sort(function(a,b){ var da = nextDate(a), db = nextDate(b); if(da && db) return da - db; if(da) return -1; if(db) return 1; return perYear(b) - perYear(a); });

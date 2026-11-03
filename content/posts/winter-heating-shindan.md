@@ -63,7 +63,6 @@ document.getElementById('go').onclick=function(){
 })();
 </script>
 
-<!-- sheet-cta -->
 
 ## 3つのタイプの違い（早見表）
 

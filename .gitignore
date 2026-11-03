@@ -10,7 +10,7 @@ ops/etsy/**/*.pdf
 products/**/src/*.html
 ops/etsy/**/src/*.html
 products/**/notion/
-# 販売物の生成スクリプトも公開しない（2026-11-03 04:xx 監査R6の致命対応）。復元：git show 6adcf7a:<path>
+# 販売物の生成スクリプトも公開しない（2026-11-03 04:xx 監査R6の致命対応）。復元方法は公開しない
 products/**/src/*.py
 products/templates/**/*.py
 ops/etsy/products/**/*.py

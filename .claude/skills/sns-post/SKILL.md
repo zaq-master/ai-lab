@@ -23,3 +23,4 @@ description: X・Instagramの投稿と予約投稿、返信、もしもの商品
 
 ## 記録
 ops/drafts/当日.md の下書きを使ったら✅。投稿URLを ops/log に残し、Slackに報告
+- 投稿した実文（予約・プロフィール文・IGキャプションも含む）は、下書きと違っても一字一句そのまま ops/drafts/当日.md の「投稿の記録」欄に貼り、URL・時刻を添える。画像はPNGで media/ に保存する
