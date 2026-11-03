@@ -27,6 +27,7 @@ KEYWORDS = {
     "kotatsu-hitori": "こたつ 一人用",
     "ceramic-heater": "セラミックヒーター",
     "circulator": "サーキュレーター",
+    "hot-carpet": "ホットカーペット",
 }
 
 

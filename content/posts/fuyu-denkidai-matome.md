@@ -25,6 +25,7 @@ category: 季節家電
 | 何から対策すればいいかわからない | [冬の寒さ対策診断（5問）](winter-heating-shindan.html) |
 | 自分の暖房の電気代をすぐ知りたい | [家電の電気代計算ツール](denkidai-calculator.html) |
 | 暖房器具どうしを比べたい | [暖房器具の電気代 比較ツール](heater-denkidai-hikaku.html) |
+| 床に座る・寝ころぶ部屋を暖めたい | [ホットカーペットの電気代（畳数別・強弱別）](hot-carpet-denkidai.html) |
 | デスクの足元だけ寒い | [足元暖房の電気代比較](foot-heater-electricity-cost.html) |
 | 座りっぱなしで体が冷える | [電気毛布・ひざ掛けヒーター・こたつの電気代](denki-moufu-kotatsu-denkidai-telework.html) |
 | 部屋が乾燥する | [加湿器の電気代](humidifier-electricity-cost-telework.html)／[加湿量 計算ツール](kashitsu-ryo-calculator.html) |
@@ -58,6 +59,8 @@ category: 季節家電
 - [暖房器具の電気代 比較ツール](heater-denkidai-hikaku.html)<br>エアコン・セラミックヒーター・オイルヒーター・電気毛布・こたつなどを並べて計算し、いちばん安い器具との差額をグラフで表示します。エアコンはカタログの「期間消費電力量」も参考に、という注意点つき。
 
 ## 悩み3：デスクの足元・体が冷える
+
+- [ホットカーペットの電気代はいくら？](hot-carpet-denkidai.html)<br>1畳〜3畳・温度「高」「中」別に、メーカー公表の消費電力量から1時間・1ヶ月・ひと冬の目安を早見表にしました。面切り替えなど電気代を抑える使い方も。
 
 - [在宅ワークの足元暖房、電気代はいくら？](foot-heater-electricity-cost.html)<br>パネルヒーター・足温器・ホットマットなどを例に、消費電力別の1時間・1日・1ヶ月の早見表で比較。足元を直接温めるタイプほど消費電力は小さめ、という考え方を整理しています。
 - [電気毛布・ひざ掛けヒーター・こたつを1日8時間使うと電気代はいくら？](denki-moufu-kotatsu-denkidai-telework.html)<br>「8時間×平日20日」で月額・ひと冬の目安を出す方法と、作業スタイル別の使い分け。器具の種類より**製品のW数**で比べるのがポイントです。
