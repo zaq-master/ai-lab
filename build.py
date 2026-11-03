@@ -32,12 +32,29 @@ def product_box(m):
             f'{inner}</section>')
 
 
+def sheet_cta(_m=None):
+    """<!-- sheet-cta --> を「記録用Googleシート版（自社の有料note）」への控えめな導線に置換。
+    config.json の note_sheet_sales が空の間は「準備中」＋note連載トップへ、値が入ったら販売ページへ。"""
+    url = CFG.get("note_sheet_sales", "").strip()
+    if url:
+        link = (f'<a href="{html.escape(url)}" rel="noopener">Googleシート版テンプレ（note）を見る →</a>'
+                '<br><small>※当サイト運営者（電脳アリス）による<b>自社の有料記事</b>です（広告・アフィリエイトではありません）。</small>')
+    else:
+        link = ('Googleシート版テンプレ：<b>準備中（noteで公開予定）</b>。公開時は '
+                f'<a href="{CFG["note"]}" rel="noopener">note連載</a> でお知らせします。'
+                '<br><small>※公開予定のテンプレは当サイト運営者（電脳アリス）による<b>自社の有料記事</b>です（広告・アフィリエイトではありません）。</small>')
+    return ('<aside class="sheet-cta" style="margin:12px 0;padding:10px 14px;border:1px dashed var(--line,#ccc);'
+            'border-radius:10px;font-size:.9rem">'
+            f'<b>この計算を毎月の記録として残すなら</b><br>{link}</aside>')
+
+
 def parse(p):
     raw = p.read_text(encoding="utf-8")
     m = re.match(r"^---\n(.*?)\n---\n(.*)$", raw, re.S)
     meta = dict(l.split(":", 1) for l in m.group(1).splitlines() if ":" in l)
     meta = {k.strip(): v.strip() for k, v in meta.items()}
     body = markdown.markdown(m.group(2), extensions=["tables", "toc"])
+    body = re.sub(r"<!--\s*sheet-cta\s*-->", sheet_cta, body)
     meta["body"] = re.sub(r"<!--\s*products:\s*(.*?)\s*-->", product_box, body)
     meta["slug"] = p.stem
     return meta

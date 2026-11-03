@@ -14,3 +14,4 @@ products/**/notion/
 products/**/src/*.py
 products/templates/**/*.py
 ops/etsy/products/**/*.py
+__pycache__/

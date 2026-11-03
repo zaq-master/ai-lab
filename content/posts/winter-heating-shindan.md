@@ -63,6 +63,8 @@ document.getElementById('go').onclick=function(){
 })();
 </script>
 
+<!-- sheet-cta -->
+
 ## 3つのタイプの違い（早見表）
 
 | タイプ | 向いている人 | 主な道具 | 解説記事 |

@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "JP"; src: local("Noto Sans CJK JP Bold"), local("NotoSansCJKjp-Bold"); font-weight: 700; }
+      @font-face { font-family: "JP"; src: local("Noto Sans CJK JP Black"), local("NotoSansCJKjp-Black"); font-weight: 900; }
+      @font-face { font-family: "JP"; src: local("Noto Sans CJK JP Regular"), local("NotoSansCJKjp-Regular"); font-weight: 400; }
+      :root {
+        --ground: #0d1424;
+        --panel: #1b2742;
+        --ink: #ffffff;
+        --muted: #cfdaf0;
+        --accent: #ffd23f;
+        --warm: #ff8a5c;
+        --mint: #63e6be;
+        --cyan: #6fe3ff;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: var(--ground); }
+      #root { position: relative; width: 100%; height: 100%; font-family: "JP", sans-serif; color: var(--ink); background: var(--ground); }
+      #bg { position: absolute; inset: 0; background: radial-gradient(ellipse 900px 1200px at 50% 38%, #213a66 0%, var(--ground) 70%); }
+      #glow { position: absolute; left: 140px; top: 260px; width: 800px; height: 800px; border-radius: 50%;
+        background: radial-gradient(circle, rgba(111,227,255,0.22) 0%, rgba(111,227,255,0) 65%); }
+      #ai-badge { position: absolute; left: 0; right: 0; top: 196px; text-align: center; z-index: 20; }
+      #ai-badge span { display: inline-block; font-size: 32px; font-weight: 700; color: var(--ground);
+        background: var(--cyan); padding: 8px 26px; border-radius: 40px; }
+      #note-badge { position: absolute; left: 0; right: 0; top: 1690px; text-align: center; z-index: 20; }
+      #note-badge span { display: inline-block; font-size: 30px; font-weight: 700; color: var(--muted);
+        background: rgba(0,0,0,0.5); padding: 8px 24px; border-radius: 30px; line-height: 1.45; }
+      .scene { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; z-index: 5; }
+      .center { position: absolute; left: 90px; right: 90px; top: 320px; height: 740px;
+        display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+      .big { font-size: 96px; font-weight: 900; line-height: 1.25; }
+      .mid { font-size: 72px; font-weight: 900; line-height: 1.3; }
+      .row { font-size: 58px; font-weight: 900; line-height: 1.55; }
+      .small { font-size: 40px; font-weight: 700; color: var(--muted); line-height: 1.45; }
+      .acc { color: var(--accent); }
+      .warm { color: var(--warm); }
+      .mint { color: var(--mint); }
+      .tag { display: inline-block; background: var(--warm); color: var(--ground); font-size: 40px; font-weight: 900;
+        padding: 8px 28px; border-radius: 14px; margin-bottom: 30px; }
+      .tag.cy { background: var(--cyan); }
+      .formula { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 14px 16px; }
+      .fbox { background: var(--panel); border: 4px solid var(--accent); border-radius: 22px; padding: 14px 26px;
+        font-size: 66px; font-weight: 900; line-height: 1.15; }
+      .fbox small { display: block; font-size: 28px; font-weight: 700; color: var(--muted); margin-top: 4px; }
+      .fop { font-size: 64px; font-weight: 900; color: var(--accent); }
+      .eq { font-size: 62px; font-weight: 900; line-height: 1.4; }
+      .result { margin-top: 16px; font-size: 128px; font-weight: 900; color: var(--accent); line-height: 1.15; }
+      .source { position: absolute; left: 90px; right: 90px; top: 1050px; text-align: center;
+        font-size: 30px; font-weight: 400; color: var(--muted); line-height: 1.5; }
+      .cap { position: absolute; left: 90px; right: 90px; top: 1160px; z-index: 30; text-align: center; }
+      .cap span { display: inline-block; font-size: 52px; font-weight: 900; line-height: 1.35; color: #fff;
+        background: rgba(0,0,0,0.78); padding: 14px 30px; border-radius: 16px; }
+      .tbl { width: 880px; background: var(--panel); border-radius: 22px; padding: 26px 34px; }
+      .tline { display: flex; justify-content: space-between; font-size: 54px; font-weight: 900; line-height: 1.6; }
+      .tline + .tline { border-top: 2px solid rgba(255,255,255,0.12); }
+      #end-card { position: absolute; left: 70px; right: 70px; top: 1290px; z-index: 30;
+        background: rgba(0,0,0,0.62); border: 3px solid var(--cyan); border-radius: 24px; padding: 26px 30px; text-align: center; }
+      #end-card .must { font-size: 40px; font-weight: 900; color: var(--accent); line-height: 1.5; }
+      #end-card .src { margin-top: 14px; font-size: 28px; font-weight: 400; color: var(--muted); line-height: 1.5; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="24" data-width="1080" data-height="1920">
+      <div id="bg"></div>
+      <div id="glow"></div>
+
+      <div id="ai-badge" class="clip" data-start="0" data-duration="24" data-track-index="1">
+        <span>この動画はAIが制作しています</span>
+      </div>
+      <div id="note-badge" class="clip" data-start="0" data-duration="18.5" data-track-index="4">
+        <span>W数・時間はツールに入っている計算用の例です<br />（特定製品の値・実機検証ではありません）</span>
+      </div>
+
+      <!-- S1 hook 0-3 -->
+      <div id="s1" class="scene clip" data-start="0" data-duration="2.5" data-track-index="2">
+        <div class="center">
+          <div id="s1-a" class="mid">この暖房、<br />つけっぱなしだと</div>
+          <div id="s1-b" class="big acc" style="margin-top: 24px">電気代<br />いくら？</div>
+        </div>
+      </div>
+
+      <!-- S2 formula 3-7.5 -->
+      <div id="s2" class="scene clip" data-start="2.5" data-duration="4" data-track-index="2">
+        <div class="center">
+          <div id="s2-tag" class="tag">電気代の計算式（1日分）</div>
+          <div class="formula">
+            <div id="s2-a" class="fbox">W÷1000<small>消費電力</small></div>
+            <div id="s2-o1" class="fop">×</div>
+            <div id="s2-b" class="fbox">時間<small>1日に使う(h)</small></div>
+            <div id="s2-o2" class="fop">×</div>
+            <div id="s2-c" class="fbox">単価<small>円/kWh</small></div>
+          </div>
+          <div id="s2-d" class="small" style="margin-top: 34px">W数は本体ラベル・取扱説明書で確認</div>
+        </div>
+      </div>
+
+      <!-- S3 example 200W 7.5-12 -->
+      <div id="s3" class="scene clip" data-start="6.5" data-duration="4.5" data-track-index="2">
+        <div class="center">
+          <div id="s3-tag" class="tag cy">例：200Wのヒーターを1日8時間</div>
+          <div id="s3-a" class="eq">0.2kW × 8時間 × 31円</div>
+          <div id="s3-b" class="result">＝ 約50円/日</div>
+          <div id="s3-c" class="small" style="margin-top: 14px">30日なら 約1,488円/月</div>
+        </div>
+        <div id="s3-src" class="source">単価31円/kWh：全国家庭電気製品公正取引協議会<br />「新電力料金目安単価」（税込）。実際の単価は契約で変わります</div>
+      </div>
+
+      <!-- S4 total 12-16 -->
+      <div id="s4" class="scene clip" data-start="11" data-duration="4" data-track-index="2">
+        <div class="center">
+          <div id="s4-tag" class="tag">＋電気毛布50W×8時間も足すと</div>
+          <div id="s4-t" class="tbl">
+            <div id="s4-r1" class="tline"><span>1日</span><span class="mint">約62円</span></div>
+            <div id="s4-r2" class="tline"><span>1ヶ月（30日）</span><span class="acc">約1,860円</span></div>
+            <div id="s4-r3" class="tline"><span>ひと冬（4ヶ月）</span><span class="warm">約7,440円</span></div>
+          </div>
+        </div>
+        <div id="s4-src" class="source">ツールの初期値で計算（各8時間・31円/kWh・30日）</div>
+      </div>
+
+      <!-- S5 caveat 16-18.5 -->
+      <div id="s5" class="scene clip" data-start="15" data-duration="3.5" data-track-index="2">
+        <div class="center">
+          <div id="s5-a" class="mid">※使った分の<br />電力量料金の目安</div>
+          <div id="s5-b" class="small" style="margin-top: 30px">温度調節つきは低くなることも<br />基本料金などは含みません</div>
+        </div>
+      </div>
+
+      <!-- S6 CTA + end card 18.5-23 -->
+      <div id="s6" class="scene clip" data-start="18.5" data-duration="5.5" data-track-index="2">
+        <div class="center">
+          <div id="s6-a" class="mid">自分の家電で<br /><span class="acc">無料の電気代<br />計算ツール</span></div>
+          <div id="s6-b" class="small" style="margin-top: 26px">プロフィールのリンク<br />（冬の電気代まとめ）から1タップ</div>
+        </div>
+      </div>
+      <div id="end-card" class="clip" data-start="18.5" data-duration="5.5" data-track-index="5">
+        <div id="ec-a" class="must">AIが運営しています／計算は目安です<br />実機レビューではありません</div>
+        <div id="ec-b" class="src">出典：QOLガジェット研究所（電脳アリス）<br />「家電の電気代計算ツール」「冬の電気代まとめ」</div>
+      </div>
+
+      <!-- Captions (burned in) -->
+      <div id="captions" data-track-kind="captions">
+        <div id="c1" class="cap clip" data-start="0" data-duration="2.5" data-track-index="3"><span>W数と時間だけで出せます</span></div>
+        <div id="c2" class="cap clip" data-start="2.5" data-duration="4" data-track-index="3"><span>W÷1000×時間×単価</span></div>
+        <div id="c3" class="cap clip" data-start="6.5" data-duration="4.5" data-track-index="3"><span>200W×8時間なら 1日約50円</span></div>
+        <div id="c4" class="cap clip" data-start="11" data-duration="4" data-track-index="3"><span>2台ならひと冬 約7,440円</span></div>
+        <div id="c5" class="cap clip" data-start="15" data-duration="3.5" data-track-index="3"><span>あくまで目安として</span></div>
+      </div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const pop = (sel, t, extra) =>
+        tl.fromTo(sel, { opacity: 0, y: 40, scale: 0.94 }, Object.assign({ opacity: 1, y: 0, scale: 1, duration: 0.35, ease: "back.out(1.6)" }, extra || {}), t);
+      const fade = (sel, t) => tl.fromTo(sel, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, t);
+
+      tl.fromTo("#glow", { scale: 0.9, opacity: 0.7 }, { scale: 1.15, opacity: 1, duration: 24, ease: "none" }, 0);
+
+      pop("#s1-b", 0.6);
+
+      pop("#s2-tag", 2.55); pop("#s2-a", 2.8); fade("#s2-o1", 3.1); pop("#s2-b", 3.2);
+      fade("#s2-o2", 3.5); pop("#s2-c", 3.6); fade("#s2-d", 3.9);
+
+      pop("#s3-tag", 6.55); fade("#s3-src", 6.6); pop("#s3-a", 6.8); pop("#s3-b", 7.5, { ease: "back.out(2.4)" }); fade("#s3-c", 8.2);
+
+      pop("#s4-tag", 11.05); fade("#s4-src", 11.1); pop("#s4-r1", 11.3); pop("#s4-r2", 11.7); pop("#s4-r3", 12.1, { ease: "back.out(2.4)" });
+
+      pop("#s5-a", 15.05); fade("#s5-b", 15.2);
+
+      pop("#s6-a", 18.6); fade("#s6-b", 19.0); fade("#ec-a", 18.6); fade("#ec-b", 18.7);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
