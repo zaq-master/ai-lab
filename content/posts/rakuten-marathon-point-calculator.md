@@ -36,9 +36,10 @@ category: セール・ポイント
 
 ## 買いまわりポイント計算ツール
 
+<style>#mcalc table{display:table;width:100%}#mcalc th,#mcalc td{white-space:normal;padding:6px 4px;font-size:.85rem}#mcalc input.n,#mcalc input.a{box-sizing:border-box;min-width:0}#mcalc input.n{width:100%}#mcalc td.j{white-space:nowrap}</style>
 <div id="mcalc" style="border:1px solid #ddd;border-radius:12px;padding:16px;background:#fafafa">
 <p style="margin:0 0 8px;font-size:.92em">ショップごとに、そのショップで買う<b>合計金額（税込・クーポン適用後・送料を除いた商品代金）</b>を入れてください。同じショップの複数回の注文は1行にまとめます。</p>
-<div style="overflow-x:auto"><table style="width:100%;min-width:420px"><thead><tr><th>ショップ（メモ）</th><th>金額（税込・円）</th><th>8%</th><th>判定</th><th></th></tr></thead><tbody id="mrows"></tbody></table></div>
+<div style="overflow-x:auto"><table style="width:100%"><thead><tr><th>ショップ（メモ）</th><th>金額（税込・円）</th><th>8%</th><th>判定</th><th></th></tr></thead><tbody id="mrows"></tbody></table></div>
 <p><button type="button" id="madd" style="padding:6px 12px">＋ ショップを追加</button></p>
 <details style="margin:4px 0 8px;font-size:.9em"><summary>条件を変える（開催回でルールが変わったとき）</summary>
 <p style="margin:6px 0"><label>1ショップの条件金額（税込）：<input id="mth" type="number" value="1000" min="0" step="1" style="width:80px">円</label></p>
@@ -72,7 +73,7 @@ var tb=document.getElementById('mrows');
 function num(v){return Math.round(v).toLocaleString('ja-JP');}
 function addRow(name,amt){
   var tr=document.createElement('tr');
-  tr.innerHTML='<td><input class="n" type="text" style="width:100%"></td><td><input class="a" type="number" min="0" step="1" style="width:100px"></td><td><input class="t" type="checkbox" aria-label="軽減税率8%"></td><td class="j"></td><td><button type="button" class="x" aria-label="削除">×</button></td>';
+  tr.innerHTML='<td><input class="n" type="text" style="width:100%"></td><td><input class="a" type="number" min="0" step="1" inputmode="numeric" style="width:6em;max-width:100%"></td><td><input class="t" type="checkbox" aria-label="軽減税率8%"></td><td class="j"></td><td><button type="button" class="x" aria-label="削除">×</button></td>';
   tr.querySelector('.n').value=name;tr.querySelector('.a').value=amt;
   tr.querySelector('.x').onclick=function(){tr.remove();calc();};
   tb.appendChild(tr);
@@ -134,6 +135,7 @@ calc();
 
 ポイントより大事なのは「買ったあとの電気代」です。暖房器具や加湿器を候補に入れているなら、先に次のページで確認しておくと後悔しにくくなります。
 
+- [お買い物マラソンで冬家電を買う前の「電気代で選ぶ」チェックリスト](rakuten-marathon-fuyu-kaden-list.html)：店舗数の考え方・電気代の目安・買う前に見る3点（2026年11月回）
 - [冬の電気代まとめ（セール前チェックリストつき）](fuyu-denkidai-matome.html)：W数の確認→月の電気代→加湿量→置き場所の4ステップ
 - [家電の電気代計算ツール](denkidai-calculator.html)：消費電力（W）と時間から1ヶ月・ひと冬の目安
 - [暖房器具の電気代 比較ツール](heater-denkidai-hikaku.html)：エアコン・セラミックヒーター・こたつなどの差額

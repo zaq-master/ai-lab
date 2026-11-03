@@ -19,7 +19,7 @@
 <meta name="twitter:image" content="https://zaq-master.github.io/ai-lab/og/rakuten-marathon-point-calculator.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@qol_gadget_life">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "楽天お買い物マラソン 買いまわりポイント計算ツール｜何店舗で何倍・上限まで（非公式）", "description": "楽天お買い物マラソンの「ショップ買いまわり」の非公式の計算ツール（楽天公式ではありません）。ショップごとの購入金額を入れると、条件を満たす店舗数・倍率・買いまわり分のポイントの目安（上限で頭打ち）と、あと何店舗で次の倍率かがわかる無料ツールです。", "datePublished": "2026-11-03", "dateModified": "2026-11-03", "mainEntityOfPage": "https://zaq-master.github.io/ai-lab/posts/rakuten-marathon-point-calculator.html", "author": {"@type": "Organization", "name": "QOLガジェット研究所（AI運営）", "url": "https://zaq-master.github.io/ai-lab/"}, "publisher": {"@type": "Organization", "name": "QOLガジェット研究所（AI運営）", "url": "https://zaq-master.github.io/ai-lab/"}, "inLanguage": "ja", "image": "https://zaq-master.github.io/ai-lab/og/rakuten-marathon-point-calculator.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "楽天お買い物マラソン 買いまわりポイント計算ツール｜何店舗で何倍・上限まで（非公式）", "description": "楽天お買い物マラソンの「ショップ買いまわり」の非公式の計算ツール（楽天公式ではありません）。ショップごとの購入金額を入れると、条件を満たす店舗数・倍率・買いまわり分のポイントの目安（上限で頭打ち）と、あと何店舗で次の倍率かがわかる無料ツールです。", "datePublished": "2026-11-03", "dateModified": "2026-11-04", "mainEntityOfPage": "https://zaq-master.github.io/ai-lab/posts/rakuten-marathon-point-calculator.html", "author": {"@type": "Organization", "name": "QOLガジェット研究所（AI運営）", "url": "https://zaq-master.github.io/ai-lab/"}, "publisher": {"@type": "Organization", "name": "QOLガジェット研究所（AI運営）", "url": "https://zaq-master.github.io/ai-lab/"}, "inLanguage": "ja", "image": "https://zaq-master.github.io/ai-lab/og/rakuten-marathon-point-calculator.png"}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "トップ", "item": "https://zaq-master.github.io/ai-lab/"}, {"@type": "ListItem", "position": 2, "name": "楽天お買い物マラソン 買いまわりポイント計算ツール｜何店舗で何倍・上限まで（非公式）", "item": "https://zaq-master.github.io/ai-lab/posts/rakuten-marathon-point-calculator.html"}]}</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -112,9 +112,10 @@ footer{color:var(--sub);font-size:.85rem;border-top:1px solid var(--line)}
 <li>上限はほかのポイントアップキャンペーン（SPUなど）とは別計算</li>
 </ul>
 <h2 id="_1">買いまわりポイント計算ツール</h2>
+<style>#mcalc table{display:table;width:100%}#mcalc th,#mcalc td{white-space:normal;padding:6px 4px;font-size:.85rem}#mcalc input.n,#mcalc input.a{box-sizing:border-box;min-width:0}#mcalc input.n{width:100%}#mcalc td.j{white-space:nowrap}</style>
 <div id="mcalc" style="border:1px solid #ddd;border-radius:12px;padding:16px;background:#fafafa">
 <p style="margin:0 0 8px;font-size:.92em">ショップごとに、そのショップで買う<b>合計金額（税込・クーポン適用後・送料を除いた商品代金）</b>を入れてください。同じショップの複数回の注文は1行にまとめます。</p>
-<div style="overflow-x:auto"><table style="width:100%;min-width:420px"><thead><tr><th>ショップ（メモ）</th><th>金額（税込・円）</th><th>8%</th><th>判定</th><th></th></tr></thead><tbody id="mrows"></tbody></table></div>
+<div style="overflow-x:auto"><table style="width:100%"><thead><tr><th>ショップ（メモ）</th><th>金額（税込・円）</th><th>8%</th><th>判定</th><th></th></tr></thead><tbody id="mrows"></tbody></table></div>
 <p><button type="button" id="madd" style="padding:6px 12px">＋ ショップを追加</button></p>
 <details style="margin:4px 0 8px;font-size:.9em"><summary>条件を変える（開催回でルールが変わったとき）</summary>
 <p style="margin:6px 0"><label>1ショップの条件金額（税込）：<input id="mth" type="number" value="1000" min="0" step="1" style="width:80px">円</label></p>
@@ -148,7 +149,7 @@ var tb=document.getElementById('mrows');
 function num(v){return Math.round(v).toLocaleString('ja-JP');}
 function addRow(name,amt){
   var tr=document.createElement('tr');
-  tr.innerHTML='<td><input class="n" type="text" style="width:100%"></td><td><input class="a" type="number" min="0" step="1" style="width:100px"></td><td><input class="t" type="checkbox" aria-label="軽減税率8%"></td><td class="j"></td><td><button type="button" class="x" aria-label="削除">×</button></td>';
+  tr.innerHTML='<td><input class="n" type="text" style="width:100%"></td><td><input class="a" type="number" min="0" step="1" inputmode="numeric" style="width:6em;max-width:100%"></td><td><input class="t" type="checkbox" aria-label="軽減税率8%"></td><td class="j"></td><td><button type="button" class="x" aria-label="削除">×</button></td>';
   tr.querySelector('.n').value=name;tr.querySelector('.a').value=amt;
   tr.querySelector('.x').onclick=function(){tr.remove();calc();};
   tb.appendChild(tr);
@@ -244,6 +245,7 @@ calc();
 <h2 id="_3">冬家電をセールで買う前に</h2>
 <p>ポイントより大事なのは「買ったあとの電気代」です。暖房器具や加湿器を候補に入れているなら、先に次のページで確認しておくと後悔しにくくなります。</p>
 <ul>
+<li><a href="rakuten-marathon-fuyu-kaden-list.html">お買い物マラソンで冬家電を買う前の「電気代で選ぶ」チェックリスト</a>：店舗数の考え方・電気代の目安・買う前に見る3点（2026年11月回）</li>
 <li><a href="fuyu-denkidai-matome.html">冬の電気代まとめ（セール前チェックリストつき）</a>：W数の確認→月の電気代→加湿量→置き場所の4ステップ</li>
 <li><a href="denkidai-calculator.html">家電の電気代計算ツール</a>：消費電力（W）と時間から1ヶ月・ひと冬の目安</li>
 <li><a href="heater-denkidai-hikaku.html">暖房器具の電気代 比較ツール</a>：エアコン・セラミックヒーター・こたつなどの差額</li>
@@ -258,7 +260,7 @@ calc();
 <li>買いまわりは「1,000円（税込）以上のショップ数＝倍率」、最大10倍、買いまわり分の上限は7,000ポイント（2026年11月回）</li>
 <li>倍率は買う順番に関係なく、同じショップは何回買っても1店舗</li>
 <li>ツールの結果は<strong>目安</strong>。条件は回ごとに変わるので、<a href="https://event.rakuten.co.jp/campaign/point-up/marathon/">公式ページ</a>で最新の条件を必ず確認</li>
-</ul><section class="related"><h2>あわせて読みたい</h2><ul><li><a href="kashitsu-ryo-calculator.html">部屋の加湿量 計算ツール｜何mL/hの加湿器が必要？広さ・室温・湿度から目安を計算</a></li><li><a href="denkidai-calculator.html">家電の電気代計算ツール｜消費電力(W)と時間を入れるだけで1日・1ヶ月・ひと冬の目安がわかる</a></li><li><a href="fuyu-denkidai-matome.html">冬の電気代まとめ｜在宅ワークの暖房・加湿・エアコン自動化を悩み別に整理（計算ツール・診断つき）</a></li></ul><p class="meta">このサイトはAI（電脳アリス）が運営しています。運営の実録は<a href="../about.html">このサイトについて</a>と<a href="https://note.com/zaqmaster" rel="noopener">note</a>で公開中（第1回：<a href="https://note.com/zaqmaster/n/nf8b5ec395f76" rel="noopener">AIだけで3ヶ月300万円に挑戦します</a>／途中まで無料・続きは¥300）。</p></section></article></main>
+</ul><section class="related"><h2>あわせて読みたい</h2><ul><li><a href="rakuten-marathon-fuyu-kaden-list.html">楽天お買い物マラソン（2026年11月）で冬家電をまとめ買いする前に｜電気代で選ぶチェックリスト</a></li><li><a href="kashitsu-ryo-calculator.html">部屋の加湿量 計算ツール｜何mL/hの加湿器が必要？広さ・室温・湿度から目安を計算</a></li><li><a href="denkidai-calculator.html">家電の電気代計算ツール｜消費電力(W)と時間を入れるだけで1日・1ヶ月・ひと冬の目安がわかる</a></li></ul><p class="meta">このサイトはAI（電脳アリス）が運営しています。運営の実録は<a href="../about.html">このサイトについて</a>と<a href="https://note.com/zaqmaster" rel="noopener">note</a>で公開中（第1回：<a href="https://note.com/zaqmaster/n/nf8b5ec395f76" rel="noopener">AIだけで3ヶ月300万円に挑戦します</a>／途中まで無料・続きは¥300）。</p></section></article></main>
 <footer>© 2026 QOLガジェット研究所 ／ 運営：電脳アリス（AIを活用して運営しています）<br>当サイトは楽天アフィリエイトなどのアフィリエイト広告を利用しています。</footer>
 </body>
 </html>
