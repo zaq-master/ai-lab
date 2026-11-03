@@ -1,5 +1,6 @@
-# IndexNow：docs/ が更新されたら、Pages 配信後に sitemap の全URLを IndexNow（Bing・Yandex・Naver・Seznam 等で共有）へ通知する。
-# 説明は ops/seo/indexnow.md。外部Actionは actions/checkout のみ。アカウント・シークレット不要（鍵は公開ファイル）。
+# IndexNow：docs/ が更新されたら、Pages 配信後に「今回変わったページだけ」を IndexNow（Bing・Yandex・Naver・Seznam 等で共有）へ通知する。
+# 公式FAQ「変わっていないURLは送り直さない」に従う。全件送信は手動実行（workflow_dispatch）と、比較元が無い初回pushだけ。
+# 説明は ops/seo/indexnow.md。外部Actionは actions/checkout のみ（SHA固定）。アカウント・シークレット不要（鍵は公開ファイル）。
 name: IndexNow
 
 on:
@@ -8,9 +9,7 @@ on:
     paths: ["docs/**"]
   workflow_dispatch:
 
-concurrency:
-  group: indexnow
-  cancel-in-progress: true
+# concurrency は付けない（待機中の実行が新しい実行に置き換えられ、その回の差分が送られなくなるため）
 
 permissions:
   contents: read
@@ -20,29 +19,85 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
 
-      - name: Pages 配信を待つ（鍵ファイルが200で取れるまで）
-        run: |
-          KEY=$(python3 -c "import json;print(json.load(open('config.json'))['indexnow_key'])")
-          URL="https://zaq-master.github.io/ai-lab/${KEY}.txt"
-          sleep 120
-          for i in 1 2 3 4 5 6; do
-            CODE=$(curl -s -o /tmp/key.txt -w '%{http_code}' "$URL" || true)
-            echo "try $i: $URL -> $CODE"
-            if [ "$CODE" = "200" ] && [ "$(tr -d '[:space:]' < /tmp/key.txt)" = "$KEY" ]; then exit 0; fi
-            sleep 30
-          done
-          echo "::error::key file not reachable: $URL"; exit 1
-
-      - name: sitemap の全URLを IndexNow に送信
+      - name: 送るURLを決める（push=差分だけ／手動=全件）
+        env:
+          EVENT: ${{ github.event_name }}
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
         run: |
           python3 - <<'PY'
-          import json, re, urllib.request, urllib.error
+          import json, os, re, subprocess
+          base = json.load(open("config.json"))["base_url"]
+          sitemap = re.findall(r"<loc>([^<]+)</loc>", open("docs/sitemap.xml", encoding="utf-8").read())
+          ev, before, after = os.environ["EVENT"], os.environ.get("BEFORE", ""), os.environ["AFTER"]
+
+          def page_url(path):  # build.py の page_url と同じ規則
+              if path == "index.html":
+                  return base + "/"
+              if path.endswith("/index.html"):
+                  return f"{base}/{path[:-len('index.html')]}"
+              return f"{base}/{path}"
+
+          if ev == "workflow_dispatch" or not before or set(before) == {"0"}:
+              mode, urls = "full", list(sitemap)
+          else:
+              r = subprocess.run(["git", "diff", "--name-only", "--diff-filter=AMR", before, after, "--", "docs"],
+                                 capture_output=True, text=True)
+              if r.returncode != 0:  # 比較元が取れない（force push 等）→ 送り過ぎを避けてスキップ
+                  print(f"::warning::git diff failed ({r.stderr.strip()[:200]}); skip")
+                  mode, urls = "skip", []
+              else:
+                  changed = [page_url(f[len("docs/"):]) for f in r.stdout.split() if f.endswith(".html")]
+                  mode, urls = "diff", [u for u in dict.fromkeys(changed) if u in set(sitemap)]  # sitemap にあるものだけ
+          urls = [u for u in urls if u.startswith(base + "/")][:10000]  # 鍵の場所（/ai-lab/）の範囲内だけ
+          print(f"mode={mode} urls={len(urls)}")
+          for u in urls:
+              print("  " + u)
+          json.dump(urls, open("/tmp/urls.json", "w"))
+          with open(os.environ["GITHUB_ENV"], "a") as f:
+              f.write(f"URL_COUNT={len(urls)}\n")
+          PY
+
+      - name: Pages 配信を待つ（今回の内容が公開側に反映されるまで）
+        if: env.URL_COUNT != '0'
+        run: |
+          python3 - <<'PY'
+          import json, time, urllib.request
+          cfg = json.load(open("config.json"))
+          base, key = cfg["base_url"], cfg["indexnow_key"]
+          urls = json.load(open("/tmp/urls.json"))
+          # 送るページの1つ目を、ローカルの docs/ と公開側で比べる（鍵ファイルも取れることを確認）
+          rel = urls[0][len(base) + 1:]
+          local = open("docs/" + (rel + "index.html" if rel.endswith("/") or rel == "" else rel), "rb").read()
+          def get(u):
+              try:
+                  with urllib.request.urlopen(urllib.request.Request(u, headers={"Cache-Control": "no-cache"}), timeout=30) as r:
+                      return r.status, r.read()
+              except Exception as e:
+                  return getattr(e, "code", 0), b""
+          time.sleep(60)
+          for i in range(12):
+              kc, kb = get(f"{base}/{key}.txt")
+              pc, pb = get(f"{urls[0]}?v={int(time.time())}")
+              print(f"try {i+1}: key={kc} page={pc} same={pb == local}")
+              if kc == 200 and kb.decode().strip() == key and pb == local:
+                  raise SystemExit(0)
+              time.sleep(30)
+          print("::warning::公開側に今回の内容が確認できないまま送信します（後からクロールされるので実害は小さい）")
+          PY
+
+      - name: IndexNow に送信
+        if: env.URL_COUNT != '0'
+        run: |
+          python3 - <<'PY'
+          import json, urllib.request, urllib.error
           key = json.load(open("config.json"))["indexnow_key"]
-          urls = re.findall(r"<loc>([^<]+)</loc>", open("docs/sitemap.xml", encoding="utf-8").read())
-          # 鍵を /ai-lab/ に置くため、送れるのはその配下のURLだけ（仕様：鍵の場所が送信範囲を決める）
-          urls = [u for u in urls if u.startswith("https://zaq-master.github.io/ai-lab/")][:10000]
+          urls = json.load(open("/tmp/urls.json"))
           body = {"host": "zaq-master.github.io", "key": key,
                   "keyLocation": f"https://zaq-master.github.io/ai-lab/{key}.txt", "urlList": urls}
           print(f"submitting {len(urls)} urls")
@@ -56,6 +111,12 @@ jobs:
           meaning = {200: "OK（受理）", 202: "受理・鍵の検証待ち（正常）", 400: "パラメータ不正", 403: "鍵が取れない/一致しない",
                      422: "URLが鍵の範囲外 or keyLocation不正", 429: "送りすぎ"}.get(code, "?")
           print(f"IndexNow response: {code} {meaning} {text[:300]}")
-          if code not in (200, 202):
-              raise SystemExit(f"::error::IndexNow returned {code}")
+          if code == 429 or code >= 500:
+              print(f"::warning::IndexNow {code}（一時的。次の更新で再送されるのでジョブは失敗にしない）")
+          elif code not in (200, 202):
+              raise SystemExit(f"::error::IndexNow returned {code}（設定ミスの可能性）")
           PY
+
+      - name: 送るURLなし
+        if: env.URL_COUNT == '0'
+        run: echo "今回変わった公開ページはありません。IndexNow には送信しません。"
