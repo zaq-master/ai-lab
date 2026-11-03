@@ -89,4 +89,4 @@ calc();
 
 冬の電気代・寒さ対策の記事とツールは、悩み別に[冬の電気代まとめ](fuyu-denkidai-matome.html)で一覧にしています。
 
-<!-- products: foot-heater,denki-moufu,smart-plug-monitor -->
+<!-- products: ceramic-heater,kotatsu-hitori,denki-moufu,foot-heater,smart-plug-monitor -->

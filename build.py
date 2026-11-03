@@ -249,6 +249,54 @@ TOOLS = [
 ]
 
 
+APP_CATEGORY = {"sub-check": "FinanceApplication"}  # schema.org の applicationCategory（無ければ UtilitiesApplication）
+APP_MARK = ("<!-- og:auto（build.py が生成。手で編集しない） -->", "<!-- /og:auto -->")
+
+
+def app_meta(f):
+    """手書きの無料ツール（docs/apps/<名前>/index.html）に、他ページと同じ形式の OGP・twitter・JSON-LD を差し込む。
+    title / description は HTML 自身から読み、マーカーの間だけを毎回作り直す（本文・スクリプトは触らない）。"""
+    s = f.read_text(encoding="utf-8")
+    name = f.parent.name
+    rel = f.relative_to(OUT).as_posix()
+    url = page_url(rel)
+    mt = re.search(r"<title>(.*?)</title>", s, re.S)
+    md = re.search(r'<meta name="description" content="([^"]*)"', s)
+    if not (mt and md):
+        return
+    full = html.unescape(mt.group(1).strip())
+    title = full.split("｜")[0]
+    desc = html.unescape(md.group(1))
+    img = og_png(f"app-{name}", title, "無料ツール")
+    ogimg = (f'<meta property="og:image" content="{img}">\n<meta property="og:image:width" content="1200">\n'
+             f'<meta property="og:image:height" content="630">\n<meta name="twitter:image" content="{img}">\n') if img else ""
+    e = lambda v: html.escape(v, quote=True)
+    ld = [{"@context": "https://schema.org", "@type": "WebApplication", "name": title, "url": url,
+           "description": desc, "applicationCategory": APP_CATEGORY.get(name, "UtilitiesApplication"),
+           "operatingSystem": "Web", "inLanguage": "ja", "isAccessibleForFree": True,
+           "offers": {"@type": "Offer", "price": "0", "priceCurrency": "JPY"},
+           "publisher": ORG},
+          {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+              {"@type": "ListItem", "position": 1, "name": "トップ", "item": CFG["base_url"] + "/"},
+              {"@type": "ListItem", "position": 2, "name": title, "item": url}]}]
+    block = (f'{APP_MARK[0]}\n<meta property="og:title" content="{e(title)}">\n'
+             f'<meta property="og:description" content="{e(desc)}">\n<meta property="og:url" content="{url}">\n'
+             f'<meta property="og:type" content="website">\n<meta property="og:site_name" content="{e(CFG["site_name"])}">\n'
+             f'<meta property="og:locale" content="ja_JP">\n{ogimg}'
+             f'<meta name="twitter:card" content="{"summary_large_image" if img else "summary"}">\n'
+             f'<meta name="twitter:site" content="@qol_gadget_life">\n'
+             + "".join('<script type="application/ld+json">'
+                       + json.dumps(d, ensure_ascii=False).replace("</", "<\\/") + "</script>\n" for d in ld)
+             + APP_MARK[1])
+    if APP_MARK[0] in s:
+        s2 = re.sub(re.escape(APP_MARK[0]) + r".*?" + re.escape(APP_MARK[1]), lambda _: block, s, count=1, flags=re.S)
+    else:  # 初回：canonical の直後（無ければ </title> の直後）に入れる
+        anchor = re.search(r'<link rel="canonical"[^>]*>', s) or re.search(r"</title>", s)
+        s2 = s[:anchor.end()] + "\n" + block + s[anchor.end():]
+    if s2 != s:
+        f.write_text(s2, encoding="utf-8")
+
+
 def hub_block():
     ok = lambda p: (OUT / p).exists()
     tools = "".join(f'<li><a href="{p}"><b>{html.escape(n)}</b><span>{html.escape(d)}</span></a></li>'
@@ -300,6 +348,7 @@ def main():
     # 無料ツール（docs/apps/<名前>/index.html、手書きのHTML）も sitemap に載せる
     for f in sorted((OUT / "apps").glob("*/index.html")):
         rel = f.relative_to(OUT).as_posix()
+        app_meta(f)
         urls.append((page_url(rel), git_date(f) or newest))
     # SNS画像の元HTML（docs/sns/*.html）は検索に出さない
     for f in sorted((OUT / "sns").glob("*.html")):

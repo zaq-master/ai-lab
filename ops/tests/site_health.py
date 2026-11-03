@@ -8,6 +8,7 @@
 - 内部リンク切れ（相対・絶対 base_url 含む）、画像・OGP画像の欠落、img の alt 欠落
 - title / meta description の有無・重複・長さ、canonical の有無と正しさ、h1 が1つ、lang="ja"、viewport
 - sitemap.xml と公開ページの突き合わせ（漏れ・存在しないURL）
+- OGP（og:title・og:description・og:url・og:image・twitter:card）の有無
 - JSON-LD が JSON として読めるか
 - af.moshimo.com のリンクがあるページに「PR」「広告」表記があるか
 - SNS画像の元HTML（docs/sns/*.src.html）は検索に出さない（noindex）こと
@@ -118,6 +119,14 @@ def check_pages():
             add("canonical", rel, "canonical がない")
         elif c.get("href") != want:
             add("canonical", rel, f"canonical が {c.get('href')}（期待 {want}）")
+        # OGP の有無（SNSで共有したときのカード）：全公開ページに必須
+        for p in ("og:title", "og:description", "og:url", "og:image"):
+            m = soup.find("meta", property=p)
+            if not m or not m.get("content", "").strip():
+                add("ogp", rel, f"{p} がない")
+        tc = soup.find("meta", attrs={"name": "twitter:card"})
+        if not tc or not tc.get("content", "").strip():
+            add("ogp", rel, "twitter:card がない")
         ogu = soup.find("meta", property="og:url")
         if ogu and ogu.get("content") != want:
             add("og:url", rel, f"og:url が {ogu.get('content')}（期待 {want}）")

@@ -25,6 +25,7 @@ KEYWORDS = {
     "denki-moufu": "電気毛布 ひざ掛け",
     "thermo-hygrometer": "温湿度計 デジタル",
     "kotatsu-hitori": "こたつ 一人用",
+    "ceramic-heater": "セラミックヒーター",
 }
 
 
