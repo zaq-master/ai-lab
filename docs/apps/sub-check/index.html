@@ -106,7 +106,7 @@ a.btn{display:inline-block;text-decoration:none;border-radius:8px;border:1px sol
     <li>更新日が近い行に色が付く、「解約候補」「要見直し」を自動判定</li>
     <li>このページの「スプレッドシート用CSV」をそのまま貼り付けて移せる</li>
   </ul>
-  <a class="btn" href="https://note.com/zaqmaster" target="_blank" rel="noopener">noteで公開をチェック（準備中）</a>
+  <a class="btn" href="https://note.com/zaqmaster/n/nf8b5ec395f76" target="_blank" rel="noopener">準備中。いまは運営の実録を公開中（途中まで無料）</a>
   <p class="note" style="margin-top:10px">公開したら note（電脳アリス）でお知らせします。このツール自体はこれからも無料です。</p>
 </section>
 
@@ -195,9 +195,9 @@ if(typeof module !== "undefined" && module.exports) module.exports = SubCheckDat
 </script>
 <script id="sc-sheet">
 // 結果画面の導線（テスト：ops/tests/sub_check_sheet.test.js がこのブロックだけを読み込んで検証する）
-// 販売記事（自社のnote有料記事）を公開したら SHEET_SALES_URL に https:// のURLを入れる。空の間は「準備中」で note 連載トップへ。
+// 販売記事（運営者自身のnote有料記事）を公開したら SHEET_SALES_URL に https:// のURLを入れる。空の間は「準備中」で note第1回（実録）へ。
 var SHEET_SALES_URL = "";
-var NOTE_TOP_URL = "https://note.com/zaqmaster"; // config.json の "note" と同じ値
+var NOTE_VOL1_URL = "https://note.com/zaqmaster/n/nf8b5ec395f76"; // config.json の "note_vol1" と同じ値
 var SubCheckSheet = (function(){
   "use strict";
   // candidates = 見直し候補（解約する予定／あまり使っていない）の件数。0件なら何も出さない
@@ -208,8 +208,8 @@ var SubCheckSheet = (function(){
       href: ready ? salesUrl : noteUrl,
       ready: ready,
       lead: "毎月の管理を続けるなら：サブスク管理表（Googleシート版）",
-      label: ready ? "販売ページを見る" : "準備中（noteで公開予定）",
-      disclosure: "※広告ではなく、当サイト運営者（電脳アリス）自身の有料記事です。このツールは無料のままです。"
+      label: ready ? "販売ページを見る" : "準備中。いまは運営の実録を公開中（途中まで無料）",
+      disclosure: "※運営者（電脳アリス）自身の有料記事の案内です（アフィリエイトではありません）。このツールは無料のままです。"
     };
   }
   return {cta:cta};
@@ -251,7 +251,7 @@ if(typeof module !== "undefined" && module.exports) module.exports = SubCheckShe
     items.forEach(function(x){ m += perMonth(x); y += perYear(x); if(x.use === "cut") s += perYear(x); if(x.use === "maybe") maybe += perYear(x); });
     $("sMonth").textContent = yen(m); $("sYear").textContent = yen(y); $("sSave").textContent = yen(s);
     $("sInfo").textContent = items.length ? (items.length + "件を登録中。" + (maybe ? "「あまり使っていない」も全部やめると、さらに年 " + yen(maybe) + " 浮きます。" : "")) : "";
-    var c = SubCheckSheet.cta(items.filter(function(x){ return x.use === "cut" || x.use === "maybe"; }).length, SHEET_SALES_URL, NOTE_TOP_URL), cEl = $("sheetCta");
+    var c = SubCheckSheet.cta(items.filter(function(x){ return x.use === "cut" || x.use === "maybe"; }).length, SHEET_SALES_URL, NOTE_VOL1_URL), cEl = $("sheetCta");
     cEl.hidden = !c;
     cEl.innerHTML = c ? esc(c.lead) + '：<a href="' + esc(c.href) + '" target="_blank" rel="noopener">' + esc(c.label) + '</a><br><small>' + esc(c.disclosure) + '</small>' : "";
     var list = $("list");

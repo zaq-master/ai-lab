@@ -33,19 +33,30 @@ def product_box(m):
 
 
 def sheet_cta(_m=None):
-    """<!-- sheet-cta --> を「記録用Googleシート版（自社の有料note）」への控えめな導線に置換。
-    config.json の note_sheet_sales が空の間は「準備中」＋note連載トップへ、値が入ったら販売ページへ。"""
+    """<!-- sheet-cta --> を「記録用Googleシート版（運営者自身の有料note）」への控えめな導線に置換。
+    config.json の note_sheet_sales が空の間は「準備中」＋note第1回（note_vol1）へ、値が入ったら販売ページへ。"""
     url = CFG.get("note_sheet_sales", "").strip()
+    note = '<br><small>※運営者（電脳アリス）自身の有料記事の案内です（アフィリエイトではありません）。</small>'
     if url:
-        link = (f'<a href="{html.escape(url)}" rel="noopener">Googleシート版テンプレ（note）を見る →</a>'
-                '<br><small>※当サイト運営者（電脳アリス）による<b>自社の有料記事</b>です（広告・アフィリエイトではありません）。</small>')
+        link = f'<a href="{html.escape(url)}" rel="noopener">Googleシート版テンプレ（note）を見る →</a>' + note
     else:
-        link = ('Googleシート版テンプレ：<b>準備中（noteで公開予定）</b>。公開時は '
-                f'<a href="{CFG["note"]}" rel="noopener">note連載</a> でお知らせします。'
-                '<br><small>※公開予定のテンプレは当サイト運営者（電脳アリス）による<b>自社の有料記事</b>です（広告・アフィリエイトではありません）。</small>')
+        link = ('Googleシート版テンプレ：<b>準備中</b>。いまは運営の実録を公開中（途中まで無料）→ '
+                f'<a href="{html.escape(CFG["note_vol1"])}" rel="noopener">note第1回を読む</a>' + note)
     return ('<aside class="sheet-cta" style="margin:12px 0;padding:10px 14px;border:1px dashed var(--line,#ccc);'
             'border-radius:10px;font-size:.9rem">'
             f'<b>この計算を毎月の記録として残すなら</b><br>{link}</aside>')
+
+
+def git_date(p):
+    """ファイルの最終コミット日（YYYY-MM-DD）。未コミットの変更があれば今日。取れなければ空文字。"""
+    import subprocess
+    try:
+        r = lambda *a: subprocess.run(["git", *a], cwd=ROOT, capture_output=True, text=True, timeout=10).stdout.strip()
+        if r("status", "--porcelain", "--", str(p)):
+            return datetime.date.today().isoformat()
+        return r("log", "-1", "--format=%cs", "--", str(p))
+    except Exception:
+        return ""
 
 
 def parse(p):
@@ -173,7 +184,7 @@ def related(x, posts, n=3):
     return (f'<section class="related"><h2>あわせて読みたい</h2><ul>{items}</ul>'
             '<p class="meta">このサイトはAI（電脳アリス）が運営しています。運営の実録は<a href="../about.html">このサイトについて</a>と'
             f'<a href="{CFG["note"]}" rel="noopener">note</a>で公開中'
-            f'（第1回：<a href="{CFG["note_vol1"]}" rel="noopener">AIだけで3ヶ月300万円に挑戦します</a>／一部有料）。</p></section>')
+            f'（第1回：<a href="{CFG["note_vol1"]}" rel="noopener">AIだけで3ヶ月300万円に挑戦します</a>／途中まで無料・続きは¥300）。</p></section>')
 
 
 # トップの導線ブロック（冬の電気代ハブ＋無料ツール一覧）。リンク先が docs/ に無いものは出さない。
@@ -213,8 +224,8 @@ def main():
                 f'{x["body"]}{related(x, posts)}</article>')
         path = f"posts/{x['slug']}.html"
         img = og_png(x["slug"], x["title"], x.get("category", ""))
-        urls.append(page(x["title"], x["description"], body, path, "../", "article", img,
-                         article_ld(x, f"{CFG['base_url']}/{path}", img)))
+        urls.append((page(x["title"], x["description"], body, path, "../", "article", img,
+                          article_ld(x, f"{CFG['base_url']}/{path}", img)), x.get("updated") or x["date"]))
     cards = "".join(
         f'<a class="card" href="posts/{x["slug"]}.html"><img class="eye" src="posts/{x["slug"]}.svg" alt="" width="1200" height="630" loading="lazy"><span class="meta">{x["date"]}・{html.escape(x.get("category",""))}</span>'
         f'<h2>{html.escape(x["title"])}</h2><p>{html.escape(x["description"])}</p></a>' for x in posts)
@@ -224,16 +235,18 @@ def main():
     site_img = og_png("index", CFG["tagline"], CFG["site_name"])
     site_ld = [{"@context": "https://schema.org", "@type": "WebSite", "name": CFG["site_name"],
                 "url": CFG["base_url"] + "/", "inLanguage": "ja", "publisher": ORG}]
-    urls.append(page(CFG["site_name"], CFG["tagline"], hero, "index.html", "", "website", site_img, site_ld))
+    newest = max((d for _, d in urls), default=datetime.date.today().isoformat())
+    urls.append((page(CFG["site_name"], CFG["tagline"], hero, "index.html", "", "website", site_img, site_ld), newest))
     for name in ["about"]:
         src = (ROOT / "content" / f"{name}.md").read_text(encoding="utf-8")
         t = src.splitlines()[0].lstrip("# ")
-        urls.append(page(t, t, f"<article>{markdown.markdown(src)}</article>", f"{name}.html", "", "website", site_img))
+        urls.append((page(t, t, f"<article>{markdown.markdown(src)}</article>", f"{name}.html", "", "website", site_img),
+                     git_date(ROOT / "content" / f"{name}.md") or newest))
     (OUT / ".nojekyll").write_text("")
     (OUT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {CFG['base_url']}/sitemap.xml\n")
     (OUT / "sitemap.xml").write_text(
         '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
-        + "".join(f"<url><loc>{u}</loc><lastmod>{datetime.date.today().isoformat()}</lastmod></url>" for u in urls) + "</urlset>", encoding="utf-8")
+        + "".join(f"<url><loc>{u}</loc><lastmod>{d}</lastmod></url>" for u, d in urls) + "</urlset>", encoding="utf-8")
     print(f"built {len(posts)} posts")
 
 

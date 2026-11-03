@@ -14,7 +14,7 @@ const ctx = { module: { exports: {} } };
 vm.createContext(ctx);
 vm.runInContext(m[1], ctx);
 const S = ctx.module.exports;
-const NOTE = "https://note.com/zaqmaster";
+const NOTE = "https://note.com/zaqmaster/n/nf8b5ec395f76"; // note第1回（config.json の note_vol1）
 
 let pass = 0, fail = 0;
 function t(name, fn) {
@@ -27,11 +27,11 @@ t("見直し候補が0件なら導線を出さない", () => {
   assert.strictEqual(S.cta(0, "https://note.com/zaqmaster/n/x", NOTE), null);
 });
 
-t("販売URLが空の間は「準備中」で note 連載トップへ", () => {
+t("販売URLが空の間は「準備中」で note第1回（実録）へ", () => {
   const c = S.cta(2, "", NOTE);
   assert.strictEqual(c.ready, false);
   assert.strictEqual(c.href, NOTE);
-  assert.ok(c.label.includes("準備中"));
+  assert.ok(c.label.includes("準備中") && c.label.includes("途中まで無料"));
 });
 
 t("販売URLが入れば販売ページへ", () => {
@@ -44,15 +44,16 @@ t("https 以外の値は使わない（準備中扱い）", () => {
   assert.strictEqual(S.cta(1, "javascript:alert(1)", NOTE).href, NOTE);
 });
 
-t("広告ではなく自社の有料記事だと明記", () => {
+t("運営者自身の有料記事の案内と明記（「広告ではない」とは書かない）", () => {
   const d = S.cta(1, "", NOTE).disclosure;
-  assert.ok(d.includes("広告ではなく") && d.includes("有料記事"));
+  assert.ok(d.includes("運営者（電脳アリス）自身の有料記事の案内です（アフィリエイトではありません）"));
+  assert.ok(!d.includes("広告ではな"));
 });
 
-t("本番の定数：SHEET_SALES_URL は空、NOTE_TOP_URL は config.json の note と同じ", () => {
+t("本番の定数：SHEET_SALES_URL は空、NOTE_VOL1_URL は config.json の note_vol1 と同じ", () => {
   assert.strictEqual(ctx.SHEET_SALES_URL, "");
   const cfg = JSON.parse(fs.readFileSync(path.join(__dirname, "../../config.json"), "utf8"));
-  assert.strictEqual(ctx.NOTE_TOP_URL, cfg.note);
+  assert.strictEqual(ctx.NOTE_VOL1_URL, cfg.note_vol1);
 });
 
 console.log("\n" + pass + " passed, " + fail + " failed");

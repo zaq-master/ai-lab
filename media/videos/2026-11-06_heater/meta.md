@@ -32,4 +32,5 @@ https://zaq-master.github.io/ai-lab/posts/heater-denkidai-hikaku.html
 （補助：https://zaq-master.github.io/ai-lab/posts/denki-moufu-kotatsu-denkidai-telework.html）
 
 
-※R6監査：プロフィールのリンクは「冬の電気代まとめ」（posts/fuyu-denkidai-matome.html）に固定する方針。比較ツールはまとめページの先頭近くから1タップで行ける。ただしそうなっているのはXだけ（IGのプロフィールリンクは未変更、YouTubeはチャンネル未作成）。11/3 R2修正で、YouTube説明文は概要欄のURL、IGキャプションは末尾のURL入力に変更。焼き込み字幕（composition.html の s8-b・c9「プロフィールのリンクから」）はXでは正しいが、IG・YouTubeでは食い違う→IG・YouTubeに出す前に再レンダーするか、出すのをXだけにする。
+※R6監査：プロフィールのリンクは「冬の電気代まとめ」（posts/fuyu-denkidai-matome.html）に固定する方針。比較ツールはまとめページの先頭近くから1タップで行ける。ただしそうなっているのはXだけ（IGのプロフィールリンクは未変更、YouTubeはチャンネル未作成）。11/3 R2修正で、YouTube説明文は概要欄のURL、IGキャプションは末尾のURL入力に変更。
+※再レンダー済み（2026-11-03 10:40 JST、HyperFrames 0.9.5 ローカル）：焼き込み字幕（s8-b・c9）を「キャプション・概要欄のURLから」「詳しい計算は／キャプション・概要欄のURLから」に変更。X・IG・YouTubeのどれに出しても事実と合う。数字・他の字幕は変更なし。
