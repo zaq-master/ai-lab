@@ -26,6 +26,7 @@ KEYWORDS = {
     "thermo-hygrometer": "温湿度計 デジタル",
     "kotatsu-hitori": "こたつ 一人用",
     "ceramic-heater": "セラミックヒーター",
+    "circulator": "サーキュレーター",
 }
 
 

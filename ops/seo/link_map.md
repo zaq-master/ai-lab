@@ -17,5 +17,6 @@
 | humidifier-vaporize | 加湿器 気化式 | 2 | humidifier-electricity-cost-telework, kashitsu-ryo-calculator |
 | humidifier-steam | 加湿器 スチーム式 | 2 | humidifier-electricity-cost-telework, kashitsu-ryo-calculator |
 | denki-moufu | 電気毛布 ひざ掛け | 2 | denki-moufu-kotatsu-denkidai-telework, heater-denkidai-hikaku |
-| thermo-hygrometer | 温湿度計 デジタル | 2 | kashitsu-ryo-calculator, telework-ketsuro-taisaku-roten |
+| thermo-hygrometer | 温湿度計 デジタル | 3 | kashitsu-ryo-calculator, telework-ketsuro-taisaku-roten, heater-denkidai-hikaku（11/3 18:00追加） |
 | kotatsu-hitori | こたつ 一人用 | 1 | denki-moufu-kotatsu-denkidai-telework（11/3 12:00追加） |
+| circulator | サーキュレーター | 1 | heater-denkidai-hikaku（11/3 18:00追加） |
