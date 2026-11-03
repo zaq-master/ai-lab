@@ -13,14 +13,14 @@ category: 季節家電
 ## エアコン暖房の電気代 計算ツール
 
 <div id="ac-calc" style="border:1px solid #ddd;border-radius:12px;padding:16px;background:#fafafa">
-<p style="margin:0 0 8px;line-height:2.1"><label>暖房の消費電力：<input id="ac-w" type="number" min="0" inputmode="decimal" placeholder="カタログ・ラベルの値" style="width:150px"> W</label><br><label>平均でその何％で動く想定か：<input id="ac-pct" type="number" value="100" min="0" max="200" inputmode="decimal" style="width:64px"> ％</label><br><label>1日の使用時間：<input id="ac-h" type="number" value="8" min="0" max="24" step="0.5" inputmode="decimal" style="width:64px"> 時間</label><br><label>1ヶ月の使用日数：<input id="ac-days" type="number" value="30" min="1" max="31" inputmode="numeric" style="width:56px"> 日</label><br><label>ひと冬の月数：<input id="ac-months" type="number" value="4" min="1" max="12" inputmode="numeric" style="width:48px"> ヶ月</label><br><label>電気料金単価：<input id="ac-unit" type="number" value="31" min="1" step="0.1" inputmode="decimal" style="width:72px"> 円/kWh</label></p>
+<p style="margin:0 0 8px;line-height:2.1"><label>暖房の消費電力：<input id="ac-w" type="number" min="0" inputmode="decimal" placeholder="カタログの値" style="width:120px"> W</label><br><label>平均でその何％で動く想定か：<input id="ac-pct" type="number" value="100" min="0" max="200" inputmode="decimal" style="width:64px"> ％</label><br><label>1日の使用時間：<input id="ac-h" type="number" value="8" min="0" max="24" step="0.5" inputmode="decimal" style="width:64px"> 時間</label><br><label>1ヶ月の使用日数：<input id="ac-days" type="number" value="30" min="1" max="31" inputmode="numeric" style="width:56px"> 日</label><br><label>ひと冬の月数：<input id="ac-months" type="number" value="4" min="1" max="12" inputmode="numeric" style="width:48px"> ヶ月</label><br><label>電気料金単価：<input id="ac-unit" type="number" value="31" min="1" step="0.1" inputmode="decimal" style="width:72px"> 円/kWh</label></p>
 <div id="ac-result" style="margin-top:8px"></div>
 <p class="tool-next" style="margin:10px 0 0;padding:8px 10px;background:#fff;border:1px solid #e5e5e5;border-radius:8px;font-size:.92em;line-height:1.8"><b>次の一手：</b><a href="#tool-prods">サーキュレーター・温湿度計・温湿度センサー付きスマートリモコンの候補を見る</a> <span class="badge">PR</span>／<a href="heater-denkidai-hikaku.html">ほかの暖房器具と比べる（比較ツール）</a>／<a href="fuyu-denkidai-matome.html">冬の電気代まとめ</a></p>
 <p style="margin:4px 0 0;font-size:.85em"><a id="ac-share" href="#" target="_blank" rel="noopener nofollow" hidden>この結果をXで共有する</a></p>
 <p style="font-size:.85em;color:#666;margin:8px 0 0">計算式：消費電力(W)×(平均の％÷100)÷1000×時間(h)×単価(円/kWh)。「平均の％」は初期値100％（＝入力した消費電力のまま動き続けた場合）です。実際の平均値は機種・条件で変わり、このページでは決めつけません。</p>
 <hr style="border:none;border-top:1px solid #e5e5e5;margin:14px 0">
 <p style="margin:0 0 6px;font-weight:700">カタログの「期間消費電力量」から年間の目安を出す</p>
-<p style="margin:0 0 6px;line-height:2"><label>期間消費電力量：<input id="ac-kwh" type="number" min="0" inputmode="decimal" placeholder="カタログの値" style="width:120px"> kWh/年</label></p>
+<p style="margin:0 0 6px;line-height:2"><label>期間消費電力量：<input id="ac-kwh" type="number" min="0" inputmode="decimal" placeholder="カタログ値" style="width:84px"> kWh/年</label></p>
 <div id="ac-year" style="font-size:.95em"></div>
 <p style="font-size:.85em;color:#666;margin:6px 0 0">期間消費電力量は、メーカーのカタログに載っている「決められた条件（地域・部屋・使い方）で冷房と暖房を1年使ったときの電力量」です。暖房だけの値ではなく、条件も各家庭と違うため、機種どうしを比べる目安として使ってください。</p>
 </div>
@@ -83,11 +83,9 @@ run();
 ## 同じエアコンで、ムダなく暖める基本
 資源エネルギー庁の省エネポータルでは、エアコン暖房の工夫として次のような点が案内されています。どれだけ安くなるかは家ごとに違うため、ここでは金額は書きません。
 
-| やること | ポイント |
-|---|---|
-| 室温の目安を決める | 暖房時の室温は**20℃が目安**。設定温度ではなく**温度計で室温**を見る |
-| 扇風機・サーキュレーターを併用 | 上にたまった**暖まった空気を循環させる**（置き場所・向きは取扱説明書を確認） |
-| フィルターを掃除する | **月1〜2回**が目安（機種ごとの取扱説明書を確認） |
+- **室温の目安を決める**：暖房時の室温は**20℃が目安**。設定温度ではなく**温度計で室温**を見る
+- **扇風機・サーキュレーターを併用**：上にたまった**暖まった空気を循環させる**（置き場所・向きは取扱説明書を確認）
+- **フィルターを掃除する**：**月1〜2回**が目安（機種ごとの取扱説明書を確認）
 
 出典：[資源エネルギー庁 省エネポータル「空調」](https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/airconditioning/index.html)
 
