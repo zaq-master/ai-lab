@@ -267,7 +267,10 @@ def related(x, posts, n=3):
 # トップの導線ブロック（冬の電気代ハブ＋無料ツール一覧）。リンク先が docs/ に無いものは出さない。
 HUB = ("posts/fuyu-denkidai-matome.html", "冬の電気代まとめ",
        "暖房・加湿・エアコン自動化の電気代を、悩み別に記事とツールで整理")
+# 4つ目の要素（任意）＝表示する最終日（JST、この日まで先頭に出す。過ぎたら次のビルドで自動的に消える）
 TOOLS = [
+    ("posts/rakuten-marathon-point-calculator.html", "楽天お買い物マラソン 買いまわり計算（非公式）",
+     "何店舗で何倍か・あと何店舗かの目安。条件は楽天公式で確認", "2026-11-11"),
     ("posts/denkidai-calculator.html", "電気代計算", "W数と時間で1日・1ヶ月・ひと冬の目安"),
     ("posts/heater-denkidai-hikaku.html", "暖房器具の電気代比較", "エアコン・ヒーター・こたつを並べて計算"),
     ("posts/kashitsu-ryo-calculator.html", "加湿量計算", "部屋に合う加湿器のmL/hを計算"),
@@ -327,8 +330,9 @@ def app_meta(f):
 
 def hub_block():
     ok = lambda p: (OUT / p).exists()
-    tools = "".join(f'<li><a href="{p}"><b>{html.escape(n)}</b><span>{html.escape(d)}</span></a></li>'
-                    for p, n, d in TOOLS if ok(p))
+    live = lambda t: len(t) < 4 or jst_today() <= datetime.date.fromisoformat(t[3])
+    tools = "".join(f'<li><a href="{t[0]}"><b>{html.escape(t[1])}</b><span>{html.escape(t[2])}</span></a></li>'
+                    for t in TOOLS if ok(t[0]) and live(t))
     hub = (f'<a class="hub-main" href="{HUB[0]}"><span class="badge">特集</span><b>{HUB[1]}</b>'
            f'<span>{HUB[2]} →</span></a>') if ok(HUB[0]) else ""
     if not (hub or tools):
