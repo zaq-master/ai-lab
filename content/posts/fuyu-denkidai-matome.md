@@ -45,6 +45,8 @@ category: 季節家電
 
 ※セールの開催期間・ポイント条件は変わるため、楽天市場の公式ページでご確認ください。このページでは価格・ポイント倍率は扱いません。
 
+お買い物マラソンで何店舗買うと何倍になるかは、[楽天お買い物マラソン 買いまわりポイント計算ツール](rakuten-marathon-point-calculator.html)で目安を出せます。
+
 冬家電の候補は、楽天市場の検索結果から選べます。
 
 <!-- products: kotatsu-hitori,denki-moufu,humidifier-vaporize,humidifier-steam,thermo-hygrometer -->

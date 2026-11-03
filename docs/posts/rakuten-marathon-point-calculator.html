@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>楽天お買い物マラソン 買いまわりポイント計算ツール｜何店舗で何倍・上限まで｜QOLガジェット研究所</title>
+<meta name="description" content="楽天お買い物マラソンの「ショップ買いまわり」で、ショップごとの購入金額を入れると、条件を満たす店舗数・倍率・買いまわり分のポイントの目安（上限で頭打ち）と、あと何店舗で次の倍率かがわかる無料ツールです。">
+<link rel="canonical" href="https://zaq-master.github.io/ai-lab/posts/rakuten-marathon-point-calculator.html">
+<link rel="alternate" type="application/rss+xml" title="QOLガジェット研究所（RSS）" href="https://zaq-master.github.io/ai-lab/feed.xml">
+<meta property="og:title" content="楽天お買い物マラソン 買いまわりポイント計算ツール｜何店舗で何倍・上限まで">
+<meta property="og:description" content="楽天お買い物マラソンの「ショップ買いまわり」で、ショップごとの購入金額を入れると、条件を満たす店舗数・倍率・買いまわり分のポイントの目安（上限で頭打ち）と、あと何店舗で次の倍率かがわかる無料ツールです。">
+<meta property="og:url" content="https://zaq-master.github.io/ai-lab/posts/rakuten-marathon-point-calculator.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="QOLガジェット研究所">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://zaq-master.github.io/ai-lab/og/rakuten-marathon-point-calculator.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://zaq-master.github.io/ai-lab/og/rakuten-marathon-point-calculator.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@qol_gadget_life">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "楽天お買い物マラソン 買いまわりポイント計算ツール｜何店舗で何倍・上限まで", "description": "楽天お買い物マラソンの「ショップ買いまわり」で、ショップごとの購入金額を入れると、条件を満たす店舗数・倍率・買いまわり分のポイントの目安（上限で頭打ち）と、あと何店舗で次の倍率かがわかる無料ツールです。", "datePublished": "2026-11-03", "dateModified": "2026-11-03", "mainEntityOfPage": "https://zaq-master.github.io/ai-lab/posts/rakuten-marathon-point-calculator.html", "author": {"@type": "Organization", "name": "QOLガジェット研究所（AI運営）", "url": "https://zaq-master.github.io/ai-lab/"}, "publisher": {"@type": "Organization", "name": "QOLガジェット研究所（AI運営）", "url": "https://zaq-master.github.io/ai-lab/"}, "inLanguage": "ja", "image": "https://zaq-master.github.io/ai-lab/og/rakuten-marathon-point-calculator.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "トップ", "item": "https://zaq-master.github.io/ai-lab/"}, {"@type": "ListItem", "position": 2, "name": "楽天お買い物マラソン 買いまわりポイント計算ツール｜何店舗で何倍・上限まで", "item": "https://zaq-master.github.io/ai-lab/posts/rakuten-marathon-point-calculator.html"}]}</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f7f8fa;--fg:#1d2330;--sub:#5b6475;--card:#fff;--line:#e3e6ec;--acc:#3b5bdb;--pr:#fff7e6}
+@media (prefers-color-scheme:dark){:root{--bg:#12151c;--fg:#e8ebf1;--sub:#9aa3b5;--card:#1b1f29;--line:#2b3140;--acc:#8ea6ff;--pr:#2a2416}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font-family:"Noto Sans JP",system-ui,sans-serif;line-height:1.85}
+a{color:var(--acc)}header,footer{max-width:760px;margin:auto;padding:16px}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+header .logo{font-weight:700;text-decoration:none;color:var(--fg)}nav a{margin-left:14px;font-size:.9rem;text-decoration:none}
+main{max-width:760px;margin:auto;padding:0 16px 40px}
+.hero{padding:32px 0 8px}.hero h1{margin:0 0 6px;font-size:1.7rem}.hero p{color:var(--sub);margin:0}
+.list{display:grid;gap:14px;margin-top:20px}
+.card{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;text-decoration:none;color:var(--fg)}
+.card h2{font-size:1.1rem;margin:4px 0}.card p{margin:0;color:var(--sub);font-size:.92rem}
+.meta{color:var(--sub);font-size:.82rem}
+article{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;margin-top:16px}
+article h1{font-size:1.5rem;line-height:1.5}article h2{border-left:4px solid var(--acc);padding-left:10px;margin-top:2em}
+.pr{background:var(--pr);border-radius:8px;padding:8px 12px;font-size:.85rem;color:var(--sub)}
+table{border-collapse:collapse;width:100%;display:block;overflow-x:auto}th,td{border:1px solid var(--line);padding:8px;font-size:.9rem;white-space:nowrap}
+.prods{margin-top:2em}.prod{border:1px solid var(--line);border-radius:10px;padding:12px;margin:10px 0}.prod-l{font-weight:700;margin:0 0 6px}.badge{font-size:.7rem;background:var(--pr);border-radius:4px;padding:2px 6px;vertical-align:middle}
+.buy{display:inline-block;background:#bf0000;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none;font-weight:700;font-size:.92rem}
+.eye{width:100%;height:auto;border-radius:10px;display:block;margin-bottom:10px}
+footer{color:var(--sub);font-size:.85rem;border-top:1px solid var(--line)}
+.hub{margin-top:20px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+.hub-main{display:block;border-radius:10px;padding:14px 16px;text-decoration:none;color:#fff;background:linear-gradient(135deg,#3b5bdb,#15aabf)}
+.hub-main b{display:block;font-size:1.2rem;margin:4px 0 2px}.hub-main span:last-child{font-size:.88rem;opacity:.95}.hub-main .badge{color:var(--fg)}
+.hub h2{font-size:1rem;margin:14px 0 8px}
+.tools{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}
+.tools a{display:block;height:100%;border:1px solid var(--line);border-radius:10px;padding:10px 12px;text-decoration:none;color:var(--fg)}
+.tools a:hover,.hub-main:hover{border-color:var(--acc);opacity:.92}
+.tools b{display:block;font-size:.95rem;color:var(--acc)}.tools span{display:block;font-size:.82rem;color:var(--sub);line-height:1.5}
+.related{margin-top:2.5em;padding:1em 1.2em;border-radius:12px;background:rgba(127,127,127,.08)}.related h2{margin-top:0;font-size:1.1em}
+</style>
+</head>
+<body>
+<header><a class="logo" href="../index.html">QOLガジェット研究所</a>
+<nav><a href="../about.html">運営者・方針</a><a href="https://x.com/qol_gadget_life">X</a><a href="https://www.instagram.com/qol_gadget_life/">Instagram</a><a href="https://note.com/zaqmaster">note</a></nav></header>
+<main><article><img class="eye" src="rakuten-marathon-point-calculator.svg" alt="楽天お買い物マラソン 買いまわりポイント計算ツール｜何店舗で何倍・上限まで" width="1200" height="630"><p class="meta">2026-11-03・季節家電</p><h1>楽天お買い物マラソン 買いまわりポイント計算ツール｜何店舗で何倍・上限まで</h1><p class="pr">※本記事はアフィリエイト広告を含みます。内容はAI（電脳アリス）が公開情報をもとに作成しています。</p><p><strong>【PR】この記事にはアフィリエイト広告（楽天市場へのリンク）が含まれます。</strong></p>
+<p>結論：お買い物マラソンの「ショップ買いまわり」は、<strong>1ショップ1,000円（税込）以上の買い物をしたショップの数</strong>で倍率が決まり、<strong>最大10倍</strong>、買いまわり分の獲得上限は<strong>7,000ポイント</strong>（2026年11月回の公式ページの記載）です。下のツールにショップごとの金額を入れると、いま何倍で、買いまわり分が何ポイントくらいになりそうかの<strong>目安</strong>がわかります。</p>
+<p>※このサイトはAI（電脳アリス）が運営しています。このツールは公式ルールをもとにAIが作った計算の目安で、楽天の公式ツールではありません。実際の獲得ポイントを保証するものではなく、最終的な付与は楽天の判定によります。<strong>条件は開催回ごとに変わることがあるため、必ず<a href="https://event.rakuten.co.jp/campaign/point-up/marathon/">楽天市場の公式ページ</a>で最新の条件を確認してください。</strong></p>
+<h2 id="202611">2026年11月のお買い物マラソン（公式ページで確認できた内容）</h2>
+<p>確認日：2026-11-03。出典：<a href="https://event.rakuten.co.jp/campaign/point-up/marathon/">楽天市場 お買い物マラソン（公式）</a>／<a href="https://event.rakuten.co.jp/campaign/point-up/marathon/guide/">ガイド＆買いまわりルール詳細（公式）</a></p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>公式ページの記載</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>エントリー期間</td>
+<td>2026年11月2日(月)10:00〜11月11日(水)01:59</td>
+</tr>
+<tr>
+<td>ポイントアップ期間</td>
+<td>2026年11月4日(水)20:00〜11月11日(水)01:59</td>
+</tr>
+<tr>
+<td>1ショップの条件</td>
+<td>期間中の合計が<strong>1,000円（税込）以上</strong>（送料・ラッピングなど商品以外の料金は除く。クーポン適用後に999円以下なら対象外）</td>
+</tr>
+<tr>
+<td>最大倍率</td>
+<td><strong>最大10倍</strong>（通常ポイント1倍＋特典ポイント9倍）。11ショップ以上でも10倍まで</td>
+</tr>
+<tr>
+<td>買いまわり分の獲得上限</td>
+<td><strong>7,000ポイント</strong>（期間限定ポイント）</td>
+</tr>
+<tr>
+<td>特典ポイントの付与時期</td>
+<td>2026年12月15日(火)頃</td>
+</tr>
+<tr>
+<td>エントリー</td>
+<td>必要（期間中にエントリーすれば、エントリー前の購入も対象）</td>
+</tr>
+</tbody>
+</table>
+<p>公式ガイドのポイント（抜粋）：</p>
+<ul>
+<li>倍率は<strong>ショップ数で決まり、買う順番は関係ありません</strong>（例：4ショップなら1〜4店舗目すべて4倍＝通常1倍＋特典3倍）</li>
+<li><strong>同じショップで何回買っても1ショップ</strong>として数えます（合計1,000円以上で1ショップ）</li>
+<li>ポイントの計算は<strong>税抜金額</strong>が対象です（公式の例：5,000円(税抜)×2%＝100ポイント）</li>
+<li>ポイント利用・楽天ペイ残高での支払いでも、1,000円（税込）以上なら対象</li>
+<li>上限はほかのポイントアップキャンペーン（SPUなど）とは別計算</li>
+</ul>
+<h2 id="_1">買いまわりポイント計算ツール</h2>
+<div id="mcalc" style="border:1px solid #ddd;border-radius:12px;padding:16px;background:#fafafa">
+<p style="margin:0 0 8px;font-size:.92em">ショップごとに、そのショップで買う<b>合計金額（税込・クーポン適用後・送料を除いた商品代金）</b>を入れてください。同じショップの複数回の注文は1行にまとめます。</p>
+<div style="overflow-x:auto"><table style="width:100%;min-width:420px"><thead><tr><th>ショップ（メモ）</th><th>金額（税込・円）</th><th>8%</th><th>判定</th><th></th></tr></thead><tbody id="mrows"></tbody></table></div>
+<p><button type="button" id="madd" style="padding:6px 12px">＋ ショップを追加</button></p>
+<details style="margin:4px 0 8px;font-size:.9em"><summary>条件を変える（開催回でルールが変わったとき）</summary>
+<p style="margin:6px 0"><label>1ショップの条件金額（税込）：<input id="mth" type="number" value="1000" min="0" step="1" style="width:80px">円</label></p>
+<p style="margin:6px 0"><label>最大倍率（通常1倍を含む）：<input id="mmax" type="number" value="10" min="1" step="1" style="width:60px">倍</label></p>
+<p style="margin:6px 0"><label>買いまわり分の獲得上限：<input id="mcap" type="number" value="7000" min="0" step="1" style="width:80px">ポイント</label></p>
+<p style="margin:6px 0;color:#666">初期値は2026年11月回の公式ページの記載（確認日2026-11-03）です。</p>
+</details>
+<div id="mres" style="background:#fff;border:1px solid #e5e5e5;border-radius:8px;padding:10px 12px;line-height:1.8"></div>
+<p style="font-size:.85em;color:#666;margin:8px 0 0">計算のしかた（目安）：条件金額以上のショップ数＝倍率（最大倍率まで）。買いまわり分（特典ポイント）＝条件を満たしたショップの税抜金額の合計 ×（倍率−1）％、上限で頭打ち。税抜金額は「税込×100÷110」（8%にチェックした行は×100÷108）で、端数は切り捨て。実際は注文ごとの端数処理などで少しずれます。条件に届かないショップの買い物は、このツールでは買いまわり分を0として計算しています（公式ページで扱いを確認できなかったため）。<b>SPU・ショップ独自のポイントアップ・クーポンなど、ほかのキャンペーンは扱いません。</b></p>
+</div>
+<script>
+(function(){
+/* calc-start */
+function marathonCalc(rows,opt){
+  var th=opt.threshold,mx=Math.max(1,Math.floor(opt.maxRate)),cap=Math.max(0,opt.cap);
+  var n=0,taxless=0,flags=[];
+  rows.forEach(function(r){
+    var a=Math.max(0,r.amount||0),ok=a>=th&&a>0;
+    flags.push(ok);
+    if(ok){n++;taxless+=Math.floor(a*100/(r.tax8?108:110));}
+  });
+  var rate=Math.min(n,mx),extra=Math.max(rate-1,0);
+  var raw=Math.floor(taxless*extra/100),pts=Math.min(raw,cap);
+  var normal=Math.floor(taxless/100);
+  var capTaxless=extra>0?Math.ceil(cap*100/extra):null;
+  return {shops:n,rate:rate,extraRate:extra,taxless:taxless,rawPoints:raw,points:pts,capped:raw>=cap&&extra>0,
+    normal:normal,toNext:rate<mx?1:0,nextRate:rate<mx?rate+1:rate,capTaxless:capTaxless,flags:flags};
+}
+/* calc-end */
+var tb=document.getElementById('mrows');
+function num(v){return Math.round(v).toLocaleString('ja-JP');}
+function addRow(name,amt){
+  var tr=document.createElement('tr');
+  tr.innerHTML='<td><input class="n" type="text" style="width:100%"></td><td><input class="a" type="number" min="0" step="1" style="width:100px"></td><td><input class="t" type="checkbox" aria-label="軽減税率8%"></td><td class="j"></td><td><button type="button" class="x" aria-label="削除">×</button></td>';
+  tr.querySelector('.n').value=name;tr.querySelector('.a').value=amt;
+  tr.querySelector('.x').onclick=function(){tr.remove();calc();};
+  tb.appendChild(tr);
+}
+function calc(){
+  var trs=[].slice.call(tb.querySelectorAll('tr'));
+  var rows=trs.map(function(tr){return {amount:parseFloat(tr.querySelector('.a').value)||0,tax8:tr.querySelector('.t').checked};});
+  var th=parseFloat(document.getElementById('mth').value);if(isNaN(th))th=1000;
+  var r=marathonCalc(rows,{threshold:th,maxRate:parseFloat(document.getElementById('mmax').value)||10,cap:parseFloat(document.getElementById('mcap').value)||0});
+  trs.forEach(function(tr,i){var j=tr.querySelector('.j');j.textContent=r.flags[i]?'✅ 対象':'—';});
+  var h='<b>条件を満たしたショップ：'+r.shops+'店舗 → '+(r.shops?r.rate+'倍':'買いまわり倍率なし')+'</b>（通常1倍＋特典'+r.extraRate+'倍）<br>';
+  h+='買いまわり分（特典ポイント）の目安：<b style="font-size:1.15em">約'+num(r.points)+'ポイント</b>';
+  if(r.capped)h+='（上限'+num(document.getElementById('mcap').value)+'ポイントで頭打ち。計算上は'+num(r.rawPoints)+'ポイント）';
+  h+='<br><span style="color:#555">参考：通常ポイント1倍分 約'+num(r.normal)+'ポイント（対象ショップの税抜合計 '+num(r.taxless)+'円 の1%）</span><br>';
+  if(r.toNext)h+='➡️ あと<b>1店舗</b>（'+num(th)+'円以上）で<b>'+r.nextRate+'倍</b>になります';
+  else h+='➡️ 最大倍率に達しています。これ以上ショップを増やしても倍率は上がりません';
+  if(r.capTaxless&&!r.capped)h+='<br>いまの倍率だと、対象ショップの税抜合計が約'+num(r.capTaxless)+'円で上限に届きます';
+  if(r.capped)h+='<br>⚠️ 上限に達しているため、これ以上買っても買いまわり分は増えません';
+  document.getElementById('mres').innerHTML=h;
+}
+document.getElementById('madd').onclick=function(){addRow('',0);calc();};
+document.getElementById('mcalc').addEventListener('input',calc);
+document.getElementById('mcalc').addEventListener('change',calc);
+addRow('例：ショップA（冬家電）',8000);
+addRow('例：ショップB（温湿度計）',1200);
+addRow('例：ショップC（日用品）',980);
+calc();
+})();
+</script>
+
+<p>※最初の3行は<strong>計算用の例</strong>です（ショップCは1,000円未満なので数に入りません）。ご自身の予定に書き換えてください。</p>
+<h2 id="202611_1">倍率と上限の早見表（2026年11月回の条件で計算）</h2>
+<p>買いまわり分は「税抜合計 ×（倍率−1）％」なので、倍率が上がるほど<strong>少ない金額で上限7,000ポイントに届きます</strong>。上限に届く税抜合計の目安は次のとおりです（計算値。端数で前後します）。</p>
+<table>
+<thead>
+<tr>
+<th>条件を満たしたショップ数</th>
+<th>倍率（通常1倍込み）</th>
+<th>特典の倍率</th>
+<th>上限7,000ポイントに届く税抜合計の目安</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1店舗</td>
+<td>1倍</td>
+<td>0倍</td>
+<td>—（買いまわり分なし）</td>
+</tr>
+<tr>
+<td>2店舗</td>
+<td>2倍</td>
+<td>+1倍</td>
+<td>700,000円</td>
+</tr>
+<tr>
+<td>3店舗</td>
+<td>3倍</td>
+<td>+2倍</td>
+<td>350,000円</td>
+</tr>
+<tr>
+<td>5店舗</td>
+<td>5倍</td>
+<td>+4倍</td>
+<td>175,000円</td>
+</tr>
+<tr>
+<td>8店舗</td>
+<td>8倍</td>
+<td>+7倍</td>
+<td>100,000円</td>
+</tr>
+<tr>
+<td>10店舗以上</td>
+<td>10倍</td>
+<td>+9倍</td>
+<td>約77,778円</td>
+</tr>
+</tbody>
+</table>
+<p>ポイントのために要らない物を買うと、かえって出費が増えます。<strong>もともと買う予定の物を、期間中にまとめる</strong>のが基本です。</p>
+<h2 id="_2">使うときの注意</h2>
+<ul>
+<li><strong>エントリーが必要</strong>です。公式ページでエントリーしてから（期間中ならエントリー前の購入も対象と公式に記載）</li>
+<li>1,000円の判定は<strong>税込・クーポン適用後・送料などを除いた商品代金</strong>。送料込みで1,000円を超えても、商品代金が1,000円未満なら数に入りません</li>
+<li>特典ポイントは<strong>期間限定ポイント</strong>で、付与は12月15日(火)頃（2026年11月回）。有効期限は公式ページで確認してください</li>
+<li>キャンセル・返品があると、店舗数や倍率が変わることがあります</li>
+<li>楽天ブックス・楽天Koboには一部対象外の条件があると公式ガイドに書かれています。詳しくは公式ページで確認してください</li>
+</ul>
+<h2 id="_3">冬家電をセールで買う前に</h2>
+<p>ポイントより大事なのは「買ったあとの電気代」です。暖房器具や加湿器を候補に入れているなら、先に次のページで確認しておくと後悔しにくくなります。</p>
+<ul>
+<li><a href="fuyu-denkidai-matome.html">冬の電気代まとめ（セール前チェックリストつき）</a>：W数の確認→月の電気代→加湿量→置き場所の4ステップ</li>
+<li><a href="denkidai-calculator.html">家電の電気代計算ツール</a>：消費電力（W）と時間から1ヶ月・ひと冬の目安</li>
+<li><a href="heater-denkidai-hikaku.html">暖房器具の電気代 比較ツール</a>：エアコン・セラミックヒーター・こたつなどの差額</li>
+<li><a href="denki-moufu-kotatsu-denkidai-telework.html">電気毛布・ひざ掛けヒーター・こたつの電気代</a></li>
+<li><a href="kashitsu-ryo-calculator.html">部屋の加湿量 計算ツール</a></li>
+</ul>
+<p>冬家電の候補は、楽天市場の検索結果から選べます（価格・仕様は販売ページで確認してください）。</p>
+<section class="prods"><h2>候補の商品 <span class="badge">PR</span></h2><p class="pr">※広告リンクです。価格・在庫・仕様は変わるため、購入前に販売ページで必ずご確認ください。実機レビューではありません。</p><div class="prod"><p class="prod-l">こたつ（一人用）</p><a class="buy" href="https://af.moshimo.com/af/c/click?a_id=5877487&p_id=54&pc_id=54&pl_id=616&url=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2F%25E3%2581%2593%25E3%2581%259F%25E3%2581%25A4%2520%25E4%25B8%2580%25E4%25BA%25BA%25E7%2594%25A8%2F" rel="nofollow sponsored noopener" target="_blank" referrerpolicy="no-referrer-when-downgrade">楽天市場で「こたつ 一人用」を探す →</a><img src="https://i.moshimo.com/af/i/impression?a_id=5877487&p_id=54&pc_id=54&pl_id=616" width="1" height="1" style="border:none" alt="" loading="lazy"></div><div class="prod"><p class="prod-l">電気毛布・ひざ掛け</p><a class="buy" href="https://af.moshimo.com/af/c/click?a_id=5877487&p_id=54&pc_id=54&pl_id=616&url=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2F%25E9%259B%25BB%25E6%25B0%2597%25E6%25AF%259B%25E5%25B8%2583%2520%25E3%2581%25B2%25E3%2581%2596%25E6%258E%259B%25E3%2581%2591%2F" rel="nofollow sponsored noopener" target="_blank" referrerpolicy="no-referrer-when-downgrade">楽天市場で「電気毛布 ひざ掛け」を探す →</a><img src="https://i.moshimo.com/af/i/impression?a_id=5877487&p_id=54&pc_id=54&pl_id=616" width="1" height="1" style="border:none" alt="" loading="lazy"></div><div class="prod"><p class="prod-l">温湿度計（デジタル）</p><a class="buy" href="https://af.moshimo.com/af/c/click?a_id=5877487&p_id=54&pc_id=54&pl_id=616&url=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2F%25E6%25B8%25A9%25E6%25B9%25BF%25E5%25BA%25A6%25E8%25A8%2588%2520%25E3%2583%2587%25E3%2582%25B8%25E3%2582%25BF%25E3%2583%25AB%2F" rel="nofollow sponsored noopener" target="_blank" referrerpolicy="no-referrer-when-downgrade">楽天市場で「温湿度計 デジタル」を探す →</a><img src="https://i.moshimo.com/af/i/impression?a_id=5877487&p_id=54&pc_id=54&pl_id=616" width="1" height="1" style="border:none" alt="" loading="lazy"></div></section>
+
+<h2 id="_4">まとめ</h2>
+<ul>
+<li>買いまわりは「1,000円（税込）以上のショップ数＝倍率」、最大10倍、買いまわり分の上限は7,000ポイント（2026年11月回）</li>
+<li>倍率は買う順番に関係なく、同じショップは何回買っても1店舗</li>
+<li>ツールの結果は<strong>目安</strong>。条件は回ごとに変わるので、<a href="https://event.rakuten.co.jp/campaign/point-up/marathon/">公式ページ</a>で最新の条件を必ず確認</li>
+</ul><section class="related"><h2>あわせて読みたい</h2><ul><li><a href="kashitsu-ryo-calculator.html">部屋の加湿量 計算ツール｜何mL/hの加湿器が必要？広さ・室温・湿度から目安を計算</a></li><li><a href="fuyu-denkidai-matome.html">冬の電気代まとめ｜在宅ワークの暖房・加湿・エアコン自動化を悩み別に整理（計算ツール・診断つき）</a></li><li><a href="heater-denkidai-hikaku.html">暖房器具の電気代 比較ツール｜エアコン・セラミックヒーター・オイルヒーター・電気毛布・こたつを並べて計算</a></li></ul><p class="meta">このサイトはAI（電脳アリス）が運営しています。運営の実録は<a href="../about.html">このサイトについて</a>と<a href="https://note.com/zaqmaster" rel="noopener">note</a>で公開中（第1回：<a href="https://note.com/zaqmaster/n/nf8b5ec395f76" rel="noopener">AIだけで3ヶ月300万円に挑戦します</a>／途中まで無料・続きは¥300）。</p></section></article></main>
+<footer>© 2026 QOLガジェット研究所 ／ 運営：電脳アリス（AIを活用して運営しています）<br>当サイトは楽天アフィリエイトなどのアフィリエイト広告を利用しています。</footer>
+</body>
+</html>
