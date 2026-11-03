@@ -1,4 +1,6 @@
+// 実行方法: node ops/audit/2026-11-03_1900_marathon_calc_test.js docs/posts/rakuten-marathon-point-calculator.html
 const fs=require('fs');
+if(!process.argv[2]){console.log('使い方: node ops/audit/2026-11-03_1900_marathon_calc_test.js docs/posts/rakuten-marathon-point-calculator.html');process.exit(1);}
 const h=fs.readFileSync(process.argv[2],'utf8');
 const src=h.split('/* calc-start */')[1].split('/* calc-end */')[0];
 const marathonCalc=new Function(src+';return marathonCalc;')();
@@ -18,12 +20,12 @@ const cases=[
  ['上限ちょうど 9倍分=7000 (税抜77,778)',[...Array(9).fill(1100),{amount:75656}],{rate:10,points:7000,capped:true}],
  ['上限超え 2店舗 税抜80万',[440000,440000],{shops:2,rawPoints:8000,points:7000,capped:true}],
  ['capTaxless 10店舗',Array(10).fill(1100),{capTaxless:77778}],
- // 2026-11-04 03:00 追加：記事の説明文どおりの入力例（期待値は記事のルールから手計算）
- ['記事例 同じショップ600+700円を1行に=1,300円＋別店2,000円',[1300,2000],{shops:2,rate:2,extraRate:1,taxless:2999,points:29}],
- ['記事例 同じショップを2行に分けた誤入力600/700円＋2,000円（1店舗扱い）',[600,700,2000],{shops:1,rate:1,points:0}],
- ['記事例 8%と10%混在の1ショップを1行に1,500円＋別店1,100円',[1500,1100],{shops:2,rate:2,taxless:2363,points:23}],
- ['記事例 1,000円未満が混じる 3,300/2,200/1,100/990',[3300,2200,1100,990],{shops:3,rate:3,extraRate:2,taxless:6000,points:120,normal:60,nextRate:4}],
- ['記事例 4ショップなら4倍（通常1＋特典3）',[1100,1100,1100,1100],{shops:4,rate:4,extraRate:3,taxless:4000,points:120}],
+ // 2026-11-04 03:00 追加：記事の説明文のルールに沿った自作の入力例（金額は記事本文には無い。期待値はルールから手計算）
+ ['説明文のルールどおりの例 同じショップ600+700円を1行に=1,300円＋別店2,000円',[1300,2000],{shops:2,rate:2,extraRate:1,taxless:2999,points:29}],
+ ['説明文のルールどおりの例 同じショップを2行に分けた誤入力600/700円＋2,000円（1店舗扱い）',[600,700,2000],{shops:1,rate:1,points:0}],
+ ['説明文のルールどおりの例 8%と10%混在の1ショップを1行に1,500円＋別店1,100円',[1500,1100],{shops:2,rate:2,taxless:2363,points:23}],
+ ['説明文のルールどおりの例 1,000円未満が混じる 3,300/2,200/1,100/990',[3300,2200,1100,990],{shops:3,rate:3,extraRate:2,taxless:6000,points:120,normal:60,nextRate:4}],
+ ['説明文のルールどおりの例 4ショップなら4倍（通常1＋特典3）',[1100,1100,1100,1100],{shops:4,rate:4,extraRate:3,taxless:4000,points:120}],
  ['記事早見表 5店舗 税抜175,000円で上限7,000',Array(5).fill(38500),{shops:5,rate:5,taxless:175000,rawPoints:7000,points:7000,capped:true,capTaxless:175000}],
  ['記事早見表 8店舗 税抜100,000円で上限7,000',Array(8).fill(13750),{shops:8,rate:8,taxless:100000,points:7000,capped:true,capTaxless:100000}],
  ['記事早見表 3店舗 税抜350,000円で上限7,000',[110000,110000,165000],{shops:3,taxless:350000,points:7000,capped:true,capTaxless:350000}],

@@ -24,7 +24,7 @@ S.append("""<div class=w><span class=tag>早見表①　露点</span><div class=
 <tr><th>室温＼湿度</th><th>40%</th><th>50%</th><th>60%</th><th>70%</th></tr>
 <tr><td class=h>18℃</td><td>4.2℃</td><td>7.4℃</td><td>10.1℃</td><td>12.5℃</td></tr>
 <tr><td class=h>20℃</td><td>6.0℃</td><td>9.3℃</td><td class=hi>12.0℃</td><td>14.4℃</td></tr>
-<tr><td class=h>22℃</td><td>7.8℃</td><td>11.1℃</td><td>13.9℃</td><td style="border-bottom:none">16.3℃</td></tr>
+<tr><td class=h style="border-bottom:none">22℃</td><td style="border-bottom:none">7.8℃</td><td style="border-bottom:none">11.1℃</td><td style="border-bottom:none">13.9℃</td><td style="border-bottom:none">16.3℃</td></tr>
 </table></div>
 <p style="font-size:34px;line-height:1.6;margin-top:36px">例：室温20℃・湿度60%なら露点は<b class=ac>約12℃</b>。<br>窓の内側が12℃以下まで冷えると<br>そこで結露が始まる</p>
 <div class=foot>※Tetensの式で計算した目安（小数第1位で四捨五入、値はすべて「約」）</div>"""+AI+"</div>")
