@@ -52,7 +52,7 @@ S.append("""<div class=w><span class=tag>計算式</span><div class=pg>2/6</div>
 <div class=row><span>① 100W × 8時間</span><b>0.8kWh/日</b></div>
 <div class=row><span>② 0.8kWh × 31円</span><b>24.8円/日</b></div>
 <div class=row style="align-items:center"><span>③ 24.8円 × 20日</span><span style="font-size:72px;font-weight:900;color:#e2561b">496円</span></div></div>
-<p class=sm style="margin-top:20px;font-size:28px">※表の「約3.1円/時間・約25円/日」は丸めた表示<br>※早見表の条件は<b style="color:#fff">1日8時間×月20日</b>（在宅ワークの平日）<br>※W数は本体ラベル・取扱説明書・メーカー公式サイトで確認を</p>
+<p class=sm style="margin-top:20px;font-size:28px">※3・4枚目の早見表は1円未満を四捨五入した表示<br>※サイトの早見表の「約3.1円/時間・約25円/日」も丸めた表示<br>※早見表の条件は<b style="color:#fff">1日8時間×月20日</b>（在宅ワークの平日）<br>※W数は本体ラベル・取扱説明書・メーカー公式サイトで確認を</p>
 <div class=foot style="font-size:24px">単価31円/kWh（税込）：全国家庭電気製品公正取引協議会<br>「新電力料金目安単価」</div></div>""")
 # 3 早見表 小さめ
 S.append("""<div class=w><span class=tag>早見表①</span><div class=pg>3/6</div>

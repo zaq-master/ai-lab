@@ -9,7 +9,7 @@ category: デスク環境
 ---
 本文(Markdown)
 """
-import json, re, html, datetime
+import json, re, html, datetime, os
 from pathlib import Path
 import markdown
 
@@ -47,14 +47,20 @@ def sheet_cta(_m=None):
             f'<b>この計算を毎月の記録として残すなら</b><br>{link}</aside>')
 
 
+def jst_today():
+    """日本時間の今日（コンテナはUTCのため）。"""
+    return datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).date()
+
+
 def git_date(p):
     """ファイルの最終コミット日（YYYY-MM-DD）。未コミットの変更があれば今日。取れなければ空文字。"""
     import subprocess
     try:
-        r = lambda *a: subprocess.run(["git", *a], cwd=ROOT, capture_output=True, text=True, timeout=10).stdout.strip()
+        env = {**os.environ, "TZ": "Asia/Tokyo"}  # コミット日は日本時間で数える（UTCだと0〜9時のコミットが前日になる）
+        r = lambda *a: subprocess.run(["git", *a], cwd=ROOT, capture_output=True, text=True, timeout=10, env=env).stdout.strip()
         if r("status", "--porcelain", "--", str(p)):
-            return datetime.date.today().isoformat()
-        return r("log", "-1", "--format=%cs", "--", str(p))
+            return jst_today().isoformat()
+        return r("log", "-1", "--format=%cd", "--date=format-local:%Y-%m-%d", "--", str(p))
     except Exception:
         return ""
 
@@ -95,7 +101,7 @@ def page(title, desc, body, path, prefix, ogtype="website", image="", jsonld=Non
         "{{x}}": CFG["x"],
         "{{ig}}": CFG["instagram"],
         "{{note}}": CFG["note"],
-        "{{year}}": str(datetime.date.today().year),
+        "{{year}}": str(jst_today().year),
     }.items():
         out = out.replace(k, v)
     f = OUT / path
@@ -262,7 +268,7 @@ def main():
     site_img = og_png("index", CFG["tagline"], CFG["site_name"])
     site_ld = [{"@context": "https://schema.org", "@type": "WebSite", "name": CFG["site_name"],
                 "url": CFG["base_url"] + "/", "inLanguage": "ja", "publisher": ORG}]
-    newest = max((d for _, d in urls), default=datetime.date.today().isoformat())
+    newest = max((d for _, d in urls), default=jst_today().isoformat())
     urls.append((page(CFG["site_name"], CFG["tagline"], hero, "index.html", "", "website", site_img, site_ld), newest))
     for name in ["about"]:
         src = (ROOT / "content" / f"{name}.md").read_text(encoding="utf-8")

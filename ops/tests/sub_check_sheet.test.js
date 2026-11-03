@@ -68,6 +68,14 @@ t("上段の #upsell ボタン：¥300 の明記と、運営者自身の有料�
   assert.ok(!up[0].includes("広告ではな"));
 });
 
+t("#upsell のテンプレ説明：「準備中（noteで公開予定）」で、確定していない価格を書かない", () => {
+  const up = html.match(/<section[^>]*id="upsell"[\s\S]*?<\/section>/)[0];
+  const p = up.match(/<p style="margin:0">([\s\S]*?)<\/p>/)[1];
+  assert.ok(p.includes("準備中") && p.includes("noteで公開予定"));
+  assert.ok(!/未定/.test(html), "「未定」が残っている（2号は¥300の計画とずれる）");
+  assert.ok(!/[¥￥]\s*\d/.test(p), "テンプレの価格は販売開始までこの説明に書かない");
+});
+
 t("「途中まで無料」は必ず「途中まで無料・続きは¥300」の形で書く", () => {
   const n = (html.match(/途中まで無料/g) || []).length;
   const ok = (html.match(/途中まで無料・続きは¥300/g) || []).length;
