@@ -40,7 +40,7 @@ def sheet_cta(_m=None):
     if url:
         link = f'<a href="{html.escape(url)}" rel="noopener">Googleシート版テンプレ（note）を見る →</a>' + note
     else:
-        link = ('Googleシート版テンプレ：<b>準備中</b>。いまは運営の実録を公開中（途中まで無料）→ '
+        link = ('Googleシート版テンプレ：<b>準備中</b>。いまは運営の実録を公開中（途中まで無料・続きは¥300）→ '
                 f'<a href="{html.escape(CFG["note_vol1"])}" rel="noopener">note第1回を読む</a>' + note)
     return ('<aside class="sheet-cta" style="margin:12px 0;padding:10px 14px;border:1px dashed var(--line,#ccc);'
             'border-radius:10px;font-size:.9rem">'
@@ -68,6 +68,8 @@ def parse(p):
     body = re.sub(r"<!--\s*sheet-cta\s*-->", sheet_cta, body)
     meta["body"] = re.sub(r"<!--\s*products:\s*(.*?)\s*-->", product_box, body)
     meta["slug"] = p.stem
+    # 更新日：front matter の updated → 最終コミット日（未コミットなら今日）→ 公開日。公開日より前にはしない
+    meta["modified"] = max(meta.get("updated") or git_date(p) or meta["date"], meta["date"])
     return meta
 
 
@@ -128,6 +130,31 @@ FONT = Path("/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc")
 ORG = {"@type": "Organization", "name": "QOLガジェット研究所（AI運営）", "url": CFG["base_url"] + "/"}
 
 
+# OGPタイトルの改行用：語のかたまり（漢字・カタカナ・英数字の連続＋後ろのひらがな＋閉じ記号）を割らない
+_OG_TOKEN = re.compile(
+    r"[「『（(【]*"
+    r"(?:[\u4e00-\u9fff\u3005\u30a1-\u30fa\u30fc-\u30ffA-Za-z0-9.%¥+\-/()〜~]+[\u3041-\u309f]*|[\u3041-\u309f]+|.)"
+    r"[、。，．）」』】！？!?・ー)]*")
+
+
+def og_lines(text, width, maxw):
+    """text を幅 maxw 以内の行に分ける。語の途中では切らず、1語が1行より長いときだけ文字単位で切る。
+    行が6割を超えていて、直前が「、・？！」で終わっていれば、そこで早めに改行する（読みやすさ優先）。"""
+    lines, cur = [], ""
+    for tok in _OG_TOKEN.findall(text):
+        if cur and width(cur + tok) > maxw:
+            lines.append(cur); cur = ""
+        elif cur and cur[-1] in "、・？！?!" and width(cur) > maxw * 0.6 and width(cur + tok) > maxw * 0.85:
+            lines.append(cur); cur = ""
+        while width(tok) > maxw:  # 1語が長すぎる場合の保険
+            i = 1
+            while width(tok[:i + 1]) <= maxw:
+                i += 1
+            lines.append(tok[:i]); tok = tok[i:]
+        cur += tok
+    return lines + [cur] if cur else lines
+
+
 def og_png(slug, title, category=""):
     """SNS共有用の1200×630 PNG（docs/og/<slug>.png）。PILか日本語フォントが無ければ作らず空文字を返す。"""
     try:
@@ -142,16 +169,16 @@ def og_png(slug, title, category=""):
     for y in range(630):  # 縦グラデーション
         t = y / 629
         d.line([(0, y), (1200, y)], fill=tuple(round(ca[i] + (cb[i] - ca[i]) * t) for i in range(3)))
-    lines, cur = [], ""
-    for ch in title.split("｜")[0]:
-        if d.textlength(cur + ch, font=big) > 1080 and ch not in "、。，．）」』！？ー":  # 行頭禁則
-            lines.append(cur); cur = ch
-        else:
-            cur += ch
-    lines = (lines + [cur])[:3]
-    y0 = 315 - len(lines) * 42
+    text = title.split("｜")[0]
+    for size in (60, 54, 48):  # 3行に収まらなければ文字を小さくする
+        big = ImageFont.truetype(str(FONT), size, index=0)
+        lines = og_lines(text, lambda t: d.textlength(t, font=big), 1080)
+        if len(lines) <= 3:
+            break
+    lines, step = lines[:3], round(size * 1.4)
+    y0 = 315 - len(lines) * step // 2
     for i, l in enumerate(lines):
-        d.text((60, y0 + i * 84), l, font=big, fill="white")
+        d.text((60, y0 + i * step), l, font=big, fill="white")
     if category:
         d.rounded_rectangle([60, 70, 100 + d.textlength(category, font=mid), 122], radius=24, fill=tuple(min(255, c + 40) for c in ca))
         d.text((80, 76), category, font=mid, fill="white")
@@ -165,7 +192,7 @@ def og_png(slug, title, category=""):
 def article_ld(x, url, image):
     art = {"@context": "https://schema.org", "@type": "Article", "headline": x["title"][:110],
            "description": x["description"], "datePublished": x["date"],
-           "dateModified": x.get("updated") or x["date"], "mainEntityOfPage": url,
+           "dateModified": x["modified"], "mainEntityOfPage": url,
            "author": ORG, "publisher": ORG, "inLanguage": "ja"}
     if image:
         art["image"] = image
@@ -225,7 +252,7 @@ def main():
         path = f"posts/{x['slug']}.html"
         img = og_png(x["slug"], x["title"], x.get("category", ""))
         urls.append((page(x["title"], x["description"], body, path, "../", "article", img,
-                          article_ld(x, f"{CFG['base_url']}/{path}", img)), x.get("updated") or x["date"]))
+                          article_ld(x, f"{CFG['base_url']}/{path}", img)), x["modified"]))
     cards = "".join(
         f'<a class="card" href="posts/{x["slug"]}.html"><img class="eye" src="posts/{x["slug"]}.svg" alt="" width="1200" height="630" loading="lazy"><span class="meta">{x["date"]}・{html.escape(x.get("category",""))}</span>'
         f'<h2>{html.escape(x["title"])}</h2><p>{html.escape(x["description"])}</p></a>' for x in posts)

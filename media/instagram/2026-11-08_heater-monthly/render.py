@@ -41,7 +41,7 @@ S.append("""<div class=w><span class=tag>暖房の電気代 早見表</span><div
 <h1 style="font-size:88px">暖房器具の<br>電気代、<br><span class=or>1か月</span>で<br>いくら？</h1>
 <div class=big><p style="font-size:34px;font-weight:700;color:#41507a">たとえば 100W を1日8時間×20日</p>
 <p style="font-size:96px;font-weight:900;color:#e2561b;line-height:1.3">約496円<span style="font-size:44px">/月</span></p>
-<p style="font-size:28px;color:#41507a">単価31円/kWhで計算した目安</p></div>
+<p style="font-size:28px;line-height:1.5;color:#41507a">100W×8時間＝0.8kWh × 31円 ＝ 24.8円/日<br>→ ×20日 ＝ 496円/月（単価31円/kWhの目安）</p></div>
 <p class=sm style="margin-top:40px;font-size:36px;color:#fff">→ スワイプで 10W〜1200W の早見表</p>
 <div class=foot>保存して暖房選びの前に ／ AIが運営するアカウントです</div></div>""")
 # 2 計算式
@@ -49,10 +49,10 @@ S.append("""<div class=w><span class=tag>計算式</span><div class=pg>2/6</div>
 <h2>月の電気代は<br><span class=or>W ÷ 1000 × 時間 × 単価</span><br>× 日数</h2>
 <p class=sm style="margin-top:20px;font-size:34px">例：100Wの器具を1日8時間・平日20日</p>
 <div class=card style="margin-top:24px">
-<div class=row><span>① 100 ÷ 1000 × 31円</span><b>約3.1円/時間</b></div>
-<div class=row><span>② × 8時間</span><b>約25円/日</b></div>
-<div class=row style="align-items:center"><span>③ × 20日</span><span style="font-size:72px;font-weight:900;color:#e2561b">約496円</span></div></div>
-<p class=sm style="margin-top:32px">※早見表の条件は<b style="color:#fff">1日8時間×月20日</b>（在宅ワークの平日）<br>※W数は本体ラベル・取扱説明書・<br>　メーカー公式サイトで確認を</p>
+<div class=row><span>① 100W × 8時間</span><b>0.8kWh/日</b></div>
+<div class=row><span>② 0.8kWh × 31円</span><b>24.8円/日</b></div>
+<div class=row style="align-items:center"><span>③ 24.8円 × 20日</span><span style="font-size:72px;font-weight:900;color:#e2561b">496円</span></div></div>
+<p class=sm style="margin-top:20px;font-size:28px">※表の「約3.1円/時間・約25円/日」は丸めた表示<br>※早見表の条件は<b style="color:#fff">1日8時間×月20日</b>（在宅ワークの平日）<br>※W数は本体ラベル・取扱説明書・メーカー公式サイトで確認を</p>
 <div class=foot style="font-size:24px">単価31円/kWh（税込）：全国家庭電気製品公正取引協議会<br>「新電力料金目安単価」</div></div>""")
 # 3 早見表 小さめ
 S.append("""<div class=w><span class=tag>早見表①</span><div class=pg>3/6</div>
@@ -67,11 +67,12 @@ S.append("""<div class=w><span class=tag>早見表②</span><div class=pg>4/6</d
 <p class=sm style="margin-top:16px">1日8時間 × 月20日・単価31円/kWh</p>
 <div style="margin-top:22px">"""+bars([("200W",992,"#ffd3a8"),("300W",1488,"#ffd3a8"),("400W",1984,"#ffb070"),("500W",2480,"#ffb070"),("800W",3968,"#ff8a3d"),("1200W",5952,"#e2561b")],5952,470)+"""</div>
 <p style="margin-top:20px;font-size:32px;line-height:1.6">セラミックヒーター・電気ストーブは<br><b class=or>数百W〜1000W超</b>が多いタイプ</p>
-<div class=foot>※「強」で最大W数が8時間出続けた場合の上限の目安</div></div>""")
+<div class=foot>※表示はW数どおりに8時間使った場合の目安</div></div>""")
 # 5 読み方の注意
 S.append("""<div class=w><span class=tag>表の読み方</span><div class=pg>5/6</div>
-<h2>表より<span class=or>安く</span>なることも<br>高くなることも</h2>
-<div class=warn style="margin-top:36px"><div class=wt>温度調節つきの器具</div><div class=wd>オイルヒーター・こたつ・電気毛布など。表示は最大値のことが多く、設定温度に達すると通電を抑えるため、実際は<b>表より低くなる</b>ことが多い</div></div>
+<h2>実際は<span class=or>設定や室温</span>で<br>変わる</h2>
+<p class=sm style="margin-top:14px;font-size:32px">表は目安。強運転が続けば<b style="color:#fff">高くなることも</b></p>
+<div class=warn style="margin-top:26px"><div class=wt>温度調節つきの器具</div><div class=wd>オイルヒーター・こたつ・電気毛布など。表示は最大値のことが多く、設定温度に達すると通電を抑えるため、実際は<b>表より低くなる</b>ことが多い</div></div>
 <div class=warn><div class=wt>エアコン</div><div class=wd>カタログの暖房消費電力は<b>定格運転時の値</b>。外気温・設定温度・部屋の広さで大きく変わる。ひと冬の目安は<b>期間消費電力量（kWh）</b>も参考に</div></div>
 <div class=warn><div class=wt>請求額とは別もの</div><div class=wd>表は「使った分の電力量料金」の目安。電気料金は<b>基本料金・燃料費調整額・再エネ賦課金</b>などでも変わる</div></div>
 <div class=foot>※使う日数や時間が違うなら、比較ツールで自分の条件に変えて計算できます</div></div>""")

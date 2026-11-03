@@ -31,7 +31,7 @@ t("販売URLが空の間は「準備中」で note第1回（実録）へ", () =>
   const c = S.cta(2, "", NOTE);
   assert.strictEqual(c.ready, false);
   assert.strictEqual(c.href, NOTE);
-  assert.ok(c.label.includes("準備中") && c.label.includes("途中まで無料"));
+  assert.ok(c.label.includes("準備中") && c.label.includes("途中まで無料・続きは¥300"));
 });
 
 t("販売URLが入れば販売ページへ", () => {
@@ -54,6 +54,24 @@ t("本番の定数：SHEET_SALES_URL は空、NOTE_VOL1_URL は config.json の 
   assert.strictEqual(ctx.SHEET_SALES_URL, "");
   const cfg = JSON.parse(fs.readFileSync(path.join(__dirname, "../../config.json"), "utf8"));
   assert.strictEqual(ctx.NOTE_VOL1_URL, cfg.note_vol1);
+});
+
+t("上段の #upsell ボタン：¥300 の明記と、運営者自身の有料記事である注記がある", () => {
+  const up = html.match(/<section[^>]*id="upsell"[\s\S]*?<\/section>/);
+  assert.ok(up, "#upsell が見つかりません");
+  const a = up[0].match(/<a class="btn" href="([^"]+)"[^>]*>([^<]*)<\/a>/);
+  assert.ok(a, "#upsell のボタンが見つかりません");
+  assert.strictEqual(a[1], NOTE);
+  assert.ok(a[2].includes("途中まで無料・続きは¥300"));
+  assert.ok(up[0].includes("運営者（電脳アリス）自身の有料記事の案内です（アフィリエイトではありません）"));
+  assert.ok(up[0].includes("note第1回"), "説明文に行き先（note第1回）が書かれていない");
+  assert.ok(!up[0].includes("広告ではな"));
+});
+
+t("「途中まで無料」は必ず「途中まで無料・続きは¥300」の形で書く", () => {
+  const n = (html.match(/途中まで無料/g) || []).length;
+  const ok = (html.match(/途中まで無料・続きは¥300/g) || []).length;
+  assert.ok(n > 0 && n === ok, n + "件中 " + ok + "件だけ¥300あり");
 });
 
 console.log("\n" + pass + " passed, " + fail + " failed");
