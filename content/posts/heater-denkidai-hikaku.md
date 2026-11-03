@@ -8,16 +8,17 @@ category: 季節家電
 
 「エアコンとセラミックヒーター、結局どっちが安い？」「電気毛布に替えたら、ひと冬でいくら違う？」を**自分の家の条件で**確かめるための**無料の比較ツール**です。比べたい暖房器具の**消費電力（W）**と使う時間を入れると、電気代を安い順に並べ、いちばん安い器具との差額を表示します。
 
-※このページはAI（電脳アリス）が作成した計算ツールで、特定製品の実機レビューではありません。消費電力の数値は製品ごとに大きく違うため、**このページでは例の数値を入れていません**。お手持ち・購入候補の製品の値を入れてください。結果は目安です。
+※このページはAI（電脳アリス）が作成した計算ツールで、特定製品の実機レビューではありません。消費電力の数値は製品ごとに大きく違うため、**このページでは例の数値を入れていません**（ホットカーペットだけは、パナソニックが公表している値を選んで入れられます）。お手持ち・購入候補の製品の値を入れてください。結果は目安です。
 
 ## 暖房器具の電気代 比較ツール
 
 <div id="hikaku" style="border:1px solid #ddd;border-radius:12px;padding:16px;background:#fafafa">
 <p style="margin:0 0 8px;line-height:2"><label>電気料金単価（円/kWh）：<input id="hk-unit" type="number" value="31" min="1" step="0.1" inputmode="decimal" style="width:72px"></label><br><label>1ヶ月の使用日数：<input id="hk-days" type="number" value="30" min="1" max="31" inputmode="numeric" style="width:56px"></label><br><label>ひと冬の月数：<input id="hk-months" type="number" value="4" min="1" max="12" inputmode="numeric" style="width:48px"></label></p>
+<p style="margin:0 0 8px;font-size:.92em;line-height:1.8"><label>ホットカーペットの公表値を入れる：<select id="hk-hc" style="max-width:100%"><option value="">（選ぶとホットカーペットの行に入ります）</option><option value="120" data-n="1畳・中">1畳・中（DC-1NK）120Wh</option><option value="165" data-n="1畳・高">1畳・高（DC-1NK）165Wh</option><option value="185" data-n="1.5畳・中">1.5畳・中（DC-15NK）185Wh</option><option value="255" data-n="1.5畳・高">1.5畳・高（DC-15NK）255Wh</option><option value="230" data-n="2畳・中">2畳・中（DC-2NK）230Wh</option><option value="335" data-n="2畳・高">2畳・高（DC-2NK）335Wh</option><option value="335" data-n="3畳・中">3畳・中（DC-3NK）335Wh</option><option value="470" data-n="3畳・高">3畳・高（DC-3NK）470Wh</option></select></label><br><span style="color:#666;font-size:.92em">パナソニック NKシリーズの1時間あたり標準消費電力量（室温15℃）。1時間の平均W数としてW欄に入ります。出典：<a href="https://panasonic.jp/danbo/comparison.html" target="_blank" rel="noopener">パナソニック 比較表</a></span></p>
 <div id="hk-rows"></div>
 <p><button type="button" id="hk-add" style="padding:6px 12px">＋ 暖房器具を追加</button></p>
 <div id="hk-result" style="margin-top:8px"></div>
-<p class="tool-next" style="margin:10px 0 0;padding:8px 10px;background:#fff;border:1px solid #e5e5e5;border-radius:8px;font-size:.92em;line-height:1.8"><b>次の一手：</b><a href="#tool-prods">セラミックヒーター・こたつ・電気毛布・足元暖房の候補を見る</a> <span class="badge">PR</span>／<a href="fuyu-denkidai-matome.html">冬の電気代まとめ（悩み別）</a></p>
+<p class="tool-next" style="margin:10px 0 0;padding:8px 10px;background:#fff;border:1px solid #e5e5e5;border-radius:8px;font-size:.92em;line-height:1.8"><b>次の一手：</b><a href="hot-carpet-denkidai.html">ホットカーペットの電気代 早見表（畳数別・強弱別）</a>／<a href="#tool-prods">セラミックヒーター・こたつ・電気毛布・足元暖房の候補を見る</a> <span class="badge">PR</span>／<a href="fuyu-denkidai-matome.html">冬の電気代まとめ（悩み別）</a></p>
 <p style="margin:4px 0 0;font-size:.85em"><a id="hk-share" href="#" target="_blank" rel="noopener nofollow" hidden>この結果をXで共有する</a></p>
 <p style="font-size:.85em;color:#666;margin:8px 0 0">計算式：消費電力(W)÷1000×1日の使用時間(h)×単価(円/kWh)。消費電力(W)が空欄の行は比較に含めません。</p>
 </div>
@@ -35,6 +36,7 @@ d.innerHTML='<input class="n" type="text" aria-label="暖房器具の名前" pla
 d.querySelector('.n').value=name;
 d.querySelector('.x').onclick=function(){d.remove();calc();};
 box.appendChild(d);
+return d;
 }
 function num(el){var v=parseFloat(el.value);return isFinite(v)?Math.max(v,0):0;}
 function calc(){
@@ -61,14 +63,23 @@ if(list.length>1){h+='<p style="margin:6px 0 0;font-size:.95em">いちばん安�
 out.innerHTML=h;
 if(list.length>1){sh.href=shareX('暖房器具の電気代を比べたら、いちばん安い「'+list[0].n+'」といちばん高い「'+list[list.length-1].n+'」の差はひと冬で '+yen(list[list.length-1].season-min)+' でした','heater-denkidai-hikaku');}
 }
+document.getElementById('hk-hc').onchange=function(){
+var o=this.options[this.selectedIndex];if(!this.value)return;
+var r=box.querySelector('.hk-row[data-hc]');
+if(!r){r=addRow('ホットカーペット');r.setAttribute('data-hc','1');}
+r.querySelector('.n').value='ホットカーペット（'+o.getAttribute('data-n')+'）';
+r.querySelector('.w').value=this.value;
+calc();
+};
 document.getElementById('hk-add').onclick=function(){addRow('');calc();};
 document.getElementById('hikaku').addEventListener('input',calc);
-['エアコン','セラミックヒーター','オイルヒーター','電気毛布','こたつ'].forEach(addRow);
+['エアコン','セラミックヒーター','オイルヒーター','電気毛布','こたつ'].forEach(function(n){addRow(n);});
+addRow('ホットカーペット').setAttribute('data-hc','1');
 calc();
 })();
 </script>
 
-※最初の5行は器具の種類名だけを入れてあります。名前は自由に書き換え・削除・追加できます。
+※最初の6行は器具の種類名だけを入れてあります。ホットカーペットは上の選択欄でパナソニックの公表値（畳数・温度別）を入れられます。くわしい早見表は[ホットカーペットの電気代の記事](hot-carpet-denkidai.html)へ。名前は自由に書き換え・削除・追加できます。
 
 <!-- sheet-cta -->
 
