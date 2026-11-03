@@ -27,3 +27,10 @@ for(const [name,rows,exp] of cases){
  console.log(`| ${name} | shops=${r.shops} rate=${r.rate} 税抜=${r.taxless} 計算=${r.rawPoints} 表示=${r.points} 上限=${r.capped} 次=${r.toNext?r.nextRate+'倍':'-'} | ${bad.length?'NG '+JSON.stringify(bad):'OK'} |`);
 }
 console.log('FAIL',fail);
+// 表示の確認（監査R2 軽1）：0店舗のとき「あと1店舗で1倍」と出さない
+{
+ const ok0=h.includes("if(r.shops===0)h+=")&&h.includes("else if(r.toNext)h+='➡️ あと<b>1店舗</b>");
+ if(!ok0)fail++;
+ console.log(`| 表示 0店舗のとき専用の案内（2店舗で2倍） | ${ok0?'OK':'NG'} |`);
+}
+console.log('FAIL(表示込み)',fail);
