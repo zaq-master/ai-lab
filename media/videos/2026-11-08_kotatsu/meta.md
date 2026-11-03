@@ -46,6 +46,9 @@ https://zaq-master.github.io/ai-lab/posts/denkidai-calculator.html
 - 計算ツール：https://zaq-master.github.io/ai-lab/posts/denkidai-calculator.html
 - 元記事：https://zaq-master.github.io/ai-lab/posts/denki-moufu-kotatsu-denkidai-telework.html
 - ⚠️ 画面に「プロフィールのリンクから」と出すため、投稿前にプロフィールリンクから計算ツールへたどれるか確認すること（2026-11-03時点：Xのプロフィールは冬の電気代まとめ＝そこから計算ツールへリンクあり、IGのプロフィールリンクは未変更）
+- 🔴 **投稿の条件（2026-11-03 監査で追加）**：画面に「プロフィールのリンクから」が焼き込まれているため、
+  - **X**：投稿してよい（Xのプロフィールリンク＝冬の電気代まとめ→計算ツールへたどれる。投稿文にも計算ツールのURLを直接入れている）
+  - **Instagramリール**：PC回でIGプロフィールのリンク欄が zaq-master.github.io/ai-lab のページ（まとめ or 計算ツール）になっていると**目視で確認できた日だけ**投稿する。11/3時点ではIGのリンクはアプリでしか変えられず、オーナー依頼中＝**未確認なら投稿しない**（画面の案内と実際が食い違い、見た人を迷わせるため）。11/8までに変わらなければ、composition.html の最終カードの文言を URL の文字表記「zaq-master.github.io/ai-lab」に替えて（Google検索にはまだ出ないため「検索して」とは書かない）再レンダーした版を作ってから出す
 
 ## 確認結果（2026-11-03）
 - ffprobe：1080×1920・30fps・23.000秒・2,630,820バイト・音声トラックなし
