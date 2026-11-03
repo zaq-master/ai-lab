@@ -63,9 +63,9 @@ calc();
 })();
 </script>
 
-<!-- sheet-cta -->
-
 ※最初の5行は器具の種類名だけを入れてあります。名前は自由に書き換え・削除・追加できます。
+
+<!-- sheet-cta -->
 
 電気毛布・こたつを在宅ワークで使うときの電気代の考え方は → [電気毛布・こたつの電気代の記事](denki-moufu-kotatsu-denkidai-telework.html)
 
