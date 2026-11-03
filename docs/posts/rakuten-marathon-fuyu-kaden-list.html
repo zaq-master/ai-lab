@@ -40,7 +40,10 @@ main{max-width:760px;margin:auto;padding:0 16px 40px}
 article{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;margin-top:16px}
 article h1{font-size:1.5rem;line-height:1.5}article h2{border-left:4px solid var(--acc);padding-left:10px;margin-top:2em}
 .pr{background:var(--pr);border-radius:8px;padding:8px 12px;font-size:.85rem;color:var(--sub)}
-table{border-collapse:collapse;width:100%;display:block;overflow-x:auto}th,td{border:1px solid var(--line);padding:8px;font-size:.9rem;white-space:nowrap}
+table{border-collapse:collapse;width:100%;display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;background:linear-gradient(to right,var(--card) 30%,rgba(255,255,255,0)) left center/24px 100% no-repeat local,linear-gradient(to left,var(--card) 30%,rgba(255,255,255,0)) right center/24px 100% no-repeat local,radial-gradient(farthest-side at 0 50%,rgba(0,0,0,.22),rgba(0,0,0,0)) left center/10px 100% no-repeat scroll,radial-gradient(farthest-side at 100% 50%,rgba(0,0,0,.22),rgba(0,0,0,0)) right center/10px 100% no-repeat scroll}
+th,td{border:1px solid var(--line);padding:8px;font-size:.9rem;white-space:normal;overflow-wrap:break-word;line-break:strict}td.nw{white-space:nowrap}[style*="background:#"] table{background:none}
+[style*="background:#f"]{color:#1d2330}[style*="background:#f"] a{color:#3b5bdb}[style*="background:#f"] th,[style*="background:#f"] td{border-color:#e3e6ec}[style*="background:#f"] .badge{background:#fff7e6;color:#5b6475}
+@media (max-width:600px){article{padding:16px 12px}th,td{padding:6px 4px;font-size:.82rem;line-height:1.6}th{white-space:normal}td.nw:first-child{white-space:normal}}
 .prods{margin-top:2em}.prod{border:1px solid var(--line);border-radius:10px;padding:12px;margin:10px 0}.prod-l{font-weight:700;margin:0 0 6px}.badge{font-size:.7rem;background:var(--pr);border-radius:4px;padding:2px 6px;vertical-align:middle}
 .buy{display:inline-block;background:#bf0000;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none;font-weight:700;font-size:.92rem}
 .eye{width:100%;height:auto;border-radius:10px;display:block;margin-bottom:10px}
@@ -81,7 +84,7 @@ footer{color:var(--sub);font-size:.85rem;border-top:1px solid var(--line)}
 <td>2026年11月4日(水)20:00〜11月11日(水)01:59</td>
 </tr>
 <tr>
-<td>1ショップの条件</td>
+<td class="nw">1ショップの条件</td>
 <td>期間中の合計が<strong>1,000円（税込）以上</strong>（送料・ラッピングなど商品以外の料金は除く。クーポン適用後に999円以下なら対象外）</td>
 </tr>
 <tr>
@@ -126,37 +129,37 @@ footer{color:var(--sub);font-size:.85rem;border-top:1px solid var(--line)}
 <tbody>
 <tr>
 <td>電気毛布など50Wの器具・1日8時間×20日</td>
-<td>約248円</td>
+<td class="nw">約248円</td>
 <td><a href="denki-moufu-kotatsu-denkidai-telework.html">電気毛布・ひざ掛けヒーター・こたつの電気代</a></td>
 </tr>
 <tr>
 <td>こたつのヒーター300W・1日4時間×30日（最大W数で通電し続けた場合の上限）</td>
-<td>約1,116円</td>
+<td class="nw">約1,116円</td>
 <td>同上</td>
 </tr>
 <tr>
 <td>ホットカーペット2畳・温度「中」・1日8時間×30日（パナソニック公表値で計算）</td>
-<td>約1,711円</td>
+<td class="nw">約1,711円</td>
 <td><a href="hot-carpet-denkidai.html">ホットカーペットの電気代</a></td>
 </tr>
 <tr>
 <td>足元暖房 100W・1日8時間×20日</td>
-<td>約496円</td>
+<td class="nw">約496円</td>
 <td><a href="foot-heater-electricity-cost.html">足元暖房の電気代比較</a></td>
 </tr>
 <tr>
 <td>足元暖房 1200W・1日8時間×20日</td>
-<td>約5,952円</td>
+<td class="nw">約5,952円</td>
 <td>同上</td>
 </tr>
 <tr>
 <td>加湿器 30W・1日8時間×20日</td>
-<td>約149円</td>
+<td class="nw">約149円</td>
 <td><a href="humidifier-electricity-cost-telework.html">加湿器の電気代</a></td>
 </tr>
 <tr>
 <td>加湿器 300W・1日8時間×20日</td>
-<td>約1,488円</td>
+<td class="nw">約1,488円</td>
 <td>同上</td>
 </tr>
 </tbody>

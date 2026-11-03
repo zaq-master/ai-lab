@@ -110,10 +110,16 @@ def frame(t):
     ctext(d,1480,"遊技は18歳以上・ほどほどに",F(BD,44),"white")
     foot(d,"この動画はAIで制作しています")
     return im
+# AI制作の常時表示（2026-11-04 監査指摘：途中から見た人にも分かるよう全編に表示。上部の黒帯の直下・左上）
+def ai_badge(im):
+    d=ImageDraw.Draw(im); f=F(BK,34); s="AI制作"
+    w=d.textlength(s,font=f); x0,y0=24,204
+    d.rounded_rectangle([x0,y0,x0+w+36,y0+54],14,fill="#000000",outline="#FFE45C",width=3)
+    d.text((x0+18,y0+5),s,font=f,fill="white")
 T=28
 p=subprocess.Popen(["ffmpeg","-y","-loglevel","error","-f","rawvideo","-pix_fmt","rgb24","-s",f"{W}x{H}","-r",str(FPS),"-i","-",
   "-f","lavfi","-i","anullsrc=r=44100:cl=stereo","-shortest","-c:v","libx264","-preset","veryfast","-crf","20","-pix_fmt","yuv420p","-c:a","aac","short.mp4"],stdin=subprocess.PIPE)
 for i in range(T*FPS):
-    t=i/FPS; im=frame(t); p.stdin.write(im.tobytes())
+    t=i/FPS; im=frame(t); ai_badge(im); p.stdin.write(im.tobytes())
     if i in (80,260,420,640,820): im.save(f"preview_{i}.png")
 p.stdin.close(); p.wait()

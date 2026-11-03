@@ -40,7 +40,10 @@ main{max-width:760px;margin:auto;padding:0 16px 40px}
 article{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;margin-top:16px}
 article h1{font-size:1.5rem;line-height:1.5}article h2{border-left:4px solid var(--acc);padding-left:10px;margin-top:2em}
 .pr{background:var(--pr);border-radius:8px;padding:8px 12px;font-size:.85rem;color:var(--sub)}
-table{border-collapse:collapse;width:100%;display:block;overflow-x:auto}th,td{border:1px solid var(--line);padding:8px;font-size:.9rem;white-space:nowrap}
+table{border-collapse:collapse;width:100%;display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;background:linear-gradient(to right,var(--card) 30%,rgba(255,255,255,0)) left center/24px 100% no-repeat local,linear-gradient(to left,var(--card) 30%,rgba(255,255,255,0)) right center/24px 100% no-repeat local,radial-gradient(farthest-side at 0 50%,rgba(0,0,0,.22),rgba(0,0,0,0)) left center/10px 100% no-repeat scroll,radial-gradient(farthest-side at 100% 50%,rgba(0,0,0,.22),rgba(0,0,0,0)) right center/10px 100% no-repeat scroll}
+th,td{border:1px solid var(--line);padding:8px;font-size:.9rem;white-space:normal;overflow-wrap:break-word;line-break:strict}td.nw{white-space:nowrap}[style*="background:#"] table{background:none}
+[style*="background:#f"]{color:#1d2330}[style*="background:#f"] a{color:#3b5bdb}[style*="background:#f"] th,[style*="background:#f"] td{border-color:#e3e6ec}[style*="background:#f"] .badge{background:#fff7e6;color:#5b6475}
+@media (max-width:600px){article{padding:16px 12px}th,td{padding:6px 4px;font-size:.82rem;line-height:1.6}th{white-space:normal}td.nw:first-child{white-space:normal}}
 .prods{margin-top:2em}.prod{border:1px solid var(--line);border-radius:10px;padding:12px;margin:10px 0}.prod-l{font-weight:700;margin:0 0 6px}.badge{font-size:.7rem;background:var(--pr);border-radius:4px;padding:2px 6px;vertical-align:middle}
 .buy{display:inline-block;background:#bf0000;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none;font-weight:700;font-size:.92rem}
 .eye{width:100%;height:auto;border-radius:10px;display:block;margin-bottom:10px}
@@ -81,52 +84,52 @@ footer{color:var(--sub);font-size:.85rem;border-top:1px solid var(--line)}
 </thead>
 <tbody>
 <tr>
-<td>1畳（DC-1NK）</td>
+<td class="nw">1畳（DC-1NK）</td>
 <td>高</td>
-<td>165Wh</td>
-<td>約5.1円</td>
+<td class="nw">165Wh</td>
+<td class="nw">約5.1円</td>
 </tr>
 <tr>
-<td>1畳（DC-1NK）</td>
+<td class="nw">1畳（DC-1NK）</td>
 <td>中</td>
-<td>120Wh</td>
-<td>約3.7円</td>
+<td class="nw">120Wh</td>
+<td class="nw">約3.7円</td>
 </tr>
 <tr>
 <td>1.5畳（DC-15NK）</td>
 <td>高</td>
-<td>255Wh</td>
-<td>約7.9円</td>
+<td class="nw">255Wh</td>
+<td class="nw">約7.9円</td>
 </tr>
 <tr>
 <td>1.5畳（DC-15NK）</td>
 <td>中</td>
-<td>185Wh</td>
-<td>約5.7円</td>
+<td class="nw">185Wh</td>
+<td class="nw">約5.7円</td>
 </tr>
 <tr>
-<td>2畳（DC-2NK）</td>
+<td class="nw">2畳（DC-2NK）</td>
 <td>高</td>
-<td>335Wh</td>
-<td>約10.4円</td>
+<td class="nw">335Wh</td>
+<td class="nw">約10.4円</td>
 </tr>
 <tr>
-<td>2畳（DC-2NK）</td>
+<td class="nw">2畳（DC-2NK）</td>
 <td>中</td>
-<td>230Wh</td>
-<td>約7.1円</td>
+<td class="nw">230Wh</td>
+<td class="nw">約7.1円</td>
 </tr>
 <tr>
-<td>3畳（DC-3NK）</td>
+<td class="nw">3畳（DC-3NK）</td>
 <td>高</td>
-<td>470Wh</td>
-<td>約14.6円</td>
+<td class="nw">470Wh</td>
+<td class="nw">約14.6円</td>
 </tr>
 <tr>
-<td>3畳（DC-3NK）</td>
+<td class="nw">3畳（DC-3NK）</td>
 <td>中</td>
-<td>335Wh</td>
-<td>約10.4円</td>
+<td class="nw">335Wh</td>
+<td class="nw">約10.4円</td>
 </tr>
 </tbody>
 </table>
@@ -148,52 +151,52 @@ footer{color:var(--sub);font-size:.85rem;border-top:1px solid var(--line)}
 </thead>
 <tbody>
 <tr>
-<td>1畳・高</td>
-<td>約614円</td>
-<td>約1,228円</td>
-<td>約4,910円</td>
+<td class="nw">1畳・高</td>
+<td class="nw">約614円</td>
+<td class="nw">約1,228円</td>
+<td class="nw">約4,910円</td>
 </tr>
 <tr>
-<td>1畳・中</td>
-<td>約446円</td>
-<td>約893円</td>
-<td>約3,571円</td>
+<td class="nw">1畳・中</td>
+<td class="nw">約446円</td>
+<td class="nw">約893円</td>
+<td class="nw">約3,571円</td>
 </tr>
 <tr>
-<td>1.5畳・高</td>
-<td>約949円</td>
-<td>約1,897円</td>
-<td>約7,589円</td>
+<td class="nw">1.5畳・高</td>
+<td class="nw">約949円</td>
+<td class="nw">約1,897円</td>
+<td class="nw">約7,589円</td>
 </tr>
 <tr>
-<td>1.5畳・中</td>
-<td>約688円</td>
-<td>約1,376円</td>
-<td>約5,506円</td>
+<td class="nw">1.5畳・中</td>
+<td class="nw">約688円</td>
+<td class="nw">約1,376円</td>
+<td class="nw">約5,506円</td>
 </tr>
 <tr>
-<td>2畳・高</td>
-<td>約1,246円</td>
-<td>約2,492円</td>
-<td>約9,970円</td>
+<td class="nw">2畳・高</td>
+<td class="nw">約1,246円</td>
+<td class="nw">約2,492円</td>
+<td class="nw">約9,970円</td>
 </tr>
 <tr>
-<td>2畳・中</td>
-<td>約856円</td>
-<td>約1,711円</td>
-<td>約6,845円</td>
+<td class="nw">2畳・中</td>
+<td class="nw">約856円</td>
+<td class="nw">約1,711円</td>
+<td class="nw">約6,845円</td>
 </tr>
 <tr>
-<td>3畳・高</td>
-<td>約1,748円</td>
-<td>約3,497円</td>
-<td>約13,987円</td>
+<td class="nw">3畳・高</td>
+<td class="nw">約1,748円</td>
+<td class="nw">約3,497円</td>
+<td class="nw">約13,987円</td>
 </tr>
 <tr>
-<td>3畳・中</td>
-<td>約1,246円</td>
-<td>約2,492円</td>
-<td>約9,970円</td>
+<td class="nw">3畳・中</td>
+<td class="nw">約1,246円</td>
+<td class="nw">約2,492円</td>
+<td class="nw">約9,970円</td>
 </tr>
 </tbody>
 </table>

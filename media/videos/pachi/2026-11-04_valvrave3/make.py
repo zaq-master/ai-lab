@@ -38,7 +38,7 @@ def frame(t):
         stamp(im,"RUSH継続率",F(BK,110),"white",420,pop(t,0.1))
         n=min(90,int(90*max(0,(t-0.5))/1.6)) if t>0.5 else 0
         stamp(im,f"約{n}%",F(BK,300),"#FFE45C",700,pop(t,0.5,0.3) if t<2.1 else 1+0.04*math.sin(t*12),16,"#5A0000")
-        if t>2.2: ctext(d,1330,"…でも、本当に勝てるの？",F(BK,70),"white",6)
+        if t>2.2: ctext(d,1330,"…数字で見るとどうなる？",F(BK,70),"white",6)
         return im
     if t<SCN[1][1]:
         s=t-SCN[1][0]; im=bg(t,"#14213D","#1D2D50"); header(im); d=ImageDraw.Draw(im)
@@ -80,14 +80,20 @@ def frame(t):
     ctext(d,330,"借金介護士のひとこと",F(BD,60),"#AAAAAA")
     stamp(im,"1万8千円…",F(BK,150),"white",430,pop(s,0.3),10)
     if s>1.2: ctext(d,850,"それ、ぼくの今月の食費です",F(BK,72),"#FFE45C",6)
-    if s>2.6: stamp(im,"不労所得…欲しい…",F(BK,110),"#FF6B6B",1000,pop(s,2.6),8)
+    if s>2.6: stamp(im,"今日も計算だけで満足…",F(BK,96),"#FF6B6B",1000,pop(s,2.6),8)
     ctext(d,1480,"遊技は18歳以上・ほどほどに",F(BD,44),"white")
     foot(d,"この動画はAIで制作しています")
     return im
+# AI制作の常時表示（2026-11-04 監査指摘：途中から見た人にも分かるよう全編に表示。上部の黒帯の直下・左上）
+def ai_badge(im):
+    d=ImageDraw.Draw(im); f=F(BK,34); s="AI制作"
+    w=d.textlength(s,font=f); x0,y0=24,204
+    d.rounded_rectangle([x0,y0,x0+w+36,y0+54],14,fill="#000000",outline="#FFE45C",width=3)
+    d.text((x0+18,y0+5),s,font=f,fill="white")
 T=29
 p=subprocess.Popen(["ffmpeg","-y","-loglevel","error","-f","rawvideo","-pix_fmt","rgb24","-s",f"{W}x{H}","-r",str(FPS),"-i","-",
   "-f","lavfi","-i","anullsrc=r=44100:cl=stereo","-shortest","-c:v","libx264","-preset","veryfast","-crf","20","-pix_fmt","yuv420p","-c:a","aac","short.mp4"],stdin=subprocess.PIPE)
 for i in range(T*FPS):
-    t=i/FPS; im=frame(t); p.stdin.write(im.tobytes())
+    t=i/FPS; im=frame(t); ai_badge(im); p.stdin.write(im.tobytes())
     if i in (60,200,400,600,800): im.save(f"preview_{i}.png")
 p.stdin.close(); p.wait()

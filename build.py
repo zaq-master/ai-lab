@@ -47,6 +47,17 @@ def sheet_cta(_m=None):
             f'<b>この計算を毎月の記録として残すなら</b><br>{link}</aside>')
 
 
+SHORT_CELL = 10  # 数字を含むこの文字数以下の表セルは折り返さない（「約 / 4.2°C」のような途中改行を防ぐ。スマホ表示対策 2026-11-04）
+
+
+def short_cell(m):
+    """数字を含む短いセル（金額・温度など）に class="nw"（折り返し禁止）を付ける。文章セルはスマホ幅で折り返す。"""
+    text = html.unescape(re.sub(r"<[^>]+>", "", m.group(2))).strip()
+    if 0 < len(text) <= SHORT_CELL and re.search(r"[0-9０-９]", text):
+        return f'<td class="nw"{m.group(1) or ""}>{m.group(2)}</td>'
+    return m.group(0)
+
+
 def jst_today():
     """日本時間の今日（コンテナはUTCのため）。"""
     return datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).date()
@@ -71,6 +82,7 @@ def parse(p):
     meta = dict(l.split(":", 1) for l in m.group(1).splitlines() if ":" in l)
     meta = {k.strip(): v.strip() for k, v in meta.items()}
     body = markdown.markdown(m.group(2), extensions=["tables", "toc"])
+    body = re.sub(r"<td((?:\s(?![^>]*\bclass=)[^>]*)?)>(.*?)</td>", short_cell, body, flags=re.S)
     body = re.sub(r"<!--\s*sheet-cta\s*-->", sheet_cta, body)
     meta["body"] = re.sub(r"<!--\s*products:\s*(.*?)\s*-->", product_box, body)
     meta["slug"] = p.stem

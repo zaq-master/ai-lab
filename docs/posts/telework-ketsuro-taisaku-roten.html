@@ -40,7 +40,10 @@ main{max-width:760px;margin:auto;padding:0 16px 40px}
 article{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;margin-top:16px}
 article h1{font-size:1.5rem;line-height:1.5}article h2{border-left:4px solid var(--acc);padding-left:10px;margin-top:2em}
 .pr{background:var(--pr);border-radius:8px;padding:8px 12px;font-size:.85rem;color:var(--sub)}
-table{border-collapse:collapse;width:100%;display:block;overflow-x:auto}th,td{border:1px solid var(--line);padding:8px;font-size:.9rem;white-space:nowrap}
+table{border-collapse:collapse;width:100%;display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;background:linear-gradient(to right,var(--card) 30%,rgba(255,255,255,0)) left center/24px 100% no-repeat local,linear-gradient(to left,var(--card) 30%,rgba(255,255,255,0)) right center/24px 100% no-repeat local,radial-gradient(farthest-side at 0 50%,rgba(0,0,0,.22),rgba(0,0,0,0)) left center/10px 100% no-repeat scroll,radial-gradient(farthest-side at 100% 50%,rgba(0,0,0,.22),rgba(0,0,0,0)) right center/10px 100% no-repeat scroll}
+th,td{border:1px solid var(--line);padding:8px;font-size:.9rem;white-space:normal;overflow-wrap:break-word;line-break:strict}td.nw{white-space:nowrap}[style*="background:#"] table{background:none}
+[style*="background:#f"]{color:#1d2330}[style*="background:#f"] a{color:#3b5bdb}[style*="background:#f"] th,[style*="background:#f"] td{border-color:#e3e6ec}[style*="background:#f"] .badge{background:#fff7e6;color:#5b6475}
+@media (max-width:600px){article{padding:16px 12px}th,td{padding:6px 4px;font-size:.82rem;line-height:1.6}th{white-space:normal}td.nw:first-child{white-space:normal}}
 .prods{margin-top:2em}.prod{border:1px solid var(--line);border-radius:10px;padding:12px;margin:10px 0}.prod-l{font-weight:700;margin:0 0 6px}.badge{font-size:.7rem;background:var(--pr);border-radius:4px;padding:2px 6px;vertical-align:middle}
 .buy{display:inline-block;background:#bf0000;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none;font-weight:700;font-size:.92rem}
 .eye{width:100%;height:auto;border-radius:10px;display:block;margin-bottom:10px}
@@ -89,25 +92,25 @@ footer{color:var(--sub);font-size:.85rem;border-top:1px solid var(--line)}
 </thead>
 <tbody>
 <tr>
-<td>18℃</td>
-<td>約4.2℃</td>
-<td>約7.4℃</td>
-<td>約10.1℃</td>
-<td>約12.5℃</td>
+<td class="nw">18℃</td>
+<td class="nw">約4.2℃</td>
+<td class="nw">約7.4℃</td>
+<td class="nw">約10.1℃</td>
+<td class="nw">約12.5℃</td>
 </tr>
 <tr>
-<td>20℃</td>
-<td>約6.0℃</td>
-<td>約9.3℃</td>
-<td>約12.0℃</td>
-<td>約14.4℃</td>
+<td class="nw">20℃</td>
+<td class="nw">約6.0℃</td>
+<td class="nw">約9.3℃</td>
+<td class="nw">約12.0℃</td>
+<td class="nw">約14.4℃</td>
 </tr>
 <tr>
-<td>22℃</td>
-<td>約7.8℃</td>
-<td>約11.1℃</td>
-<td>約13.9℃</td>
-<td>約16.3℃</td>
+<td class="nw">22℃</td>
+<td class="nw">約7.8℃</td>
+<td class="nw">約11.1℃</td>
+<td class="nw">約13.9℃</td>
+<td class="nw">約16.3℃</td>
 </tr>
 </tbody>
 </table>
@@ -128,29 +131,29 @@ footer{color:var(--sub);font-size:.85rem;border-top:1px solid var(--line)}
 </thead>
 <tbody>
 <tr>
-<td>5℃</td>
-<td>約37%</td>
-<td>約33%</td>
+<td class="nw">5℃</td>
+<td class="nw">約37%</td>
+<td class="nw">約33%</td>
 </tr>
 <tr>
-<td>8℃</td>
-<td>約46%</td>
-<td>約41%</td>
+<td class="nw">8℃</td>
+<td class="nw">約46%</td>
+<td class="nw">約41%</td>
 </tr>
 <tr>
-<td>10℃</td>
-<td>約53%</td>
-<td>約46%</td>
+<td class="nw">10℃</td>
+<td class="nw">約53%</td>
+<td class="nw">約46%</td>
 </tr>
 <tr>
-<td>12℃</td>
-<td>約60%</td>
-<td>約53%</td>
+<td class="nw">12℃</td>
+<td class="nw">約60%</td>
+<td class="nw">約53%</td>
 </tr>
 <tr>
-<td>14℃</td>
-<td>約68%</td>
-<td>約60%</td>
+<td class="nw">14℃</td>
+<td class="nw">約68%</td>
+<td class="nw">約60%</td>
 </tr>
 </tbody>
 </table>
@@ -183,7 +186,7 @@ footer{color:var(--sub);font-size:.85rem;border-top:1px solid var(--line)}
 <td>夜間の加湿を止める・弱める（夜は室温が下がり露点との差が縮む）</td>
 </tr>
 <tr>
-<td>湿度が40%を下回る</td>
+<td class="nw">湿度が40%を下回る</td>
 <td>結露より乾燥が問題。<a href="kashitsu-ryo-calculator.html">加湿量 計算ツール</a>で必要量を確認</td>
 </tr>
 </tbody>

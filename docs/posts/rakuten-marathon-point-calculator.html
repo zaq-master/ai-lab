@@ -40,7 +40,10 @@ main{max-width:760px;margin:auto;padding:0 16px 40px}
 article{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;margin-top:16px}
 article h1{font-size:1.5rem;line-height:1.5}article h2{border-left:4px solid var(--acc);padding-left:10px;margin-top:2em}
 .pr{background:var(--pr);border-radius:8px;padding:8px 12px;font-size:.85rem;color:var(--sub)}
-table{border-collapse:collapse;width:100%;display:block;overflow-x:auto}th,td{border:1px solid var(--line);padding:8px;font-size:.9rem;white-space:nowrap}
+table{border-collapse:collapse;width:100%;display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;background:linear-gradient(to right,var(--card) 30%,rgba(255,255,255,0)) left center/24px 100% no-repeat local,linear-gradient(to left,var(--card) 30%,rgba(255,255,255,0)) right center/24px 100% no-repeat local,radial-gradient(farthest-side at 0 50%,rgba(0,0,0,.22),rgba(0,0,0,0)) left center/10px 100% no-repeat scroll,radial-gradient(farthest-side at 100% 50%,rgba(0,0,0,.22),rgba(0,0,0,0)) right center/10px 100% no-repeat scroll}
+th,td{border:1px solid var(--line);padding:8px;font-size:.9rem;white-space:normal;overflow-wrap:break-word;line-break:strict}td.nw{white-space:nowrap}[style*="background:#"] table{background:none}
+[style*="background:#f"]{color:#1d2330}[style*="background:#f"] a{color:#3b5bdb}[style*="background:#f"] th,[style*="background:#f"] td{border-color:#e3e6ec}[style*="background:#f"] .badge{background:#fff7e6;color:#5b6475}
+@media (max-width:600px){article{padding:16px 12px}th,td{padding:6px 4px;font-size:.82rem;line-height:1.6}th{white-space:normal}td.nw:first-child{white-space:normal}}
 .prods{margin-top:2em}.prod{border:1px solid var(--line);border-radius:10px;padding:12px;margin:10px 0}.prod-l{font-weight:700;margin:0 0 6px}.badge{font-size:.7rem;background:var(--pr);border-radius:4px;padding:2px 6px;vertical-align:middle}
 .buy{display:inline-block;background:#bf0000;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none;font-weight:700;font-size:.92rem}
 .eye{width:100%;height:auto;border-radius:10px;display:block;margin-bottom:10px}
@@ -82,7 +85,7 @@ footer{color:var(--sub);font-size:.85rem;border-top:1px solid var(--line)}
 <td>2026年11月4日(水)20:00〜11月11日(水)01:59</td>
 </tr>
 <tr>
-<td>1ショップの条件</td>
+<td class="nw">1ショップの条件</td>
 <td>期間中の合計が<strong>1,000円（税込）以上</strong>（送料・ラッピングなど商品以外の料金は除く。クーポン適用後に999円以下なら対象外）</td>
 </tr>
 <tr>
@@ -196,40 +199,40 @@ calc();
 </thead>
 <tbody>
 <tr>
-<td>1店舗</td>
-<td>1倍</td>
-<td>0倍</td>
+<td class="nw">1店舗</td>
+<td class="nw">1倍</td>
+<td class="nw">0倍</td>
 <td>—（買いまわり分なし）</td>
 </tr>
 <tr>
-<td>2店舗</td>
-<td>2倍</td>
-<td>+1倍</td>
-<td>700,000円</td>
+<td class="nw">2店舗</td>
+<td class="nw">2倍</td>
+<td class="nw">+1倍</td>
+<td class="nw">700,000円</td>
 </tr>
 <tr>
-<td>3店舗</td>
-<td>3倍</td>
-<td>+2倍</td>
-<td>350,000円</td>
+<td class="nw">3店舗</td>
+<td class="nw">3倍</td>
+<td class="nw">+2倍</td>
+<td class="nw">350,000円</td>
 </tr>
 <tr>
-<td>5店舗</td>
-<td>5倍</td>
-<td>+4倍</td>
-<td>175,000円</td>
+<td class="nw">5店舗</td>
+<td class="nw">5倍</td>
+<td class="nw">+4倍</td>
+<td class="nw">175,000円</td>
 </tr>
 <tr>
-<td>8店舗</td>
-<td>8倍</td>
-<td>+7倍</td>
-<td>100,000円</td>
+<td class="nw">8店舗</td>
+<td class="nw">8倍</td>
+<td class="nw">+7倍</td>
+<td class="nw">100,000円</td>
 </tr>
 <tr>
-<td>10店舗以上</td>
-<td>10倍</td>
-<td>+9倍</td>
-<td>約77,778円</td>
+<td class="nw">10店舗以上</td>
+<td class="nw">10倍</td>
+<td class="nw">+9倍</td>
+<td class="nw">約77,778円</td>
 </tr>
 </tbody>
 </table>
