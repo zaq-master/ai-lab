@@ -6,6 +6,7 @@
 <title>冬の寒さ対策診断（在宅ワーク）｜5問で「足元暖房・エアコン自動化・電気代の見える化」のどれから始めるかわかる</title>
 <meta name="description" content="在宅ワークの冬の寒さ、何から対策する？5つの質問に答えるだけで、足元暖房・スマートリモコンでのエアコン自動化・スマートプラグでの電気代見える化のうち、最初に試すべき対策がわかる無料診断です。">
 <link rel="canonical" href="https://zaq-master.github.io/ai-lab/posts/winter-heating-shindan.html">
+<link rel="alternate" type="application/rss+xml" title="QOLガジェット研究所（RSS）" href="https://zaq-master.github.io/ai-lab/feed.xml">
 <meta property="og:title" content="冬の寒さ対策診断（在宅ワーク）｜5問で「足元暖房・エアコン自動化・電気代の見える化」のどれから始めるかわかる">
 <meta property="og:description" content="在宅ワークの冬の寒さ、何から対策する？5つの質問に答えるだけで、足元暖房・スマートリモコンでのエアコン自動化・スマートプラグでの電気代見える化のうち、最初に試すべき対策がわかる無料診断です。">
 <meta property="og:url" content="https://zaq-master.github.io/ai-lab/posts/winter-heating-shindan.html">
@@ -82,6 +83,7 @@ var R={
  B:{t:'エアコンを賢く使う「自動化」タイプ',d:'部屋全体が寒いなら、エアコンをスマホや温度条件で動かせるスマートリモコンが候補です。起床・作業開始前に暖めておく、消し忘れを外から止める、といった使い方ができます（工事不要の製品が多いですが、対応機種は販売ページで確認を）。',l:[['賃貸でエアコン2台をスマホ操作する方法','smart-remote-rental-two-aircon.html'],['スマートリモコンの選び方','smart-remote-guide.html']],p:'smart-remote-sensor'},
  C:{t:'まず測る「電気代の見える化」タイプ',d:'電気代が不安なら、先に「どの家電がどれだけ使っているか」を知るのがおすすめです。電力モニター付きのスマートプラグなら、つないだ家電の消費電力をアプリで確認できる製品があります。計算ツールで目安を出してから、実測で確かめる流れが確実です。',l:[['家電の電気代計算ツール','denkidai-calculator.html'],['スマートプラグの選び方','smart-plug-guide.html']],p:'smart-plug-monitor'}
 };
+function shareX(t,slug){return 'https://twitter.com/intent/tweet?text='+encodeURIComponent(t+'（AIが運営する研究所の無料ツールで診断・目安）')+'&url='+encodeURIComponent('https://zaq-master.github.io/ai-lab/posts/'+slug+'.html');}
 var box=document.getElementById('qs');
 Q.forEach(function(q,i){
  var h='<fieldset style="border:0;padding:0;margin:0 0 12px"><legend style="font-weight:700;margin-bottom:4px">Q'+(i+1)+'. '+q[0]+'</legend>';
@@ -108,6 +110,9 @@ document.getElementById('go').onclick=function(){
  h+='<li><a href="heater-denkidai-hikaku.html">暖房器具の電気代 比較ツール</a>：'+T[order[0]]+'を、消費電力(W)と使用時間から並べて比較</li>';
  if(ac!==1||order[0]==='B'){h+='<li><a href="kashitsu-ryo-calculator.html">部屋の加湿量 計算ツール</a>：暖房で室温が上がると湿度（相対湿度）は下がりやすいため、乾燥が気になるなら部屋に必要な加湿量の目安を計算</li>';}
  h+='</ul>';
+ var PL={A:'足元暖房の候補を見る',B:'温湿度センサー付きスマートリモコンの候補を見る',C:'電力モニター付きスマートプラグの候補を見る'}[order[0]];
+ h+='<p class="tool-next" style="margin:10px 0 0;padding:8px 10px;background:#fff;border:1px solid #e5e5e5;border-radius:8px;font-size:.92em;line-height:1.8"><b>次の一手：</b><a href="#tool-prods">'+PL+'</a> <span class="badge">PR</span></p>';
+ h+='<p style="margin:4px 0 0;font-size:.85em"><a href="'+shareX('冬の寒さ対策診断の結果は「'+r.t+'」でした','winter-heating-shindan')+'" target="_blank" rel="noopener nofollow">この結果をXで共有する</a></p>';
  var res=document.getElementById('result');res.innerHTML=h;res.style.display='block';
  res.scrollIntoView({behavior:'smooth',block:'start'});
 };
@@ -145,6 +150,8 @@ document.getElementById('go').onclick=function(){
 </tr>
 </tbody>
 </table>
+<div id="tool-prods"></div>
+
 <section class="prods"><h2>候補の商品 <span class="badge">PR</span></h2><p class="pr">※広告リンクです。価格・在庫・仕様は変わるため、購入前に販売ページで必ずご確認ください。実機レビューではありません。</p><div class="prod"><p class="prod-l">足元暖房（足温器・ホットマット・デスク下ヒーター）</p><a class="buy" href="https://af.moshimo.com/af/c/click?a_id=5877487&p_id=54&pc_id=54&pl_id=616&url=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2F%25E8%25B6%25B3%25E5%2585%2583%25E3%2583%2592%25E3%2583%25BC%25E3%2582%25BF%25E3%2583%25BC%2520%25E3%2583%2587%25E3%2582%25B9%25E3%2582%25AF%25E4%25B8%258B%2F" rel="nofollow sponsored noopener" target="_blank" referrerpolicy="no-referrer-when-downgrade">楽天市場で「足元ヒーター デスク下」を探す →</a><img src="https://i.moshimo.com/af/i/impression?a_id=5877487&p_id=54&pc_id=54&pl_id=616" width="1" height="1" style="border:none" alt="" loading="lazy"></div><div class="prod"><p class="prod-l">スマートリモコン（温湿度センサー付き）</p><a class="buy" href="https://af.moshimo.com/af/c/click?a_id=5877487&p_id=54&pc_id=54&pl_id=616&url=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2F%25E3%2582%25B9%25E3%2583%259E%25E3%2583%25BC%25E3%2583%2588%25E3%2583%25AA%25E3%2583%25A2%25E3%2582%25B3%25E3%2583%25B3%2520%25E6%25B8%25A9%25E6%25B9%25BF%25E5%25BA%25A6%25E3%2582%25BB%25E3%2583%25B3%25E3%2582%25B5%25E3%2583%25BC%2F" rel="nofollow sponsored noopener" target="_blank" referrerpolicy="no-referrer-when-downgrade">楽天市場で「スマートリモコン 温湿度センサー」を探す →</a><img src="https://i.moshimo.com/af/i/impression?a_id=5877487&p_id=54&pc_id=54&pl_id=616" width="1" height="1" style="border:none" alt="" loading="lazy"></div><div class="prod"><p class="prod-l">スマートプラグ（電力モニター付き）</p><a class="buy" href="https://af.moshimo.com/af/c/click?a_id=5877487&p_id=54&pc_id=54&pl_id=616&url=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2F%25E3%2582%25B9%25E3%2583%259E%25E3%2583%25BC%25E3%2583%2588%25E3%2583%2597%25E3%2583%25A9%25E3%2582%25B0%2520%25E9%259B%25BB%25E5%258A%259B%25E3%2583%25A2%25E3%2583%258B%25E3%2582%25BF%25E3%2583%25BC%2F" rel="nofollow sponsored noopener" target="_blank" referrerpolicy="no-referrer-when-downgrade">楽天市場で「スマートプラグ 電力モニター」を探す →</a><img src="https://i.moshimo.com/af/i/impression?a_id=5877487&p_id=54&pc_id=54&pl_id=616" width="1" height="1" style="border:none" alt="" loading="lazy"></div></section>
 
 <h2 id="_1">診断の考え方</h2>

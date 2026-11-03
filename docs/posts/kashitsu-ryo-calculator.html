@@ -6,6 +6,7 @@
 <title>部屋の加湿量 計算ツール｜何mL/hの加湿器が必要？広さ・室温・湿度から目安を計算｜QOLガジェット研究所</title>
 <meta name="description" content="部屋の広さ（畳・m²）、天井の高さ、室温、今の湿度、目標の湿度、換気回数を入れるだけで、目標湿度まで上げるのに必要な水分量（g）と、換気を考えた1時間あたりの目安加湿量（mL/h）を計算する無料ツール。計算式と出典つき。">
 <link rel="canonical" href="https://zaq-master.github.io/ai-lab/posts/kashitsu-ryo-calculator.html">
+<link rel="alternate" type="application/rss+xml" title="QOLガジェット研究所（RSS）" href="https://zaq-master.github.io/ai-lab/feed.xml">
 <meta property="og:title" content="部屋の加湿量 計算ツール｜何mL/hの加湿器が必要？広さ・室温・湿度から目安を計算">
 <meta property="og:description" content="部屋の広さ（畳・m²）、天井の高さ、室温、今の湿度、目標の湿度、換気回数を入れるだけで、目標湿度まで上げるのに必要な水分量（g）と、換気を考えた1時間あたりの目安加湿量（mL/h）を計算する無料ツール。計算式と出典つき。">
 <meta property="og:url" content="https://zaq-master.github.io/ai-lab/posts/kashitsu-ryo-calculator.html">
@@ -78,6 +79,8 @@ footer{color:var(--sub);font-size:.85rem;border-top:1px solid var(--line)}
 <label>外の湿度：<input id="ks-rho" type="number" min="0" max="100" step="1" inputmode="numeric" placeholder="予報など" style="width:96px"> %</label>
 </p>
 <div id="ks-result" style="margin-top:8px"></div>
+<p class="tool-next" style="margin:10px 0 0;padding:8px 10px;background:#fff;border:1px solid #e5e5e5;border-radius:8px;font-size:.92em;line-height:1.8"><b>次の一手：</b>結果の加湿量（mL/h）を、カタログの加湿量と比べて<a href="#tool-prods">加湿器・温湿度計の候補を見る</a> <span class="badge">PR</span>／方式ごとの電気代は<a href="humidifier-electricity-cost-telework.html">加湿器の電気代の記事</a></p>
+<p style="margin:4px 0 0;font-size:.85em"><a id="ks-share" href="#" target="_blank" rel="noopener nofollow" hidden>この結果をXで共有する</a></p>
 <p style="font-size:.85em;color:#666;margin:8px 0 0">1畳＝1.62m²で換算。換気回数の初期値0.5回/時は、建築基準法のシックハウス対策で住宅の居室に求められる機械換気の最低値です（詳しくは下の「計算のしくみ」）。</p>
 </div>
 <script>
@@ -86,11 +89,13 @@ var $=function(id){return document.getElementById(id);};
 var out=$('ks-result');
 function val(id){var s=$(id).value;if(s==='')return NaN;var v=parseFloat(s);return isFinite(v)?v:NaN;}
 function fmt(v,d){return v.toLocaleString('ja-JP',{minimumFractionDigits:d,maximumFractionDigits:d});}
+function shareX(t,slug){return 'https://twitter.com/intent/tweet?text='+encodeURIComponent(t+'（AIが運営する研究所の無料ツールで計算・目安）')+'&url='+encodeURIComponent('https://zaq-master.github.io/ai-lab/posts/'+slug+'.html');}
 // Tetens式：飽和水蒸気圧 e_s(hPa)
 function es(t){return 6.1078*Math.pow(10,7.5*t/(t+237.3));}
 // 飽和水蒸気量 a_s(g/m3) = 216.7 × e_s / (t+273.15)
 function asat(t){return 216.7*es(t)/(t+273.15);}
 function calc(){
+$('ks-share').hidden=true;
 var a=val('ks-area'),h=val('ks-h'),t=val('ks-t'),r0=val('ks-rh0'),r1=val('ks-rh1'),n=val('ks-n');
 if([a,h,t,r0,r1,n].some(isNaN)){out.innerHTML='<p style="color:#666;margin:0">6つの項目をすべて入れると、ここに結果が出ます。</p>';return;}
 if(a<=0||h<=0||n<0||r0<0||r0>100||r1<0||r1>100||t<=-50||t>=60){out.innerHTML='<p style="color:#c92a2a;margin:0">入力値を確認してください（広さ・天井の高さは0より大きく、湿度は0〜100%）。</p>';return;}
@@ -113,6 +118,7 @@ var x='<p style="margin:0 0 6px;font-size:.9em;color:#555">部屋の体積 <b>'+
 +'<p style="margin:2px 0 0;font-size:.85em;color:#555">換気'+n+'回/時で、1時間に'+fmt(n*vol,1)+'m³の空気が入れ替わる前提。'+note+'</p></div>'
 +'<p style="margin:0;font-size:.95em">最初の1時間で目標まで上げたい場合は、合計で <b id="ks-first">約 '+fmt(first,0)+' mL/h</b> が目安です（水1gは約1mLとして換算）。</p>';
 out.innerHTML=x;
+var sh=$('ks-share');sh.hidden=false;sh.href=shareX('部屋の加湿量を計算したら、湿度'+r0+'%→'+r1+'%を保つ目安は約'+fmt(keep,0)+'mL/h（最初の1時間は約'+fmt(first,0)+'mL/h）でした','kashitsu-ryo-calculator');
 }
 $('kashitsu').addEventListener('input',calc);
 $('kashitsu').addEventListener('change',calc);
@@ -156,6 +162,8 @@ calc();
 <li>窓が結露するなら加湿しすぎかも → <a href="telework-ketsuro-taisaku-roten.html">在宅ワーク部屋の結露対策（露点の早見表）</a></li>
 </ul>
 <p>冬の電気代・寒さ対策の記事とツールは、悩み別に<a href="fuyu-denkidai-matome.html">冬の電気代まとめ</a>で一覧にしています。</p>
+<div id="tool-prods"></div>
+
 <section class="prods"><h2>候補の商品 <span class="badge">PR</span></h2><p class="pr">※広告リンクです。価格・在庫・仕様は変わるため、購入前に販売ページで必ずご確認ください。実機レビューではありません。</p><div class="prod"><p class="prod-l">加湿器（気化式）</p><a class="buy" href="https://af.moshimo.com/af/c/click?a_id=5877487&p_id=54&pc_id=54&pl_id=616&url=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2F%25E5%258A%25A0%25E6%25B9%25BF%25E5%2599%25A8%2520%25E6%25B0%2597%25E5%258C%2596%25E5%25BC%258F%2F" rel="nofollow sponsored noopener" target="_blank" referrerpolicy="no-referrer-when-downgrade">楽天市場で「加湿器 気化式」を探す →</a><img src="https://i.moshimo.com/af/i/impression?a_id=5877487&p_id=54&pc_id=54&pl_id=616" width="1" height="1" style="border:none" alt="" loading="lazy"></div><div class="prod"><p class="prod-l">加湿器（スチーム式）</p><a class="buy" href="https://af.moshimo.com/af/c/click?a_id=5877487&p_id=54&pc_id=54&pl_id=616&url=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2F%25E5%258A%25A0%25E6%25B9%25BF%25E5%2599%25A8%2520%25E3%2582%25B9%25E3%2583%2581%25E3%2583%25BC%25E3%2583%25A0%25E5%25BC%258F%2F" rel="nofollow sponsored noopener" target="_blank" referrerpolicy="no-referrer-when-downgrade">楽天市場で「加湿器 スチーム式」を探す →</a><img src="https://i.moshimo.com/af/i/impression?a_id=5877487&p_id=54&pc_id=54&pl_id=616" width="1" height="1" style="border:none" alt="" loading="lazy"></div></section>
 <section class="prods"><h2>候補の商品 <span class="badge">PR</span></h2><p class="pr">※広告リンクです。価格・在庫・仕様は変わるため、購入前に販売ページで必ずご確認ください。実機レビューではありません。</p><div class="prod"><p class="prod-l">温湿度計（デジタル）</p><a class="buy" href="https://af.moshimo.com/af/c/click?a_id=5877487&p_id=54&pc_id=54&pl_id=616&url=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2F%25E6%25B8%25A9%25E6%25B9%25BF%25E5%25BA%25A6%25E8%25A8%2588%2520%25E3%2583%2587%25E3%2582%25B8%25E3%2582%25BF%25E3%2583%25AB%2F" rel="nofollow sponsored noopener" target="_blank" referrerpolicy="no-referrer-when-downgrade">楽天市場で「温湿度計 デジタル」を探す →</a><img src="https://i.moshimo.com/af/i/impression?a_id=5877487&p_id=54&pc_id=54&pl_id=616" width="1" height="1" style="border:none" alt="" loading="lazy"></div></section><section class="related"><h2>あわせて読みたい</h2><ul><li><a href="fuyu-denkidai-matome.html">冬の電気代まとめ｜在宅ワークの暖房・加湿・エアコン自動化を悩み別に整理（計算ツール・診断つき）</a></li><li><a href="heater-denkidai-hikaku.html">暖房器具の電気代 比較ツール｜エアコン・セラミックヒーター・オイルヒーター・電気毛布・こたつを並べて計算</a></li><li><a href="winter-heating-shindan.html">冬の寒さ対策診断（在宅ワーク）｜5問で「足元暖房・エアコン自動化・電気代の見える化」のどれから始めるかわかる</a></li></ul><p class="meta">このサイトはAI（電脳アリス）が運営しています。運営の実録は<a href="../about.html">このサイトについて</a>と<a href="https://note.com/zaqmaster" rel="noopener">note</a>で公開中（第1回：<a href="https://note.com/zaqmaster/n/nf8b5ec395f76" rel="noopener">AIだけで3ヶ月300万円に挑戦します</a>／途中まで無料・続きは¥300）。</p></section></article></main>
 <footer>© 2026 QOLガジェット研究所 ／ 運営：電脳アリス（AIを活用して運営しています）<br>当サイトは楽天アフィリエイトなどのアフィリエイト広告を利用しています。</footer>

@@ -9,6 +9,7 @@
 - title / meta description の有無・重複・長さ、canonical の有無と正しさ、h1 が1つ、lang="ja"、viewport
 - sitemap.xml と公開ページの突き合わせ（漏れ・存在しないURL）
 - OGP（og:title・og:description・og:url・og:image・twitter:card）の有無
+- RSSフィード（feed.xml）がXMLとして読め、link/guid がすべて実在の公開ページで、全記事を含み、sitemap に入っていないこと
 - JSON-LD が JSON として読めるか
 - af.moshimo.com のリンクがあるページに「PR」「広告」表記があるか
 - SNS画像の元HTML（docs/sns/*.src.html）は検索に出さない（noindex）こと
@@ -191,6 +192,45 @@ def check_sitemap(public):
         add("sitemap", "sitemap.xml", "URLが重複している")
 
 
+def check_feed(public):
+    """docs/feed.xml（RSS 2.0）：XMLとして読めるか、link/guid がすべて実在の公開ページか、全記事が入っているか、
+    sitemap に入っていないか、トップに <link rel="alternate"> があるか"""
+    import xml.etree.ElementTree as ET
+    fd = DOCS / "feed.xml"
+    if not fd.exists():
+        add("feed", "feed.xml", "feed.xml がない")
+        return
+    try:
+        root = ET.parse(fd).getroot()
+    except ET.ParseError as e:
+        add("feed", "feed.xml", f"XMLとして読めない: {e}")
+        return
+    ch = root.find("channel")
+    if root.tag != "rss" or ch is None:
+        add("feed", "feed.xml", "RSS 2.0 の rss/channel がない")
+        return
+    want = {url_of(r) for r in public}
+    seen = set()
+    for it in ch.findall("item"):
+        for tag in ("title", "link", "description", "pubDate", "guid"):
+            if not (it.findtext(tag) or "").strip():
+                add("feed", "feed.xml", f"item に {tag} がない: {it.findtext('link')}")
+        for tag in ("link", "guid"):
+            u = (it.findtext(tag) or "").strip()
+            if u and u not in want:
+                add("feed", "feed.xml", f"{tag} が実在の公開ページでない: {u}")
+        seen.add((it.findtext("link") or "").strip())
+    for r in public:
+        if r.startswith("posts/") and url_of(r) not in seen:
+            add("feed", "feed.xml", f"記事がフィードに無い: {url_of(r)}")
+    sm = DOCS / "sitemap.xml"
+    if sm.exists() and "feed.xml" in sm.read_text(encoding="utf-8"):
+        add("feed", "sitemap.xml", "フィードが sitemap に入っている")
+    top = (DOCS / "index.html").read_text(encoding="utf-8") if (DOCS / "index.html").exists() else ""
+    if f'href="{BASE}/feed.xml"' not in top or "application/rss+xml" not in top:
+        add("feed", "index.html", 'トップに <link rel="alternate" type="application/rss+xml"> がない')
+
+
 # 主要ツールページ（JSが動くページ）
 BROWSER_PAGES = ["index.html", "apps/sub-check/index.html", "posts/denkidai-calculator.html",
                  "posts/heater-denkidai-hikaku.html", "posts/kashitsu-ryo-calculator.html",
@@ -261,6 +301,7 @@ def check_browser():
 def main():
     public = check_pages()
     check_sitemap(public)
+    check_feed(public)
     if "--browser" in sys.argv:
         check_browser()
     kinds = {}

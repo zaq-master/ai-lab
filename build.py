@@ -91,6 +91,33 @@ def page_url(path):
     return f"{CFG['base_url']}/{path}"
 
 
+FEED_URL = CFG["base_url"] + "/feed.xml"  # RSS 2.0（全記事・新しい順）。sitemap には入れない
+
+
+def rss_feed(posts):
+    """docs/feed.xml（RSS 2.0）。pubDate は公開日の 00:00 JST（記事は日付単位で管理しているため時刻は持たない）。
+    RSSリーダー（Feedly等）やフィードを巡回するサービスからの発見経路用。"""
+    import email.utils
+    from xml.sax.saxutils import escape
+    jst = datetime.timezone(datetime.timedelta(hours=9))
+    rfc = lambda d: email.utils.format_datetime(datetime.datetime.fromisoformat(d).replace(tzinfo=jst))
+    items = "".join(
+        f'<item><title>{escape(x["title"])}</title><link>{CFG["base_url"]}/posts/{x["slug"]}.html</link>'
+        f'<description>{escape(x["description"])}</description>'
+        + (f'<category>{escape(x["category"])}</category>' if x.get("category") else "")
+        + f'<pubDate>{rfc(x["date"])}</pubDate>'
+        f'<guid isPermaLink="true">{CFG["base_url"]}/posts/{x["slug"]}.html</guid></item>' for x in posts)
+    last = rfc(max((x["modified"] for x in posts), default=jst_today().isoformat()))
+    xml = ('<?xml version="1.0" encoding="UTF-8"?>\n'
+           '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel>'
+           f'<title>{escape(CFG["site_name"])}</title><link>{CFG["base_url"]}/</link>'
+           f'<description>{escape(CFG["tagline"] + "（AI・電脳アリスが運営）")}</description>'
+           f'<language>ja</language><lastBuildDate>{last}</lastBuildDate>'
+           f'<atom:link href="{FEED_URL}" rel="self" type="application/rss+xml"/>'
+           f'{items}</channel></rss>\n')
+    (OUT / "feed.xml").write_text(xml, encoding="utf-8")
+
+
 def page(title, desc, body, path, prefix, ogtype="website", image="", jsonld=None):
     url = page_url(path)
     full = title if title == CFG["site_name"] else f"{title}｜{CFG['site_name']}"
@@ -110,6 +137,7 @@ def page(title, desc, body, path, prefix, ogtype="website", image="", jsonld=Non
         "{{title}}": html.escape(title),
         "{{desc}}": html.escape(desc),
         "{{url}}": url,
+        "{{feed}}": FEED_URL,
         "{{body}}": body,
         "{{p}}": prefix,
         "{{site}}": CFG["site_name"],
@@ -362,6 +390,7 @@ def main():
     key = CFG.get("indexnow_key", "").strip()
     if re.fullmatch(r"[A-Za-z0-9-]{8,128}", key):
         (OUT / f"{key}.txt").write_text(key, encoding="utf-8")
+    rss_feed(posts)
     (OUT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {CFG['base_url']}/sitemap.xml\n")
     (OUT / "sitemap.xml").write_text(
         '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'

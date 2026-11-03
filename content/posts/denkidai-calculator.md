@@ -15,12 +15,15 @@ category: 在宅ワーク
 <div style="overflow-x:auto"><table style="width:100%;min-width:480px"><thead><tr><th>家電（メモ）</th><th>消費電力(W)</th><th>1日の時間(h)</th><th>1日</th><th>1ヶ月</th><th></th></tr></thead><tbody id="rows"></tbody></table></div>
 <p><button type="button" id="add" style="padding:6px 12px">＋ 家電を追加</button></p>
 <p id="total" style="font-size:1.1em;font-weight:700;margin:8px 0 0"></p>
+<p class="tool-next" style="margin:10px 0 0;padding:8px 10px;background:#fff;border:1px solid #e5e5e5;border-radius:8px;font-size:.92em;line-height:1.8"><b>次の一手：</b><a href="heater-denkidai-hikaku.html">暖房器具どうしで比べる（比較ツール）</a>／<a href="#tool-prods">足元暖房・電力モニター付きスマートプラグの候補を見る</a> <span class="badge">PR</span></p>
+<p style="margin:4px 0 0;font-size:.85em"><a id="dc-share" href="#" target="_blank" rel="noopener nofollow" hidden>この結果をXで共有する</a></p>
 <p style="font-size:.85em;color:#666;margin:4px 0 0">計算式：消費電力(W)÷1000×時間(h)×単価(円/kWh)。「強」「弱」など運転モードで消費電力が変わる製品は、よく使うモードの値を入れてください。</p>
 </div>
 <script>
 (function(){
 var rows=document.getElementById('rows');
 function yen(v){return '¥'+Math.round(v).toLocaleString('ja-JP');}
+function shareX(t,slug){return 'https://twitter.com/intent/tweet?text='+encodeURIComponent(t+'（AIが運営する研究所の無料ツールで計算・目安）')+'&url='+encodeURIComponent('https://zaq-master.github.io/ai-lab/posts/'+slug+'.html');}
 function addRow(name,w,h){
 var tr=document.createElement('tr');
 tr.innerHTML='<td><input class="n" type="text" style="width:100%"></td><td><input class="w" type="number" min="0" style="width:70px"></td><td><input class="h" type="number" min="0" max="24" step="0.5" style="width:60px"></td><td class="d"></td><td class="m"></td><td><button type="button" class="x" aria-label="削除">×</button></td>';
@@ -36,6 +39,7 @@ var d=w/1000*h*u;sum+=d;
 tr.querySelector('.d').textContent=yen(d);tr.querySelector('.m').textContent=yen(d*days);
 });
 document.getElementById('total').textContent='合計：1日 '+yen(sum)+'／1ヶ月 '+yen(sum*days)+'／ひと冬（4ヶ月） '+yen(sum*days*4);
+var sh=document.getElementById('dc-share');sh.hidden=!(sum>0);sh.href=shareX('家電の電気代を計算したら、1ヶ月 '+yen(sum*days)+'／ひと冬 '+yen(sum*days*4)+' の目安でした','denkidai-calculator');
 }
 document.getElementById('add').onclick=function(){addRow('',0,0);calc();};
 document.getElementById('calc').addEventListener('input',calc);
@@ -67,6 +71,8 @@ calc();
 - エアコンをスマホで操作して切り忘れを防ぐ → [賃貸でエアコン2台をスマホ操作](smart-remote-rental-two-aircon.html)
 
 冬の電気代・寒さ対策の記事とツールは、悩み別に[冬の電気代まとめ](fuyu-denkidai-matome.html)で一覧にしています。
+
+<div id="tool-prods"></div>
 
 <!-- products: foot-heater -->
 <!-- products: smart-plug-monitor -->

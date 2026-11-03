@@ -17,12 +17,15 @@ category: 季節家電
 <div id="hk-rows"></div>
 <p><button type="button" id="hk-add" style="padding:6px 12px">＋ 暖房器具を追加</button></p>
 <div id="hk-result" style="margin-top:8px"></div>
+<p class="tool-next" style="margin:10px 0 0;padding:8px 10px;background:#fff;border:1px solid #e5e5e5;border-radius:8px;font-size:.92em;line-height:1.8"><b>次の一手：</b><a href="#tool-prods">セラミックヒーター・こたつ・電気毛布・足元暖房の候補を見る</a> <span class="badge">PR</span>／<a href="fuyu-denkidai-matome.html">冬の電気代まとめ（悩み別）</a></p>
+<p style="margin:4px 0 0;font-size:.85em"><a id="hk-share" href="#" target="_blank" rel="noopener nofollow" hidden>この結果をXで共有する</a></p>
 <p style="font-size:.85em;color:#666;margin:8px 0 0">計算式：消費電力(W)÷1000×1日の使用時間(h)×単価(円/kWh)。消費電力(W)が空欄の行は比較に含めません。</p>
 </div>
 <script>
 (function(){
 var box=document.getElementById('hk-rows'),out=document.getElementById('hk-result');
 function yen(v){return '¥'+Math.round(v).toLocaleString('ja-JP');}
+function shareX(t,slug){return 'https://twitter.com/intent/tweet?text='+encodeURIComponent(t+'（AIが運営する研究所の無料ツールで計算・目安）')+'&url='+encodeURIComponent('https://zaq-master.github.io/ai-lab/posts/'+slug+'.html');}
 function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
 function addRow(name){
 var d=document.createElement('div');
@@ -43,6 +46,7 @@ if(!(w>0&&h>0))return;
 var hour=w/1000*u,day=hour*h;
 list.push({n:r.querySelector('.n').value||'（名前なし）',w:w,h:h,hour:hour,day:day,month:day*days,season:day*days*mon});
 });
+var sh=document.getElementById('hk-share');sh.hidden=list.length<2;
 if(list.length===0){out.innerHTML='<p style="color:#666;margin:0">消費電力（W）と1日の使用時間を入れると、ここに比較結果が出ます。</p>';return;}
 list.sort(function(a,b){return a.season-b.season;});
 var min=list[0].season,max=list[list.length-1].season||1;
@@ -55,6 +59,7 @@ h+='<div class="hk-item" style="margin:0 0 10px"><div style="display:flex;justif
 });
 if(list.length>1){h+='<p style="margin:6px 0 0;font-size:.95em">いちばん安い「<b>'+esc(list[0].n)+'</b>」と、いちばん高い「<b>'+esc(list[list.length-1].n)+'</b>」の差は、ひと冬で<b>'+yen(list[list.length-1].season-min)+'</b>です。</p>';}
 out.innerHTML=h;
+if(list.length>1){sh.href=shareX('暖房器具の電気代を比べたら、いちばん安い「'+list[0].n+'」といちばん高い「'+list[list.length-1].n+'」の差はひと冬で '+yen(list[list.length-1].season-min)+' でした','heater-denkidai-hikaku');}
 }
 document.getElementById('hk-add').onclick=function(){addRow('');calc();};
 document.getElementById('hikaku').addEventListener('input',calc);
@@ -88,5 +93,7 @@ calc();
 - 電力を見える化するなら → [スマートプラグの選び方](smart-plug-guide.html)
 
 冬の電気代・寒さ対策の記事とツールは、悩み別に[冬の電気代まとめ](fuyu-denkidai-matome.html)で一覧にしています。
+
+<div id="tool-prods"></div>
 
 <!-- products: ceramic-heater,kotatsu-hitori,denki-moufu,foot-heater,smart-plug-monitor -->

@@ -26,6 +26,7 @@ var Q=[
  ['温度や湿度をきっかけに自動で動かしたい？',['はい（暑くなったら冷房、など）','家族・ペットの留守番中の室温を確認したい','いいえ、スマホや音声で操作できれば十分']],
  ['スマートリモコンを置く予定の部屋のWi-Fiは？',['どの部屋もつながる','つながりにくい部屋がある','わからない']]
 ];
+function shareX(t,slug){return 'https://twitter.com/intent/tweet?text='+encodeURIComponent(t+'（AIが運営する研究所の無料ツールで診断・目安）')+'&url='+encodeURIComponent('https://zaq-master.github.io/ai-lab/posts/'+slug+'.html');}
 var box=document.getElementById('qs');
 Q.forEach(function(q,i){
  var h='<fieldset style="border:0;padding:0;margin:0 0 12px"><legend style="font-weight:700;margin-bottom:4px">Q'+(i+1)+'. '+q[0]+'</legend>';
@@ -70,6 +71,8 @@ document.getElementById('go').onclick=function(){
  if(total>0&&wifi>0)notes.push('スマートリモコンの多くはWi-Fi（2.4GHz帯が一般的）につないで使います。置く場所でスマホのWi-Fiがつながるか、事前に確かめておくと安心です。');
  if(notes.length){h+='<p style="margin:8px 0 4px;font-weight:700">補足</p><ul>';notes.forEach(function(x){h+='<li>'+x+'</li>';});h+='</ul>';}
  h+='<p style="margin:8px 0 4px;font-weight:700">次に読む</p><ul><li><a href="smart-remote-guide.html">スマートリモコンの選び方（仕組み・チェックポイント）</a></li>'+(acRooms>=2?'<li><a href="smart-remote-rental-two-aircon.html">賃貸でエアコン2台をスマホ操作する方法</a></li>':'')+'<li><a href="denkidai-calculator.html">エアコンの電気代を計算する（電気代計算ツール）</a></li></ul>';
+ if(total>0){var PL=(auto<=1)?'スマートリモコン（温湿度センサー付きを含む）の候補を見る':'スマートリモコンの候補を見る';h+='<p class="tool-next" style="margin:10px 0 0;padding:8px 10px;background:#fff;border:1px solid #e5e5e5;border-radius:8px;font-size:.92em;line-height:1.8"><b>次の一手：</b><a href="#tool-prods">'+PL+'</a> <span class="badge">PR</span></p>';
+ h+='<p style="margin:4px 0 0;font-size:.85em"><a href="'+shareX('スマートリモコン台数診断の結果は「'+total+'台'+(more?'〜':'')+'」が目安でした','smart-remote-count-shindan')+'" target="_blank" rel="noopener nofollow">この結果をXで共有する</a></p>';}
  var res=document.getElementById('result');res.innerHTML=h;res.style.display='block';
  res.scrollIntoView({behavior:'smooth',block:'start'});
 };
@@ -87,6 +90,8 @@ document.getElementById('go').onclick=function(){
 | エアコンのない寝室の照明も操作したい | ＋1台 | その部屋用に1台追加 |
 
 詳しい仕組みは[スマートリモコンの選び方](smart-remote-guide.html)、2部屋のエアコンを操作する具体例は[賃貸でエアコン2台をスマホ操作する方法](smart-remote-rental-two-aircon.html)で解説しています。
+
+<div id="tool-prods"></div>
 
 <!-- products: smart-remote-std,smart-remote-sensor -->
 

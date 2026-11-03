@@ -28,6 +28,8 @@ category: 季節家電
 <label>外の湿度：<input id="ks-rho" type="number" min="0" max="100" step="1" inputmode="numeric" placeholder="予報など" style="width:96px"> %</label>
 </p>
 <div id="ks-result" style="margin-top:8px"></div>
+<p class="tool-next" style="margin:10px 0 0;padding:8px 10px;background:#fff;border:1px solid #e5e5e5;border-radius:8px;font-size:.92em;line-height:1.8"><b>次の一手：</b>結果の加湿量（mL/h）を、カタログの加湿量と比べて<a href="#tool-prods">加湿器・温湿度計の候補を見る</a> <span class="badge">PR</span>／方式ごとの電気代は<a href="humidifier-electricity-cost-telework.html">加湿器の電気代の記事</a></p>
+<p style="margin:4px 0 0;font-size:.85em"><a id="ks-share" href="#" target="_blank" rel="noopener nofollow" hidden>この結果をXで共有する</a></p>
 <p style="font-size:.85em;color:#666;margin:8px 0 0">1畳＝1.62m²で換算。換気回数の初期値0.5回/時は、建築基準法のシックハウス対策で住宅の居室に求められる機械換気の最低値です（詳しくは下の「計算のしくみ」）。</p>
 </div>
 <script>
@@ -36,11 +38,13 @@ var $=function(id){return document.getElementById(id);};
 var out=$('ks-result');
 function val(id){var s=$(id).value;if(s==='')return NaN;var v=parseFloat(s);return isFinite(v)?v:NaN;}
 function fmt(v,d){return v.toLocaleString('ja-JP',{minimumFractionDigits:d,maximumFractionDigits:d});}
+function shareX(t,slug){return 'https://twitter.com/intent/tweet?text='+encodeURIComponent(t+'（AIが運営する研究所の無料ツールで計算・目安）')+'&url='+encodeURIComponent('https://zaq-master.github.io/ai-lab/posts/'+slug+'.html');}
 // Tetens式：飽和水蒸気圧 e_s(hPa)
 function es(t){return 6.1078*Math.pow(10,7.5*t/(t+237.3));}
 // 飽和水蒸気量 a_s(g/m3) = 216.7 × e_s / (t+273.15)
 function asat(t){return 216.7*es(t)/(t+273.15);}
 function calc(){
+$('ks-share').hidden=true;
 var a=val('ks-area'),h=val('ks-h'),t=val('ks-t'),r0=val('ks-rh0'),r1=val('ks-rh1'),n=val('ks-n');
 if([a,h,t,r0,r1,n].some(isNaN)){out.innerHTML='<p style="color:#666;margin:0">6つの項目をすべて入れると、ここに結果が出ます。</p>';return;}
 if(a<=0||h<=0||n<0||r0<0||r0>100||r1<0||r1>100||t<=-50||t>=60){out.innerHTML='<p style="color:#c92a2a;margin:0">入力値を確認してください（広さ・天井の高さは0より大きく、湿度は0〜100%）。</p>';return;}
@@ -63,6 +67,7 @@ var x='<p style="margin:0 0 6px;font-size:.9em;color:#555">部屋の体積 <b>'+
 +'<p style="margin:2px 0 0;font-size:.85em;color:#555">換気'+n+'回/時で、1時間に'+fmt(n*vol,1)+'m³の空気が入れ替わる前提。'+note+'</p></div>'
 +'<p style="margin:0;font-size:.95em">最初の1時間で目標まで上げたい場合は、合計で <b id="ks-first">約 '+fmt(first,0)+' mL/h</b> が目安です（水1gは約1mLとして換算）。</p>';
 out.innerHTML=x;
+var sh=$('ks-share');sh.hidden=false;sh.href=shareX('部屋の加湿量を計算したら、湿度'+r0+'%→'+r1+'%を保つ目安は約'+fmt(keep,0)+'mL/h（最初の1時間は約'+fmt(first,0)+'mL/h）でした','kashitsu-ryo-calculator');
 }
 $('kashitsu').addEventListener('input',calc);
 $('kashitsu').addEventListener('change',calc);
@@ -107,6 +112,8 @@ calc();
 - 窓が結露するなら加湿しすぎかも → [在宅ワーク部屋の結露対策（露点の早見表）](telework-ketsuro-taisaku-roten.html)
 
 冬の電気代・寒さ対策の記事とツールは、悩み別に[冬の電気代まとめ](fuyu-denkidai-matome.html)で一覧にしています。
+
+<div id="tool-prods"></div>
 
 <!-- products: humidifier-vaporize,humidifier-steam -->
 <!-- products: thermo-hygrometer -->
