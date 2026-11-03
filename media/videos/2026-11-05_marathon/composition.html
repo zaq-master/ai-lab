@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "JP"; src: local("Noto Sans CJK JP Bold"), local("NotoSansCJKjp-Bold"); font-weight: 700; }
+      @font-face { font-family: "JP"; src: local("Noto Sans CJK JP Black"), local("NotoSansCJKjp-Black"); font-weight: 900; }
+      @font-face { font-family: "JP"; src: local("Noto Sans CJK JP Regular"), local("NotoSansCJKjp-Regular"); font-weight: 400; }
+      :root {
+        --ground: #0d1424;
+        --panel: #1b2742;
+        --ink: #ffffff;
+        --muted: #cfdaf0;
+        --accent: #ffd23f;
+        --warm: #ff8a5c;
+        --mint: #63e6be;
+        --cyan: #6fe3ff;
+        --red: #ff5c7a;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: var(--ground); }
+      #root { position: relative; width: 100%; height: 100%; font-family: "JP", sans-serif; color: var(--ink); background: var(--ground); }
+      #bg { position: absolute; inset: 0; background: radial-gradient(ellipse 900px 1200px at 50% 38%, #213a66 0%, var(--ground) 70%); }
+      #glow { position: absolute; left: 140px; top: 260px; width: 800px; height: 800px; border-radius: 50%;
+        background: radial-gradient(circle, rgba(111,227,255,0.22) 0%, rgba(111,227,255,0) 65%); }
+      #ai-badge { position: absolute; left: 0; right: 0; top: 196px; text-align: center; z-index: 20; }
+      #ai-badge span { display: inline-block; font-size: 32px; font-weight: 700; color: var(--ground);
+        background: var(--cyan); padding: 8px 26px; border-radius: 40px; }
+      #note-badge { position: absolute; left: 0; right: 0; top: 1690px; text-align: center; z-index: 20; }
+      #note-badge span { display: inline-block; font-size: 30px; font-weight: 700; color: var(--muted);
+        background: rgba(0,0,0,0.5); padding: 8px 24px; border-radius: 30px; line-height: 1.45; }
+      .scene { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; z-index: 5; }
+      .center { position: absolute; left: 90px; right: 90px; top: 320px; height: 740px;
+        display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+      .big { font-size: 96px; font-weight: 900; line-height: 1.25; }
+      .mid { font-size: 72px; font-weight: 900; line-height: 1.3; }
+      .row { font-size: 58px; font-weight: 900; line-height: 1.55; }
+      .small { font-size: 40px; font-weight: 700; color: var(--muted); line-height: 1.45; }
+      .acc { color: var(--accent); }
+      .warm { color: var(--warm); }
+      .mint { color: var(--mint); }
+      .tag { display: inline-block; background: var(--warm); color: var(--ground); font-size: 40px; font-weight: 900;
+        padding: 8px 28px; border-radius: 14px; margin-bottom: 30px; }
+      .tag.cy { background: var(--cyan); }
+      .formula { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 14px 16px; }
+      .fbox { background: var(--panel); border: 4px solid var(--accent); border-radius: 22px; padding: 14px 26px;
+        font-size: 66px; font-weight: 900; line-height: 1.15; }
+      .fbox small { display: block; font-size: 28px; font-weight: 700; color: var(--muted); margin-top: 4px; }
+      .fop { font-size: 64px; font-weight: 900; color: var(--accent); }
+      .eq { font-size: 62px; font-weight: 900; line-height: 1.4; }
+      .result { margin-top: 16px; font-size: 128px; font-weight: 900; color: var(--accent); line-height: 1.15; }
+      .source { position: absolute; left: 90px; right: 90px; top: 1050px; text-align: center;
+        font-size: 30px; font-weight: 400; color: var(--muted); line-height: 1.5; }
+      .cap { position: absolute; left: 90px; right: 90px; top: 1160px; z-index: 30; text-align: center; }
+      .cap span { display: inline-block; font-size: 52px; font-weight: 900; line-height: 1.35; color: #fff;
+        background: rgba(0,0,0,0.78); padding: 14px 30px; border-radius: 16px; }
+      .tbl { width: 880px; background: var(--panel); border-radius: 22px; padding: 26px 34px; }
+      .tline { display: flex; justify-content: space-between; font-size: 54px; font-weight: 900; line-height: 1.6; }
+      .tline + .tline { border-top: 2px solid rgba(255,255,255,0.12); }
+      #end-card { position: absolute; left: 70px; right: 70px; top: 1290px; z-index: 30;
+        background: rgba(0,0,0,0.62); border: 3px solid var(--cyan); border-radius: 24px; padding: 26px 30px; text-align: center; }
+      #end-card .must { font-size: 40px; font-weight: 900; color: var(--accent); line-height: 1.5; }
+      #end-card .src { margin-top: 14px; font-size: 28px; font-weight: 400; color: var(--muted); line-height: 1.5; }
+      .muted-v { color: var(--muted); }
+      .url { margin-top: 30px; font-size: 76px; font-weight: 900; line-height: 1.25; color: var(--ground);
+        background: var(--accent); padding: 18px 34px; border-radius: 22px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="18" data-width="1080" data-height="1920">
+      <div id="bg"></div>
+      <div id="glow"></div>
+
+      <div id="ai-badge" class="clip" data-start="0" data-duration="18" data-track-index="1">
+        <span>この動画はAIが制作しています</span>
+      </div>
+      <div id="note-badge" class="clip" data-start="0" data-duration="18" data-track-index="4">
+        <span>楽天公式ではありません<br />（AIがまとめた目安・2026年11月回）</span>
+      </div>
+
+      <!-- S1 hook 0-3 -->
+      <div id="s1" class="scene clip" data-start="0" data-duration="3" data-track-index="2">
+        <div class="center">
+          <div id="s1-a" class="mid">楽天<br />お買い物マラソン</div>
+          <div id="s1-b" class="big acc" style="margin-top: 24px">何店舗で<br />何倍？</div>
+        </div>
+      </div>
+
+      <!-- S2 rule 3-7.5 -->
+      <div id="s2" class="scene clip" data-start="3" data-duration="4.5" data-track-index="2">
+        <div class="center">
+          <div id="s2-tag" class="tag">ショップ買いまわり</div>
+          <div id="s2-a" class="row">1,000円以上の店が<br />1つ増えるごとに <span class="acc">＋1倍</span></div>
+          <div id="s2-t" class="tbl" style="margin-top: 26px">
+            <div id="s2-r1" class="tline"><span>1店舗</span><span class="muted-v">1倍（通常）</span></div>
+            <div id="s2-r2" class="tline"><span>2店舗</span><span class="acc">2倍</span></div>
+            <div id="s2-r3" class="tline"><span>5店舗</span><span class="acc">5倍</span></div>
+            <div id="s2-r4" class="tline"><span>10店舗以上</span><span class="warm">10倍</span></div>
+          </div>
+        </div>
+        <div id="s2-src" class="source">1ショップ1,000円（税込）以上・クーポン適用後・送料など除く</div>
+      </div>
+
+      <!-- S3 cap 7.5-10.5 -->
+      <div id="s3" class="scene clip" data-start="7.5" data-duration="3" data-track-index="2">
+        <div class="center">
+          <div id="s3-tag" class="tag cy">買いまわり分の上限</div>
+          <div id="s3-b" class="result">7,000<span style="font-size: 72px">ポイント</span></div>
+          <div id="s3-c" class="small" style="margin-top: 20px">期間限定ポイント<br />上限に届いたら それ以上は増えません</div>
+        </div>
+      </div>
+
+      <!-- S4 period + check 10.5-14 -->
+      <div id="s4" class="scene clip" data-start="10.5" data-duration="3.5" data-track-index="2">
+        <div class="center">
+          <div id="s4-tag" class="tag">ポイントアップ期間</div>
+          <div id="s4-a" class="eq">11/4(水)20:00<br />〜11/11(水)01:59</div>
+          <div id="s4-b" class="mid warm" style="margin-top: 34px">エントリーが必要</div>
+          <div id="s4-c" class="small" style="margin-top: 18px">条件とエントリーは<br />必ず楽天公式ページで確認</div>
+        </div>
+      </div>
+
+      <!-- S5 CTA 14-18 -->
+      <div id="s5" class="scene clip" data-start="14" data-duration="4" data-track-index="2">
+        <div class="center">
+          <div id="s5-a" class="mid">何倍・何ポイントか<br /><span class="acc">計算ツールは</span></div>
+          <div id="s5-b" class="url">zaq-master.github.io<br />/ai-lab</div>
+        </div>
+      </div>
+      <div id="end-card" class="clip" data-start="14" data-duration="4" data-track-index="5">
+        <div id="ec-a" class="must">AI運営の非公式サイト<br />楽天公式ではありません</div>
+        <div id="ec-b" class="src">QOLガジェット研究所（電脳アリス）<br />「お買い物マラソン 買いまわり計算ツール」</div>
+      </div>
+
+      <!-- Captions (burned in) -->
+      <div id="captions" data-track-kind="captions">
+        <div id="c1" class="cap clip" data-start="0" data-duration="3" data-track-index="3"><span>答えは「店舗数＝倍率」</span></div>
+        <div id="c2" class="cap clip" data-start="3" data-duration="4.5" data-track-index="3"><span>最大10倍まで</span></div>
+        <div id="c3" class="cap clip" data-start="7.5" data-duration="3" data-track-index="3"><span>7,000ポイントで頭打ち</span></div>
+        <div id="c4" class="cap clip" data-start="10.5" data-duration="3.5" data-track-index="3"><span>エントリー前の買い物も対象</span></div>
+      </div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const pop = (sel, t, extra) =>
+        tl.fromTo(sel, { opacity: 0, y: 40, scale: 0.94 }, Object.assign({ opacity: 1, y: 0, scale: 1, duration: 0.35, ease: "back.out(1.6)" }, extra || {}), t);
+      const fade = (sel, t) => tl.fromTo(sel, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, t);
+
+      tl.fromTo("#glow", { scale: 0.9, opacity: 0.7 }, { scale: 1.15, opacity: 1, duration: 18, ease: "none" }, 0);
+
+      pop("#s1-b", 0.6);
+
+      pop("#s2-tag", 3.05); pop("#s2-a", 3.25); fade("#s2-src", 3.3);
+      pop("#s2-r1", 3.7); pop("#s2-r2", 4.0); pop("#s2-r3", 4.3); pop("#s2-r4", 4.6, { ease: "back.out(2.4)" });
+
+      pop("#s3-tag", 7.55); pop("#s3-b", 7.8, { ease: "back.out(2.4)" }); fade("#s3-c", 8.4);
+
+      pop("#s4-tag", 10.55); pop("#s4-a", 10.75); pop("#s4-b", 11.3); fade("#s4-c", 11.6);
+
+      pop("#s5-a", 14.1); pop("#s5-b", 14.4, { ease: "back.out(2.0)" }); fade("#ec-a", 14.6); fade("#ec-b", 14.7);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
