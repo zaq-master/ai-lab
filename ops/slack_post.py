@@ -24,7 +24,7 @@ def api(method, token, data=None, raw=None, headers=None):
     return json.load(urllib.request.urlopen(req, timeout=30))
 
 
-def upload(token, path, channel, comment, thread_ts=None):
+def upload(token, path, channel, comment, thread_ts=None, share=False):
     b = Path(path).read_bytes()
     r = api("files.getUploadURLExternal", token,
             raw=urllib.parse.urlencode({"filename": Path(path).name, "length": len(b)}).encode(),
@@ -32,7 +32,12 @@ def upload(token, path, channel, comment, thread_ts=None):
     if not r.get("ok"):
         return r
     urllib.request.urlopen(urllib.request.Request(r["upload_url"], data=b, method="POST"), timeout=60)
-    c = api("files.completeUploadExternal", token, {"files": [{"id": r["file_id"], "title": Path(path).name}]})
+    d = {"files": [{"id": r["file_id"], "title": Path(path).name}]}
+    if share:  # 動画など画像以外：ファイルとして直接スレッド／チャンネルに共有
+        d.update({"channel_id": channel, "initial_comment": comment})
+        if thread_ts:
+            d["thread_ts"] = thread_ts
+    c = api("files.completeUploadExternal", token, d)
     if not c.get("ok"):
         return c
     return {"file_id": r["file_id"]}
@@ -42,6 +47,7 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("agent"); ap.add_argument("text")
     ap.add_argument("--channel"); ap.add_argument("--image"); ap.add_argument("--thread")
+    ap.add_argument("--file", help="動画など画像以外のファイル（Slack上で再生・DL可）")
     a = ap.parse_args()
     token = os.environ.get("SLACK_BOT_TOKEN")
     if not token:
@@ -50,6 +56,9 @@ if __name__ == "__main__":
     ch = a.channel or ag["channel"]
     body = {"channel": ch, "text": a.text, "username": f"{ag['name']}（{ag['role']}）",
             "icon_url": ICON.format(a.agent), "unfurl_links": True}
+    if a.file:
+        u = upload(token, a.file, ch, a.text, a.thread, share=True)
+        print(json.dumps({"ok": "file_id" in u, "error": u.get("error")})); sys.exit(0 if "file_id" in u else 1)
     if a.image:
         import time
         u = upload(token, a.image, ch, a.text, a.thread)
