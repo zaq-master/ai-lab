@@ -44,13 +44,14 @@ S.append(f"""<div class=w><span class=tag>消費電力は一定じゃない</spa
 <p class=sm style="margin-top:20px;font-size:30px">同じ計算例（500W・8時間・30日）の1ヶ月分で<br>「平均の％」だけを変えると</p>
 <div style="margin-top:10px">"""+bars([("平均100％<br>（そのまま）",3720,"#ffb35c"),("平均60％と<br>仮定した場合",2232,"#ffd8a8")],3720,360)+"""</div>
 <div class=warn style="margin-top:26px"><div class=wt>実際の％は機種・条件で変わる</div><div class=wd>外気温・設定温度・部屋の広さ・断熱しだい。<br>立ち上がりや寒い日は高くなることも</div></div>
+<div class=warn><div class=wt>暖房時の室温は20℃が目安</div><div class=wd>設定温度ではなく、温度計で室温を見る。<br>出典：資源エネルギー庁 省エネポータル「空調」</div></div>
 <div class=foot>60％は「％を変えると結果がどう変わるか」を見せるための仮の値です<br>（平均値の目安ではありません）</div>"""+AI+"</div>")
 S.append("""<div class=w><span class=tag>もっと正確に知るには</span><div class=pg>5/6</div>
 <h2 style="font-size:56px">計算の前に<br>知っておきたい3つ</h2>
 <div class=warn style="margin-top:34px"><div class=wt>機種を比べるなら「期間消費電力量」</div><div class=wd>カタログの kWh/年 × 単価 で年間の目安。<br>決められた条件で冷房＋暖房を1年使った値</div></div>
 <div class=warn><div class=wt>いちばん正確なのは実測</div><div class=wd>時間ごとの使用量が見られる電力会社のWeb明細で。<br>専用コンセントだとスマートプラグで測れないことも</div></div>
 <div class=warn><div class=wt>基本料金などは入っていない</div><div class=wd>燃料費調整額・再エネ賦課金でも変わる。<br>この式は「使った分の電力量料金」の目安</div></div>
-<div class=foot>暖房時の室温は20℃が目安（資源エネルギー庁 省エネポータル「空調」）</div>"""+AI+"</div>")
+<div class=foot>この3つは当サイト記事「エアコン暖房の電気代 計算ツール」の<br>注意書きをまとめたものです</div>"""+AI+"</div>")
 S.append(f"""<div class=w><span class=tag>自分のエアコンで計算</span><div class=pg>6/6</div>
 <h2 style="font-size:58px">うちのエアコンは<br>ひと冬いくら？</h2>
 <div class=card style="margin-top:34px">

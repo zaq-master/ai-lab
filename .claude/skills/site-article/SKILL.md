@@ -32,6 +32,7 @@ category: 既存カテゴリから（デスク環境／充電・電源／スマ�
 ```
 python3 build.py && git add -A && git commit -m "HH:MM 制作：<タイトル>" && git push
 ```
+- 公開前チェック（commitの前、build.py の後）：`python3 ops/tests/mobile_check.py`（スマホ・PC・ダークモードの表示崩れ。終了コード1なら直してから公開）
 アイキャッチ・関連記事・sitemapは build.py が自動生成する。push後1〜2分で公開。
 
 ## 4. 記録

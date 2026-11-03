@@ -19,11 +19,25 @@ OUT.mkdir(parents=True, exist_ok=True)
 
 BG, CARD, FG, SUB, LINE = "#f6f7fb", "#ffffff", "#1d2330", "#6b7385", "#e3e6ee"
 ACC = ["#3b5bdb", "#0ca678", "#f08c00", "#e64980", "#7048e8", "#1098ad"]
-STATUS = {"稼働中": "#0ca678", "準備中": "#f08c00", "原稿あり": "#f08c00", "ログイン待ち": "#e03131", "未着手": "#adb5bd"}
+STATUS = {"稼働中": "#0ca678", "準備中": "#f08c00", "原稿あり": "#f08c00", "ログイン待ち": "#e03131", "未着手": "#adb5bd", "稼働": "#0ca678",
+          "🟢": "#0ca678", "🟡": "#f08c00", "🔴": "#e03131", "順調": "#0ca678", "様子見": "#f08c00", "止まっ": "#e03131"}
+# 日本語フォントに絵文字が無く豆腐（□）になるため、描画する文字列からは取り除く（色は STATUS で付ける）
+EMOJI = re.compile("[\U0001F000-\U0001FAFF\u2600-\u27BF\u2B00-\u2BFF\uFE0E\uFE0F\u200D]")
+
+
+def clean(t):
+    return re.sub(r"\s{2,}", " ", EMOJI.sub("", str(t))).strip()
+
+
+def status_key(st):
+    return next((k for k in STATUS if k in st), "未着手")
 
 
 def font():
     cands = [f for f in fm.findSystemFonts() if re.search(r"NotoSansCJK|NotoSansJP|IPAexGothic|ipag", f, re.I)]
+    # findSystemFonts の順番は毎回変わるため、太字が出る Noto Sans CJK（Regular）を優先して固定する
+    pri = lambda f: next((i for i, k in enumerate(["NotoSansCJK-Regular", "NotoSansCJK", "NotoSansJP", "IPAexGothic"]) if k.lower() in f.lower()), 9)
+    cands.sort(key=lambda f: (pri(f), f))
     if not cands:
         p = Path("/tmp/NotoSansJP.ttf")
         if not p.exists():
@@ -94,20 +108,22 @@ def daily():
     ax.text(0.61, 0.52, "事業の状態", fontsize=12, weight="bold", color=FG)
     for i, (n, name, st) in enumerate(ventures()[:11]):
         y = 0.47 - i * 0.04
-        key = next((k for k in STATUS if k in st), "未着手")
+        key = status_key(st)
         ax.add_patch(plt.Circle((0.62, y + 0.008), 0.007, color=STATUS[key]))
-        ax.text(0.635, y, f"{n}. {name}", fontsize=10, color=FG)
-        ax.text(0.97, y, st[:14], fontsize=9, color=SUB, ha="right")
+        ax.text(0.635, y, f"{n}. {clean(name)}", fontsize=10, color=FG)
+        ax.text(0.97, y, clean(st)[:14], fontsize=9, color=SUB, ha="right")
     p = OUT / "daily.png"; fig.savefig(p, facecolor=BG); print(p)
 
 
 def biz(no, title, status, results, nxt):
+    key = status_key(status)
+    title, status, nxt = clean(title), clean(status), clean(nxt)
+    results = "|".join(clean(x) for x in results.split("|"))
     fig = plt.figure(figsize=(10, 5.2), dpi=110, facecolor=BG)
     ax = fig.add_axes([0, 0, 1, 1]); ax.axis("off"); ax.set_xlim(0, 1); ax.set_ylim(0, 1)
     c = ACC[int(no) % len(ACC)]
     ax.add_patch(plt.Rectangle((0, 0.9), 1, 0.1, color=c))
     ax.text(0.03, 0.95, f"{int(no):02d}  {title}", fontsize=18, weight="bold", color="white", va="center")
-    key = next((k for k in STATUS if k in status), "未着手")
     ax.add_patch(plt.Rectangle((0.03, 0.76), 0.3, 0.08, color=STATUS[key]))
     ax.text(0.045, 0.8, f"状態：{status}"[:18], fontsize=12, color="white", va="center", weight="bold")
     ax.text(0.03, 0.68, "今回の成果", fontsize=13, weight="bold", color=FG)
