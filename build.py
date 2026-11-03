@@ -60,10 +60,18 @@ def parse(p):
     return meta
 
 
-def page(title, desc, body, path, prefix):
+def page(title, desc, body, path, prefix, ogtype="website", image="", jsonld=None):
     url = f"{CFG['base_url']}/{path}"
     out = TPL
+    ogimg = (f'<meta property="og:image" content="{image}">\n<meta property="og:image:width" content="1200">\n'
+             f'<meta property="og:image:height" content="630">\n<meta name="twitter:image" content="{image}">\n') if image else ""
+    ld = "".join('<script type="application/ld+json">'
+                 + json.dumps(d, ensure_ascii=False).replace("</", "<\\/") + "</script>\n" for d in (jsonld or []))
     for k, v in {
+        "{{ogtype}}": ogtype,
+        "{{ogimage}}": ogimg,
+        "{{twcard}}": "summary_large_image" if image else "summary",
+        "{{jsonld}}": ld,
         "{{title}}": html.escape(title),
         "{{desc}}": html.escape(desc),
         "{{url}}": url,
@@ -103,6 +111,57 @@ def eyecatch(x):
     f = OUT / "posts" / f"{x['slug']}.svg"
     f.parent.mkdir(parents=True, exist_ok=True)
     f.write_text(svg, encoding="utf-8")
+
+
+FONT = Path("/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc")
+ORG = {"@type": "Organization", "name": "QOLガジェット研究所（AI運営）", "url": CFG["base_url"] + "/"}
+
+
+def og_png(slug, title, category=""):
+    """SNS共有用の1200×630 PNG（docs/og/<slug>.png）。PILか日本語フォントが無ければ作らず空文字を返す。"""
+    try:
+        from PIL import Image, ImageDraw, ImageFont
+        big, mid = (ImageFont.truetype(str(FONT), n, index=0) for n in (60, 30))
+    except Exception:
+        return ""
+    a, b = PALETTES[sum(map(ord, slug)) % len(PALETTES)]
+    ca, cb = (tuple(int(c[i:i + 2], 16) for i in (1, 3, 5)) for c in (a, b))
+    im = Image.new("RGB", (1200, 630))
+    d = ImageDraw.Draw(im)
+    for y in range(630):  # 縦グラデーション
+        t = y / 629
+        d.line([(0, y), (1200, y)], fill=tuple(round(ca[i] + (cb[i] - ca[i]) * t) for i in range(3)))
+    lines, cur = [], ""
+    for ch in title.split("｜")[0]:
+        if d.textlength(cur + ch, font=big) > 1080 and ch not in "、。，．）」』！？ー":  # 行頭禁則
+            lines.append(cur); cur = ch
+        else:
+            cur += ch
+    lines = (lines + [cur])[:3]
+    y0 = 315 - len(lines) * 42
+    for i, l in enumerate(lines):
+        d.text((60, y0 + i * 84), l, font=big, fill="white")
+    if category:
+        d.rounded_rectangle([60, 70, 100 + d.textlength(category, font=mid), 122], radius=24, fill=tuple(min(255, c + 40) for c in ca))
+        d.text((80, 76), category, font=mid, fill="white")
+    d.text((60, 545), "QOLガジェット研究所 ／ 電脳アリス（AI運営）", font=mid, fill="white")
+    f = OUT / "og" / f"{slug}.png"
+    f.parent.mkdir(parents=True, exist_ok=True)
+    im.save(f, optimize=True)
+    return f"{CFG['base_url']}/og/{slug}.png"
+
+
+def article_ld(x, url, image):
+    art = {"@context": "https://schema.org", "@type": "Article", "headline": x["title"][:110],
+           "description": x["description"], "datePublished": x["date"],
+           "dateModified": x.get("updated") or x["date"], "mainEntityOfPage": url,
+           "author": ORG, "publisher": ORG, "inLanguage": "ja"}
+    if image:
+        art["image"] = image
+    crumbs = [("トップ", CFG["base_url"] + "/"), (x["title"], url)]  # カテゴリページは無いので2階層
+    bc = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": i + 1, "name": n, "item": u} for i, (n, u) in enumerate(crumbs)]}
+    return [art, bc]
 
 
 def related(x, posts, n=3):
@@ -152,18 +211,24 @@ def main():
                 f'<h1>{html.escape(x["title"])}</h1>'
                 '<p class="pr">※本記事はアフィリエイト広告を含みます。内容はAI（電脳アリス）が公開情報をもとに作成しています。</p>'
                 f'{x["body"]}{related(x, posts)}</article>')
-        urls.append(page(x["title"], x["description"], body, f"posts/{x['slug']}.html", "../"))
+        path = f"posts/{x['slug']}.html"
+        img = og_png(x["slug"], x["title"], x.get("category", ""))
+        urls.append(page(x["title"], x["description"], body, path, "../", "article", img,
+                         article_ld(x, f"{CFG['base_url']}/{path}", img)))
     cards = "".join(
         f'<a class="card" href="posts/{x["slug"]}.html"><img class="eye" src="posts/{x["slug"]}.svg" alt="" width="1200" height="630" loading="lazy"><span class="meta">{x["date"]}・{html.escape(x.get("category",""))}</span>'
         f'<h2>{html.escape(x["title"])}</h2><p>{html.escape(x["description"])}</p></a>' for x in posts)
     hero = (f'<section class="hero"><h1>{CFG["site_name"]}</h1><p>{CFG["tagline"]}</p></section>'
             f'{hub_block()}'
             f'<section class="list">{cards or "<p>記事を準備中です。</p>"}</section>')
-    urls.append(page(CFG["site_name"], CFG["tagline"], hero, "index.html", ""))
+    site_img = og_png("index", CFG["tagline"], CFG["site_name"])
+    site_ld = [{"@context": "https://schema.org", "@type": "WebSite", "name": CFG["site_name"],
+                "url": CFG["base_url"] + "/", "inLanguage": "ja", "publisher": ORG}]
+    urls.append(page(CFG["site_name"], CFG["tagline"], hero, "index.html", "", "website", site_img, site_ld))
     for name in ["about"]:
         src = (ROOT / "content" / f"{name}.md").read_text(encoding="utf-8")
         t = src.splitlines()[0].lstrip("# ")
-        urls.append(page(t, t, f"<article>{markdown.markdown(src)}</article>", f"{name}.html", ""))
+        urls.append(page(t, t, f"<article>{markdown.markdown(src)}</article>", f"{name}.html", "", "website", site_img))
     (OUT / ".nojekyll").write_text("")
     (OUT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {CFG['base_url']}/sitemap.xml\n")
     (OUT / "sitemap.xml").write_text(

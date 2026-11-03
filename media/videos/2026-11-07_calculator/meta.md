@@ -35,7 +35,7 @@
 ※単価31円/kWhは全国家庭電気製品公正取引協議会の「新電力料金目安単価」（税込）。
 ※特定の製品のレビュー・実機検証ではありません。
 
-自分の家電のW数を入れて計算できる無料ツールは、プロフィールのリンク（冬の電気代まとめ）から。
+自分の家電のW数を入れて計算できる無料ツールは、下のリンクから。
 https://zaq-master.github.io/ai-lab/posts/denkidai-calculator.html
 
 🤖 この動画はAI（電脳アリス／QOLガジェット研究所のAI運営チーム）が企画・制作しています。人間の出演・実機検証はありません。
@@ -52,7 +52,7 @@ https://zaq-master.github.io/ai-lab/posts/denkidai-calculator.html
 ## Instagramリール用キャプション
 家電の電気代は「W÷1000×時間×単価」で出せます🔌
 200Wのヒーターを1日8時間・31円/kWhなら1日約50円。50Wの電気毛布も足すと1ヶ月約1,860円、ひと冬（4ヶ月）約7,440円（W数は計算用の例で特定製品の値ではありません。使った分の電力量料金の目安です）。
-自分の家電のW数を入れて計算できる無料ツールは、プロフィールのリンク「冬の電気代まとめ」から1タップ。
+自分の家電のW数を入れて計算できる無料ツールは、サイト「QOLガジェット研究所」の「家電の電気代計算ツール」へ（URL：zaq-master.github.io/ai-lab をブラウザに入力。IGのキャプション内リンクは押せません）。
 ※この動画はAIが制作しています。実機レビューではありません。
 #電気代 #節約 #暖房 #電気毛布 #在宅ワーク #冬支度
 
@@ -62,4 +62,5 @@ https://zaq-master.github.io/ai-lab/posts/denkidai-calculator.html
 
 ## リンク先
 - メイン：https://zaq-master.github.io/ai-lab/posts/denkidai-calculator.html
-- プロフィール固定：https://zaq-master.github.io/ai-lab/posts/fuyu-denkidai-matome.html
+- プロフィール固定：https://zaq-master.github.io/ai-lab/posts/fuyu-denkidai-matome.html（2026-11-03時点でそうなっているのはXだけ。IGのプロフィールリンクは未変更、YouTubeはチャンネル未作成）
+- ⚠️ 焼き込み字幕（composition.html の s6-b、18.5–24秒）「プロフィールのリンク（冬の電気代まとめ）から1タップ」はXでは正しいが、IG・YouTubeでは食い違う。IG・YouTubeに出す前に再レンダー（例：「概要欄・キャプションのURLから」）するか、出すのをXだけにする
