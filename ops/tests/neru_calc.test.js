@@ -94,6 +94,15 @@ t("rank：0円の行を除き、一晩の安い順に並ぶ", () => {
   assert.deepStrictEqual(Array.from(r, x => x.name), ["c", "d", "a"]);
 });
 
+t("共有文に「入力した値での目安」「仮定」が入り、初期値のままなら「例」と入る（監査R3 中1）", () => {
+  const a = N.shareText("湯たんぽ ¥5.9", "オイルヒーター ¥148.8", false);
+  const b = N.shareText("湯たんぽ ¥5.9", "オイルヒーター ¥148.8", true);
+  for (const s of [a, b]) assert.ok(s.includes("入力した値での目安") && s.includes("W数・湯の量などは仮定"), s);
+  assert.ok(b.includes("例") && !a.includes("初期値の例"), "初期値のときだけ「例」");
+  assert.ok(/shareX\(NeruCalc\.shareText\(/.test(md), "共有リンクが shareText を使う");
+  assert.ok(!/差：1か月 <b>/.test(md), "差額を太字で強調しない");
+});
+
 // ページの作り（既存ツールと同じ導線・表記）
 t("PR表記・商品枠・次の一手・31円の出典と確認日・例/仮定の明記", () => {
   assert.ok(md.includes('<span class="badge">PR</span>'), "PRバッジ");

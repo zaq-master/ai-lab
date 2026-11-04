@@ -97,7 +97,8 @@ var e=Math.min(n(eff),100),kwh=e>0?n(l)*C*dt/3600/(e/100)*n(times):0,night=kwh*n
 return {kwh:kwh,night:night,month:night*n(days)};
 }
 function rank(list){return list.filter(function(x){return x.night>0;}).sort(function(a,b){return a.night-b.night;});}
-return {device:device,kettle:kettle,rank:rank,C:C};
+function shareText(lo,hi,isExample){return (isExample?'【初期値の例の値で】':'')+'寝るときの暖房の電気代を比べたら、一晩 '+lo+'〜'+hi+' でした（入力した値での目安。W数・湯の量などは仮定）';}
+return {device:device,kettle:kettle,rank:rank,shareText:shareText,C:C};
 })();
 if(typeof module!=="undefined"&&module.exports)module.exports=NeruCalc;
 </script>
@@ -129,9 +130,10 @@ r.forEach(function(x,i){
 h+='<tr><td>'+(i+1)+'. '+esc(x.name)+'</td><td>'+esc(x.cond)+'<br><span style="font-size:.85em;color:#555">約'+(Math.round(x.kwh*100)/100)+'kWh</span></td><td class="nw"><b>'+yen1(x.night)+'</b></td><td class="nw"><b>'+yen(x.month)+'</b></td></tr>';
 });
 h+='</tbody></table>';
-if(r.length>1)h+='<p style="margin:6px 0 0;font-size:.9em">いちばん高い「'+esc(r[r.length-1].name)+'」と安い「'+esc(r[0].name)+'」の差：1か月 <b>'+yen(r[r.length-1].month-r[0].month)+'</b></p>';
+if(r.length>1)h+='<p style="margin:6px 0 0;font-size:.85em;color:#555">いちばん高い「'+esc(r[r.length-1].name)+'」と安い「'+esc(r[0].name)+'」の差：1か月 '+yen(r[r.length-1].month-r[0].month)+'（部屋全体を暖める器具と布団の中を温める器具では役割が違うため、置き換えでこの額が浮くとは限りません。前提しだいの差です）</p>';
 out.innerHTML=h;
-sh.hidden=false;sh.href=shareX('寝るときの暖房の電気代を比べたら、一晩 '+r[0].name+' '+yen1(r[0].night)+'〜'+r[r.length-1].name+' '+yen1(r[r.length-1].night)+' の目安でした');
+var isEx=Array.prototype.every.call(document.querySelectorAll('#neru-calc input'),function(e){return e.value===e.defaultValue;});
+sh.hidden=false;sh.href=shareX(NeruCalc.shareText(r[0].name+' '+yen1(r[0].night),r[r.length-1].name+' '+yen1(r[r.length-1].night),isEx));
 }
 $('neru-calc').addEventListener('input',run);
 run();
