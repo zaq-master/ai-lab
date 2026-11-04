@@ -279,6 +279,9 @@ def related(x, posts, n=3):
 # トップの導線ブロック（冬の電気代ハブ＋無料ツール一覧）。リンク先が docs/ に無いものは出さない。
 HUB = ("posts/fuyu-denkidai-matome.html", "冬の電気代まとめ",
        "暖房・加湿・エアコン自動化の電気代を、悩み別に記事とツールで整理")
+# 期間限定の特集（4つ目＝表示する最終日 JST。過ぎたら次のビルドで自動的に消える）
+SALE = ("posts/rakuten-marathon-fuyu-kaden-list.html", "楽天お買い物マラソン前の冬家電チェックリスト【PR】",
+        "11/4 20:00〜11/11 01:59。電気代で選ぶ暖房・加湿器など", "2026-11-11")
 # 4つ目の要素（任意）＝表示する最終日（JST、この日まで先頭に出す。過ぎたら次のビルドで自動的に消える）
 TOOLS = [
     ("posts/rakuten-marathon-point-calculator.html", "楽天お買い物マラソン 買いまわり計算（非公式）",
@@ -349,6 +352,9 @@ def hub_block():
                     for t in TOOLS if ok(t[0]) and live(t))
     hub = (f'<a class="hub-main" href="{HUB[0]}"><span class="badge">特集</span><b>{HUB[1]}</b>'
            f'<span>{HUB[2]} →</span></a>') if ok(HUB[0]) else ""
+    if ok(SALE[0]) and live(SALE):
+        hub = (f'<a class="hub-main" href="{SALE[0]}"><span class="badge">期間限定</span><b>{html.escape(SALE[1])}</b>'
+               f'<span>{html.escape(SALE[2])} →</span></a><div style="height:10px"></div>') + hub
     if not (hub or tools):
         return ""
     return (f'<section class="hub" aria-label="特集と無料ツール">{hub}'
