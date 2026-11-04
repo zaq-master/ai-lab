@@ -61,7 +61,7 @@ S.append("""<div class=w><span class=tag>STEP 2</span><div class=pg>3/6</div>
 <div class=row><span>① 100W ÷ 1000 × 8時間</span><b>0.8kWh</b></div>
 <div class=row style="align-items:center"><span>② 0.8kWh × 31円</span><span style="font-size:72px;font-weight:900;color:#e2561b">24.8円</span></div></div>
 <p class=sm style="margin-top:26px;font-size:30px">※サイトの早見表の「1日 約25円」は24.8円を丸めた表示<br>※実際の単価は契約プランで変わります。<br>　検針票・Web明細の単価に置き換えると<br>　自分の家の目安に</p>
-<div class=foot style="font-size:24px">単価31円/kWh（税込）：全国家庭電気製品公正取引協議会<br>「新電力料金目安単価」</div></div>""")
+<div class=foot style="font-size:24px">単価31円/kWh：全国家庭電気製品公正取引協議会<br>「新電気料金目安単価」</div></div>""")
 # 4 STEP3
 S.append("""<div class=w><span class=tag>STEP 3</span><div class=pg>4/6</div>
 <h2>× 使う日数で<br><span class=or>1か月の電気代</span></h2>
@@ -86,7 +86,7 @@ S.append("""<div class=w><span class=tag>出典とおことわり</span><div cla
 <div class=src><b>チェックリスト・計算式</b><br>「冬の電気代まとめ」</div>
 <div class=src><b>例の100W・1200W（1か月）</b><br>「足元暖房の電気代はいくら？」の早見表</div>
 <div class=src><b>無料ツール</b><br>家電の電気代計算ツール<br>暖房器具の電気代 比較ツール<br>加湿量 計算ツール</div></div>
-<p style="font-size:27px;line-height:1.6;margin-top:26px;color:#fff">・目安単価31円/kWh<br>　（全国家庭電気製品公正取引協議会「新電力料金目安単価」）<br>・実機レビューではありません（計算による目安）<br>・🤖 <b class=or>AIが運営する研究所です</b></p>
+<p style="font-size:27px;line-height:1.6;margin-top:26px;color:#fff">・目安単価31円/kWh<br>　（全国家庭電気製品公正取引協議会「新電気料金目安単価」）<br>・実機レビューではありません（計算による目安）<br>・🤖 <b class=or>AIが運営する研究所です</b></p>
 <div class=foot style="font-size:30px;color:#fff;font-weight:700">QOLガジェット研究所<br><span style="color:#ffb070">zaq-master.github.io/ai-lab</span></div></div>""")
 with sync_playwright() as p:
     b=p.chromium.launch(); pg=b.new_page(viewport={'width':1080,'height':1350})

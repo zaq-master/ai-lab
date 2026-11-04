@@ -55,7 +55,7 @@ S.append("""<div class=w><span class=tag>計算式</span><div class=pg>3/5</div>
 <div class=row><span>③ 0.24kWh × 31円</span><b>約7.4円/日</b></div>
 <div class=row style="align-items:center"><span>平日20日なら</span><span style="font-size:72px;font-weight:900;color:#e2561b">約149円</span></div></div>
 <p class=sm style="margin-top:36px">※計算方法を示すための仮定の例です。実際の消費電力は本体ラベル・取扱説明書で確認を。ハイブリッド式は<b style="color:#fff">よく使うモードの値</b>で計算します。</p>
-<div class=foot>単価31円/kWh（税込）：全国家庭電気製品公正取引協議会の目安単価</div></div>""")
+<div class=foot>単価31円/kWh：全国家庭電気製品公正取引協議会の目安単価</div></div>""")
 S.append("""<div class=w><span class=tag>早見表</span><div class=pg>4/5</div>
 <h2>消費電力別<br>1ヶ月の電気代の目安</h2>
 <p class=sm style="margin-top:16px">1日8時間 × 20日（平日の在宅ワーク）・単価31円/kWh</p>

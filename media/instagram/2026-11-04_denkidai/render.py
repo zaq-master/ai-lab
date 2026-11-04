@@ -40,7 +40,7 @@ S.append("""<div class=w><span class=tag>公式</span><div class=pg>2/5</div>
 <p>・<b class=or>÷1000</b> は「W」を「kW」にするため</p>
 <p>・消費電力は本体ラベルや取扱説明書で確認</p>
 <p>・単価は検針票・Web明細の値がいちばん正確</p></div>
-<div class=foot>目安単価31円/kWh（税込）：全国家庭電気製品公正取引協議会</div></div>""")
+<div class=foot>目安単価31円/kWh：全国家庭電気製品公正取引協議会</div></div>""")
 S.append("""<div class=w><span class=tag>計算例</span><div class=pg>3/5</div>
 <h2>例：1000Wの機器を<br>1日8時間使ったら？</h2>
 <div class=card>
@@ -49,7 +49,7 @@ S.append("""<div class=w><span class=tag>計算例</span><div class=pg>3/5</div>
 <div class=row><span>③ 8kWh × 31円</span><b>248 円/日</b></div>
 <div class=row style="align-items:center"><span>30日続けると</span><span class=big>7,440円</span></div></div>
 <p class=sm style="margin-top:44px">※数値は計算方法を示すための仮定の例です。実際の消費電力は運転モード・室温・設定で変わります。</p>
-<div class=foot>単価31円/kWh（税込）は全国家庭電気製品公正取引協議会の目安単価</div></div>""")
+<div class=foot>単価31円/kWhは全国家庭電気製品公正取引協議会の目安単価</div></div>""")
 S.append("""<div class=w><span class=tag>節約のヒント</span><div class=pg>4/5</div>
 <h2>電気代は<br><span class=or>Wと時間に比例</span>する</h2>
 <p class=sm style="margin-top:24px">同じ計算式・単価31円/kWh・30日で比べると</p>

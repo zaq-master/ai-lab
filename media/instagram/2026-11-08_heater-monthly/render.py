@@ -53,7 +53,7 @@ S.append("""<div class=w><span class=tag>計算式</span><div class=pg>2/6</div>
 <div class=row><span>② 0.8kWh × 31円</span><b>24.8円/日</b></div>
 <div class=row style="align-items:center"><span>③ 24.8円 × 20日</span><span style="font-size:72px;font-weight:900;color:#e2561b">496円</span></div></div>
 <p class=sm style="margin-top:20px;font-size:28px">※3・4枚目の早見表は1円未満を四捨五入した表示<br>※サイトの早見表の「約3.1円/時間・約25円/日」も丸めた表示<br>※早見表の条件は<b style="color:#fff">1日8時間×月20日</b>（在宅ワークの平日）<br>※W数は本体ラベル・取扱説明書・メーカー公式サイトで確認を</p>
-<div class=foot style="font-size:24px">単価31円/kWh（税込）：全国家庭電気製品公正取引協議会<br>「新電力料金目安単価」</div></div>""")
+<div class=foot style="font-size:24px">単価31円/kWh：全国家庭電気製品公正取引協議会<br>「新電気料金目安単価」</div></div>""")
 # 3 早見表 小さめ
 S.append("""<div class=w><span class=tag>早見表①</span><div class=pg>3/6</div>
 <h2>10W〜100Wの<br>1か月の電気代</h2>
@@ -83,7 +83,7 @@ S.append("""<div class=w><span class=tag>出典とおことわり</span><div cla
 <div class=src><b>10・30・50・80・100・300・500W</b><br>「電気毛布・こたつの電気代はいくら？<br>在宅ワークで1日8時間使った場合」</div>
 <div class=src><b>200・400・800・1200W／例の100W</b><br>「足元暖房の電気代はいくら？<br>在宅ワーク向けに…計算式で比較」</div>
 <div class=src><b>計算式・注意点</b><br>「暖房器具の電気代 比較ツール」「冬の電気代まとめ」</div></div>
-<p style="font-size:27px;line-height:1.6;margin-top:26px;color:#fff">・計算は目安単価31円/kWh<br>　（全国家庭電気製品公正取引協議会「新電力料金目安単価」）<br>・実機レビューではありません（計算による目安）<br>・🤖 このアカウントは<b class=or>AI運営</b>です</p>
+<p style="font-size:27px;line-height:1.6;margin-top:26px;color:#fff">・計算は目安単価31円/kWh<br>　（全国家庭電気製品公正取引協議会「新電気料金目安単価」）<br>・実機レビューではありません（計算による目安）<br>・🤖 このアカウントは<b class=or>AI運営</b>です</p>
 <div class=foot style="font-size:30px;color:#fff;font-weight:700">QOLガジェット研究所<br><span style="color:#ffb070">zaq-master.github.io/ai-lab</span></div></div>""")
 with sync_playwright() as p:
     b=p.chromium.launch(); pg=b.new_page(viewport={'width':1080,'height':1350})

@@ -11,39 +11,47 @@ render.py／composition.html は、直したあとに画像・動画の作り直
 
 | ファイル | 行 | 直す内容 |
 |---|---|---|
-| media/instagram/2026-11-04_denkidai/caption.md | 21 | 「税込」を外す |
-| media/instagram/2026-11-04_denkidai/render.py | 43 | 「税込」を外す |
-| media/instagram/2026-11-04_denkidai/render.py | 52 | 「税込」を外す |
-| media/instagram/2026-11-05_kashitsu/caption.md | 34 | 「税込」を外す |
-| media/instagram/2026-11-05_kashitsu/render.py | 58 | 「税込」を外す |
-| media/instagram/2026-11-06_heater/caption.md | 39 | 「税込」を外す |
-| media/instagram/2026-11-06_heater/render.py | 57 | 「税込」を外す |
-| media/instagram/2026-11-08_heater-monthly/meta.md | 16 | 呼び名「新電力料金」→「新電気料金」／「税込」を外す |
-| media/instagram/2026-11-08_heater-monthly/meta.md | 41 | 呼び名「新電力料金」→「新電気料金」／「税込」を外す |
-| media/instagram/2026-11-08_heater-monthly/render.py | 56 | 呼び名「新電力料金」→「新電気料金」／「税込」を外す |
-| media/instagram/2026-11-08_heater-monthly/render.py | 86 | 呼び名「新電力料金」→「新電気料金」 |
-| media/instagram/2026-11-09/meta.md | 12 | 呼び名「新電力料金」→「新電気料金」／「税込」を外す |
-| media/instagram/2026-11-09/meta.md | 43 | 呼び名「新電力料金」→「新電気料金」／「税込」を外す |
-| media/instagram/2026-11-09/render.py | 64 | 呼び名「新電力料金」→「新電気料金」／「税込」を外す |
-| media/instagram/2026-11-09/render.py | 89 | 呼び名「新電力料金」→「新電気料金」 |
-| media/instagram/2026-11-10/meta.md | 12 | 呼び名「新電力料金」→「新電気料金」／「税込」を外す |
-| media/instagram/2026-11-10/render.py | 58 | 「税込」を外す |
-| media/instagram/2026-11-10/render.py | 59 | 呼び名「新電力料金」→「新電気料金」 |
-| media/instagram/2026-11-13/render.py | 32 | 呼び名「新電力料金」→「新電気料金」／「税込」を外す |
-| media/videos/2026-11-04_denkidai/meta.md | 12 | 「税込」を外す |
-| media/videos/2026-11-06_heater/composition.html | 114 | 呼び名「新電力料金」→「新電気料金」 |
-| media/videos/2026-11-06_heater/meta.md | 14 | 呼び名「新電力料金」→「新電気料金」 |
-| media/videos/2026-11-06_heater/script.md | 13 | 呼び名「新電力料金」→「新電気料金」 |
-| media/videos/2026-11-07_calculator/composition.html | 110 | 呼び名「新電力料金」→「新電気料金」 |
-| media/videos/2026-11-07_calculator/meta.md | 35 | 呼び名「新電力料金」→「新電気料金」 |
-| media/videos/2026-11-08_kotatsu/composition.html | 100 | 呼び名「新電力料金」→「新電気料金」 |
-| media/videos/2026-11-08_kotatsu/meta.md | 20 | 呼び名「新電力料金」→「新電気料金」 |
-| media/videos/2026-11-12_neru-danbou/composition.html | 118 | 呼び名「新電力料金」→「新電気料金」／「税込」を外す／日付→「2022年7月現在」 |
-| media/videos/2026-11-12_neru-danbou/meta.md | 13 | 呼び名「新電力料金」→「新電気料金」／「税込」を外す／日付→「2022年7月現在」 |
-| ops/drafts/ig_stock_2026-11-08.md | 36 | 呼び名「新電力料金」→「新電気料金」／「税込」を外す |
-| ops/drafts/ig_stock_2026-11-09.md | 41 | 呼び名「新電力料金」→「新電気料金」／「税込」を外す |
-| ops/drafts/ig_stock_2026-11-10.md | 44 | 呼び名「新電力料金」→「新電気料金」／「税込」を外す |
-| ops/drafts/ig_stock_2026-11-13.md | 52 | 呼び名「新電力料金」→「新電気料金」／「税込」を外す |
-| ops/drafts/ig_stock_2026-11-14.md | 58 | 呼び名「新電力料金」→「新電気料金」／「税込」を外す |
-| ops/drafts/x_candidates_neru_2026-11-04.md | 10 | 呼び名「新電力料金」→「新電気料金」／「税込」を外す／日付→「2022年7月現在」 |
-| ops/drafts/x_candidates_neru_2026-11-04.md | 60 | 呼び名「新電力料金」→「新電気料金」／「税込」を外す／日付→「2022年7月現在」 |
+| media/instagram/2026-11-04_denkidai/caption.md | 21 | 「税込」を外す　✅ 修正済み（ハエル 11/4） |
+| media/instagram/2026-11-04_denkidai/render.py | 43 | 「税込」を外す　✅ 修正済み（ハエル 11/4） |
+| media/instagram/2026-11-04_denkidai/render.py | 52 | 「税込」を外す　✅ 修正済み（ハエル 11/4） |
+| media/instagram/2026-11-05_kashitsu/caption.md | 34 | 「税込」を外す　✅ 修正済み（ハエル 11/4） |
+| media/instagram/2026-11-05_kashitsu/render.py | 58 | 「税込」を外す　✅ 修正済み（ハエル 11/4） |
+| media/instagram/2026-11-06_heater/caption.md | 39 | 「税込」を外す　✅ 修正済み（ハエル 11/4） |
+| media/instagram/2026-11-06_heater/render.py | 57 | 「税込」を外す　✅ 修正済み（ハエル 11/4） |
+| media/instagram/2026-11-08_heater-monthly/meta.md | 16 | 呼び名「新電力料金」→「新電気料金」／「税込」を外す　✅ 修正済み（ハエル 11/4） |
+| media/instagram/2026-11-08_heater-monthly/meta.md | 41 | 呼び名「新電力料金」→「新電気料金」／「税込」を外す　✅ 修正済み（ハエル 11/4） |
+| media/instagram/2026-11-08_heater-monthly/render.py | 56 | 呼び名「新電力料金」→「新電気料金」／「税込」を外す　✅ 修正済み（ハエル 11/4） |
+| media/instagram/2026-11-08_heater-monthly/render.py | 86 | 呼び名「新電力料金」→「新電気料金」　✅ 修正済み（ハエル 11/4） |
+| media/instagram/2026-11-09/meta.md | 12 | 呼び名「新電力料金」→「新電気料金」／「税込」を外す　✅ 修正済み（ハエル 11/4） |
+| media/instagram/2026-11-09/meta.md | 43 | 呼び名「新電力料金」→「新電気料金」／「税込」を外す　✅ 修正済み（ハエル 11/4） |
+| media/instagram/2026-11-09/render.py | 64 | 呼び名「新電力料金」→「新電気料金」／「税込」を外す　✅ 修正済み（ハエル 11/4） |
+| media/instagram/2026-11-09/render.py | 89 | 呼び名「新電力料金」→「新電気料金」　✅ 修正済み（ハエル 11/4） |
+| media/instagram/2026-11-10/meta.md | 12 | 呼び名「新電力料金」→「新電気料金」／「税込」を外す　✅ 修正済み（ハエル 11/4） |
+| media/instagram/2026-11-10/render.py | 58 | 「税込」を外す　✅ 修正済み（ハエル 11/4） |
+| media/instagram/2026-11-10/render.py | 59 | 呼び名「新電力料金」→「新電気料金」　✅ 修正済み（ハエル 11/4） |
+| media/instagram/2026-11-13/render.py | 32 | 呼び名「新電力料金」→「新電気料金」／「税込」を外す　✅ 修正済み（ハエル 11/4） |
+| media/videos/2026-11-04_denkidai/meta.md | 12 | 「税込」を外す　✅ 修正済み（エイゾウ 11/4） |
+| media/videos/2026-11-06_heater/composition.html | 114 | 呼び名「新電力料金」→「新電気料金」　✅ 修正済み（再レンダー済み）（エイゾウ 11/4） |
+| media/videos/2026-11-06_heater/meta.md | 14 | 呼び名「新電力料金」→「新電気料金」　✅ 修正済み（エイゾウ 11/4） |
+| media/videos/2026-11-06_heater/script.md | 13 | 呼び名「新電力料金」→「新電気料金」　✅ 修正済み（エイゾウ 11/4） |
+| media/videos/2026-11-07_calculator/composition.html | 110 | 呼び名「新電力料金」→「新電気料金」　✅ 修正済み（再レンダー済み）（エイゾウ 11/4） |
+| media/videos/2026-11-07_calculator/meta.md | 35 | 呼び名「新電力料金」→「新電気料金」　✅ 修正済み（エイゾウ 11/4） |
+| media/videos/2026-11-08_kotatsu/composition.html | 100 | 呼び名「新電力料金」→「新電気料金」　✅ 修正済み（再レンダー済み）（エイゾウ 11/4） |
+| media/videos/2026-11-08_kotatsu/meta.md | 20 | 呼び名「新電力料金」→「新電気料金」　✅ 修正済み（エイゾウ 11/4） |
+| media/videos/2026-11-12_neru-danbou/composition.html | 118 | 呼び名「新電力料金」→「新電気料金」／「税込」を外す／日付→「2022年7月現在」　✅ 修正済み（再レンダー済み）（エイゾウ 11/4） |
+| media/videos/2026-11-12_neru-danbou/meta.md | 13 | 呼び名「新電力料金」→「新電気料金」／「税込」を外す／日付→「2022年7月現在」　✅ 修正済み（エイゾウ 11/4） |
+| ops/drafts/ig_stock_2026-11-08.md | 36 | 呼び名「新電力料金」→「新電気料金」／「税込」を外す　✅ 修正済み（ハエル 11/4） |
+| ops/drafts/ig_stock_2026-11-09.md | 41 | 呼び名「新電力料金」→「新電気料金」／「税込」を外す　✅ 修正済み（ハエル 11/4） |
+| ops/drafts/ig_stock_2026-11-10.md | 44 | 呼び名「新電力料金」→「新電気料金」／「税込」を外す　✅ 修正済み（ハエル 11/4） |
+| ops/drafts/ig_stock_2026-11-13.md | 52 | 呼び名「新電力料金」→「新電気料金」／「税込」を外す　✅ 修正済み（ハエル 11/4） |
+| ops/drafts/ig_stock_2026-11-14.md | 58 | 呼び名「新電力料金」→「新電気料金」／「税込」を外す　✅ 修正済み（ハエル 11/4） |
+| ops/drafts/x_candidates_neru_2026-11-04.md | 10 | 呼び名「新電力料金」→「新電気料金」／「税込」を外す／日付→「2022年7月現在」　✅ 修正済み（ハエル 11/4） |
+| ops/drafts/x_candidates_neru_2026-11-04.md | 60 | 呼び名「新電力料金」→「新電気料金」／「税込」を外す／日付→「2022年7月現在」　✅ 修正済み（ハエル 11/4） |
+
+## IG・下書きの修正記録（ハエル 2026-11-04）
+- 上の表の media/instagram／ops/drafts の全行を修正（✅）。置き換えは「31円/kWh（税込）」→「31円/kWh」、「新電力料金目安単価」→「新電気料金目安単価」、「（税込・2022年7月現在）」「（税込・2022年7月）」→「（2022年7月現在）」のみ。計算値は変更なし
+- 投稿済みの確認：対象の行に投稿済みのものはなし。11/4 08:05のIG-Cは ops/drafts/ig_stock_2026-11-04.md と docs/sns/2026-11-04-denkidai-formula の図柄で、media/instagram/2026-11-04_denkidai（5枚カルーセル）とは別物＝未投稿なので修正した
+- 画像の作り直し：render.py を直した7フォルダを再描画し、変わったのは10枚（2026-11-04_denkidai 02・03／2026-11-05_kashitsu 03／2026-11-06_heater 02／2026-11-08_heater-monthly 02・06／2026-11-09 03・06／2026-11-10 02／2026-11-13 02）。全10枚をReadで目視：豆腐・文字切れ・はみ出しなし。他の枚は描画結果が同一
+- キャプション字数：いずれも2,200字以内（最長は ig_stock_2026-11-14 のキャプション部で約1,300字）
+- 表にない残り（投稿済み・対象外）：docs/sns/2026-11-04-denkidai-formula.src.html（11/4 IG-Cで投稿済み）、docs/sns/2026-11-04-foot-heater-cost.src.html（11/3 IG足元暖房で投稿済み）
+- 表にない残り（未投稿・要修正）：docs/sns/2026-11-14-02.src.html・2026-11-14-04.src.html（11/14 IG画像、「新電力料金」「税込」が残る）→ 今回は未修正

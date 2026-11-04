@@ -55,8 +55,8 @@ S.append("""<div class=w><span class=tag>計算式はこれだけ</span><div cla
 <h2>1回ぶんの電気代</h2>
 <div class=fx>消費電力<span class=u>（W）</span> ÷ 1000<br>× 使用時間<span class=u>（h）</span><br>× 単価<span class=u>（31円/kWh）</span></div>
 <div class=warn style="margin-top:36px"><div class=wt>W ÷ 1000 × 時間 ＝ kWh</div><div class=wd>使った電気の量。これに単価をかけると円になる</div></div>
-<div class=warn><div class=wt>単価31円/kWh（税込）は目安</div><div class=wd>実際は契約プランで変わる。検針票・Web明細の単価に置き換えると自分の家の目安に</div></div>
-<div class=foot style="font-size:24px">単価31円/kWh：全国家庭電気製品公正取引協議会<br>「新電力料金目安単価」</div>"""+AI+"""</div>""")
+<div class=warn><div class=wt>単価31円/kWhは目安</div><div class=wd>実際は契約プランで変わる。検針票・Web明細の単価に置き換えると自分の家の目安に</div></div>
+<div class=foot style="font-size:24px">単価31円/kWh：全国家庭電気製品公正取引協議会<br>「新電気料金目安単価」</div>"""+AI+"""</div>""")
 # 3 例：50W
 S.append("""<div class=w><span class=tag>例①　50Wを在宅ワークで</span><div class=pg>3/6</div>
 <h2>50Wの器具を<br><span class=or>1日8時間</span>使うと？</h2>

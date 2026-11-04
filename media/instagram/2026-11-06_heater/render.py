@@ -54,7 +54,7 @@ S.append("""<div class=w><span class=tag>計算式</span><div class=pg>2/5</div>
 <div class=row><span>③ × 平日20日</span><b>約248円/月</b></div>
 <div class=row style="align-items:center"><span>ひと冬（80日）</span><span style="font-size:72px;font-weight:900;color:#e2561b">約992円</span></div></div>
 <p class=sm style="margin-top:32px">※計算方法を示すための仮定の例です。器具の<b style="color:#fff">種類名ではなくW数</b>で決まります。W数は本体ラベル・取扱説明書・メーカー公式サイトで確認を。</p>
-<div class=foot>単価31円/kWh（税込）：全国家庭電気製品公正取引協議会の目安単価</div></div>""")
+<div class=foot>単価31円/kWh：全国家庭電気製品公正取引協議会の目安単価</div></div>""")
 S.append("""<div class=w><span class=tag>早見表</span><div class=pg>3/5</div>
 <h2>消費電力別<br>ひと冬の電気代の目安</h2>
 <p class=sm style="margin-top:16px">1日8時間 × 80日（11〜2月・月20日）・単価31円/kWh</p>
