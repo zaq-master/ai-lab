@@ -61,6 +61,34 @@ t("お湯の温度が水温以下・効率0・量が空欄 → 0", () => {
 t("効率は100％で頭打ち", () => near(N.kettle(1, 0, 100, 150, 1, 31, 30).kwh, 418.6 / 3600, "kWh"));
 t("文字列入力（フォームの値）でも同じ結果", () => near(N.kettle("2", "15", "80", "80", "1", "31", "30").night, N.kettle(2, 15, 80, 80, 1, 31, 30).night, "night"));
 
+// 湯たんぽ・電気毛布の「例」の前提を3か所（ツール初期値・記事・IG 11/14）で揃える（2026-11-04 監査指摘）
+// 共通の前提：水2L・水温15℃・お湯80℃・ケトル効率80％（仮定）・31円/kWh・30日／電気毛布50W・8時間
+t("ツールの初期値が共通の前提（2L・15℃・80℃・80％・1回・31円・30日・電気毛布50W×8h）", () => {
+  const val = id => (md.match(new RegExp('id="' + id + '"[^>]*value="([^"]+)"')) || [])[1];
+  assert.deepStrictEqual([val("nr-unit"), val("nr-days"), val("nr-l"), val("nr-times"), val("nr-t1"), val("nr-t2"), val("nr-eff")],
+    ["31", "30", "2", "1", "15", "80", "80"]);
+  assert.ok(/data-id="moufu" type="number" value="50"/.test(md), "電気毛布50W");
+  const r = N.kettle(2, 15, 80, 80, 1, 31, 30);
+  assert.strictEqual(r.night.toFixed(1), "5.9", "一晩 約5.9円");
+  assert.strictEqual(Math.round(r.month), 176, "30日 約176円");
+  assert.strictEqual((r.night * 0.8).toFixed(1), "4.7", "理論値 約4.7円");
+  const b = N.device(50, 8, 31, 30);
+  near(b.night, 12.4, "電気毛布一晩"); near(b.month, 372, "電気毛布30日");
+});
+t("記事とIG原稿・画像の例がツールと同じ数値（旧前提の数値が残っていない）", () => {
+  const art = fs.readFileSync(path.join(root, "content/posts/denki-moufu-kotatsu-denkidai-telework.md"), "utf8");
+  const ig = fs.readFileSync(path.join(root, "ops/drafts/ig_stock_2026-11-14.md"), "utf8");
+  const slides = ["04", "05"].map(n => fs.readFileSync(path.join(root, `docs/sns/2026-11-14-${n}.src.html`), "utf8")).join("\n");
+  for (const [name, s] of [["記事", art], ["IG原稿", ig], ["IG画像", slides]]) {
+    assert.ok(/15℃?\s*→\s*80℃/.test(s), name + "：15→80℃");
+    assert.ok(s.includes("5.9"), name + "：約5.9円");
+    assert.ok(s.includes("4.7"), name + "：理論値 約4.7円");
+    assert.ok(!/→\s*100℃|20℃\s*→\s*80℃|20→80℃|約¥?4\.3|約¥?5\.4|約¥?162|約6円/.test(s), name + "：旧前提の数値が残っている");
+  }
+  assert.ok(art.includes("50Wの場合・8時間：**約12円**") && ig.includes("50÷1000×8×31＝¥12.4"), "電気毛布50W×8h");
+  assert.ok(/約¥?176/.test(ig) && slides.includes("約¥176") && art.includes("約176円"), "30日 約176円");
+});
+
 t("rank：0円の行を除き、一晩の安い順に並ぶ", () => {
   const r = N.rank([{ name: "a", night: 99 }, { name: "b", night: 0 }, { name: "c", night: 5.8 }, { name: "d", night: 12.4 }]);
   assert.deepStrictEqual(Array.from(r, x => x.name), ["c", "d", "a"]);

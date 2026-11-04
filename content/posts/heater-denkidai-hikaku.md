@@ -131,6 +131,7 @@ calc();
 ## 関連ツール・記事
 - エアコンだけを1時間・1日・ひと冬で計算するなら → [エアコン暖房の電気代 計算ツール](aircon-danbou-denkidai-calculator.html)
 - 暖房以外の家電もまとめて計算するなら → [家電の電気代計算ツール](denkidai-calculator.html)
+- 寝るときの暖房（電気毛布・湯たんぽ・エアコンなど）を一晩で比べるなら → [寝るときの暖房 一晩の電気代くらべ](neru-danbou-denkidai-calculator.html)
 - そもそも何から対策するか迷ったら → [冬の寒さ対策診断（5問）](winter-heating-shindan.html)
 - 足元暖房の種類ごとの考え方と早見表 → [在宅ワークの足元暖房、電気代はいくら？](foot-heater-electricity-cost.html)
 - 電力を見える化するなら → [スマートプラグの選び方](smart-plug-guide.html)

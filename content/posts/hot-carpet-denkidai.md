@@ -81,6 +81,7 @@ category: 季節家電
 - 足元だけ温めたい → [在宅ワークの足元暖房、電気代はいくら？](foot-heater-electricity-cost.html)
 - 体を直接温めたい → [電気毛布・ひざ掛けヒーター・こたつの電気代](denki-moufu-kotatsu-denkidai-telework.html)
 - 候補の器具を並べて差額を出したい → [暖房器具の電気代 比較ツール](heater-denkidai-hikaku.html)（ホットカーペットの行を追加して、消費電力量と時間を入れてください）
+- 寝るときの暖房を比べたい → [寝るときの暖房 一晩の電気代くらべ](neru-danbou-denkidai-calculator.html)（W数と時間を入れて、一晩の電気代を並べられます）
 
 ## 注意点
 

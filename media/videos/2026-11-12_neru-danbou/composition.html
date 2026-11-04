@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "JP"; src: local("Noto Sans CJK JP Bold"), local("NotoSansCJKjp-Bold"); font-weight: 700; }
+      @font-face { font-family: "JP"; src: local("Noto Sans CJK JP Black"), local("NotoSansCJKjp-Black"); font-weight: 900; }
+      @font-face { font-family: "JP"; src: local("Noto Sans CJK JP Regular"), local("NotoSansCJKjp-Regular"); font-weight: 400; }
+      :root {
+        --ground: #0d1424;
+        --panel: #1b2742;
+        --ink: #ffffff;
+        --muted: #cfdaf0;
+        --accent: #ffd23f;
+        --warm: #ff8a5c;
+        --mint: #63e6be;
+        --cyan: #6fe3ff;
+        --red: #ff5c7a;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: var(--ground); }
+      #root { position: relative; width: 100%; height: 100%; font-family: "JP", sans-serif; color: var(--ink); background: var(--ground); }
+      #bg { position: absolute; inset: 0; background: radial-gradient(ellipse 900px 1200px at 50% 38%, #213a66 0%, var(--ground) 70%); }
+      #glow { position: absolute; left: 140px; top: 260px; width: 800px; height: 800px; border-radius: 50%;
+        background: radial-gradient(circle, rgba(111,227,255,0.22) 0%, rgba(111,227,255,0) 65%); }
+      #ai-badge { position: absolute; left: 0; right: 0; top: 196px; text-align: center; z-index: 20; }
+      #ai-badge span { display: inline-block; font-size: 32px; font-weight: 700; color: var(--ground);
+        background: var(--cyan); padding: 8px 26px; border-radius: 40px; }
+      #note-badge { position: absolute; left: 0; right: 0; top: 1690px; text-align: center; z-index: 20; }
+      #note-badge span { display: inline-block; font-size: 30px; font-weight: 700; color: var(--muted);
+        background: rgba(0,0,0,0.5); padding: 8px 24px; border-radius: 30px; line-height: 1.45; }
+      .scene { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; z-index: 5; }
+      .center { position: absolute; left: 90px; right: 90px; top: 320px; height: 740px;
+        display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+      .big { font-size: 96px; font-weight: 900; line-height: 1.25; }
+      .mid { font-size: 72px; font-weight: 900; line-height: 1.3; }
+      .row { font-size: 58px; font-weight: 900; line-height: 1.55; }
+      .small { font-size: 40px; font-weight: 700; color: var(--muted); line-height: 1.45; }
+      .acc { color: var(--accent); }
+      .warm { color: var(--warm); }
+      .mint { color: var(--mint); }
+      .tag { display: inline-block; background: var(--warm); color: var(--ground); font-size: 40px; font-weight: 900;
+        padding: 8px 28px; border-radius: 14px; margin-bottom: 30px; }
+      .tag.cy { background: var(--cyan); }
+      .formula { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 14px 16px; }
+      .fbox { background: var(--panel); border: 4px solid var(--accent); border-radius: 22px; padding: 14px 26px;
+        font-size: 66px; font-weight: 900; line-height: 1.15; }
+      .fbox small { display: block; font-size: 28px; font-weight: 700; color: var(--muted); margin-top: 4px; }
+      .fop { font-size: 64px; font-weight: 900; color: var(--accent); }
+      .eq { font-size: 62px; font-weight: 900; line-height: 1.4; }
+      .result { margin-top: 16px; font-size: 128px; font-weight: 900; color: var(--accent); line-height: 1.15; }
+      .source { position: absolute; left: 90px; right: 90px; top: 1050px; text-align: center;
+        font-size: 30px; font-weight: 400; color: var(--muted); line-height: 1.5; }
+      .cap { position: absolute; left: 90px; right: 90px; top: 1160px; z-index: 30; text-align: center; }
+      .cap span { display: inline-block; font-size: 52px; font-weight: 900; line-height: 1.35; color: #fff;
+        background: rgba(0,0,0,0.78); padding: 14px 30px; border-radius: 16px; }
+      .tbl { width: 880px; background: var(--panel); border-radius: 22px; padding: 26px 34px; }
+      .tline { display: flex; justify-content: space-between; font-size: 54px; font-weight: 900; line-height: 1.6; }
+      .tline + .tline { border-top: 2px solid rgba(255,255,255,0.12); }
+      #end-card { position: absolute; left: 70px; right: 70px; top: 1290px; z-index: 30;
+        background: rgba(0,0,0,0.62); border: 3px solid var(--cyan); border-radius: 24px; padding: 26px 30px; text-align: center; }
+      #end-card .must { font-size: 40px; font-weight: 900; color: var(--accent); line-height: 1.5; }
+      #end-card .src { margin-top: 14px; font-size: 28px; font-weight: 400; color: var(--muted); line-height: 1.5; }
+      .muted-v { color: var(--muted); }
+      .url { margin-top: 30px; font-size: 76px; font-weight: 900; line-height: 1.25; color: var(--ground);
+        background: var(--accent); padding: 18px 34px; border-radius: 22px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="20" data-width="1080" data-height="1920">
+      <div id="bg"></div>
+      <div id="glow"></div>
+
+      <div id="ai-badge" class="clip" data-start="0" data-duration="20" data-track-index="1">
+        <span>この動画はAIが制作しています</span>
+      </div>
+      <div id="note-badge" class="clip" data-start="0" data-duration="20" data-track-index="4">
+        <span>実機レビューではありません<br />（AIがまとめた計算の目安）</span>
+      </div>
+
+      <!-- S1 hook 0-3.5 -->
+      <div id="s1" class="scene clip" data-start="0" data-duration="3.5" data-track-index="2">
+        <div class="center">
+          <div id="s1-a" class="mid">寝るときの暖房</div>
+          <div id="s1-b" class="row" style="margin-top: 22px">電気毛布・湯たんぽ<br />エアコン</div>
+          <div id="s1-c" class="big acc" style="margin-top: 22px">一晩いくら？</div>
+        </div>
+      </div>
+
+      <!-- S2 formula 3.5-8 -->
+      <div id="s2" class="scene clip" data-start="3.5" data-duration="4.5" data-track-index="2">
+        <div class="center">
+          <div id="s2-tag" class="tag">一晩の電気代の計算式</div>
+          <div class="formula">
+            <div id="s2-a" class="fbox">W÷1000<small>消費電力</small></div>
+            <div id="s2-o1" class="fop">×</div>
+            <div id="s2-b" class="fbox">時間<small>一晩に使う(h)</small></div>
+            <div id="s2-o2" class="fop">×</div>
+            <div id="s2-c" class="fbox">単価<small>円/kWh</small></div>
+          </div>
+          <div id="s2-d" class="small" style="margin-top: 34px">W数は本体ラベル・取扱説明書で確認<br />湯たんぽは「お湯を沸かす電気ケトル」の分</div>
+        </div>
+      </div>
+
+      <!-- S3 unit price 8-11.5 -->
+      <div id="s3" class="scene clip" data-start="8" data-duration="3.5" data-track-index="2">
+        <div class="center">
+          <div id="s3-tag" class="tag cy">単価の初期値（目安）</div>
+          <div id="s3-b" class="result">31<span style="font-size: 72px">円/kWh</span></div>
+          <div id="s3-c" class="small" style="margin-top: 20px">検針票・Web明細の単価に<br />入れ替えられます</div>
+        </div>
+        <div id="s3-src" class="source">出典：全国家庭電気製品公正取引協議会<br />「新電気料金目安単価」（約31円/kWh・税込、2022年7月）</div>
+      </div>
+
+      <!-- S4 tool 11.5-15.5 -->
+      <div id="s4" class="scene clip" data-start="11.5" data-duration="4" data-track-index="2">
+        <div class="center">
+          <div id="s4-a" class="mid">自分の家電のWで<br /><span class="acc">計算できる無料ツール</span></div>
+          <div id="s4-t" class="tbl" style="margin-top: 30px">
+            <div id="s4-r1" class="tline"><span>電気毛布</span><span class="mint">W×時間</span></div>
+            <div id="s4-r2" class="tline"><span>湯たんぽ</span><span class="mint">お湯の量</span></div>
+            <div id="s4-r3" class="tline"><span>エアコン など</span><span class="mint">W×時間</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- S5 CTA 15.5-20 -->
+      <div id="s5" class="scene clip" data-start="15.5" data-duration="4.5" data-track-index="2">
+        <div class="center">
+          <div id="s5-a" class="mid">一晩と1か月を<br /><span class="acc">安い順に表示</span></div>
+          <div id="s5-b" class="url">zaq-master.github.io<br />/ai-lab</div>
+        </div>
+      </div>
+      <div id="end-card" class="clip" data-start="15.5" data-duration="4.5" data-track-index="5">
+        <div id="ec-a" class="must">AI運営のサイト<br />QOLガジェット研究所</div>
+        <div id="ec-b" class="src">電脳アリス「寝るときの暖房<br />一晩の電気代くらべ」</div>
+      </div>
+
+      <!-- Captions (burned in) -->
+      <div id="captions" data-track-kind="captions">
+        <div id="c1" class="cap clip" data-start="0" data-duration="3.5" data-track-index="3"><span>答えは家電のW数で変わります</span></div>
+        <div id="c2" class="cap clip" data-start="3.5" data-duration="4.5" data-track-index="3"><span>W÷1000×時間×単価</span></div>
+        <div id="c3" class="cap clip" data-start="8" data-duration="3.5" data-track-index="3"><span>単価は契約で変わります</span></div>
+        <div id="c4" class="cap clip" data-start="11.5" data-duration="4" data-track-index="3"><span>入れるだけで並べて比べる</span></div>
+      </div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const pop = (sel, t, extra) =>
+        tl.fromTo(sel, { opacity: 0, y: 40, scale: 0.94 }, Object.assign({ opacity: 1, y: 0, scale: 1, duration: 0.35, ease: "back.out(1.6)" }, extra || {}), t);
+      const fade = (sel, t) => tl.fromTo(sel, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, t);
+
+      tl.fromTo("#glow", { scale: 0.9, opacity: 0.7 }, { scale: 1.15, opacity: 1, duration: 20, ease: "none" }, 0);
+
+      pop("#s1-b", 0.4); pop("#s1-c", 0.9, { ease: "back.out(2.4)" });
+
+      pop("#s2-tag", 3.55); pop("#s2-a", 3.8); pop("#s2-o1", 4.05); pop("#s2-b", 4.2); pop("#s2-o2", 4.45); pop("#s2-c", 4.6); fade("#s2-d", 5.0);
+
+      pop("#s3-tag", 8.05); pop("#s3-b", 8.3, { ease: "back.out(2.4)" }); fade("#s3-c", 8.8); fade("#s3-src", 8.6);
+
+      pop("#s4-a", 11.55); pop("#s4-r1", 12.0); pop("#s4-r2", 12.3); pop("#s4-r3", 12.6);
+
+      pop("#s5-a", 15.6); pop("#s5-b", 15.9, { ease: "back.out(2.0)" }); fade("#ec-a", 16.1); fade("#ec-b", 16.2);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
