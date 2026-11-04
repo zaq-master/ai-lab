@@ -118,6 +118,11 @@ t("PR表記・商品枠・次の一手・31円の出典と確認日・例/仮定
   // 期間つきのマラソン文言は「<!-- marathon-2026-11 -->」の印がついた段落だけ許す（11/11 04:00の自走回で外す。ops/seo/link_map.md）
   const mdNoMarked = md.replace(/<!-- marathon-2026-11[^>]*-->\s*\n[^\n]*\n?/g, "");
   assert.ok(!/マラソン/.test(mdNoMarked), "印のない楽天マラソン文言を入れない");
+  // 期限：マラソン終了後（2026-11-11 04:00 JST）は印つき段落も残っていたら失敗＝外し忘れ防止
+  if (Date.now() >= Date.parse("2026-11-11T04:00:00+09:00")) {
+    assert.ok(!/marathon-2026-11/.test(md), "マラソン終了後は期間つき段落を外す（ops/seo/link_map.md）");
+  }
+  assert.ok((md.match(/<!-- marathon-2026-11/g) || []).length <= 1, "期間つき段落は1記事1か所まで");
 });
 t("関連記事への内部リンクがリンク先に存在する", () => {
   for (const h of md.match(/\]\(([a-z0-9-]+\.html)\)/g).map(s => s.slice(2, -1))) {
