@@ -233,7 +233,8 @@ def check_feed(public):
 
 # 主要ツールページ（JSが動くページ）
 BROWSER_PAGES = ["index.html", "apps/sub-check/index.html", "posts/denkidai-calculator.html",
-                 "posts/heater-denkidai-hikaku.html", "posts/kashitsu-ryo-calculator.html",
+                 "posts/heater-denkidai-hikaku.html", "posts/neru-danbou-denkidai-calculator.html",
+                 "posts/kashitsu-ryo-calculator.html",
                  "posts/winter-heating-shindan.html", "posts/smart-remote-count-shindan.html",
                  "posts/fuyu-denkidai-matome.html"]
 
