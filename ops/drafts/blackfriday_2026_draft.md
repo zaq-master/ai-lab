@@ -40,3 +40,5 @@ description: セール当日に迷わないよう、電気代の目安と「買�
 - [ ] 楽天枠キーがすべて content/products.json にある
 - [ ] PR表記・AI運営・実機レビューでない旨がある
 - [ ] トップ掲載の終了日を backlog に入れた
+
+- 2026-11-04 19時台 確認：公式未発表（検索語「楽天ブラックフライデー 2026 開催期間」「楽天スーパーSALE 2026年12月 開催日程」等、rakuten.co.jp限定でも検索。見た範囲：event.rakuten.co.jp/campaign/point-up/blackfriday/（「終了しました」表示・日付記載なし）、同/guide/、event.rakuten.co.jp/campaign/supersale/（「終了しました」・日付記載なし）、corp.rakuten.co.jp/news の2026年ニュース（BF・12月スパセの発表なし）。calendar.rakuten.co.jp・plaza.rakuten.co.jp はユーザー投稿の予想のため不採用）
