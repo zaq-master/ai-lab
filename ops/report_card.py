@@ -33,6 +33,17 @@ def status_key(st):
     return next((k for k in STATUS if k in st), "未着手")
 
 
+# 絵文字だけの状態（「🟢」など）は消すと空欄になるため、言葉に置き換えて表示する
+WORD = {"🟢": "順調", "🟡": "様子見", "🔴": "停止"}
+
+
+def status_text(st):
+    t = clean(st)
+    if t:
+        return t
+    return next((w for e, w in WORD.items() if e in str(st)), "未着手")
+
+
 def font():
     cands = [f for f in fm.findSystemFonts() if re.search(r"NotoSansCJK|NotoSansJP|IPAexGothic|ipag", f, re.I)]
     # findSystemFonts の順番は毎回変わるため、太字が出る Noto Sans CJK（Regular）を優先して固定する
@@ -109,15 +120,15 @@ def daily():
     for i, (n, name, st) in enumerate(ventures()[:11]):
         y = 0.47 - i * 0.04
         key = status_key(st)
-        ax.add_patch(plt.Circle((0.62, y + 0.008), 0.007, color=STATUS[key]))
+        ax.add_patch(matplotlib.patches.Ellipse((0.62, y + 0.008), 0.014 * 7.2 / 12, 0.014, color=STATUS[key]))  # 横長の画像で丸がつぶれないよう幅を補正
         ax.text(0.635, y, f"{n}. {clean(name)}", fontsize=10, color=FG)
-        ax.text(0.97, y, clean(st)[:14], fontsize=9, color=SUB, ha="right")
+        ax.text(0.97, y, status_text(st)[:14], fontsize=9, color=SUB, ha="right")
     p = OUT / "daily.png"; fig.savefig(p, facecolor=BG); print(p)
 
 
 def biz(no, title, status, results, nxt):
     key = status_key(status)
-    title, status, nxt = clean(title), clean(status), clean(nxt)
+    title, status, nxt = clean(title), status_text(status), clean(nxt)
     results = "|".join(clean(x) for x in results.split("|"))
     fig = plt.figure(figsize=(10, 5.2), dpi=110, facecolor=BG)
     ax = fig.add_axes([0, 0, 1, 1]); ax.axis("off"); ax.set_xlim(0, 1); ax.set_ylim(0, 1)
