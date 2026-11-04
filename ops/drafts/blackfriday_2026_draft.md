@@ -42,3 +42,4 @@ description: セール当日に迷わないよう、電気代の目安と「買�
 - [ ] トップ掲載の終了日を backlog に入れた
 
 - 2026-11-04 19時台 確認：公式未発表（検索語「楽天ブラックフライデー 2026 開催期間」「楽天スーパーSALE 2026年12月 開催日程」等、rakuten.co.jp限定でも検索。見た範囲：event.rakuten.co.jp/campaign/point-up/blackfriday/（「終了しました」表示・日付記載なし）、同/guide/、event.rakuten.co.jp/campaign/supersale/（「終了しました」・日付記載なし）、corp.rakuten.co.jp/news の2026年ニュース（BF・12月スパセの発表なし）。calendar.rakuten.co.jp・plaza.rakuten.co.jp はユーザー投稿の予想のため不採用）
+- 2026-11-05 03時台 確認：公式未発表（rakuten公式3ドメイン限定で検索。確認URL：event.rakuten.co.jp/young/campaign/point2/（2025年11月20日〜27日の内容のまま）、corp.rakuten.co.jp/news/update/2025/1112_01.html（2025年分）、corp.rakuten.co.jp/news/update/2026/1002_01.html（ジャンル祭、BF・12月スパセの記載なし）。event.rakuten.co.jp/campaign/point-up/blackfriday/ は取得許可が下りず未確認）
