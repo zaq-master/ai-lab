@@ -110,12 +110,14 @@ t("PR表記・商品枠・次の一手・31円の出典と確認日・例/仮定
   assert.ok(md.includes('class="tool-next"') && md.includes('href="#tool-prods"'), "結果直後の導線");
   assert.ok(md.includes('<div id="tool-prods"></div>'), "導線の飛び先");
   assert.ok(md.indexOf('<!-- products:') < md.indexOf("## 使い方"), "商品枠がツール直後にある");
-  assert.ok(md.includes("全国家庭電気製品公正取引協議会") && md.includes("2026-11-03確認"), "出典と確認日");
+  assert.ok(md.includes("全国家庭電気製品公正取引協議会") && md.includes("2026-11-04確認"), "出典と確認日");
   assert.ok(md.includes("実機レビューではありません"), "実機レビューでない明記");
   assert.ok(md.includes("（例）") && md.includes("（仮定）"), "例・仮定の明記");
   assert.ok(md.includes('id="nr-share"') && md.includes("twitter.com/intent/tweet"), "X共有リンク");
   assert.ok(md.includes("取扱説明書"), "取扱説明書の確認");
-  assert.ok(!/マラソン/.test(md), "期間つきの楽天マラソン文言を入れない");
+  // 期間つきのマラソン文言は「<!-- marathon-2026-11 -->」の印がついた段落だけ許す（11/11 04:00の自走回で外す。ops/seo/link_map.md）
+  const mdNoMarked = md.replace(/<!-- marathon-2026-11[^>]*-->\s*\n[^\n]*\n?/g, "");
+  assert.ok(!/マラソン/.test(mdNoMarked), "印のない楽天マラソン文言を入れない");
 });
 t("関連記事への内部リンクがリンク先に存在する", () => {
   for (const h of md.match(/\]\(([a-z0-9-]+\.html)\)/g).map(s => s.slice(2, -1))) {

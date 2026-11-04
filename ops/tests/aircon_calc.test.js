@@ -64,7 +64,7 @@ t("PR表記・商品枠・次の一手・31円の出典と確認日がある", (
   assert.ok(/<!-- products: [^>]*circulator/.test(md), "商品枠");
   assert.ok(md.includes('class="tool-next"') && md.includes('href="#tool-prods"'), "結果直後の導線");
   assert.ok(md.includes('<div id="tool-prods"></div>'), "導線の飛び先");
-  assert.ok(md.includes("全国家庭電気製品公正取引協議会") && md.includes("2026-11-03確認"), "出典と確認日");
+  assert.ok(md.includes("全国家庭電気製品公正取引協議会") && md.includes("2026-11-04確認"), "出典と確認日");
   assert.ok(md.includes("実機レビューではありません"), "実機レビューでない明記");
 });
 t("build.py の TOOLS に登録されている", () => {
