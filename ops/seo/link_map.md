@@ -20,3 +20,7 @@
 | thermo-hygrometer | 温湿度計 デジタル | 3 | kashitsu-ryo-calculator, telework-ketsuro-taisaku-roten, heater-denkidai-hikaku（11/3 18:00追加） |
 | kotatsu-hitori | こたつ 一人用 | 1 | denki-moufu-kotatsu-denkidai-telework（11/3 12:00追加） |
 | circulator | サーキュレーター | 1 | heater-denkidai-hikaku（11/3 18:00追加） |
+
+## 期限つき文言（11/12に外す）
+- 2026-11-04 11:00 追加：`<!-- marathon-2026-11（11/12に削除） -->` の次の1段落（マラソン期間11/4 20:00〜11/11 01:59、チェックリスト・ポイント計算ツールへのリンク）。対象9記事＝hot-carpet-denkidai, fuyu-asa-aircon-timer-smart-remote, heater-denkidai-hikaku, humidifier-electricity-cost-telework, telework-ketsuro-taisaku-roten, winter-heating-shindan, aircon-danbou-denkidai-calculator, neru-danbou-denkidai-calculator, kashitsu-ryo-calculator。`grep -l "marathon-2026-11" content/posts/*.md` で探して削除
+- 既存の同趣旨の1段落（コメント目印なし）：foot-heater-electricity-cost, denki-moufu-kotatsu-denkidai-telework, smart-plug-guide（「2026年11月回のポイントアップ期間は」で検索）

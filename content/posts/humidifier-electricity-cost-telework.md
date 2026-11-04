@@ -75,5 +75,8 @@ category: 季節家電
 
 冬の電気代・寒さ対策の記事とツールは、悩み別に[冬の電気代まとめ](fuyu-denkidai-matome.html)で一覧にしています。
 
+<!-- marathon-2026-11（11/12に削除） -->
+楽天お買い物マラソン（2026年11月回のポイントアップ期間は11/4 20:00〜11/11 01:59）でまとめ買いするなら、[マラソン前の冬家電チェックリスト](rakuten-marathon-fuyu-kaden-list.html)で買う物を絞り、[買いまわりポイント計算ツール（非公式）](rakuten-marathon-point-calculator.html)で何店舗で何倍になるかを先に確かめておくと安心です。開催中の回の条件は楽天公式で確認してください。
+
 <!-- products: humidifier-vaporize,humidifier-steam -->
 <!-- products: smart-remote-sensor,smart-plug-monitor -->
