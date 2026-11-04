@@ -77,7 +77,7 @@ footer{color:var(--sub);font-size:.85rem;border-top:1px solid var(--line)}
 </div>
 <p style="margin:12px 0 4px;font-weight:700">湯たんぽ（お湯を電気ケトルで沸かす分）</p>
 <p style="margin:0 0 4px;line-height:2.1"><label>お湯の量：<input id="nr-l" type="number" value="2" min="0" step="0.1" inputmode="decimal" style="width:64px"> L（例）</label>　<label>回数：<input id="nr-times" type="number" value="1" min="0" step="1" inputmode="numeric" style="width:48px"> 回/晩</label><br><label>沸かす前の水温：<input id="nr-t1" type="number" value="15" step="1" inputmode="decimal" style="width:56px"> ℃（例）</label>　<label>お湯の温度：<input id="nr-t2" type="number" value="80" step="1" inputmode="decimal" style="width:56px"> ℃（例）</label><br><label>ケトルの効率：<input id="nr-eff" type="number" value="80" min="1" max="100" step="1" inputmode="decimal" style="width:56px"> ％（仮定）</label></p>
-<p style="font-size:.85em;color:#555;margin:0 0 4px">湯たんぽに入れるお湯の量・温度は、製品の取扱説明書の指定に合わせてください。</p>
+<p style="font-size:.85em;color:#555;margin:0 0 4px">湯たんぽに入れるお湯の量・温度は、製品の取扱説明書の指定に合わせてください。使うときは低温やけどに注意してください。</p>
 <div id="nr-result" style="margin-top:10px"></div>
 <p class="tool-next" style="margin:10px 0 0;padding:8px 10px;background:#fff;border:1px solid #e5e5e5;border-radius:8px;font-size:.92em;line-height:1.8"><b>次の一手：</b><a href="#tool-prods">電気毛布・温湿度計・センサー付きスマートリモコンの候補を見る</a> <span class="badge">PR</span>／<a href="denki-moufu-kotatsu-denkidai-telework.html">電気毛布・こたつの電気代（W数別の早見表）</a>／<a href="heater-denkidai-hikaku.html">昼間の暖房もまとめて比べる（比較ツール）</a></p>
 <p style="margin:4px 0 0;font-size:.85em"><a id="nr-share" href="#" target="_blank" rel="noopener nofollow" hidden>この結果をXで共有する</a></p>
@@ -123,7 +123,7 @@ var k=NeruCalc.kettle($('nr-l').value,$('nr-t1').value,$('nr-t2').value,$('nr-ef
 k.name='湯たんぽ（ケトルで沸かす）';k.cond=(parseFloat($('nr-l').value)||0)+'L×'+(parseFloat($('nr-times').value)||0)+'回';
 list.push(k);
 var r=NeruCalc.rank(list),out=$('nr-result'),sh=$('nr-share');
-if(!r.length){out.innerHTML='<p style="color:#666;margin:0">消費電力（W）と使用時間、またはお湯の量を入れると、ここに比べた結果が出ます。</p>';sh.hidden=true;return;}
+if(!r.length){out.innerHTML='<p style="color:#666;margin:0">'+(!(parseFloat(unit)>0)?'電気料金単価（円/kWh）を入れてください。':!(parseFloat(days)>0)?'1か月の日数を入れてください。':'消費電力（W）と使用時間、またはお湯の量を入れると、ここに比べた結果が出ます。')+'</p>';sh.hidden=true;return;}
 var h='<p style="font-weight:700;margin:0 0 6px">一晩の電気代が安い順（目安）</p><table><thead><tr><th>暖房</th><th>条件</th><th>一晩</th><th>1か月（'+(parseFloat(days)||0)+'日）</th></tr></thead><tbody>';
 r.forEach(function(x,i){
 h+='<tr><td>'+(i+1)+'. '+esc(x.name)+'</td><td>'+esc(x.cond)+'<br><span style="font-size:.85em;color:#555">約'+(Math.round(x.kwh*100)/100)+'kWh</span></td><td class="nw"><b>'+yen1(x.night)+'</b></td><td class="nw"><b>'+yen(x.month)+'</b></td></tr>';
@@ -151,7 +151,7 @@ run();
 <li><strong>使用時間</strong>を入れる（初期値は8時間。タイマーで2時間だけ使うなら「2」）</li>
 <li>湯たんぽは<strong>一晩に沸かすお湯の量（L）</strong>と回数を入れる。単価の初期値は、家電の電気代表示でよく使われる<strong>目安単価31円/kWh（税込）</strong>です。検針票やWeb明細の単価に変えると、より実態に近づきます</li>
 </ol>
-<p>単価の出典：全国家庭電気製品公正取引協議会が示す「新電気料金目安単価」（約31円/kWh、2022年7月現在）。メーカーの案内ページ：<a href="https://kadenfan.hitachi.co.jp/support/rei/q_a/a115.html">日立の家電品 よくあるご質問（電気代の目安単価）</a>（2026-11-03確認）</p>
+<p>単価の出典：全国家庭電気製品公正取引協議会が示す「新電力料金目安単価」（約31円/kWh、2022年7月現在）。メーカーの案内ページ：<a href="https://kadenfan.hitachi.co.jp/support/rei/q_a/a115.html">日立の家電品 よくあるご質問（電気代の目安単価）</a>（2026-11-03確認）</p>
 <h2 id="_2">計算のしかた（早見）</h2>
 <table>
 <thead>

@@ -29,7 +29,7 @@ S.append(f"""<div class=w><span class=tag>式は1本</span><div class=pg>2/6</di
 <div class=fx style="font-size:44px">消費電力(W) × 平均の％ ÷ 100<br>÷ 1000 × 時間(h)<br>× <span class=u>単価(円/kWh)</span></div>
 <div class=warn style="margin-top:30px"><div class=wt>消費電力（W）はどこを見る？</div><div class=wd>カタログ・取扱説明書・メーカー公式サイト・<br>本体や室外機の銘板の「暖房の消費電力」</div></div>
 <div class=warn><div class=wt>単価がわからなければ 31円/kWh</div><div class=wd>検針票やWeb明細の単価に変えると実態に近づく</div></div>
-<div class=foot style="font-size:23px">31円/kWh：全国家庭電気製品公正取引協議会<br>「新電気料金目安単価」（税込・2022年7月現在）<br>「平均の％」＝入力した消費電力の何％で動き続ける想定か（100％＝そのまま）</div>"""+AI+"</div>")
+<div class=foot style="font-size:23px">31円/kWh：全国家庭電気製品公正取引協議会<br>「新電力料金目安単価」（税込・2022年7月現在）<br>「平均の％」＝入力した消費電力の何％で動き続ける想定か（100％＝そのまま）</div>"""+AI+"</div>")
 S.append(f"""<div class=w><span class=tag>計算例（仮の数字）</span><div class=pg>3/6</div>
 <h2>消費電力 <span class=ac>500W</span>・1日8時間<br>平均100％・31円/kWh なら</h2>
 <div class=card style="margin-top:34px">
