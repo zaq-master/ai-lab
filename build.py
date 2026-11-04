@@ -63,6 +63,19 @@ def jst_today():
     return datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).date()
 
 
+# 期限つき文言の目印 → 表示する最終日（JST）。過ぎたら「目印コメント＋次の1段落」を次のビルドで自動的に出さない
+# （手作業の削除が遅れても、終わったセールの案内が残らないようにする保険。元の .md は消さない）
+EXPIRE = {"marathon-2026-11": "2026-11-11"}
+
+
+def strip_expired(md, today=None):
+    today = today or jst_today()
+    for tag, last in EXPIRE.items():
+        if today > datetime.date.fromisoformat(last):
+            md = re.sub(r"<!--\s*" + re.escape(tag) + r"[^>]*-->\n(?:.+\n?)*\n*", "", md)
+    return md
+
+
 def git_date(p):
     """ファイルの最終コミット日（YYYY-MM-DD）。未コミットの変更があれば今日。取れなければ空文字。"""
     import subprocess
@@ -81,7 +94,7 @@ def parse(p):
     m = re.match(r"^---\n(.*?)\n---\n(.*)$", raw, re.S)
     meta = dict(l.split(":", 1) for l in m.group(1).splitlines() if ":" in l)
     meta = {k.strip(): v.strip() for k, v in meta.items()}
-    body = markdown.markdown(m.group(2), extensions=["tables", "toc"])
+    body = markdown.markdown(strip_expired(m.group(2)), extensions=["tables", "toc"])
     body = re.sub(r"<td((?:\s(?![^>]*\bclass=)[^>]*)?)>(.*?)</td>", short_cell, body, flags=re.S)
     body = re.sub(r"<!--\s*sheet-cta\s*-->", sheet_cta, body)
     meta["body"] = re.sub(r"<!--\s*products:\s*(.*?)\s*-->", product_box, body)

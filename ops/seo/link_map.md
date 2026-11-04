@@ -22,6 +22,7 @@
 | circulator | サーキュレーター | 1 | heater-denkidai-hikaku（11/3 18:00追加） |
 
 ## 期限つき文言（11/11 04:00の自走回で外す＝マラソン終了01:59の直後）
+- 2026-11-05 00:07 保険を追加：build.py の `EXPIRE`（marathon-2026-11 → 最終表示日 2026-11-11）。11/12以降のビルドでは目印コメント＋次の1段落を自動で出さない（12記事とも2行だけ消えることを確認済み）。11/11 04:00の手作業削除はそのまま実施（.mdの掃除）
 - 2026-11-04 11:00 追加：`<!-- marathon-2026-11（11/12に削除） -->` の次の1段落（マラソン期間11/4 20:00〜11/11 01:59、チェックリスト・ポイント計算ツールへのリンク）。対象9記事＝hot-carpet-denkidai, fuyu-asa-aircon-timer-smart-remote, heater-denkidai-hikaku, humidifier-electricity-cost-telework, telework-ketsuro-taisaku-roten, winter-heating-shindan, aircon-danbou-denkidai-calculator, neru-danbou-denkidai-calculator, kashitsu-ryo-calculator。`grep -l "marathon-2026-11" content/posts/*.md` で探して削除
 - 既存の同趣旨の1段落（コメント目印なし）：foot-heater-electricity-cost, denki-moufu-kotatsu-denkidai-telework, smart-plug-guide（「2026年11月回のポイントアップ期間は」で検索）
 - 2026-11-04 16:00 追加：トップの特集欄に期間限定バナー（build.py の `SALE`、チェックリストへ。最終表示日 2026-11-11＝11/12最初のビルドで自動的に消える。11/11 04:00の削除作業で `SALE` ごと消してもよい）。denki-moufu-kotatsu-denkidai-telework・foot-heater-electricity-cost・smart-plug-guide のマラソン文にチェックリストへのリンクを追加（期間文言つき、11/11 04:00に一緒に削除）
