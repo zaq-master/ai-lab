@@ -28,6 +28,8 @@ KEYWORDS = {
     "ceramic-heater": "セラミックヒーター",
     "circulator": "サーキュレーター",
     "hot-carpet": "ホットカーペット",
+    "yutanpo": "湯たんぽ",
+    "datsuijo-heater": "脱衣所 ヒーター",
 }
 
 
