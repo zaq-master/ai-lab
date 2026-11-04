@@ -196,8 +196,9 @@ def frame(t):
         telop(img,"3回に1回…",560,130,"#ffffff",inner="#000",scale=pop(u,0.1))
         if u>0.9: telop(img,"ぼくの食費が消える",760,100,"#ffe94a",inner="#b00000",scale=pop(u,0.9))
         if u>2.2: telop(img,"不労所得…欲しい…",1000,110,"#ff7a7a",inner="#000",scale=pop(u,2.2))
-    d=ImageDraw.Draw(img); f=F(BD,30); s="※確率シミュレーション（実機映像ではありません）／AI制作／遊技は18歳以上"
-    d.text(((W-d.textlength(s,font=f))/2,1860),s,font=f,fill="#bbbbbb")
+    d=ImageDraw.Draw(img); f=F(BD,28)  # 2行にして左右の見切れを防ぐ（11/5 01:00修正）
+    for yy_,s in ((1848,"※確率シミュレーション（実機映像ではありません）"),(1882,"AI制作／遊技は18歳以上")):
+        d.text(((W-d.textlength(s,font=f))/2,yy_),s,font=f,fill="#bbbbbb")
     a=np.asarray(img,dtype=np.int16)
     a=a+np.random.randint(-7,8,(H,W,1),dtype=np.int16)
     yy=np.linspace(-1,1,H)[:,None]; xx=np.linspace(-1,1,W)[None,:]
