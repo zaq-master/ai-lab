@@ -100,6 +100,7 @@ run();
 - エアコン・セラミックヒーター・こたつ等を並べて比べるなら → [暖房器具の電気代 比較ツール](heater-denkidai-hikaku.html)
 - エアコン以外の家電もまとめて計算するなら → [家電の電気代計算ツール](denkidai-calculator.html)
 - 何から対策するか迷ったら → [冬の寒さ対策診断（5問）](winter-heating-shindan.html)
+- 起きる前に部屋を暖めておく → [冬の朝のエアコン予約（入タイマーとスマートリモコン）](fuyu-asa-aircon-timer-smart-remote.html)
 - エアコンをスマホで操作して切り忘れを防ぐ → [賃貸でエアコン2台をスマホ操作](smart-remote-rental-two-aircon.html)
 
 冬の電気代・寒さ対策の記事とツールは、悩み別に[冬の電気代まとめ](fuyu-denkidai-matome.html)で一覧にしています。
