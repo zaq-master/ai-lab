@@ -63,6 +63,9 @@
         background: rgba(0,0,0,0.62); border: 3px solid var(--cyan); border-radius: 24px; padding: 26px 30px; text-align: center; }
       #end-card .must { font-size: 40px; font-weight: 900; color: var(--accent); line-height: 1.5; }
       #end-card .src { margin-top: 14px; font-size: 28px; font-weight: 400; color: var(--muted); line-height: 1.5; }
+      .ybox { margin-top: 30px; width: 900px; background: var(--panel); border: 4px solid var(--warm); border-radius: 22px;
+        padding: 18px 26px; font-size: 42px; font-weight: 700; line-height: 1.45; color: var(--ink); }
+      .ybox b { color: var(--warm); font-weight: 900; }
       .muted-v { color: var(--muted); }
       .url { margin-top: 30px; font-size: 76px; font-weight: 900; line-height: 1.25; color: var(--ground);
         background: var(--accent); padding: 18px 34px; border-radius: 22px; }
@@ -92,7 +95,7 @@
       <!-- S2 formula 3.5-8 -->
       <div id="s2" class="scene clip" data-start="3.5" data-duration="4.5" data-track-index="2">
         <div class="center">
-          <div id="s2-tag" class="tag">一晩の電気代の計算式</div>
+          <div id="s2-tag" class="tag">電気毛布・エアコンなどの計算式</div>
           <div class="formula">
             <div id="s2-a" class="fbox">W÷1000<small>消費電力</small></div>
             <div id="s2-o1" class="fop">×</div>
@@ -100,7 +103,8 @@
             <div id="s2-o2" class="fop">×</div>
             <div id="s2-c" class="fbox">単価<small>円/kWh</small></div>
           </div>
-          <div id="s2-d" class="small" style="margin-top: 34px">W数は本体ラベル・取扱説明書で確認<br />湯たんぽは「お湯を沸かす電気ケトル」の分</div>
+          <div id="s2-d" class="small" style="margin-top: 22px">W数は本体ラベル・取扱説明書で確認</div>
+          <div id="s2-e" class="ybox"><b>湯たんぽは別の計算</b><br />W×時間ではなく、<span class="acc">お湯の量(L)×回数</span><br />＝電気ケトルで沸かす分</div>
         </div>
       </div>
 
@@ -117,7 +121,7 @@
       <!-- S4 tool 11.5-15.5 -->
       <div id="s4" class="scene clip" data-start="11.5" data-duration="4" data-track-index="2">
         <div class="center">
-          <div id="s4-a" class="mid">自分の家電のWで<br /><span class="acc">計算できる無料ツール</span></div>
+          <div id="s4-a" class="mid">自分の家の条件で<br /><span class="acc">計算できる無料ツール</span></div>
           <div id="s4-t" class="tbl" style="margin-top: 30px">
             <div id="s4-r1" class="tline"><span>電気毛布</span><span class="mint">W×時間</span></div>
             <div id="s4-r2" class="tline"><span>湯たんぽ</span><span class="mint">お湯の量</span></div>
@@ -140,8 +144,8 @@
 
       <!-- Captions (burned in) -->
       <div id="captions" data-track-kind="captions">
-        <div id="c1" class="cap clip" data-start="0" data-duration="3.5" data-track-index="3"><span>答えは家電のW数で変わります</span></div>
-        <div id="c2" class="cap clip" data-start="3.5" data-duration="4.5" data-track-index="3"><span>W÷1000×時間×単価</span></div>
+        <div id="c1" class="cap clip" data-start="0" data-duration="3.5" data-track-index="3"><span>答えは家電と使い方で変わります</span></div>
+        <div id="c2" class="cap clip" data-start="3.5" data-duration="4.5" data-track-index="3"><span>電気の暖房は<br />W÷1000×時間×単価</span></div>
         <div id="c3" class="cap clip" data-start="8" data-duration="3.5" data-track-index="3"><span>単価は契約で変わります</span></div>
         <div id="c4" class="cap clip" data-start="11.5" data-duration="4" data-track-index="3"><span>入れるだけで並べて比べる</span></div>
       </div>
@@ -156,7 +160,7 @@
 
       pop("#s1-b", 0.4); pop("#s1-c", 0.9, { ease: "back.out(2.4)" });
 
-      pop("#s2-tag", 3.55); pop("#s2-a", 3.8); pop("#s2-o1", 4.05); pop("#s2-b", 4.2); pop("#s2-o2", 4.45); pop("#s2-c", 4.6); fade("#s2-d", 5.0);
+      pop("#s2-tag", 3.55); pop("#s2-a", 3.8); pop("#s2-o1", 4.05); pop("#s2-b", 4.2); pop("#s2-o2", 4.45); pop("#s2-c", 4.6); fade("#s2-d", 4.9); pop("#s2-e", 5.3);
 
       pop("#s3-tag", 8.05); pop("#s3-b", 8.3, { ease: "back.out(2.4)" }); fade("#s3-c", 8.8); fade("#s3-src", 8.6);
 
