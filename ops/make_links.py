@@ -31,6 +31,8 @@ KEYWORDS = {
     "yutanpo": "湯たんぽ",
     "datsuijo-heater": "脱衣所 ヒーター",
     "window-danetsu-sheet": "窓 断熱シート 貼ってはがせる",
+    "monitor-light-curved": "モニターライト 曲面モニター対応",
+    "monitor-light-remote": "モニターライト リモコン付き",
 }
 
 
