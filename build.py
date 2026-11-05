@@ -306,7 +306,7 @@ TOOLS = [
     ("posts/kashitsu-ryo-calculator.html", "加湿量計算", "部屋に合う加湿器のmL/hを計算"),
     ("posts/winter-heating-shindan.html", "冬の寒さ対策診断", "5問で最初に試す対策がわかる"),
     ("posts/smart-remote-count-shindan.html", "スマートリモコン台数診断", "6問で必要台数がわかる"),
-    ("apps/sub-check/index.html", "サブスク見直しチェッカー", "月額・年額を一覧にして固定費を見直す"),
+    ("apps/sub-check/", "サブスク見直しチェッカー", "月額・年額を一覧にして固定費を見直す"),
 ]
 
 
