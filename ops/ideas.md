@@ -19,3 +19,9 @@
 1. ✅（11/4 18:00、表＋FAQ追加）**「電気毛布 つけっぱなし 一晩 電気代」**（季節・寝る時間帯の需要）— 新規は作らず denki-moufu-kotatsu-denkidai-telework に「寝るとき8時間（強／弱）」の早見表とFAQ「つけっぱなしで寝ていい？」を追加（安全面は取扱説明書の確認を促す一般論のみ）。W数はメーカー公表値・目安単価31円/kWhで再計算。商品枠 denki-moufu。参考: financial-field.com/household/entry-480175、yamada-denkiweb.com/media/27748 → 18:00回の第1候補
 2. ✅ **「湯たんぽ と 電気毛布 どっちが安い」**（比較・ロングテール）— 同記事に比較節を追加（湯たんぽは電気代0だが湯を沸かすガス・電気代がかかる、の計算式だけ示す。金額は前提を明記し断定しない）。参考: financial-field.com/household/entry-480175
 3. ✅ **「脱衣所 ヒーター 電気代 セラミック 小型」**（季節・入浴時の短時間利用）— heater-denkidai-hikaku に「1回15〜30分の短時間利用」の計算例を追加（600W/1200Wの切替で1回あたり何円か）。ヒートショック等の健康効果は書かない。商品枠 ceramic-heater。参考: irisohyama.co.jp/plusoneday/electronics/26
+
+## 2026-11-05 09:00 リサーチ回（「電気を使わない／少ない」寒さ対策で新しい入口）
+※サイト内を検索：「断熱」は注意書き程度で記事0本、「電熱ベスト」「USBヒーター」は0本。楽天BF2026の公式日程は今回も検索で見つからず（過去年の記事のみ、参考: lifehacker.jp/article/rakuten_blackfriday_202111/）→日付は書かない方針を継続
+1. **「窓 断熱シート 賃貸 効果 結露」**（季節・11〜2月、新規記事候補）— 賃貸でも貼ってはがせる断熱シート／プチプチ／断熱カーテン／すき間テープを「工事なし・原状回復」で比較。効果（何℃・何円）は断定せず「窓は熱の出入りが大きい場所」の一般論＋メーカー公表の説明のみ引用。telework-ketsuro-taisaku-roten・heater-denkidai-hikaku・aircon-danbou-denkidai-calculator へ内部リンク。商品枠を新設（window-danetsu-sheet）→ make_links.py の KEYWORDS に追加が必要。参考: osusume.mynavi.jp/4362、roomie.jp/2026/09/1882760/ → 11:00回の第1候補
+2. **「電熱ベスト モバイルバッテリー 何時間・電気代」**（季節・通勤／在宅の足元以外）— 電熱ベスト・USB電熱グッズの「バッテリー容量(mAh)÷消費電力で何時間もつか」と「充電1回の電気代」を計算式で示す（W数は商品ページ公表値、単価は目安31円/kWh）。実機レビューではないこと・発熱製品はPSE等の表示と取扱説明書の確認を促す一般論のみ。usb-c-charger-guide・foot-heater-electricity-cost へ内部リンク。参考: jisaku.com/glossary/heated-vest-battery → 18:00回の候補（新規 or 計算ツール化）
+3. **「楽天ブラックフライデー前チェックリスト」に“工事なし寒さ対策セット”を追加**（イベント・既存ハブ強化）— rakuten-marathon-fuyu-kaden-list／fuyu-denkidai-matome に、案1・案2の商品を「電気代がほぼかからない寒さ対策」の1節として足す。日程は公式発表を確認した回でのみ追記（未確認の日付は書かない）。マラソン終了後もハブとして使える導線にする → 15:00 SEO改善回の候補
