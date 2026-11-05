@@ -17,3 +17,4 @@ ops/etsy/products/**/*.py
 __pycache__/
 # YouTubeショートの make.py が書き出す確認用画像はコミットしない
 media/videos/**/preview_*.png
+music/**/*.wav
