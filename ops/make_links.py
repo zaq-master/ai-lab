@@ -33,6 +33,8 @@ KEYWORDS = {
     "window-danetsu-sheet": "窓 断熱シート 貼ってはがせる",
     "monitor-light-curved": "モニターライト 曲面モニター対応",
     "monitor-light-remote": "モニターライト リモコン付き",
+    "cable-tray": "ケーブルトレー デスク 配線",
+    "footrest": "フットレスト デスク",
 }
 
 
