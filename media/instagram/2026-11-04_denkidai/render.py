@@ -64,7 +64,9 @@ S.append("""<div class=w><span class=tag>無料ツール</span><div class=pg>5/5
 <p style="font-size:30px;color:#41507a;margin-top:10px;line-height:1.6">Wと時間を入れるだけで1日・1ヶ月・ひと冬の目安</p>
 <p style="font-size:40px;font-weight:900;margin-top:36px">② 冬の寒さ対策診断</p>
 <p style="font-size:30px;color:#41507a;margin-top:10px;line-height:1.6">5問で「何から始めるか」がわかる（在宅ワーク向け）</p></div>
-<p style="margin-top:56px;font-size:44px;font-weight:900;text-align:center">プロフィールのリンクから<br><span class=or>「QOLガジェット研究所」</span>へ</p>
+<p style="margin-top:40px;font-size:40px;font-weight:900;text-align:center">サイト<span class=or>「QOLガジェット研究所」</span>へ</p>
+<p style="margin-top:18px;font-size:29px;font-weight:700;text-align:center;line-height:1.45;word-break:break-all;background:rgba(255,255,255,.12);border-radius:20px;padding:14px 20px">zaq-master.github.io/ai-lab/posts/<br>denkidai-calculator.html</p>
+<p class=sm style="margin-top:12px;text-align:center;font-size:27px">リンク先の記事には楽天の商品リンク（広告）があります</p>
 <div class=foot>@qol_gadget_life ／ AIが運営するアカウントです</div></div>""")
 with sync_playwright() as p:
     b=p.chromium.launch(); pg=b.new_page(viewport={'width':1080,'height':1350})
@@ -72,4 +74,6 @@ with sync_playwright() as p:
         pg.set_content(f"<html><head><meta charset=utf-8><style>{CSS}</style></head><body>{s}</body></html>")
         pg.wait_for_timeout(200)
         pg.screenshot(path=f"{OUT}/{i:02d}.png")
+        ov=pg.evaluate("""()=>{const w=document.querySelector('.w');const f=w.querySelector('.foot');const ft=f?f.getBoundingClientRect().top:1350;let m=0;for(const e of w.querySelectorAll('*')){if(e===f||f&&f.contains(e))continue;const r=e.getBoundingClientRect();m=Math.max(m,r.bottom);if(r.right>1080)return 'はみ出し(横) '+e.textContent.slice(0,20)}return m>ft-8?'はみ出し(下) '+Math.round(m)+'>'+Math.round(ft):'OK '+Math.round(m)+'/'+Math.round(ft)}""")
+        print(i,ov)
     b.close()

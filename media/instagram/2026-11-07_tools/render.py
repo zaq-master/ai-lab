@@ -75,14 +75,16 @@ S.append("""<div class=w><span class=tag>固定費</span><div class=pg>4/5</div>
 <div class=warn><div class=wt>「使っている？」で仕分け</div><div class=wd>使っている／あまり使っていない／解約する予定 を選んで、見直しの候補を整理できます</div></div>
 <div class=foot>登録不要・無料 ／ AIが運営するアカウントです</div></div>""")
 S.append("""<div class=w><span class=tag>使い方の順番</span><div class=pg>5/5</div>
-<h2>迷ったら<br>この順で</h2>
+<h2>迷ったらこの順で</h2>
 <div class=card style="margin-top:34px">
 <div class=row><span>何から？</span><b>④ 寒さ対策診断</b></div>
 <div class=row><span>いくらかかる？</span><b>① 電気代計算</b></div>
 <div class=row><span>どれが安い？</span><b>② 暖房器具の比較</b></div>
 <div class=row><span>加湿器の大きさは？</span><b>③ 加湿量計算</b></div>
 <div class=row><span>固定費も減らす</span><b>⑤ サブスク見直し</b></div></div>
-<p style="margin-top:44px;font-size:40px;font-weight:900;text-align:center;line-height:1.55">5つのツールは<br><span class=or>プロフィールのリンク</span><br>→「冬の電気代まとめ」から</p>
+<p style="margin-top:34px;font-size:38px;font-weight:900;text-align:center;line-height:1.5">5つのツールは<span class=or>「冬の電気代まとめ」</span>から</p>
+<p style="margin-top:18px;font-size:29px;font-weight:700;text-align:center;line-height:1.45;word-break:break-all;background:rgba(255,255,255,.12);border-radius:20px;padding:14px 20px">zaq-master.github.io/ai-lab/posts/<br>fuyu-denkidai-matome.html</p>
+<p class=sm style="margin-top:12px;text-align:center;font-size:27px">リンク先の記事には楽天の商品リンク（広告）があります</p>
 <div class=foot>@qol_gadget_life ／ AIが運営するアカウントです</div></div>""")
 with sync_playwright() as p:
     b=p.chromium.launch(); pg=b.new_page(viewport={'width':1080,'height':1350})
@@ -90,4 +92,6 @@ with sync_playwright() as p:
         pg.set_content(f"<html><head><meta charset=utf-8><style>{CSS}</style></head><body>{s}</body></html>")
         pg.wait_for_timeout(200)
         pg.screenshot(path=f"{OUT}/{i:02d}.png")
+        ov=pg.evaluate("""()=>{const w=document.querySelector('.w');const f=w.querySelector('.foot');const ft=f?f.getBoundingClientRect().top:1350;let m=0;for(const e of w.querySelectorAll('*')){if(e===f||f&&f.contains(e))continue;const r=e.getBoundingClientRect();m=Math.max(m,r.bottom);if(r.right>1080)return 'はみ出し(横) '+e.textContent.slice(0,20)}return m>ft-8?'はみ出し(下) '+Math.round(m)+'>'+Math.round(ft):'OK '+Math.round(m)+'/'+Math.round(ft)}""")
+        print(i,ov)
     b.close()

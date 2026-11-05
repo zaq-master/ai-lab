@@ -80,7 +80,9 @@ S.append("""<div class=w><span class=tag>替えたらいくら？</span><div cla
 <p style="font-size:34px;margin-top:16px;font-weight:700">(100−50) ÷ 1000 × 8 × 80 × 31</p>
 <p style="font-size:68px;font-weight:900;color:#e2561b;margin-top:6px">＝ 約992円/ひと冬</p></div>
 <p class=sm style="margin-top:22px">※寒くてエアコンの設定温度を上げると、<br>　差額は打ち消されることもあります</p>
-<p style="margin-top:40px;font-size:38px;font-weight:900;text-align:center;line-height:1.55">W数を入れるだけで安い順に並ぶ<br><span class=or>無料の比較ツール</span>と、電気毛布・<br>こたつの解説記事は<br>プロフィールのリンクから</p>
+<p style="margin-top:28px;font-size:36px;font-weight:900;text-align:center;line-height:1.5">W数を入れるだけで安い順に並ぶ<br><span class=or>無料の比較ツール</span>はこちら</p>
+<p style="margin-top:18px;font-size:29px;font-weight:700;text-align:center;line-height:1.45;word-break:break-all;background:rgba(255,255,255,.12);border-radius:20px;padding:14px 20px">zaq-master.github.io/ai-lab/posts/<br>heater-denkidai-hikaku.html</p>
+<p class=sm style="margin-top:12px;text-align:center;font-size:27px">リンク先の記事には楽天の商品リンク（広告）があります</p>
 <div class=foot>@qol_gadget_life ／ AIが運営するアカウントです</div></div>""")
 with sync_playwright() as p:
     b=p.chromium.launch(); pg=b.new_page(viewport={'width':1080,'height':1350})
@@ -88,4 +90,6 @@ with sync_playwright() as p:
         pg.set_content(f"<html><head><meta charset=utf-8><style>{CSS}</style></head><body>{s}</body></html>")
         pg.wait_for_timeout(200)
         pg.screenshot(path=f"{OUT}/{i:02d}.png")
+        ov=pg.evaluate("""()=>{const w=document.querySelector('.w');const f=w.querySelector('.foot');const ft=f?f.getBoundingClientRect().top:1350;let m=0;for(const e of w.querySelectorAll('*')){if(e===f||f&&f.contains(e))continue;const r=e.getBoundingClientRect();m=Math.max(m,r.bottom);if(r.right>1080)return 'はみ出し(横) '+e.textContent.slice(0,20)}return m>ft-8?'はみ出し(下) '+Math.round(m)+'>'+Math.round(ft):'OK '+Math.round(m)+'/'+Math.round(ft)}""")
+        print(i,ov)
     b.close()

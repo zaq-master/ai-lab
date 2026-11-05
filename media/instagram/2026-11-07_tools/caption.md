@@ -4,13 +4,14 @@
 - 再生成：`python3 render.py <出力フォルダ>`（Playwright。2026-11-06_heater/render.py のCSSを流用）
 - 誘導先（プロフィールのリンクから）：posts/fuyu-denkidai-matome.html（冬の電気代まとめ。5ツールすべてへのリンクあり）
   - ① posts/denkidai-calculator.html ② posts/heater-denkidai-hikaku.html ③ posts/kashitsu-ryo-calculator.html ④ posts/winter-heating-shindan.html ⑤ apps/sub-check/
-- 投稿本体には広告リンクなし → PR表記不要（誘導先のまとめ・一部ツールのページ側に【PR】表記あり）
+- PR判断（2026-11-06 監査で修正・sns-post「共通基準」2026-11-04）：誘導先「冬の電気代まとめ」と①〜④のページに楽天の商品リンク（広告）があるため、1行目の先頭に【PR】、誘導の行の次に「リンク先の記事には楽天の商品リンク（広告）があります」（⑤サブスク見直しチェッカーは広告なし）。旧：投稿本体に広告リンクなし→PR不要
+- 誘導：IGプロフィールのリンク欄は 2026-11-04 02:00 時点で空（ops/log/2026-11-04.md）→ キャプションはまとめのURLを文字で記載。5枚目の画像も 2026-11-06 にURL表記＋広告の1行に作り直し済み（render.py）
 - 投稿はPC回（08:00）で。Instagramは1日1件の上限に注意
 - 内容は content/posts/ の各md（denkidai-calculator / heater-denkidai-hikaku / kashitsu-ryo-calculator / winter-heating-shindan / fuyu-denkidai-matome）と docs/apps/sub-check/index.html に書いてある機能だけ。新しい金額・スペックは書いていない（出てくる数字は「5問」「ひと冬（4ヶ月）」など各ページの記載のみ）
 
 ## キャプション本文
 
-冬は暖房・加湿・固定費と、「お金」と「快適」の悩みが一気に増える季節。
+【PR】冬は暖房・加湿・固定費と、「お金」と「快適」の悩みが一気に増える季節。
 感覚で悩む前に、自分の数字を入れて計算できる無料ツールを5つまとめました。
 
 ① 家電の電気代計算ツール
@@ -33,7 +34,9 @@
 
 ※どのツールも結果は目安で、特定製品の実機レビューではありません。消費電力は本体ラベル・取扱説明書・メーカー公式サイトで確認してください。
 
-🔗 5つのツールは、プロフィールのリンクから「QOLガジェット研究所」の「冬の電気代まとめ」へ
+🔗 5つのツールは「QOLガジェット研究所」の「冬の電気代まとめ」から
+URL：zaq-master.github.io/ai-lab/posts/fuyu-denkidai-matome.html（IGのキャプション内のリンクは押せないので、ブラウザのアドレス欄に入力してください）
+リンク先の記事には楽天の商品リンク（広告）があります
 
 保存しておくと、冬の買い物や見直しのときにすぐ使えます。
 
