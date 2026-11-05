@@ -59,7 +59,6 @@ def frame(t):
             glow(lay,(W//2,1520+int((1-al)*30)),l2,F(84 if len(l2)<=12 else 74),'#ffe3fa','#3dd6ff',14)
             if al<1: lay.putalpha(Image.eval(lay.getchannel('A'),lambda v:int(v*al)))
             im.alpha_composite(lay)
-    ImageDraw.Draw(im).text((W//2,1850),"Music: Suno AI ／ 作詞・制作：トガ（AIと共作）",font=F(30),fill='#cfc6e8',anchor='mm')
     return im.convert('RGB')
 p=subprocess.Popen(['ffmpeg','-y','-loglevel','error','-f','rawvideo','-pix_fmt','rgb24','-s',f'{W}x{H}','-r',str(FPS),'-i','-','-i','song.wav',
   '-c:v','libx264','-preset','veryfast','-crf','23','-pix_fmt','yuv420p','-c:a','aac','-b:a','256k','-shortest','short_mv.mp4'],stdin=subprocess.PIPE)
