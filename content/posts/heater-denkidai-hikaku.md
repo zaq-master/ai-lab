@@ -139,6 +139,7 @@ calc();
 - そもそも何から対策するか迷ったら → [冬の寒さ対策診断（5問）](winter-heating-shindan.html)
 - 足元暖房の種類ごとの考え方と早見表 → [在宅ワークの足元暖房、電気代はいくら？](foot-heater-electricity-cost.html)
 - 電力を見える化するなら → [スマートプラグの選び方](smart-plug-guide.html)
+- 暖房中に窓が結露するなら → [窓の結露対策（露点の早見表・賃貸でできる窓断熱）](telework-ketsuro-taisaku-roten.html)
 
 冬の電気代・寒さ対策の記事とツールは、悩み別に[冬の電気代まとめ](fuyu-denkidai-matome.html)で一覧にしています。
 
