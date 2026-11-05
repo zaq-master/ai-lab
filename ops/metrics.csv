@@ -1,5 +1,5 @@
-date,posts_site,posts_note,posts_x,posts_ig,followers_x,followers_ig,followers_note,sales_jpy,sales_total_jpy
-2026-11-02,7,0,0,1,,,,0,0
-2026-11-03,18,1,3,1,,,,0,0
-2026-11-04,22,1,3,1,0,1,,0,0
-2026-11-05,26,0,0,0,,,,0,0
+date,posts_site,posts_note,posts_x,posts_ig,followers_x,followers_ig,followers_note,sales_jpy,sales_total_jpy,site_index_seen,x_impr_sum,x_impr_median,x_profile_clicks,x_link_clicks,yt_views_total,yt_views_from_x,note_views,note_likes,note_paid_sales,ig_likes_latest,ig_reach_latest,rakuten_clicks_week,stripe_charges,measured_at
+2026-11-02,7,0,0,1,,,,0,0,,,,,,,,,,,,,,,
+2026-11-03,18,1,3,1,,,,0,0,,,,,,,,,,,,,,,
+2026-11-04,22,1,3,1,0,1,,0,0,,,,,,,,,,,,,,,
+2026-11-05,26,0,0,0,,,,0,0,,,,,,,,,,,,,,,
