@@ -68,12 +68,32 @@ def jst_today():
 EXPIRE = {"marathon-2026-11": "2026-11-11"}
 
 
+def expired(tag, today=None):
+    last = EXPIRE.get(tag)
+    return bool(last) and (today or jst_today()) > datetime.date.fromisoformat(last)
+
+
 def strip_expired(md, today=None):
-    today = today or jst_today()
-    for tag, last in EXPIRE.items():
-        if today > datetime.date.fromisoformat(last):
+    """期限つき文言の出し分け。
+    ・<!-- TAG ... -->＋次の段落 … 期限内だけ出す（過ぎたら消す）
+    ・<!-- ended:TAG -->＋次の段落 … 期限が過ぎてから出す（「今回のセールは終了」の案内など。期限内は消す）"""
+    for tag in EXPIRE:
+        gone = expired(tag, today)
+        ended = r"<!--\s*ended:" + re.escape(tag) + r"[^>]*-->\n((?:.+\n?)*)\n*"
+        md = re.sub(ended, (lambda m: m.group(1) + "\n") if gone else "", md)
+        if gone:
             md = re.sub(r"<!--\s*" + re.escape(tag) + r"[^>]*-->\n(?:.+\n?)*\n*", "", md)
     return md
+
+
+def ended_description(meta, today=None):
+    """front matter の ended_description: TAG|文 … 期限が過ぎたら description（一覧カード・検索結果の説明）を差し替える。"""
+    v = meta.get("ended_description", "")
+    if "|" in v:
+        tag, text = v.split("|", 1)
+        if expired(tag.strip(), today):
+            meta["description"] = text.strip()
+    return meta
 
 
 def git_date(p):
@@ -94,6 +114,7 @@ def parse(p):
     m = re.match(r"^---\n(.*?)\n---\n(.*)$", raw, re.S)
     meta = dict(l.split(":", 1) for l in m.group(1).splitlines() if ":" in l)
     meta = {k.strip(): v.strip() for k, v in meta.items()}
+    meta = ended_description(meta)
     body = markdown.markdown(strip_expired(m.group(2)), extensions=["tables", "toc"])
     body = re.sub(r"<td((?:\s(?![^>]*\bclass=)[^>]*)?)>(.*?)</td>", short_cell, body, flags=re.S)
     body = re.sub(r"<!--\s*sheet-cta\s*-->", sheet_cta, body)
