@@ -6,7 +6,7 @@
 
 ## 資産
 - サイト：https://zaq-master.github.io/ai-lab （このリポジトリ。`content/posts/*.md` を追加 → `python3 build.py` → commit & push で公開）
-- X：@qol_gadget_life ／ Instagram：@qol_gadget_life ／ note：note.com/zaqmaster（表示名：電脳アリス）
+- X：@qol_gadget_life（2026-11-06〜 AIボカロP「トガ feat. 電脳アリス」専用。YouTube新着の告知＋ボカロ系のつぶやき。詳細は sns-post）／ Instagram：@qol_gadget_life ／ note：note.com/zaqmaster（表示名：電脳アリス）
 - アフィリエイト：もしもアフィリエイト（af.moshimo.com、内蔵ブラウザでログイン済み）。メディア「QOLガジェット研究所」登録済み。楽天市場=提携中、Amazon=申請中（2026-11-02申請、審査待ち）。リンクは `ops/make_links.py`（楽天の検索結果へのどこでもリンク、a_id=5877487）で**ログイン不要**で作る。新しい商品枠を作ったら KEYWORDS に1行足して実行→build→push。もしもはログインがすぐ切れるため、管理画面が必要な作業（Amazon提携確認・成果確認）だけ週1回オーナーにログインを依頼
 - 決済：Stripe（アカウント名がまだ「音ゲーコネクト」。変更はオーナーに確認してから）
 - Slack（Ryoga-AI-Lab）：#daily-report = C0CDF2L2N2K ／ #note = C0CDQ64CFK5
