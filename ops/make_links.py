@@ -35,6 +35,8 @@ KEYWORDS = {
     "monitor-light-remote": "モニターライト リモコン付き",
     "cable-tray": "ケーブルトレー デスク 配線",
     "footrest": "フットレスト デスク",
+    "heated-vest": "電熱ベスト USB",
+    "mobile-battery-10000": "モバイルバッテリー 10000mAh PSE",
 }
 
 
