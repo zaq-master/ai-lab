@@ -79,7 +79,16 @@ t("記事とIG原稿・画像の例がツールと同じ数値（旧前提の数
   const art = fs.readFileSync(path.join(root, "content/posts/denki-moufu-kotatsu-denkidai-telework.md"), "utf8");
   const ig = fs.readFileSync(path.join(root, "ops/drafts/ig_stock_2026-11-14.md"), "utf8");
   const slides = ["04", "05"].map(n => fs.readFileSync(path.join(root, `docs/sns/2026-11-14-${n}.src.html`), "utf8")).join("\n");
-  for (const [name, s] of [["記事", art], ["IG原稿", ig], ["IG画像", slides]]) {
+  // 電気毛布の「一晩の電気代」早見表（例：20W×7h×31円＝約4.3円）は湯たんぽの旧前提とは別の正しい値なので、旧前提の検査から外す
+  const nightTable = (art.match(/\|[^\n]*一晩6時間[^\n]*\n\|[-| ]+\|\n((?:\|\s*\d+Wの場合[^\n]*\n?)+)/) || [, ""])[1];
+  assert.ok(nightTable, "記事：一晩の早見表が見つからない");
+  for (const l of nightTable.trim().split("\n")) {  // 早見表の値自体は W×時間×31円 で検算する
+    const w = +l.match(/(\d+)Wの場合/)[1], c = l.split("|").slice(2, 6).map(x => parseFloat(x.replace(/[^\d.]/g, "")));
+    [6, 7, 8].forEach((h, k) => { const v = w * h * 31 / 1000; assert.ok(Math.abs(c[k] - v) <= (v < 10 ? 0.05 : 0.5) + 1e-9, `早見表 ${w}W×${h}h：${c[k]} vs ${v}`); });
+    assert.ok(Math.abs(c[3] - w * 8 * 30 * 31 / 1000) <= 0.5 + 1e-9, `早見表 ${w}W 1か月`);
+  }
+  const artNoMoufuTable = art.replace(nightTable, "");
+  for (const [name, s] of [["記事", artNoMoufuTable], ["IG原稿", ig], ["IG画像", slides]]) {
     assert.ok(/15℃?\s*→\s*80℃/.test(s), name + "：15→80℃");
     assert.ok(s.includes("5.9"), name + "：約5.9円");
     assert.ok(s.includes("4.7"), name + "：理論値 約4.7円");

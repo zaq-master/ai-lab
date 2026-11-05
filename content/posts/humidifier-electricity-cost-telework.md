@@ -73,7 +73,7 @@ category: 季節家電
 
 自分の部屋に何mL/hの加湿量が必要かは、[部屋の加湿量 計算ツール](kashitsu-ryo-calculator.html)で広さ・室温・湿度から目安を計算できます。加湿しすぎで窓が結露していないかは、[結露対策の露点早見表](telework-ketsuro-taisaku-roten.html)で確認できます。
 
-足元の冷えも気になる人は[在宅ワークの足元暖房の電気代比較](foot-heater-electricity-cost.html)、何から対策すべきか迷う人は[冬の寒さ対策診断](winter-heating-shindan.html)もどうぞ。
+足元の冷えも気になる人は[在宅ワークの足元暖房の電気代比較](foot-heater-electricity-cost.html)、何から対策すべきか迷う人は[冬の寒さ対策診断](winter-heating-shindan.html)もどうぞ。加湿以外のデスクまわり（モニターの高さ・照明・充電器）は[在宅ワークのデスク環境を快適にするガジェット7カテゴリ](desk-qol-guide.html)、手元の暗さが気になる人は[モニターライトの選び方](monitor-light-guide.html)にまとめています。
 
 冬の電気代・寒さ対策の記事とツールは、悩み別に[冬の電気代まとめ](fuyu-denkidai-matome.html)で一覧にしています。
 

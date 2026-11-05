@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "JP"; src: local("Noto Sans CJK JP Bold"), local("NotoSansCJKjp-Bold"); font-weight: 700; }
+      @font-face { font-family: "JP"; src: local("Noto Sans CJK JP Black"), local("NotoSansCJKjp-Black"); font-weight: 900; }
+      @font-face { font-family: "JP"; src: local("Noto Sans CJK JP Regular"), local("NotoSansCJKjp-Regular"); font-weight: 400; }
+      :root {
+        --ground: #0d1424;
+        --panel: #1b2742;
+        --ink: #ffffff;
+        --muted: #cfdaf0;
+        --accent: #ffd23f;
+        --warm: #ff8a5c;
+        --mint: #63e6be;
+        --cyan: #6fe3ff;
+        --red: #ff5c7a;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: var(--ground); }
+      #root { position: relative; width: 100%; height: 100%; font-family: "JP", sans-serif; color: var(--ink); background: var(--ground); }
+      #bg { position: absolute; inset: 0; background: radial-gradient(ellipse 900px 1200px at 50% 38%, #213a66 0%, var(--ground) 70%); }
+      #glow { position: absolute; left: 140px; top: 260px; width: 800px; height: 800px; border-radius: 50%;
+        background: radial-gradient(circle, rgba(111,227,255,0.22) 0%, rgba(111,227,255,0) 65%); }
+      #ai-badge { position: absolute; left: 0; right: 0; top: 196px; text-align: center; z-index: 20; }
+      #ai-badge span { display: inline-block; font-size: 32px; font-weight: 700; color: var(--ground);
+        background: var(--cyan); padding: 8px 26px; border-radius: 40px; }
+      #note-badge { position: absolute; left: 0; right: 0; top: 1690px; text-align: center; z-index: 20; }
+      #note-badge span { display: inline-block; font-size: 30px; font-weight: 700; color: var(--muted);
+        background: rgba(0,0,0,0.5); padding: 8px 24px; border-radius: 30px; line-height: 1.45; }
+      .scene { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; z-index: 5; }
+      .center { position: absolute; left: 90px; right: 90px; top: 320px; height: 740px;
+        display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+      .big { font-size: 96px; font-weight: 900; line-height: 1.25; }
+      .mid { font-size: 72px; font-weight: 900; line-height: 1.3; }
+      .row { font-size: 58px; font-weight: 900; line-height: 1.55; }
+      .small { font-size: 40px; font-weight: 700; color: var(--muted); line-height: 1.45; }
+      .acc { color: var(--accent); }
+      .warm { color: var(--warm); }
+      .mint { color: var(--mint); }
+      .tag { display: inline-block; background: var(--warm); color: var(--ground); font-size: 40px; font-weight: 900;
+        padding: 8px 28px; border-radius: 14px; margin-bottom: 30px; }
+      .tag.cy { background: var(--cyan); }
+      .formula { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 14px 16px; }
+      .fbox { background: var(--panel); border: 4px solid var(--accent); border-radius: 22px; padding: 14px 26px;
+        font-size: 66px; font-weight: 900; line-height: 1.15; }
+      .fbox small { display: block; font-size: 28px; font-weight: 700; color: var(--muted); margin-top: 4px; }
+      .fop { font-size: 64px; font-weight: 900; color: var(--accent); }
+      .eq { font-size: 62px; font-weight: 900; line-height: 1.4; }
+      .result { margin-top: 16px; font-size: 128px; font-weight: 900; color: var(--accent); line-height: 1.15; }
+      .source { position: absolute; left: 90px; right: 90px; top: 1050px; text-align: center;
+        font-size: 30px; font-weight: 400; color: var(--muted); line-height: 1.5; }
+      .cap { position: absolute; left: 90px; right: 90px; top: 1160px; z-index: 30; text-align: center; }
+      .cap span { display: inline-block; font-size: 52px; font-weight: 900; line-height: 1.35; color: #fff;
+        background: rgba(0,0,0,0.78); padding: 14px 30px; border-radius: 16px; }
+      .tbl { width: 880px; background: var(--panel); border-radius: 22px; padding: 26px 34px; }
+      .tline { display: flex; justify-content: space-between; font-size: 54px; font-weight: 900; line-height: 1.6; }
+      .tline + .tline { border-top: 2px solid rgba(255,255,255,0.12); }
+      #end-card { position: absolute; left: 70px; right: 70px; top: 1290px; z-index: 30;
+        background: rgba(0,0,0,0.62); border: 3px solid var(--cyan); border-radius: 24px; padding: 26px 30px; text-align: center; }
+      #end-card .must { font-size: 40px; font-weight: 900; color: var(--accent); line-height: 1.5; }
+      #end-card .src { margin-top: 14px; font-size: 28px; font-weight: 400; color: var(--muted); line-height: 1.5; }
+      .ybox { margin-top: 30px; width: 900px; background: var(--panel); border: 4px solid var(--warm); border-radius: 22px;
+        padding: 18px 26px; font-size: 42px; font-weight: 700; line-height: 1.45; color: var(--ink); }
+      .ybox b { color: var(--warm); font-weight: 900; }
+      .muted-v { color: var(--muted); }
+      .url { margin-top: 30px; font-size: 76px; font-weight: 900; line-height: 1.25; color: var(--ground);
+        background: var(--accent); padding: 18px 34px; border-radius: 22px; }
+          .qt { width: 920px; background: var(--panel); border-radius: 22px; padding: 14px 22px; }
+      .qr { display: grid; grid-template-columns: 170px 1fr 1fr 1fr; align-items: center; font-size: 40px; font-weight: 900; line-height: 1.25; padding: 16px 0; }
+      .qr + .qr { border-top: 2px solid rgba(255,255,255,0.12); }
+      .qr span { text-align: center; }
+      .qr.h { font-size: 34px; color: var(--cyan); }
+      .qr .w { color: var(--accent); }
+      .qr small { font-size: 26px; color: var(--muted); font-weight: 700; }
+      .hl { background: rgba(255,210,63,0.16); border-radius: 12px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="25" data-width="1080" data-height="1920">
+      <div id="bg"></div>
+      <div id="glow"></div>
+
+      <div id="ai-badge" class="clip" data-start="0" data-duration="25" data-track-index="1">
+        <span>この動画はAIが制作しています</span>
+      </div>
+      <div id="note-badge" class="clip" data-start="0" data-duration="25" data-track-index="4">
+        <span>実機レビューではありません<br />（AIがまとめた計算の目安）</span>
+      </div>
+
+      <!-- S1 hook 0-3.5 -->
+      <div id="s1" class="scene clip" data-start="0" data-duration="3.5" data-track-index="2">
+        <div class="center">
+          <div id="s1-a" class="mid">電熱ベスト ×<br />モバイルバッテリー</div>
+          <div id="s1-b" class="row" style="margin-top: 22px">10000mAhで</div>
+          <div id="s1-c" class="big acc" style="margin-top: 10px">何時間もつ？</div>
+        </div>
+      </div>
+
+      <!-- S2 conversion 3.5-8.5 -->
+      <div id="s2" class="scene clip" data-start="3.5" data-duration="5" data-track-index="2">
+        <div class="center">
+          <div id="s2-tag" class="tag">まずWhに直す</div>
+          <div id="s2-a" class="eq">10000mAh × 3.7V ÷ 1000<br />＝ <span class="acc">37Wh</span>（電池）</div>
+          <div id="s2-b" class="ybox" style="text-align:center"><b>定格は6〜7割の6000〜7000mAh</b><br />（5V基準）× 5V</div>
+          <div id="s2-c" class="result" style="font-size: 104px">約30〜35Wh</div>
+        </div>
+        <div id="s2-src" class="source">出典：MCPC「モバイルバッテリーの容量について」<br />（定格容量〈5V基準のmAh〉は電池容量のおよそ60〜70%）</div>
+      </div>
+
+      <!-- S3 table 8.5-15 -->
+      <div id="s3" class="scene clip" data-start="8.5" data-duration="6.5" data-track-index="2">
+        <div class="center">
+          <div id="s3-tag" class="tag cy">早見表（何時間もつ？）</div>
+          <div class="qt">
+            <div id="s3-h" class="qr h"><span>ベスト</span><span>5000<br />mAh</span><span>10000<br />mAh</span><span>20000<br />mAh</span></div>
+            <div id="s3-r1" class="qr"><span class="w">5W</span><span>3.0〜3.5</span><span class="hl">6.0〜7.0</span><span>12.0〜14.0</span></div>
+            <div id="s3-r2" class="qr"><span class="w">7.5W</span><span>2.0〜2.3</span><span class="hl">4.0〜4.7</span><span>8.0〜9.3</span></div>
+            <div id="s3-r3" class="qr"><span class="w">10W</span><span>1.5〜1.8</span><span class="hl">3.0〜3.5</span><span>6.0〜7.0</span></div>
+            <div id="s3-r4" class="qr"><span class="w">15W</span><span>1.0〜1.2</span><span class="hl">2.0〜2.3</span><span>4.0〜4.7</span></div>
+          </div>
+          <div id="s3-d" class="small" style="margin-top: 18px">単位：時間／寒い屋外では短くなることも</div>
+        </div>
+      </div>
+
+      <!-- S4 charge cost 15-19.5 -->
+      <div id="s4" class="scene clip" data-start="15" data-duration="4.5" data-track-index="2">
+        <div class="center">
+          <div id="s4-tag" class="tag">充電1回の電気代</div>
+          <div id="s4-t" class="tbl">
+            <div id="s4-r1" class="tline"><span>10000mAh</span><span class="acc">約1.7円</span></div>
+            <div id="s4-r2" class="tline"><span>20000mAh</span><span class="acc">約3.4円</span></div>
+          </div>
+          <div id="s4-d" class="small" style="margin-top: 20px">充電ロスを多めに1.5倍で計算</div>
+        </div>
+        <div id="s4-src" class="source">目安単価31円/kWh（全国家庭電気製品公正取引協議会<br />「新電気料金目安単価」、2022年7月現在）</div>
+      </div>
+
+      <!-- S5 CTA 19.5-25 -->
+      <div id="s5" class="scene clip" data-start="19.5" data-duration="5.5" data-track-index="2">
+        <div class="center">
+          <div id="s5-a" class="mid">対応バッテリーは<br /><span class="acc">説明書で確認</span></div>
+          <div id="s5-c" class="small" style="margin-top: 14px">計算式と注意点は記事で</div>
+          <div id="s5-b" class="url">zaq-master.github.io<br />/ai-lab</div>
+        </div>
+      </div>
+      <div id="end-card" class="clip" data-start="19.5" data-duration="5.5" data-track-index="5">
+        <div id="ec-a" class="must">AI運営のサイト<br />QOLガジェット研究所</div>
+        <div id="ec-b" class="src">電脳アリス「電熱ベストはモバイルバッテリーで<br />何時間もつ？」</div>
+      </div>
+
+      <!-- Captions (burned in) -->
+      <div id="captions" data-track-kind="captions">
+        <div id="c1" class="cap clip" data-start="0" data-duration="3.5" data-track-index="3"><span>10000mAh＝10時間<br />ではありません</span></div>
+        <div id="c2" class="cap clip" data-start="3.5" data-duration="5" data-track-index="3"><span>10000mAhで使えるのは<br />約30〜35Wh</span></div>
+        <div id="c3" class="cap clip" data-start="8.5" data-duration="6.5" data-track-index="3"><span>時間＝使えるWh÷ベストのW</span></div>
+        <div id="c4" class="cap clip" data-start="15" data-duration="4.5" data-track-index="3"><span>単価は契約で変わります</span></div>
+      </div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const pop = (sel, t, extra) =>
+        tl.fromTo(sel, { opacity: 0, y: 40, scale: 0.94 }, Object.assign({ opacity: 1, y: 0, scale: 1, duration: 0.35, ease: "back.out(1.6)" }, extra || {}), t);
+      const fade = (sel, t) => tl.fromTo(sel, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, t);
+
+      tl.fromTo("#glow", { scale: 0.9, opacity: 0.7 }, { scale: 1.15, opacity: 1, duration: 25, ease: "none" }, 0);
+
+      pop("#s1-b", 0.4); pop("#s1-c", 0.9, { ease: "back.out(2.4)" });
+
+      pop("#s2-tag", 3.55); pop("#s2-a", 3.8); pop("#s2-b", 5.0); pop("#s2-c", 5.8, { ease: "back.out(2.4)" }); fade("#s2-src", 5.0);
+
+      pop("#s3-tag", 8.55); fade("#s3-h", 8.8); pop("#s3-r1", 9.1); pop("#s3-r2", 9.4); pop("#s3-r3", 9.7); pop("#s3-r4", 10.0); fade("#s3-d", 10.5);
+
+      pop("#s4-tag", 15.05); pop("#s4-r1", 15.4); pop("#s4-r2", 15.8); fade("#s4-d", 16.2); fade("#s4-src", 16.0);
+
+      pop("#s5-a", 19.6); fade("#s5-c", 20.0); pop("#s5-b", 20.3, { ease: "back.out(2.0)" }); fade("#ec-a", 20.5); fade("#ec-b", 20.6);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

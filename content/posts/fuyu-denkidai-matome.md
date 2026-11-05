@@ -32,6 +32,7 @@ category: 季節家電
 | 床に座る・寝ころぶ部屋を暖めたい | [ホットカーペットの電気代（畳数別・強弱別）](hot-carpet-denkidai.html) |
 | デスクの足元だけ寒い | [足元暖房の電気代比較](foot-heater-electricity-cost.html) |
 | 座りっぱなしで体が冷える | [電気毛布・ひざ掛けヒーター・こたつの電気代](denki-moufu-kotatsu-denkidai-telework.html) |
+| 電熱ベストをモバイルバッテリーで使いたい | [電熱ベストは何時間もつ？（バッテリー容量別）](dennetsu-vest-battery-jikan-denkidai.html) |
 | 部屋が乾燥する | [加湿器の電気代](humidifier-electricity-cost-telework.html)／[加湿量 計算ツール](kashitsu-ryo-calculator.html) |
 | エアコンの切り忘れ・帰宅前の暖房 | [スマートリモコンの選び方](smart-remote-guide.html) ほか |
 | 実際に何kWh使ったか知りたい | [スマートプラグの選び方](smart-plug-guide.html) |
@@ -74,6 +75,8 @@ category: 季節家電
 
 - [在宅ワークの足元暖房、電気代はいくら？](foot-heater-electricity-cost.html)<br>パネルヒーター・足温器・ホットマットなどを例に、消費電力別の1時間・1日・1ヶ月の早見表で比較。足元を直接温めるタイプほど消費電力は小さめ、という考え方を整理しています。
 - [電気毛布・ひざ掛けヒーター・こたつを1日8時間使うと電気代はいくら？](denki-moufu-kotatsu-denkidai-telework.html)<br>「8時間×平日20日」で月額・ひと冬の目安を出す方法と、作業スタイル別の使い分け。器具の種類より**製品のW数**で比べるのがポイントです。
+
+- [電熱ベストはモバイルバッテリーで何時間もつ？](dennetsu-vest-battery-jikan-denkidai.html)<br>10000mAhで使える電力（約30〜35Wh、10Wなら約3.0〜3.5時間）と、W数別に何時間もつかの早見表、充電1回の電気代（約1.7円）の求め方。バッテリーに充電する充電器は[USB-C充電器の選び方](usb-c-charger-guide.html)も参考に。
 
 ## 悩み4：部屋が乾燥する
 

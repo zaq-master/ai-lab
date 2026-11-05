@@ -303,6 +303,7 @@ TOOLS = [
     ("posts/aircon-danbou-denkidai-calculator.html", "エアコン暖房の電気代計算", "W数と時間で1時間・1日・1ヶ月・ひと冬の目安"),
     ("posts/heater-denkidai-hikaku.html", "暖房器具の電気代比較", "エアコン・ヒーター・こたつを並べて計算"),
     ("posts/neru-danbou-denkidai-calculator.html", "寝るときの暖房 電気代くらべ", "電気毛布・湯たんぽ・エアコンの一晩と1か月の目安"),
+    ("posts/mobile-battery-jikan-calculator.html", "モバイルバッテリー何時間もつ？計算", "mAhとW数で使える時間と充電1回の電気代"),
     ("posts/kashitsu-ryo-calculator.html", "加湿量計算", "部屋に合う加湿器のmL/hを計算"),
     ("posts/winter-heating-shindan.html", "冬の寒さ対策診断", "5問で最初に試す対策がわかる"),
     ("posts/smart-remote-count-shindan.html", "スマートリモコン台数診断", "6問で必要台数がわかる"),
