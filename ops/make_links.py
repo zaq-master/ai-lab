@@ -30,6 +30,7 @@ KEYWORDS = {
     "hot-carpet": "ホットカーペット",
     "yutanpo": "湯たんぽ",
     "datsuijo-heater": "脱衣所 ヒーター",
+    "window-danetsu-sheet": "窓 断熱シート 貼ってはがせる",
 }
 
 
