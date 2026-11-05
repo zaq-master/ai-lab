@@ -437,8 +437,8 @@ def main():
         rel = f.relative_to(OUT).as_posix()
         app_meta(f)
         urls.append((page_url(rel), git_date(f) or newest))
-    # SNS画像の元HTML（docs/sns/*.html）は検索に出さない
-    for f in sorted((OUT / "sns").glob("*.html")):
+    # SNS画像の元HTML・IG素材ページ（docs/sns/**/*.html）は検索に出さない（sitemapにも入れない）
+    for f in sorted((OUT / "sns").rglob("*.html")):
         s = f.read_text(encoding="utf-8")
         if 'name="robots"' not in s:
             s2 = re.sub(r"(<head[^>]*>)", r'\1<meta name="robots" content="noindex">', s, count=1)
