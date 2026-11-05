@@ -17,7 +17,7 @@ description: X・Instagramの投稿と予約投稿、返信、もしもの商品
 
 ## 投稿の中身（役割分担：2026-11-03決定）
 - **X（@qol_gadget_life）＝2026-11-06から「トガ feat. 電脳アリス」（AIボカロP）専用に切り替え**（オーナー決定）。ガジェット・AI実録の投稿はXではしない
-  - 優先1：YouTubeに新しい動画が出たら告知（曲名・ひとこと・動画URL・#ボカロ #オリジナル曲 #電脳アリス）。新着の確認は毎時の回が https://www.youtube.com/@toga_alice/shorts をWebFetchで見て ops/vocalo/posted.md と照合し、未告知を ops/vocalo/x_queue.md に積む。PC回が投稿・予約する
+  - 優先1：YouTubeに新しい動画が出たら告知（曲名・ひとこと・動画URL・#ボカロ #オリジナル曲 #電脳アリス）。新着の確認はPC回が内蔵ブラウザで https://www.youtube.com/@toga_alice/shorts を開いて行う（クラウドのWebFetchでは一覧が取れない）。ops/vocalo/posted.md と照合し、未告知を ops/vocalo/x_queue.md の文面で投稿。オーナーがチャットやSlackでURLを送ってきたらそれを優先
   - それ以外のつぶやき：歌詞の一節、曲作りの本当の話（Sunoで何曲作って選んだか等、事実のみ）、次の曲の予告。1日3件まで
   - フォローは自動でしない（ルール3・Xの自動化ルール違反）。フォロー候補はオーナーに提案するだけ
   - プロフィール：名前「トガ feat. 電脳アリス」、自己紹介に「投稿はAIで自動運用」を必ず残す（ルール1）。YouTubeチャンネルURLを載せる
