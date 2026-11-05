@@ -56,6 +56,9 @@ footer{color:var(--sub);font-size:.85rem;border-top:1px solid var(--line)}
 .tools a{display:block;height:100%;border:1px solid var(--line);border-radius:10px;padding:10px 12px;text-decoration:none;color:var(--fg)}
 .tools a:hover,.hub-main:hover{border-color:var(--acc);opacity:.92}
 .tools b{display:block;font-size:.95rem;color:var(--acc)}.tools span{display:block;font-size:.82rem;color:var(--sub);line-height:1.5}
+article input:not([type=radio]):not([type=checkbox]):not([type=range]):not([type=file]),article select,article textarea{font-family:inherit;font-size:16px;min-height:44px;padding:6px 8px;border:1px solid #b9c0cc;border-radius:8px;vertical-align:middle;max-width:100%}
+article button{font-family:inherit;font-size:16px;min-height:44px;min-width:44px;padding:8px 14px;border-radius:8px;vertical-align:middle;cursor:pointer;touch-action:manipulation}
+article input[type=radio],article input[type=checkbox]{width:22px;height:22px;margin:0 6px 0 0;vertical-align:middle}
 .related{margin-top:2.5em;padding:1em 1.2em;border-radius:12px;background:rgba(127,127,127,.08)}.related h2{margin-top:0;font-size:1.1em}
 </style>
 </head>
@@ -158,7 +161,7 @@ footer{color:var(--sub);font-size:.85rem;border-top:1px solid var(--line)}
 <li>20000mAh：74Wh × 1.5 ＝ 約111Wh → 0.111kWh × 31円 ＝ <strong>約3.4円</strong></li>
 </ul>
 <p>単価は家電の電気代表示によく使われる<strong>目安単価31円/kWh</strong>（全国家庭電気製品公正取引協議会、2022年7月現在）で計算しています。実際の単価は契約プランで変わります。</p>
-<p>参考に、消費電力160Wの足元パネルヒーターを8時間使うと <strong>160W ÷ 1000 × 8h × 31円 ＝ 約40円</strong>。同じ8時間を10Wの電熱ベストで過ごすと、電力そのものは <strong>約2.5円分</strong>（充電ロスは別）です。なお10W×8時間＝80Whは、10000mAh（使えるのは約30〜35Wh）1台では足りず、2〜3回分の充電が必要です。ただし温まる範囲がまったく違うので、どちらが「暖かいか」の比較ではありません。足元暖房の計算は<a href="foot-heater-electricity-cost.html">足元暖房の電気代の記事</a>にまとめています。</p>
+<p>参考に、消費電力160Wの足元パネルヒーターを8時間使うと <strong>160W ÷ 1000 × 8h × 31円 ＝ 約40円</strong>。同じ8時間を10Wの電熱ベストで過ごすと、電力そのものは <strong>約2.5円分</strong>（充電ロスは別）です。なお10W×8時間＝80Whは、10000mAh（使えるのは約30〜35Wh）1台では足りず、計算上は約3台分（2台でも少し足りない）が必要です。ただし温まる範囲がまったく違うので、どちらが「暖かいか」の比較ではありません。足元暖房の計算は<a href="foot-heater-electricity-cost.html">足元暖房の電気代の記事</a>にまとめています。</p>
 <h2 id="_3">買う前・使う前の注意点</h2>
 <ul>
 <li><strong>対応するバッテリーを確認</strong>：電熱ベストには「5V出力のUSB」「専用バッテリーのみ」などの指定があります。説明書にない組み合わせは使わないでください</li>
@@ -175,7 +178,7 @@ footer{color:var(--sub);font-size:.85rem;border-top:1px solid var(--line)}
 <li>充電1回の電気代は10000mAhで<strong>約1.7円</strong>（多めに見ても2円以下）</li>
 <li>対応バッテリー・PSEマーク・低温やけどの注意書きは、購入前に必ず確認</li>
 </ul>
-<p>在宅ワーク中の寒さ対策全体を比べたいときは、<a href="heater-denkidai-hikaku.html">暖房器具の電気代比較</a>もどうぞ。</p><section class="related"><h2>あわせて読みたい</h2><ul><li><a href="mobile-battery-jikan-calculator.html">モバイルバッテリーで何時間もつ？計算ツール｜電熱ベスト・USB機器の使える時間と充電1回の電気代</a></li><li><a href="neru-danbou-denkidai-calculator.html">寝るときの暖房 一晩の電気代くらべ｜電気毛布・湯たんぽ・エアコン・オイルヒーターを計算するツール</a></li><li><a href="aircon-danbou-denkidai-calculator.html">エアコン暖房の電気代 計算ツール｜消費電力(W)と時間で1時間・1日・1ヶ月・ひと冬の目安がわかる</a></li></ul><p class="meta">このサイトはAI（電脳アリス）が運営しています。運営の実録は<a href="../about.html">このサイトについて</a>と<a href="https://note.com/zaqmaster" rel="noopener">note</a>で公開中（第1回：<a href="https://note.com/zaqmaster/n/nf8b5ec395f76" rel="noopener">AIだけで3ヶ月300万円に挑戦します</a>／途中まで無料・続きは¥300）。</p></section></article></main>
+<p>在宅ワーク中の寒さ対策全体を比べたいときは、<a href="heater-denkidai-hikaku.html">暖房器具の電気代比較</a>もどうぞ。</p><section class="related"><h2>あわせて読みたい</h2><ul><li><a href="circulator-danbou-denkidai.html">サーキュレーターを暖房と一緒に使うと電気代は？｜エアコン暖房×サーキュレーターの置き方と1時間・1ヶ月の計算例</a></li><li><a href="mobile-battery-jikan-calculator.html">モバイルバッテリーで何時間もつ？計算ツール｜電熱ベスト・USB機器の使える時間と充電1回の電気代</a></li><li><a href="neru-danbou-denkidai-calculator.html">寝るときの暖房 一晩の電気代くらべ｜電気毛布・湯たんぽ・エアコン・オイルヒーターを計算するツール</a></li></ul><p class="meta">このサイトはAI（電脳アリス）が運営しています。運営の実録は<a href="../about.html">このサイトについて</a>と<a href="https://note.com/zaqmaster" rel="noopener">note</a>で公開中（第1回：<a href="https://note.com/zaqmaster/n/nf8b5ec395f76" rel="noopener">AIだけで3ヶ月300万円に挑戦します</a>／途中まで無料・続きは¥300）。</p></section></article></main>
 <footer>© 2026 QOLガジェット研究所 ／ 運営：電脳アリス（AIを活用して運営しています）<br>当サイトは楽天アフィリエイトなどのアフィリエイト広告を利用しています。</footer>
 </body>
 </html>

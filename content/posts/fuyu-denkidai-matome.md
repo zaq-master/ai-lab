@@ -33,6 +33,7 @@ category: 季節家電
 | デスクの足元だけ寒い | [足元暖房の電気代比較](foot-heater-electricity-cost.html) |
 | 座りっぱなしで体が冷える | [電気毛布・ひざ掛けヒーター・こたつの電気代](denki-moufu-kotatsu-denkidai-telework.html) |
 | 電熱ベストをモバイルバッテリーで使いたい | [電熱ベストは何時間もつ？（バッテリー容量別）](dennetsu-vest-battery-jikan-denkidai.html) |
+| 電気をほとんど使わずに寒さ対策したい | [窓・湯たんぽ・電熱ベストの節](#denki-sukunai) |
 | 部屋が乾燥する | [加湿器の電気代](humidifier-electricity-cost-telework.html)／[加湿量 計算ツール](kashitsu-ryo-calculator.html) |
 | エアコンの切り忘れ・帰宅前の暖房 | [スマートリモコンの選び方](smart-remote-guide.html) ほか |
 | 実際に何kWh使ったか知りたい | [スマートプラグの選び方](smart-plug-guide.html) |
@@ -77,6 +78,26 @@ category: 季節家電
 - [電気毛布・ひざ掛けヒーター・こたつを1日8時間使うと電気代はいくら？](denki-moufu-kotatsu-denkidai-telework.html)<br>「8時間×平日20日」で月額・ひと冬の目安を出す方法と、作業スタイル別の使い分け。器具の種類より**製品のW数**で比べるのがポイントです。
 
 - [電熱ベストはモバイルバッテリーで何時間もつ？](dennetsu-vest-battery-jikan-denkidai.html)<br>10000mAhで使える電力（約30〜35Wh、10Wなら約3.0〜3.5時間）と、W数別に何時間もつかの早見表、充電1回の電気代（約1.7円）の求め方。バッテリーに充電する充電器は[USB-C充電器の選び方](usb-c-charger-guide.html)も参考に。
+
+<div id="denki-sukunai"></div>
+
+## 電気をほとんど使わない寒さ対策（窓・湯たんぽ・電熱ベスト）
+
+暖房器具を増やす前に、「電気を使わない」「使う電気が少ない」対策から試す方法もあります。どれも効果の大きさ（何℃暖かくなるか・電気代がいくら下がるか）は部屋や使い方で変わるため、このページでは数字を出していません。
+
+| 対策 | 電気を使う？ | 詳しいページ |
+|---|---|---|
+| 窓の断熱シート・すき間テープ・厚手のカーテン | 使わない | [結露対策の記事の「窓の冷え対策（工事なし）」の節](telework-ketsuro-taisaku-roten.html) |
+| 湯たんぽ | お湯を沸かす分だけ | [寝るときの暖房 一晩の電気代くらべ](neru-danbou-denkidai-calculator.html) |
+| 電熱ベスト＋モバイルバッテリー | バッテリーを充電する分だけ | [電熱ベストは何時間もつ？](dennetsu-vest-battery-jikan-denkidai.html)／[モバイルバッテリーで何時間もつ？計算ツール](mobile-battery-jikan-calculator.html) |
+
+- **窓まわり**：[在宅ワーク部屋の結露対策](telework-ketsuro-taisaku-roten.html)の「窓の冷え対策：賃貸でもできる『工事なし』の方法」で、断熱シート・すき間テープ・床まで届くカーテンのねらいと、賃貸で貼るときの確認ポイント（対応ガラス・はがし跡）を比べています。
+- **湯たんぽ**：電気を使うのは電気ケトルでお湯を沸かすときだけです。[寝るときの暖房 一晩の電気代くらべ](neru-danbou-denkidai-calculator.html)で、お湯の量を入れて電気毛布・エアコンなどと並べて計算できます。低温やけどに注意し、お湯の量・温度は取扱説明書に合わせてください。
+- **電熱ベスト**：10000mAhのモバイルバッテリーで使える電力は約30〜35Wh、10Wなら約3.0〜3.5時間が目安で、バッテリーの充電1回の電気代は約1.7円です（[電熱ベストの記事](dennetsu-vest-battery-jikan-denkidai.html)）。自分の機器のW数と容量で確かめるなら[モバイルバッテリーで何時間もつ？計算ツール](mobile-battery-jikan-calculator.html)へ。
+
+候補は楽天市場の検索結果から選べます（広告リンク）。
+
+<!-- products: window-danetsu-sheet,yutanpo,heated-vest,mobile-battery-10000 -->
 
 ## 悩み4：部屋が乾燥する
 

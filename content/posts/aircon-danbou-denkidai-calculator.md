@@ -20,7 +20,7 @@ category: 季節家電
 <p style="font-size:.85em;color:#666;margin:8px 0 0">計算式：消費電力(W)×(平均の％÷100)÷1000×時間(h)×単価(円/kWh)。「平均の％」は初期値100％（＝入力した消費電力のまま動き続けた場合）です。実際の平均値は機種・条件で変わり、このページでは決めつけません。</p>
 <hr style="border:none;border-top:1px solid #e5e5e5;margin:14px 0">
 <p style="margin:0 0 6px;font-weight:700">カタログの「期間消費電力量」から年間の目安を出す</p>
-<p style="margin:0 0 6px;line-height:2"><label>期間消費電力量：<input id="ac-kwh" type="number" min="0" inputmode="decimal" placeholder="カタログ値" style="width:84px"> kWh/年</label></p>
+<p style="margin:0 0 6px;line-height:2"><label>期間消費電力量：<input id="ac-kwh" type="number" min="0" inputmode="decimal" placeholder="カタログ値" style="width:120px"> kWh/年</label></p>
 <div id="ac-year" style="font-size:.95em"></div>
 <p style="font-size:.85em;color:#666;margin:6px 0 0">期間消費電力量は、メーカーのカタログに載っている「決められた条件（地域・部屋・使い方）で冷房と暖房を1年使ったときの電力量」です。暖房だけの値ではなく、条件も各家庭と違うため、機種どうしを比べる目安として使ってください。</p>
 </div>
@@ -84,7 +84,7 @@ run();
 資源エネルギー庁の省エネポータルでは、エアコン暖房の工夫として次のような点が案内されています。どれだけ安くなるかは家ごとに違うため、ここでは金額は書きません。
 
 - **室温の目安を決める**：暖房時の室温は**20℃が目安**。設定温度ではなく**温度計で室温**を見る
-- **扇風機・サーキュレーターを併用**：上にたまった**暖まった空気を循環させる**（置き場所・向きは取扱説明書を確認）
+- **扇風機・サーキュレーターを併用**：上にたまった**暖まった空気を循環させる**（置き場所・向きは取扱説明書を確認）。サーキュレーター自体の電気代は[こちらの計算例](circulator-danbou-denkidai.html)で確認できます
 - **フィルターを掃除する**：**月1〜2回**が目安（機種ごとの取扱説明書を確認）
 
 出典：[資源エネルギー庁 省エネポータル「空調」](https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/airconditioning/index.html)
