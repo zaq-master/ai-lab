@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """曲ごとのジャケット(3000x3000)とYouTubeサムネ(1280x720)を作る。
   python3 music/tools/cover.py <アート画像> "<曲名>" [--sub "サブ文字"] [--out 出力フォルダ]
-アート画像はCanvaやSunoのジャケット画像（正方形推奨）。名義は「電脳アリス」。
+アート画像はCanvaやSunoのジャケット画像（正方形推奨）。名義は「トガ feat. 電脳アリス」。
 """
 import argparse
 from PIL import Image, ImageDraw, ImageFont, ImageFilter, ImageEnhance
 BK="/usr/share/fonts/opentype/noto/NotoSansCJK-Black.ttc"
 F=lambda s:ImageFont.truetype(BK,s,index=0)
-ARTIST="電脳アリス"
+ARTIST="トガ feat. 電脳アリス"
 def fit(d,text,maxw,start):
     s=start
     while d.textlength(text,font=F(s))>maxw and s>20: s-=4
