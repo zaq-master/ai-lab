@@ -107,5 +107,13 @@
   "mobile-battery-10000": {
     "label": "モバイルバッテリー 10000mAh（PSEマーク表示を確認）",
     "html": "<a class=\"buy\" href=\"https://af.moshimo.com/af/c/click?a_id=5877487&p_id=54&pc_id=54&pl_id=616&url=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2F%25E3%2583%25A2%25E3%2583%2590%25E3%2582%25A4%25E3%2583%25AB%25E3%2583%2590%25E3%2583%2583%25E3%2583%2586%25E3%2583%25AA%25E3%2583%25BC%252010000mAh%2520PSE%2F\" rel=\"nofollow sponsored noopener\" target=\"_blank\" referrerpolicy=\"no-referrer-when-downgrade\">楽天市場で「モバイルバッテリー 10000mAh PSE」を探す →</a><img src=\"https://i.moshimo.com/af/i/impression?a_id=5877487&p_id=54&pc_id=54&pl_id=616\" width=\"1\" height=\"1\" style=\"border:none\" alt=\"\" loading=\"lazy\">"
+  },
+  "joshitsuki-desiccant": {
+    "label": "除湿機 デシカント式（消費電力・除湿量の測定条件を確認）",
+    "html": "<a class=\"buy\" href=\"https://af.moshimo.com/af/c/click?a_id=5877487&p_id=54&pc_id=54&pl_id=616&url=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2F%25E9%2599%25A4%25E6%25B9%25BF%25E6%25A9%259F%2520%25E3%2583%2587%25E3%2582%25B7%25E3%2582%25AB%25E3%2583%25B3%25E3%2583%2588%2F\" rel=\"nofollow sponsored noopener\" target=\"_blank\" referrerpolicy=\"no-referrer-when-downgrade\">楽天市場で「除湿機 デシカント」を探す →</a><img src=\"https://i.moshimo.com/af/i/impression?a_id=5877487&p_id=54&pc_id=54&pl_id=616\" width=\"1\" height=\"1\" style=\"border:none\" alt=\"\" loading=\"lazy\">"
+  },
+  "joshitsuki-hybrid": {
+    "label": "除湿機 ハイブリッド式（冬・夏それぞれの消費電力を確認）",
+    "html": "<a class=\"buy\" href=\"https://af.moshimo.com/af/c/click?a_id=5877487&p_id=54&pc_id=54&pl_id=616&url=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2F%25E9%2599%25A4%25E6%25B9%25BF%25E6%25A9%259F%2520%25E3%2583%258F%25E3%2582%25A4%25E3%2583%2596%25E3%2583%25AA%25E3%2583%2583%25E3%2583%2589%2F\" rel=\"nofollow sponsored noopener\" target=\"_blank\" referrerpolicy=\"no-referrer-when-downgrade\">楽天市場で「除湿機 ハイブリッド」を探す →</a><img src=\"https://i.moshimo.com/af/i/impression?a_id=5877487&p_id=54&pc_id=54&pl_id=616\" width=\"1\" height=\"1\" style=\"border:none\" alt=\"\" loading=\"lazy\">"
   }
 }

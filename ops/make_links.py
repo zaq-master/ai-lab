@@ -37,6 +37,8 @@ KEYWORDS = {
     "footrest": "フットレスト デスク",
     "heated-vest": "電熱ベスト USB",
     "mobile-battery-10000": "モバイルバッテリー 10000mAh PSE",
+    "joshitsuki-desiccant": "除湿機 デシカント",
+    "joshitsuki-hybrid": "除湿機 ハイブリッド",
 }
 
 
