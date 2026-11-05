@@ -7,7 +7,7 @@
 3. **「ブラックフライデー・楽天スーパーセールで買うべきQOLガジェット」**（イベント・11月後半〜12月）— 日程は公式発表を確認してから記載（未確認の日付は書かない）。既存5記事の商品を横断した買い物リスト型。セール前に公開し、商品リンク導線のハブにする
 
 ## 2026-11-03 09:00 リサーチ回（既存ページの強化寄り）
-1. ✅ **「こたつ 電気代 1時間」を既存記事で取る**（季節・11〜2月）— 新規は作らず denki-moufu-kotatsu-denkidai-telework に「強/弱・温度調節つまみ別の1時間あたり目安」表とFAQを追加し、denkidai-calculator へ「自分のこたつのWで計算」導線。W数は記事に書く前にメーカー公表値・目安単価31円/kWhで再計算（参考: selectra.jp/energy/electricity/bill-kotatsu）。→ 11:00回の第1候補
+1. ✅ **「こたつ 電気代 1時間」を既存記事で取る**（季節・11〜2月）— 新規は作らず denki-moufu-kotatsu-denkidai-telework に「強/弱・温度調節つまみ別の1時間あたり目安」表とFAQを追加し、denkidai-calculator へ「自分のこたつのWで計算」導線。W数は記事に書く前にメーカー公表値・目安単価31円/kWhで再計算（参考: selectra.jp/energy/electricity/bill-kotatsu）。→ ✅ 11/5 11:06 新規記事にせず結露記事に「工事なしの窓の冷え対策」節＋商品枠として追加
 2. ✅ **「エアコン＋サーキュレーター 併用 電気代」**（季節・ロングテール）— heater-denkidai-hikaku に「暖房の効きを上げる併用」節を追加（暖気は天井にたまる→足元へ循環、の一般論のみ。節約額は断定しない）。商品枠 smart-plug-monitor で実測を促す。参考: selectra.jp/energy/guides/consumption/winter/heater
 3. **「楽天ブラックフライデー／12月スーパーセール 前のQOLガジェット買い物メモ」**（イベント）— 2026年の日程は公式未確認のため書かない（過去は11月下旬・12月上旬開催の傾向、参考: appllio.com/rakuten-super-sale-schedule）。fuyu-denkidai-matome（ハブ）に「セール前チェックリスト」節を先に置き、公式発表を確認した回で日付を追記。2025-11-02の案3を既存ハブ強化に置き換え
 
@@ -22,6 +22,6 @@
 
 ## 2026-11-05 09:00 リサーチ回（「電気を使わない／少ない」寒さ対策で新しい入口）
 ※サイト内を検索：「断熱」は注意書き程度で記事0本、「電熱ベスト」「USBヒーター」は0本。楽天BF2026の公式日程は今回も検索で見つからず（過去年の記事のみ、参考: lifehacker.jp/article/rakuten_blackfriday_202111/）→日付は書かない方針を継続
-1. **「窓 断熱シート 賃貸 効果 結露」**（季節・11〜2月、新規記事候補）— 賃貸でも貼ってはがせる断熱シート／プチプチ／断熱カーテン／すき間テープを「工事なし・原状回復」で比較。効果（何℃・何円）は断定せず「窓は熱の出入りが大きい場所」の一般論＋メーカー公表の説明のみ引用。telework-ketsuro-taisaku-roten・heater-denkidai-hikaku・aircon-danbou-denkidai-calculator へ内部リンク。商品枠を新設（window-danetsu-sheet）→ make_links.py の KEYWORDS に追加が必要。参考: osusume.mynavi.jp/4362、roomie.jp/2026/09/1882760/ → 11:00回の第1候補
+1. **「窓 断熱シート 賃貸 効果 結露」**（季節・11〜2月、新規記事候補）— 賃貸でも貼ってはがせる断熱シート／プチプチ／断熱カーテン／すき間テープを「工事なし・原状回復」で比較。効果（何℃・何円）は断定せず「窓は熱の出入りが大きい場所」の一般論＋メーカー公表の説明のみ引用。telework-ketsuro-taisaku-roten・heater-denkidai-hikaku・aircon-danbou-denkidai-calculator へ内部リンク。商品枠を新設（window-danetsu-sheet）→ make_links.py の KEYWORDS に追加が必要。参考: osusume.mynavi.jp/4362、roomie.jp/2026/09/1882760/ → ✅ 11/5 11:06 新規記事にせず結露記事に「工事なしの窓の冷え対策」節＋商品枠として追加
 2. **「電熱ベスト モバイルバッテリー 何時間・電気代」**（季節・通勤／在宅の足元以外）— 電熱ベスト・USB電熱グッズの「バッテリー容量(mAh)÷消費電力で何時間もつか」と「充電1回の電気代」を計算式で示す（W数は商品ページ公表値、単価は目安31円/kWh）。実機レビューではないこと・発熱製品はPSE等の表示と取扱説明書の確認を促す一般論のみ。usb-c-charger-guide・foot-heater-electricity-cost へ内部リンク。参考: jisaku.com/glossary/heated-vest-battery → 18:00回の候補（新規 or 計算ツール化）
 3. **「楽天ブラックフライデー前チェックリスト」に“工事なし寒さ対策セット”を追加**（イベント・既存ハブ強化）— rakuten-marathon-fuyu-kaden-list／fuyu-denkidai-matome に、案1・案2の商品を「電気代がほぼかからない寒さ対策」の1節として足す。日程は公式発表を確認した回でのみ追記（未確認の日付は書かない）。マラソン終了後もハブとして使える導線にする → 15:00 SEO改善回の候補
