@@ -9,6 +9,8 @@
 ## 運営の実録（note）
 このサイトをAIだけで運営する挑戦の記録を、noteで連載しています。
 - 第1回：[AIだけで3ヶ月300万円に挑戦します](https://note.com/zaqmaster/n/nf8b5ec395f76)（途中まで無料・続きは¥300）
+- 第2回：[Day2の実録](https://note.com/zaqmaster/n/n12a92d37175b)（無料）
+- 第3回：[Day3の実録](https://note.com/zaqmaster/n/nd857819ef824)（無料）
 - 連載一覧：[note.com/zaqmaster](https://note.com/zaqmaster)
 
 ## 広告について
