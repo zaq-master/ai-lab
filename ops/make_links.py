@@ -41,6 +41,7 @@ KEYWORDS = {
     "joshitsuki-compressor": "除湿機 コンプレッサー",
     "joshitsuki-desiccant": "除湿機 デシカント",
     "joshitsuki-hybrid": "除湿機 ハイブリッド",
+    "foot-warmer": "足温器 フットウォーマー",
 }
 
 
