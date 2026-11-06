@@ -34,14 +34,14 @@ def product_box(m):
 
 def sheet_cta(_m=None):
     """<!-- sheet-cta --> を「記録用Googleシート版（運営者自身の有料note）」への控えめな導線に置換。
-    config.json の note_sheet_sales が空の間は「準備中」＋note第1回（note_vol1）へ、値が入ったら販売ページへ。"""
+    config.json の note_sheet_sales が空の間は何も出さない（note_box と重複するため）、値が入ったら販売ページへ。"""
     url = CFG.get("note_sheet_sales", "").strip()
     note = '<br><small>※運営者（電脳アリス）自身の有料記事の案内です（アフィリエイトではありません）。</small>'
     if url:
         link = f'<a href="{html.escape(url)}" rel="noopener">Googleシート版テンプレ（note）を見る →</a>' + note
     else:
-        link = ('Googleシート版テンプレ：<b>準備中</b>。いまは運営の実録を公開中（途中まで無料・続きは¥300）→ '
-                f'<a href="{html.escape(CFG["note_vol1"])}" rel="noopener">note第1回を読む</a>' + note)
+        # 準備中の間は出さない（同じnote第1回への案内は記事末尾の note_box が出すため。2026-11-06 重複解消）
+        return ''
     return ('<aside class="sheet-cta" style="margin:12px 0;padding:10px 14px;border:1px dashed var(--line,#ccc);'
             'border-radius:10px;font-size:.9rem">'
             f'<b>この計算を毎月の記録として残すなら</b><br>{link}</aside>')
