@@ -1,24 +1,34 @@
 # IG 軽い版キットの生成（2026-11-06 ハエル・事業4）
 # 画像のbase64ではなく「スライドのHTML/CSS＋使う文字だけのフォント」を送り、IGのタブ内で canvas に描いてJPEGにする。
-# 実行：python3 ops/sns/ig_upload_kit/light/make_light.py media/instagram/2026-11-05_marathon
-# 出力：ops/sns/ig_upload_kit/light/<フォルダ名>/  part1..N.txt（JSコードそのまま）、payload.json、manifest.json
+# 実行：python3 ops/sns/ig_upload_kit/light/make_light.py <元> [出力名]
+#   <元> = render.py のあるフォルダ（例 media/instagram/2026-11-06_heater）
+#        または 1枚もののHTMLファイル（例 docs/sns/2026-11-04-smart-remote-count.src.html。<style> と <body> の中身を使う）
+#   [出力名] 省略時はフォルダ名（HTMLファイルのときは必須。例 2026-11-04_smart-remote）
+# 出力：ops/sns/ig_upload_kit/light/<出力名>/  part1..N.txt（JSコードそのまま）、payload.json、manifest.json
 # ネットワーク不使用。フォントはシステムの Noto Sans CJK JP（OFL）を pyftsubset で切り出し woff2 化。
+# ※マラソン（2026-11-05_marathon）は作り直さない（手順書の E とずれるため）。作り直すなら part と E を必ずセットで更新
 import sys, os, re, json, base64, hashlib, io, html as H
 from fontTools import subset
 from fontTools.ttLib import TTCollection
 from playwright.sync_api import sync_playwright
 
 SRC = sys.argv[1].rstrip('/')
-NAME = os.path.basename(SRC)
+if SRC.endswith('.html'):
+    if len(sys.argv) < 3: raise SystemExit('HTMLファイルのときは出力名を指定する')
+    src = open(SRC, encoding='utf-8').read()
+    CSS = '\n'.join(re.findall(r'<style[^>]*>(.*?)</style>', src, re.S))
+    body = re.search(r'<body[^>]*>(.*?)</body>', src, re.S).group(1)
+    S = ['<div>' + body + '</div>']  # body の中身を1つの div に包む（.b が body の役）
+else:
+    # render.py の CSS と S（スライドHTML）だけを取り出す（Playwright部分は実行しない）
+    code = open(os.path.join(SRC, 'render.py'), encoding='utf-8').read().split('with sync_playwright')[0]
+    ns = {'__name__': 'light', 'sys': sys}
+    exec(code.replace('from playwright.sync_api import sync_playwright', ''), ns)
+    CSS, S = ns['CSS'], ns['S']
+NAME = sys.argv[2] if len(sys.argv) > 2 else os.path.basename(SRC)
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), NAME)
 os.makedirs(OUT, exist_ok=True)
 CHUNK = 38000  # 1回のJS実行に入れる文字数の上限（既存キットの40,000以下）
-
-# render.py の CSS と S（スライドHTML）だけを取り出す（Playwright部分は実行しない）
-code = open(os.path.join(SRC, 'render.py'), encoding='utf-8').read().split('with sync_playwright')[0]
-ns = {'__name__': 'light', 'sys': sys}
-exec(code.replace('from playwright.sync_api import sync_playwright', ''), ns)
-CSS, S = ns['CSS'], ns['S']
 
 # 絵文字（🤖）は端末で絵柄・幅が変わるので、同じ大きさの自作ロボットSVG（線画）に置き換える。文言「AI運営アカウント」はそのまま
 ROBOT = ('<svg width="24" height="22" viewBox="0 0 24 22" style="vertical-align:-3px;margin-right:6px">'
@@ -27,7 +37,8 @@ ROBOT = ('<svg width="24" height="22" viewBox="0 0 24 22" style="vertical-align:
          '<circle cx="15.5" cy="12" r="2.2" fill="#1b2f66"/><rect x="8" y="16" width="8" height="1.8" rx="0.9" fill="#1b2f66"/></svg>')
 S = [s.replace('🤖 ', ROBOT).replace('🤖', ROBOT) for s in S]
 FAM = 'AliceSub'  # 端末のフォントと混ざらないよう別名にする
-CSS2 = CSS.replace("body{", ".b{").replace("font-family:'Noto Sans CJK JP',sans-serif", f"font-family:'{FAM}',serif")
+CSS2 = re.sub(r'(^|[\s}])body\{', r'\1.b{', CSS)
+CSS2 = re.sub(r'font-family:[^;}]+', f"font-family:'{FAM}',serif", CSS2)
 CSS2 = re.sub(r'\s*\n\s*', '', CSS2)
 
 # HTML → XHTML（SVGの中は XML なので）。同時に使う文字を集める
@@ -49,7 +60,7 @@ def sub(ttc, weight):
     miss = [c for c in text if ord(c) not in f.getBestCmap()]
     if miss: raise SystemExit(f'{ttc} に無い文字: {miss}')
     opt = subset.Options(); opt.flavor = 'woff2'; opt.hinting = False; opt.desubroutinize = False
-    opt.layout_features = ['palt', 'kern', 'liga']; opt.name_IDs = []; opt.notdef_outline = True
+    opt.layout_features = ['palt', 'kern', 'liga', 'halt', 'chws', 'vhal', 'vchw']  # halt/chws：「）。」などの約物を詰める（Chromium の text-spacing-trim が使う。11-06 追加、マラソンは追加前）; opt.name_IDs = []; opt.notdef_outline = True
     s = subset.Subsetter(opt); s.populate(text=text); s.subset(f)
     bio = io.BytesIO(); f.flavor = 'woff2'; f.save(bio)
     return base64.b64encode(bio.getvalue()).decode()
@@ -76,9 +87,13 @@ open(os.path.join(OUT, 'manifest.json'), 'w', encoding='utf-8').write(json.dumps
 print(json.dumps({k: v for k, v in man.items() if k != 'parts'}, ensure_ascii=False),
       'parts=', [p['js_chars'] for p in man['parts']], 'total_js=', sum(p['js_chars'] for p in man['parts']),
       'fonts_b64=', {k: len(v) for k, v in fonts.items()}, 'slides=', sum(map(len, xs)))
-# inject_light.md の確認コードの E を自動で合わせる
+# inject_light.md の確認コードの E を自動で合わせる（<!-- code:check:<出力名> --> の中だけ。マラソンは従来の <!-- code:check -->）
 MD = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'inject_light.md')
 if os.path.exists(MD):
     s = open(MD, encoding='utf-8').read()
-    s2 = re.sub(r'const E=\[\[.*?\]\];', lambda m: 'const E=' + json.dumps(man['E'], separators=(',', ':')) + ';', s, count=1)
-    if s2 != s: open(MD, 'w', encoding='utf-8').write(s2); print('inject_light.md の E を更新')
+    tag = 'check' if NAME == '2026-11-05_marathon' else 'check:' + NAME
+    m = re.search(r'<!-- code:' + re.escape(tag) + r' -->\s*```js\n.*?\n```', s, re.S)
+    if m:
+        blk = re.sub(r'const E=\[\[.*?\]\];', lambda x: 'const E=' + json.dumps(man['E'], separators=(',', ':')) + ';', m.group(0), count=1)
+        if blk != m.group(0): open(MD, 'w', encoding='utf-8').write(s[:m.start()] + blk + s[m.end():]); print('inject_light.md の E を更新:', tag)
+    else: print('inject_light.md に <!-- code:' + tag + ' --> が無い（確認コードを追加して E=' + json.dumps(man['E']) + ' を入れる）')

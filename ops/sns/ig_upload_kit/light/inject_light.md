@@ -18,12 +18,28 @@ SVG（foreignObject）→ data: URL → Image → canvas(1080×1350) → JPEG �
 
 作り直し：`python3 ops/sns/ig_upload_kit/light/make_light.py media/instagram/2026-11-05_marathon`（作り直すたびにフォントのバイト列が少し変わりハッシュも変わる。(2) の `E` はスクリプトが自動で書き換える。**作り直したら part1〜4 と E を必ずセットで使う**）
 
+## 全投稿の一覧（2026-11-06 追加）
+
+注入する文字数＝チャンク（partK.txt）の合計＋確認コード＋組み立てコード（2,184）。JS実行回数＝チャンク数＋確認1＋組み立て1（＋必要なら読み出し1）。
+
+| フォルダ | 枚数 | 合計文字数 | JS実行回数 | 重い版（base64）の文字数 | 採否 |
+|---|---|---|---|---|---|
+| `2026-11-05_marathon` | 5 | **145,915**（part×4） | **6〜7回** | 910,452 | ✅ 採用（11-06 前ラウンド。作り直していない） |
+| `2026-11-04_smart-remote` | 1 | **93,289**（part×3） | **5〜6回** | 200,972 | ✅ 採用 |
+| `2026-11-05_kashitsu` | 5 | **177,694**（part×5） | **7〜8回** | 876,192 | ✅ 採用 |
+| `2026-11-06_heater` | 5 | **167,501**（part×5） | **7〜8回** | 849,048 | ✅ 採用 |
+
+- 元：kashitsu・heater は `media/instagram/<フォルダ>/render.py`、スマートリモコンは `docs/sns/2026-11-04-smart-remote-count.src.html`（1枚ものHTML。make_light.py がHTMLファイルも読めるよう汎用化）
+- 3フォルダとも絵文字なし → 置き換えなし（文言・注意書き・AI表示は元のまま）
+- 3フォルダは約物の詰め（halt/chws）をフォントに残す設定で作成。これがないと「）。」「）・」の間が広がり、kashitsu 05 で違う画素 0.43% → 入れて 0.004% に（改行位置は入れる前から同じ）
+- 不採用（重い版を使う）のフォルダ：なし
+
 ## 手順
 
 1. IGで「作成」→「投稿」を押し、「新規投稿を作成」（「コンピューターから選択」がある画面）を出す。**ボタンは押さない**
 2. `part1.txt`〜`part4.txt` の中身を、**そのまま1個ずつ**JS実行ツールに貼って実行（4回）。返り値 `partK/4 len=…` を確認
 3. (2) 確認コードを実行 → 全部「OK」になるまで、NGのpartだけ流し直す
-4. (3) 組み立てコードを実行 → `OK: 5枚を設定` なら、ページの文字で「切り取り」「次へ」と5枚のサムネを確認
+4. (3) 組み立てコードを実行 → `OK: 5枚を設定`（スマートリモコンは1枚） なら、ページの文字で「切り取り」「次へ」と5枚のサムネを確認
    - 返り値が `[object Promise]` や空だったら、(4) 読み出しコードを実行して結果を見る
 5. うまくいかなければ既存の inject.md（監査済みのbase64方式）の手順へ戻る
 
@@ -32,6 +48,33 @@ SVG（foreignObject）→ data: URL → Image → canvas(1080×1350) → JPEG �
 <!-- code:check -->
 ```js
 (async()=>{const E=[[38000,"ba90f8d956a5cda3"],[38000,"0b238e5b250012e8"],[38000,"edf6aa650402caf6"],[28118,"4fbcc002c14c6f3a"]];const p=window.__igl||[];const out=[];let ok=true;for(let k=0;k<E.length;k++){const s=p[k];if(typeof s!=='string'){out.push('part'+(k+1)+': ない NG');ok=false;continue}const h=[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)))].map(b=>b.toString(16).padStart(2,'0')).join('').slice(0,16);const g=s.length===E[k][0]&&h===E[k][1];if(!g)ok=false;out.push('part'+(k+1)+': 長さ '+s.length+' ハッシュ '+h+(g?' OK':' NG（期待 '+E[k][0]+' '+E[k][1]+'）'))}if(p.length>E.length){out.push('余分なpartあり：window.__igl=[] から流し直す');ok=false}window.__iglOK=ok;return (ok?'ALL OK\n':'NGあり\n')+out.join('\n')})()
+```
+
+## (2') 確認コード：ほかの投稿（2026-11-06 追加）
+
+手順は上と同じ。(2) の確認コードだけ、下のフォルダ用に差し替える（(3) 組み立て・(4) 読み出しは全フォルダ共通）。
+- **同じタブで別の投稿に切り替えるときは、最初に `window.__igl=[];window.__iglOK=false` を実行**して前の中身を消す（消し忘れは確認コードが「余分なpartあり」「NG」で止める）
+- 作り直し：`python3 ops/sns/ig_upload_kit/light/make_light.py media/instagram/<フォルダ>`（スマートリモコンは `docs/sns/2026-11-04-smart-remote-count.src.html 2026-11-04_smart-remote`）。下の `E` は自動で書き換わる
+
+### 2026-11-04_smart-remote（part1〜3）
+
+<!-- code:check:2026-11-04_smart-remote -->
+```js
+(async()=>{const E=[[38000,"e70c6d742af09189"],[38000,"3917e34b2daadd0e"],[14136,"c4b5dde29ab3f39e"]];const p=window.__igl||[];const out=[];let ok=true;for(let k=0;k<E.length;k++){const s=p[k];if(typeof s!=='string'){out.push('part'+(k+1)+': ない NG');ok=false;continue}const h=[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)))].map(b=>b.toString(16).padStart(2,'0')).join('').slice(0,16);const g=s.length===E[k][0]&&h===E[k][1];if(!g)ok=false;out.push('part'+(k+1)+': 長さ '+s.length+' ハッシュ '+h+(g?' OK':' NG（期待 '+E[k][0]+' '+E[k][1]+'）'))}if(p.length>E.length){out.push('余分なpartあり：window.__igl=[] から流し直す');ok=false}window.__iglOK=ok;return (ok?'ALL OK\n':'NGあり\n')+out.join('\n')})()
+```
+
+### 2026-11-05_kashitsu（part1〜5）
+
+<!-- code:check:2026-11-05_kashitsu -->
+```js
+(async()=>{const E=[[38000,"b0c47d066add4432"],[38000,"aedb142fef2eb511"],[38000,"ad31e2e64a4049aa"],[38000,"86727af0135a8fce"],[22105,"69bc56d6a376b0ae"]];const p=window.__igl||[];const out=[];let ok=true;for(let k=0;k<E.length;k++){const s=p[k];if(typeof s!=='string'){out.push('part'+(k+1)+': ない NG');ok=false;continue}const h=[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)))].map(b=>b.toString(16).padStart(2,'0')).join('').slice(0,16);const g=s.length===E[k][0]&&h===E[k][1];if(!g)ok=false;out.push('part'+(k+1)+': 長さ '+s.length+' ハッシュ '+h+(g?' OK':' NG（期待 '+E[k][0]+' '+E[k][1]+'）'))}if(p.length>E.length){out.push('余分なpartあり：window.__igl=[] から流し直す');ok=false}window.__iglOK=ok;return (ok?'ALL OK\n':'NGあり\n')+out.join('\n')})()
+```
+
+### 2026-11-06_heater（part1〜5）
+
+<!-- code:check:2026-11-06_heater -->
+```js
+(async()=>{const E=[[38000,"af8ccc39604556f1"],[38000,"edaf8768dfa6c88d"],[38000,"a3d7d99b0dcece41"],[38000,"dd8015ef344f1b13"],[11912,"7a74a88c60dca0e8"]];const p=window.__igl||[];const out=[];let ok=true;for(let k=0;k<E.length;k++){const s=p[k];if(typeof s!=='string'){out.push('part'+(k+1)+': ない NG');ok=false;continue}const h=[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)))].map(b=>b.toString(16).padStart(2,'0')).join('').slice(0,16);const g=s.length===E[k][0]&&h===E[k][1];if(!g)ok=false;out.push('part'+(k+1)+': 長さ '+s.length+' ハッシュ '+h+(g?' OK':' NG（期待 '+E[k][0]+' '+E[k][1]+'）'))}if(p.length>E.length){out.push('余分なpartあり：window.__igl=[] から流し直す');ok=false}window.__iglOK=ok;return (ok?'ALL OK\n':'NGあり\n')+out.join('\n')})()
 ```
 
 ## (3) 組み立て → JPEG 5枚 → input に設定
@@ -87,6 +130,11 @@ String(window.__iglResult)
 - 元画像との差（右下のAI表示の所を除く）：平均差 0.88〜1.24（0〜255）、大きく違う画素 0.002〜0.004%
 - 目視（Read）：01・03 を元画像と並べて確認。文字の欠け・はみ出し・改行位置のずれなし。違いは右下の🤖→ロボット図形のみ。全5枚は `2026-11-05_marathon/preview/` に保存
 - 対照実験：フォントを抜いて組み立てると数字・英字が明朝体に変わる（＝埋め込みフォントが実際に使われていることを確認）
+
+2026-11-06 追加（全4フォルダに拡張）：`node ops/tests/ig_inject_light.test.js` → **ALL PASS（25項目＝6項目×4フォルダ＋通信0件）**
+- smart-remote 1枚・kashitsu 5枚・heater 5枚とも 1080×1350 JPEG で input の change に届いた。CSP違反 0件
+- 元画像との差：smart-remote 平均 1.46／違う画素 0.001%、kashitsu 0.85〜1.33／0.002〜0.055%、heater 1.01〜1.43／0.002〜0.030%（3フォルダは右下も除外せず全面で比較）
+- 目視（Read、元と並べて）：smart-remote 01、kashitsu 03・04・05、heater 04。文字の欠け・はみ出し・改行位置のずれなし。全枚は各フォルダの `preview/`
 
 ## 未確認事項
 
