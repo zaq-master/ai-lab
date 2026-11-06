@@ -1,0 +1,16 @@
+{
+ "folder": "2026-11-04_smart-remote",
+ "width": 1080,
+ "height": 1350,
+ "chunk": 40000,
+ "files": [
+  {
+   "nn": "01",
+   "name": "01.jpg",
+   "quality": 82,
+   "bytes": 150729,
+   "b64_len": 200972,
+   "parts": 6
+  }
+ ]
+}

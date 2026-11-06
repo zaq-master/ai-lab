@@ -1,0 +1,48 @@
+{
+ "folder": "2026-11-05_marathon",
+ "width": 1080,
+ "height": 1350,
+ "chunk": 40000,
+ "files": [
+  {
+   "nn": "01",
+   "name": "01.jpg",
+   "quality": 84,
+   "bytes": 126165,
+   "b64_len": 168220,
+   "parts": 5
+  },
+  {
+   "nn": "02",
+   "name": "02.jpg",
+   "quality": 84,
+   "bytes": 130360,
+   "b64_len": 173816,
+   "parts": 5
+  },
+  {
+   "nn": "03",
+   "name": "03.jpg",
+   "quality": 84,
+   "bytes": 148044,
+   "b64_len": 197392,
+   "parts": 5
+  },
+  {
+   "nn": "04",
+   "name": "04.jpg",
+   "quality": 84,
+   "bytes": 130077,
+   "b64_len": 173436,
+   "parts": 5
+  },
+  {
+   "nn": "05",
+   "name": "05.jpg",
+   "quality": 86,
+   "bytes": 148190,
+   "b64_len": 197588,
+   "parts": 5
+  }
+ ]
+}
