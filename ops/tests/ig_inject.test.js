@@ -145,6 +145,31 @@ function verify(r, files, src) {
     verify(await waitResult(page), remo, "change");
     ok("スマートリモコン1枚：追記版（半分ずつ12回）→change で同じバイト・1080×1350");
     await page.close();
+
+    // 5) 加湿器・暖房（各5枚）：manifest から E と ORDER を作り、チャンク投入→確認→inject→デコード確認
+    for (const folder of ["2026-11-05_kashitsu", "2026-11-06_heater"]) {
+      const fs5 = load(folder);
+      page = await freshPage(browser);
+      await page.click("#create"); await page.click("#post");
+      let n = 0;
+      for (const f of fs5) {
+        assert.strictEqual(f.parts.join("").length, f.b64_len, folder + "/" + f.nn + " b64長");
+        assert.strictEqual(Buffer.from(f.parts.join(""), "base64").equals(f.jpg), true, folder + "/" + f.nn + " base64→jpg一致");
+        for (const [k, d] of f.parts.entries()) {
+          assert.ok(d.length <= 40000);
+          assert.strictEqual(await page.evaluate(push(f.nn, k + 1, d)), `${f.nn} part${k + 1} len=${d.length}`); n++;
+        }
+      }
+      const E = "const E={" + fs5.map((f) => `'${f.nn}':[${f.parts.length},${f.b64_len}]`).join(",") + "}";
+      const c = await page.evaluate(code("check-chunks").replace(/const E=\{[^}]*\}/, () => E));
+      assert.strictEqual((c.match(/part OK \/ 長さ \d+ OK/g) || []).length, fs5.length, c);
+      const ORDER = "const ORDER=[" + fs5.map((f) => `'${f.nn}'`).join(",") + "]";
+      const inj5 = await page.evaluate(code("inject").replace("const ORDER=['01','02','03','04','05']", () => ORDER));
+      assert.match(inj5, new RegExp("^OK: " + fs5.length + "枚を設定"), inj5);
+      verify(await waitResult(page), fs5, "change");
+      ok(`${folder} ${fs5.length}枚：${n}回のチャンク投入→change で同じバイト・1080×1350でデコード`);
+      await page.close();
+    }
   } finally {
     await browser.close();
   }

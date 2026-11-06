@@ -1,0 +1,48 @@
+{
+ "folder": "2026-11-06_heater",
+ "width": 1080,
+ "height": 1350,
+ "chunk": 40000,
+ "files": [
+  {
+   "nn": "01",
+   "name": "01.jpg",
+   "quality": 84,
+   "bytes": 115596,
+   "b64_len": 154128,
+   "parts": 4
+  },
+  {
+   "nn": "02",
+   "name": "02.jpg",
+   "quality": 84,
+   "bytes": 124501,
+   "b64_len": 166004,
+   "parts": 5
+  },
+  {
+   "nn": "03",
+   "name": "03.jpg",
+   "quality": 84,
+   "bytes": 115964,
+   "b64_len": 154620,
+   "parts": 4
+  },
+  {
+   "nn": "04",
+   "name": "04.jpg",
+   "quality": 82,
+   "bytes": 146980,
+   "b64_len": 195976,
+   "parts": 5
+  },
+  {
+   "nn": "05",
+   "name": "05.jpg",
+   "quality": 84,
+   "bytes": 133739,
+   "b64_len": 178320,
+   "parts": 5
+  }
+ ]
+}

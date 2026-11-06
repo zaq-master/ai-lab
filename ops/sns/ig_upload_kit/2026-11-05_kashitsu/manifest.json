@@ -1,0 +1,48 @@
+{
+ "folder": "2026-11-05_kashitsu",
+ "width": 1080,
+ "height": 1350,
+ "chunk": 40000,
+ "files": [
+  {
+   "nn": "01",
+   "name": "01.jpg",
+   "quality": 84,
+   "bytes": 115501,
+   "b64_len": 154004,
+   "parts": 4
+  },
+  {
+   "nn": "02",
+   "name": "02.jpg",
+   "quality": 84,
+   "bytes": 122532,
+   "b64_len": 163376,
+   "parts": 5
+  },
+  {
+   "nn": "03",
+   "name": "03.jpg",
+   "quality": 84,
+   "bytes": 123660,
+   "b64_len": 164880,
+   "parts": 5
+  },
+  {
+   "nn": "04",
+   "name": "04.jpg",
+   "quality": 88,
+   "bytes": 152725,
+   "b64_len": 203636,
+   "parts": 6
+  },
+  {
+   "nn": "05",
+   "name": "05.jpg",
+   "quality": 84,
+   "bytes": 142721,
+   "b64_len": 190296,
+   "parts": 5
+  }
+ ]
+}
