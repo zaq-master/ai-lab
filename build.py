@@ -96,9 +96,22 @@ def ended_description(meta, today=None):
     return meta
 
 
+_UNSHALLOW_TRIED = []
+
+
 def git_date(p):
     """ファイルの最終コミット日（YYYY-MM-DD）。未コミットの変更があれば今日。取れなければ空文字。"""
     import subprocess
+    if not _UNSHALLOW_TRIED:
+        # 浅いclone（履歴の一部だけ）だと、古いファイルの更新日が「履歴の端の日付」に化けて
+        # 毎回サイトマップの更新日がぶれる（2026-11-07 05:00に発見）。最初の1回だけ全履歴を取りに行く
+        _UNSHALLOW_TRIED.append(1)
+        try:
+            if subprocess.run(["git", "rev-parse", "--is-shallow-repository"], cwd=ROOT,
+                              capture_output=True, text=True, timeout=10).stdout.strip() == "true":
+                subprocess.run(["git", "fetch", "-q", "--unshallow"], cwd=ROOT, capture_output=True, timeout=60)
+        except Exception:
+            pass
     try:
         env = {**os.environ, "TZ": "Asia/Tokyo"}  # コミット日は日本時間で数える（UTCだと0〜9時のコミットが前日になる）
         r = lambda *a: subprocess.run(["git", *a], cwd=ROOT, capture_output=True, text=True, timeout=10, env=env).stdout.strip()
