@@ -28,11 +28,22 @@ SVG（foreignObject）→ data: URL → Image → canvas(1080×1350) → JPEG �
 | `2026-11-04_smart-remote` | 1 | **93,289**（part×3） | **5〜6回** | 200,972 | ✅ 採用 |
 | `2026-11-05_kashitsu` | 5 | **177,694**（part×5） | **7〜8回** | 876,192 | ✅ 採用 |
 | `2026-11-06_heater` | 5 | **167,501**（part×5） | **7〜8回** | 849,048 | ✅ 採用 |
+| `2026-11-07_tools` | 5 | **165,340**（part×5） | **7〜8回** | 未作成 | ✅ 採用（11-06 13時台） |
+| `2026-11-08_heater-monthly` | 6 | **168,960**（part×5） | **7〜8回** | 未作成 | ✅ 採用（11-06 13時台） |
+| `2026-11-09` | 6 | **161,867**（part×5） | **7〜8回** | 未作成 | ✅ 採用（11-06 13時台） |
+| `2026-11-10` | 6 | **143,740**（part×4） | **6〜7回** | 未作成 | ✅ 採用（11-06 13時台。6枚目は 06.png＝URL文字版） |
 
 - 元：kashitsu・heater は `media/instagram/<フォルダ>/render.py`、スマートリモコンは `docs/sns/2026-11-04-smart-remote-count.src.html`（1枚ものHTML。make_light.py がHTMLファイルも読めるよう汎用化）
 - 3フォルダとも絵文字なし → 置き換えなし（文言・注意書き・AI表示は元のまま）
 - 3フォルダは約物の詰め（halt/chws）をフォントに残す設定で作成。これがないと「）。」「）・」の間が広がり、kashitsu 05 で違う画素 0.43% → 入れて 0.004% に（改行位置は入れる前から同じ）
 - 不採用（重い版を使う）のフォルダ：なし
+- 11-06 13時台に追加した4フォルダ（make_light.py は変更なし。元の render.py も変更なし）：
+  - `2026-11-07_tools`：4枚目の絵文字「🔒」を同じ大きさの自作の鍵SVG（金色の本体＋灰色の輪）に置き換えて生成（絵文字はフォントに入らないため）
+  - `2026-11-09`：5枚目の「☐」（Noto Sans CJK に無い文字）を、同じ幅の四角の線SVGに置き換えて生成
+  - `2026-11-08_heater-monthly`・`2026-11-09`・`2026-11-10`：右下の「🤖」は make_light.py の通常の置き換え（ロボット図形）
+  - `2026-11-10`：render.py の6枚目は `LINK_TEXT` の差し込み式なので、`VARIANT["06"]`（URL文字版）を入れた版から生成。06_profile 版は作っていない
+  - 作り直す手順：render.py をコピーし、`with sync_playwright` の直前に `S=[x.replace("🔒", <鍵SVG>) for x in S]`（11/9 は "☐"、11/10 は `S[-1]=S[-1].replace("LINK_TEXT",VARIANT["06"])`）を足したフォルダを作って make_light.py に渡す（出力名は元のフォルダ名）。SVGの中身は各フォルダの payload.json の slides にある
+  - 生成には Python の brotli が要る（このサーバーには無かったので pip で入れた）
 
 ## 手順
 
@@ -75,6 +86,34 @@ SVG（foreignObject）→ data: URL → Image → canvas(1080×1350) → JPEG �
 <!-- code:check:2026-11-06_heater -->
 ```js
 (async()=>{const E=[[38000,"af8ccc39604556f1"],[38000,"edaf8768dfa6c88d"],[38000,"a3d7d99b0dcece41"],[38000,"dd8015ef344f1b13"],[11912,"7a74a88c60dca0e8"]];const p=window.__igl||[];const out=[];let ok=true;for(let k=0;k<E.length;k++){const s=p[k];if(typeof s!=='string'){out.push('part'+(k+1)+': ない NG');ok=false;continue}const h=[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)))].map(b=>b.toString(16).padStart(2,'0')).join('').slice(0,16);const g=s.length===E[k][0]&&h===E[k][1];if(!g)ok=false;out.push('part'+(k+1)+': 長さ '+s.length+' ハッシュ '+h+(g?' OK':' NG（期待 '+E[k][0]+' '+E[k][1]+'）'))}if(p.length>E.length){out.push('余分なpartあり：window.__igl=[] から流し直す');ok=false}window.__iglOK=ok;return (ok?'ALL OK\n':'NGあり\n')+out.join('\n')})()
+```
+
+### 2026-11-07_tools（part1〜5）
+
+<!-- code:check:2026-11-07_tools -->
+```js
+(async()=>{const E=[[38000,"c31599c99e80194d"],[38000,"07775e419a56aaaf"],[38000,"3d3ea6216cf20437"],[38000,"5bea4296a53efa12"],[9765,"8a4df7e61467c4b5"]];const p=window.__igl||[];const out=[];let ok=true;for(let k=0;k<E.length;k++){const s=p[k];if(typeof s!=='string'){out.push('part'+(k+1)+': ない NG');ok=false;continue}const h=[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)))].map(b=>b.toString(16).padStart(2,'0')).join('').slice(0,16);const g=s.length===E[k][0]&&h===E[k][1];if(!g)ok=false;out.push('part'+(k+1)+': 長さ '+s.length+' ハッシュ '+h+(g?' OK':' NG（期待 '+E[k][0]+' '+E[k][1]+'）'))}if(p.length>E.length){out.push('余分なpartあり：window.__igl=[] から流し直す');ok=false}window.__iglOK=ok;return (ok?'ALL OK\n':'NGあり\n')+out.join('\n')})()
+```
+
+### 2026-11-08_heater-monthly（part1〜5）
+
+<!-- code:check:2026-11-08_heater-monthly -->
+```js
+(async()=>{const E=[[38000,"5f7684c8d543e8d1"],[38000,"39d6321150290f42"],[38000,"c37b06a3f5a877c4"],[38000,"6340897f7ed1bc3c"],[13230,"e4677cd974dae8df"]];const p=window.__igl||[];const out=[];let ok=true;for(let k=0;k<E.length;k++){const s=p[k];if(typeof s!=='string'){out.push('part'+(k+1)+': ない NG');ok=false;continue}const h=[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)))].map(b=>b.toString(16).padStart(2,'0')).join('').slice(0,16);const g=s.length===E[k][0]&&h===E[k][1];if(!g)ok=false;out.push('part'+(k+1)+': 長さ '+s.length+' ハッシュ '+h+(g?' OK':' NG（期待 '+E[k][0]+' '+E[k][1]+'）'))}if(p.length>E.length){out.push('余分なpartあり：window.__igl=[] から流し直す');ok=false}window.__iglOK=ok;return (ok?'ALL OK\n':'NGあり\n')+out.join('\n')})()
+```
+
+### 2026-11-09（part1〜5）
+
+<!-- code:check:2026-11-09 -->
+```js
+(async()=>{const E=[[38000,"28559e89d49204d8"],[38000,"8b8ce73e6786f877"],[38000,"55e347a881d6322e"],[38000,"dffea4440b96a6b6"],[6124,"94c1f9f5f66130dc"]];const p=window.__igl||[];const out=[];let ok=true;for(let k=0;k<E.length;k++){const s=p[k];if(typeof s!=='string'){out.push('part'+(k+1)+': ない NG');ok=false;continue}const h=[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)))].map(b=>b.toString(16).padStart(2,'0')).join('').slice(0,16);const g=s.length===E[k][0]&&h===E[k][1];if(!g)ok=false;out.push('part'+(k+1)+': 長さ '+s.length+' ハッシュ '+h+(g?' OK':' NG（期待 '+E[k][0]+' '+E[k][1]+'）'))}if(p.length>E.length){out.push('余分なpartあり：window.__igl=[] から流し直す');ok=false}window.__iglOK=ok;return (ok?'ALL OK\n':'NGあり\n')+out.join('\n')})()
+```
+
+### 2026-11-10（part1〜4）
+
+<!-- code:check:2026-11-10 -->
+```js
+(async()=>{const E=[[38000,"8cc3fb4509d0582a"],[38000,"0ddd63dba71ce72e"],[38000,"3609754fa77b9a79"],[25811,"b3addf0b27f8e39d"]];const p=window.__igl||[];const out=[];let ok=true;for(let k=0;k<E.length;k++){const s=p[k];if(typeof s!=='string'){out.push('part'+(k+1)+': ない NG');ok=false;continue}const h=[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)))].map(b=>b.toString(16).padStart(2,'0')).join('').slice(0,16);const g=s.length===E[k][0]&&h===E[k][1];if(!g)ok=false;out.push('part'+(k+1)+': 長さ '+s.length+' ハッシュ '+h+(g?' OK':' NG（期待 '+E[k][0]+' '+E[k][1]+'）'))}if(p.length>E.length){out.push('余分なpartあり：window.__igl=[] から流し直す');ok=false}window.__iglOK=ok;return (ok?'ALL OK\n':'NGあり\n')+out.join('\n')})()
 ```
 
 ## (3) 組み立て → JPEG 5枚 → input に設定
@@ -135,6 +174,11 @@ String(window.__iglResult)
 - smart-remote 1枚・kashitsu 5枚・heater 5枚とも 1080×1350 JPEG で input の change に届いた。CSP違反 0件
 - 元画像との差：smart-remote 平均 1.46／違う画素 0.001%、kashitsu 0.85〜1.33／0.002〜0.055%、heater 1.01〜1.43／0.002〜0.030%（3フォルダは右下も除外せず全面で比較）
 - 目視（Read、元と並べて）：smart-remote 01、kashitsu 03・04・05、heater 04。文字の欠け・はみ出し・改行位置のずれなし。全枚は各フォルダの `preview/`
+
+2026-11-06 13時台（8フォルダに拡張）：`node ops/tests/ig_inject_light.test.js` → **ALL PASS（49項目＝6項目×8フォルダ＋通信0件）**
+- 新4フォルダ：tools 5枚・heater-monthly 6枚・11/09 6枚・11/10 6枚とも 1080×1350 JPEG で input に届いた
+- 元画像（docs/sns/ig/ に無いので media/instagram/<フォルダ>/ のPNG）との差：tools 0.94〜1.58／違う画素 0.002〜0.023%、heater-monthly 0.98〜1.43／0.003〜0.234%、11/09 0.97〜1.48／0.002〜0.257%、11/10 0.93〜1.11／0.002〜0.040%（heater-monthly・11/09・11/10 は右下のAI表示を除外）
+- 目視（Read、元と並べて）：tools 04（鍵）、11/09 05（☐ 4つ）。文字の欠け・はみ出し・改行位置のずれなし
 
 ## 未確認事項
 

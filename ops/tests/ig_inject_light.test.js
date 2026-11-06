@@ -16,6 +16,11 @@ const FOLDERS = [
   { name: "2026-11-04_smart-remote", check: "check:2026-11-04_smart-remote", aiMask: false },
   { name: "2026-11-05_kashitsu", check: "check:2026-11-05_kashitsu", aiMask: false },
   { name: "2026-11-06_heater", check: "check:2026-11-06_heater", aiMask: false },
+  // 2026-11-06 13時台追加：元画像は media/instagram/<名前>/（docs/sns/ig/ にまだ無いため）
+  { name: "2026-11-07_tools", check: "check:2026-11-07_tools", aiMask: false },
+  { name: "2026-11-08_heater-monthly", check: "check:2026-11-08_heater-monthly", aiMask: true },
+  { name: "2026-11-09", check: "check:2026-11-09", aiMask: true },
+  { name: "2026-11-10", check: "check:2026-11-10", aiMask: true },
 ];
 const md = fs.readFileSync(path.join(LIGHT, "inject_light.md"), "utf8");
 const code = (id) => {
@@ -63,7 +68,8 @@ async function t(name, fn) {
   const man = JSON.parse(fs.readFileSync(path.join(LIGHT, F.name, "manifest.json"), "utf8"));
   const parts = man.parts.map((p) => fs.readFileSync(path.join(LIGHT, F.name, `part${p.k}.txt`), "utf8"));
   const nS = JSON.parse(fs.readFileSync(path.join(LIGHT, F.name, "payload.json"), "utf8")).slides.length;
-  const ORIG = path.join(__dirname, "../../docs/sns/ig", F.name);
+  const DOCS = path.join(__dirname, "../../docs/sns/ig", F.name);
+  const ORIG = fs.existsSync(DOCS) ? DOCS : path.join(__dirname, "../../media/instagram", F.name);
   const PREVIEW = path.join(LIGHT, F.name, "preview");
   await t(F.name + " md の E が manifest.json と一致", async () => {
     const m = code(F.check).match(/const E=(\[\[.*?\]\]);/);
@@ -128,7 +134,7 @@ async function t(name, fn) {
     await page.close();
   });
 
-  await t(F.name + " 元画像（docs/sns/ig/…/0N.png）との差が小さい", async () => {
+  await t(F.name + " 元画像（docs/sns/ig/ か media/instagram/ の 0N.png）との差が小さい", async () => {
     assert.ok(got, "前のテストの画像がない");
     const page = await browser.newPage();
     for (const f of got.files) {
