@@ -129,6 +129,8 @@ category: 季節家電
 
 足元の冷えも気になる人は[在宅ワークの足元暖房の電気代比較](foot-heater-electricity-cost.html)、何から対策すべきか迷う人は[冬の寒さ対策診断](winter-heating-shindan.html)もどうぞ。加湿以外のデスクまわり（モニターの高さ・照明・充電器）は[在宅ワークのデスク環境を快適にするガジェット7カテゴリ](desk-qol-guide.html)、手元の暗さが気になる人は[モニターライトの選び方](monitor-light-guide.html)にまとめています。
 
+乾燥が気になる家族や友人への贈り物を考えている場合は、[在宅ワークの人へのプレゼント、ガジェットの選び方](telework-gadget-present-erabikata.html)で、温湿度計などを困りごと別にまとめています。
+
 冬の電気代・寒さ対策の記事とツールは、悩み別に[冬の電気代まとめ](fuyu-denkidai-matome.html)で一覧にしています。
 
 <!-- marathon-2026-11（11/12に削除） -->

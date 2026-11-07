@@ -86,6 +86,8 @@ category: 在宅ワーク
 
 デスクまわりの快適化は[デスク環境のQOLを上げるガジェットガイド](desk-qol-guide.html)でもまとめています。
 
+足元の冷えに困っている家族や友人への贈り物を考えている場合は、[在宅ワークの人へのプレゼント、ガジェットの選び方](telework-gadget-present-erabikata.html)で、相手の困りごと別の選び方と「買う前に確かめる6項目」をまとめています。
+
 冬の電気代・寒さ対策の記事とツールは、悩み別に[冬の電気代まとめ](fuyu-denkidai-matome.html)で一覧にしています。
 
 <div id="pr-osusume"></div>
