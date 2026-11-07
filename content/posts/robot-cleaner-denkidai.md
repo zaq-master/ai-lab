@@ -37,7 +37,9 @@ category: 季節家電
 
 参考までに、アイリスオーヤマ IC-R01-W は仕様表に「消費電力 40W」、充電時間「約4〜5時間」とあります。ただし40Wが充電時の値かどうか仕様表では区別されていないため、同じ式に入れた**約5.0〜6.2円/回（毎日1回で約149〜186円/月）は参考値**です。
 
-iRobot（ルンバ）、エコバックス、Anker（Eufy）、Roborockは、今回の調査では日本の公式ページで充電時の消費電力を確認できなかったため、表に入れていません。
+同じく参考として、Roborock Q7 は日本語の取扱説明書に「充電ドック 定格電力 28W」「充電時間 約6時間」とあります。定格電力は充電ドックの上限の値で、充電中ずっと28Wかかるとは書かれていないため、同じ式に入れた**約5.2円/回（毎日1回で約156円/月）は多めに見た参考値**です。
+
+iRobot（ルンバ）、エコバックス、Anker（Eufy）は、今回の調査では日本の公式ページ・取扱説明書で充電時の消費電力を確認できなかったため、表に入れていません（Ankerの取扱説明書の「消費電力」は充電時か運転時かの区分がなく、エコバックスの取扱説明書は充電台の定格入力だけで充電時間の記載がありませんでした）。
 
 <!-- products: robot-cleaner,smart-plug-monitor -->
 
@@ -74,4 +76,4 @@ W数と時間を入れるだけなら、[家電の電気代計算ツール](denk
 
 冬の暖房・加湿・電気代の記事とツールは、悩み別に[冬の電気代まとめ](fuyu-denkidai-matome.html)で一覧にしています。
 
-出典：[パナソニック MC-RSF600 仕様](https://panasonic.jp/soji/p-db/MC-RSF600_spec.html)／[パナソニック MC-RS1 仕様](https://panasonic.jp/soji/p-db/MC-RS1_spec.html)／[パナソニック MC-RS810 仕様](https://panasonic.jp/soji/products/MC-RS810/spec.html)／[シャープ RX-V60 取扱説明書（PDF）](https://jp.sharp/support/cocorobo/doc/rxv60_mn.pdf)／[シャープ COCOROBO 仕様一覧](https://jp.sharp/support/cocorobo/spec.html)／[アイリスオーヤマ IC-R01-W](https://www.irisohyama.co.jp/products/electrical-appliances/home-appliances/vacuum-cleaner/robot-cleaner/cleaner-robot-r01)（すべて2026-11-07確認）
+出典：[パナソニック MC-RSF600 仕様](https://panasonic.jp/soji/p-db/MC-RSF600_spec.html)／[パナソニック MC-RS1 仕様](https://panasonic.jp/soji/p-db/MC-RS1_spec.html)／[パナソニック MC-RS810 仕様](https://panasonic.jp/soji/products/MC-RS810/spec.html)／[シャープ RX-V60 取扱説明書（PDF）](https://jp.sharp/support/cocorobo/doc/rxv60_mn.pdf)／[シャープ COCOROBO 仕様一覧](https://jp.sharp/support/cocorobo/spec.html)／[アイリスオーヤマ IC-R01-W](https://www.irisohyama.co.jp/products/electrical-appliances/home-appliances/vacuum-cleaner/robot-cleaner/cleaner-robot-r01)／[Roborock Q7 取扱説明書（PDF）](https://cdn.shopify.com/s/files/1/0078/9754/6842/files/manual_Q7_2.pdf?v=1715906383)（すべて2026-11-07確認）

@@ -26,6 +26,29 @@
 
 **未確認（公式で数値が取れなかった）**：iRobot ルンバ、エコバックス DEEBOT、Anker Eufy、Roborock。検索結果に出たのは販売店・比較サイト（rank-king、ビックカメラ、Joshin、kakaku等）だけで、日本の公式仕様ページにたどり着けず → 記事では数値を書かない。書くなら次回、各社公式の仕様ページ・取扱説明書PDFを直接探す。
 
+### 追加調査（2026-11-07 夕方・ペンネ、4社の公式ページ・公式取説PDFを直接確認）
+| メーカー・機種 | 公式で確認できた電力の記載 | 充電時間 | 判断 |
+|---|---|---|---|
+| Roborock Q7（日本語取説） | 充電ドック「定格電力 28W」（定格入力100-240VAC／定格出力20VDC 1.2A）、本体「定格入力 20VDC 1.2A」 | 約6時間 | 「充電時の消費電力」ではなく**ドックの定格（上限）**→ 表に入れず記事の「参考」に。28W×6h=0.168kWh→約5.21円/回、×30=約156円、×13=約68円（python検算） |
+| Roborock S6（日本語取説） | 本体 定格電力58W／ドック 定格電力42W・定格出力20VDC 1.8A | 記載なし | 計算不可 → 不使用 |
+| Roborock Q10（英語取説・gl-files） | 本体・ドック定格入力 20VDC 1.2A、アダプター入力100-240VAC 0.8A | 記載なし | 日本語でなく電力W・充電時間もない → 不使用 |
+| Anker Eufy RoboVac 11S T2108（日本語取説） | 「消費電力 25W」（区分なし）、入力/出力 19V 0.6A | 約300〜360分 | 25Wが充電時か運転時か不明 → 不使用（記事では「区分なし」とだけ記載） |
+| Anker Eufy Clean G40 T2255（日本語取説） | 「消費電力 48W」（区分なし）、入力/出力 19V 0.6A | 約300〜360分 | 同上 → 不使用 |
+| エコバックス DEEBOT 900 DE5G（日本語取説） | ドッキングステーション CH1630A「入力 100V AC 25W／出力 20V DC 0.8A」 | 記載なし | 計算不可 → 不使用 |
+| エコバックス DEEBOT OZMO 960 DG8G（日本語取説） | 本体 定格入力20V DC 1A、ステーション CH1822 定格入力100V AC 0.5A | 記載なし | W数・充電時間なし → 不使用 |
+| iRobot Roomba 105 Combo（公式ストア商品ページ） | 消費電力の記載なし | 約4時間 | 不使用 |
+| iRobot Roomba Combo 10 Max（公式ページ） | 仕様の記載なし | — | 不使用 |
+
+出典URL（追加分）：
+- Roborock Q7 取説：https://cdn.shopify.com/s/files/1/0078/9754/6842/files/manual_Q7_2.pdf?v=1715906383 （同じファイル置き場 /0078/9754/6842/ の画像が jp.roborock.com/pages/support-roborock-q7 で使われていることを確認＝Roborock日本公式のファイル）
+- Roborock S6 取説：https://cdn.shopify.com/s/files/1/0078/9754/6842/files/manual_S6_2.pdf?v=1715906382
+- Roborock Q10（英語）：https://gl-files.roborock.com/product/center/images/v6930f875d5899.pdf
+- Anker T2108：https://lp.ankerjapan.com/hubfs/aoos/manual/T2108Manual.pdf ／ T2255：https://lp.ankerjapan.com/hubfs/aoos/manual/T2255Manual.pdf
+- エコバックス DEEBOT 900：https://site-static.ecovacs.com/upload/jp/file/support/2022/07/05/010056_9498-DEEBOT900-JA.pdf ／ OZMO 960：https://site-static.ecovacs.com/upload/jp/file/support/2022/07/04/061242_3642-DEEBOTOZMO960-JA.pdf
+- iRobot：https://store.irobot-jp.com/item/Y351060.html ／ https://www.irobot-jp.com/roombacombo/10max/
+- 取得できなかった：iRobot取説PDF（store.irobot-jp.com/client_info/FS/html/Roomba875_885ajm.pdf、roomba680manualajs.pdf はhttp⇔httpsの転送で読めず）、エコバックス DEEBOT mini2 取説PDF（取得失敗）、www.roborock.jp/pages/support（許可待ちで未取得）
+- 次の候補：エコバックスの新しい取説（T30S PRO・T80等、site-static.ecovacs.com）とRoborock Q5/Q5 Pro/Q Revo の日本語取説で「充電時間」と電力が両方載るか確認
+
 注意：
 - シャープの RX-V60・V80・V90 は古い機種で、現行品とは限らない（発売年・販売状況は未確認）。記事では「メーカーが公表している仕様の一例」として扱い、おすすめ機種扱いはしない
 - 「本体を外したとき 約0.6W／0.4W」は**充電台だけ**の値で、本体が台に乗って満充電になった後の電力ではない（その値はどの機種も未確認）
