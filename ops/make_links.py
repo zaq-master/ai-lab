@@ -29,6 +29,7 @@ KEYWORDS = {
     "ceramic-heater": "セラミックヒーター",
     "circulator": "サーキュレーター",
     "hot-carpet": "ホットカーペット",
+    "robot-cleaner": "ロボット掃除機",
     "yutanpo": "湯たんぽ",
     "datsuijo-heater": "脱衣所 ヒーター",
     "window-danetsu-sheet": "窓 断熱シート 貼ってはがせる",
