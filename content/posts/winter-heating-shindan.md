@@ -97,6 +97,6 @@ document.getElementById('go').onclick=function(){
 ## まとめ
 在宅ワークの寒さ対策は「どこが寒いか」「何が不安か」で最初の一手が変わります。迷ったら、まず[電気代計算ツール](denkidai-calculator.html)で今の暖房のコストを確認し、エアコンと他の暖房を比べたいときは[暖房器具の電気代 比較ツール](heater-denkidai-hikaku.html)も使ってみてください。
 
-窓ぎわが冷える・窓が結露する場合は、[窓の結露対策（露点の早見表・賃貸でできる窓断熱）](telework-ketsuro-taisaku-roten.html)で湿度の上限と工事なしの対策を確認できます。
+窓ぎわが冷える・窓が結露する場合は、[窓の結露対策（露点の早見表・賃貸でできる窓断熱）](telework-ketsuro-taisaku-roten.html)で湿度の上限と工事なしの対策を確認できます。加湿器を足す場合の電気代は、[加湿器の電気代（1ヶ月・ひと冬の早見表）](humidifier-electricity-cost-telework.html)で方式別に確認できます。
 
 冬の電気代・寒さ対策の記事とツールは、悩み別に[冬の電気代まとめ](fuyu-denkidai-matome.html)で一覧にしています。
