@@ -73,10 +73,11 @@ W数と時間を入れるだけなら、[家電の電気代計算ツール](denk
 | 小物・硬貨・壊れやすいもの・高価なもの | 片付ける | パナソニック・日立 |
 | 液体・ペットの排泄物 | 片付ける | パナソニック・日立 |
 | 房（フリンジ）付きの敷物・座布団 | 片付ける | パナソニック・日立 |
-| 毛足が約2cmを超えるじゅうたん | 片付ける・使わない | パナソニック・日立 |
-| 薄くて滑りやすいマット（お風呂・台所） | 片付ける | 日立 |
-| 床まで垂れたカーテン | 上げておく | 日立 |
-| 約2cm以上の段差、階段・玄関 | その場所では使わない | パナソニック・日立 |
+| 毛足の長いじゅうたん（約2cm以上〔パナソニック〕／約2cmを超える〔日立〕） | 片付ける・使わない | パナソニック・日立 |
+| 薄い敷物・滑りやすいマット（お風呂マットなど） | 片付ける | パナソニック・日立 |
+| 床まで垂れたカーテン | 上げておく | パナソニック・日立 |
+| 約2cm以上の段差、階段・玄関 | その場所では使わない | パナソニック |
+| 階段・階段に面した床（約2cm以上の段差は乗り越えられない場合あり） | その場所では使わない | 日立 |
 | 充電台のまわり | 壁に沿わせて置き、**前方約100cm・左右約50cm**に物を置かない | パナソニック・日立 |
 
 大掃除の流れに合わせるなら、**「床の物を片付ける → ロボット掃除機 → 手で窓・棚・水まわり」**の順にすると、上の表の「片付ける」が先に済みます。お風呂・トイレなどの水まわりでは使わないよう書かれている機種もあります（パナソニック MC-RS1）。
@@ -99,4 +100,4 @@ W数と時間を入れるだけなら、[家電の電気代計算ツール](denk
 
 冬の暖房・加湿・電気代の記事とツールは、悩み別に[冬の電気代まとめ](fuyu-denkidai-matome.html)で一覧にしています。
 
-出典：[パナソニック MC-RSF600 仕様](https://panasonic.jp/soji/p-db/MC-RSF600_spec.html)／[パナソニック MC-RS1 仕様](https://panasonic.jp/soji/p-db/MC-RS1_spec.html)／[パナソニック MC-RS810 仕様](https://panasonic.jp/soji/products/MC-RS810/spec.html)／[シャープ RX-V60 取扱説明書（PDF）](https://jp.sharp/support/cocorobo/doc/rxv60_mn.pdf)／[シャープ COCOROBO 仕様一覧](https://jp.sharp/support/cocorobo/spec.html)／[アイリスオーヤマ IC-R01-W](https://www.irisohyama.co.jp/products/electrical-appliances/home-appliances/vacuum-cleaner/robot-cleaner/cleaner-robot-r01)／[Roborock Q7 取扱説明書（PDF）](https://cdn.shopify.com/s/files/1/0078/9754/6842/files/manual_Q7_2.pdf?v=1715906383)（すべて2026-11-07確認）／[日立 RV-EX1 取扱説明書（PDF）](https://kadenfan.hitachi.co.jp/support/clean/item/docs/rv-ex1_a.pdf)（2026-11-08確認）
+出典：[パナソニック MC-RSF600 仕様](https://panasonic.jp/soji/p-db/MC-RSF600_spec.html)／[パナソニック MC-RS1 仕様](https://panasonic.jp/soji/p-db/MC-RS1_spec.html)／[パナソニック MC-RS810 仕様](https://panasonic.jp/soji/products/MC-RS810/spec.html)／[シャープ RX-V60 取扱説明書（PDF）](https://jp.sharp/support/cocorobo/doc/rxv60_mn.pdf)／[シャープ COCOROBO 仕様一覧](https://jp.sharp/support/cocorobo/spec.html)／[アイリスオーヤマ IC-R01-W](https://www.irisohyama.co.jp/products/electrical-appliances/home-appliances/vacuum-cleaner/robot-cleaner/cleaner-robot-r01)／[Roborock Q7 取扱説明書（PDF）](https://cdn.shopify.com/s/files/1/0078/9754/6842/files/manual_Q7_2.pdf?v=1715906383)（すべて2026-11-07確認）／[パナソニック MC-RS1 取扱説明書（PDF）](https://panasonic.jp/manualdl/p-db/mc/mc_rs1.pdf)（2026-11-08確認）／[日立 RV-EX1 取扱説明書（PDF）](https://kadenfan.hitachi.co.jp/support/clean/item/docs/rv-ex1_a.pdf)（2026-11-08確認）
