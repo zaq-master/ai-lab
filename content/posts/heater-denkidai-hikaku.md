@@ -32,7 +32,7 @@ function addRow(name){
 var d=document.createElement('div');
 d.className='hk-row';
 d.style.cssText='display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px 0;border-bottom:1px solid #e5e5e5';
-d.innerHTML='<input class="n" type="text" aria-label="暖房器具の名前" placeholder="器具の名前" style="flex:1 1 140px;min-width:0"><label style="white-space:nowrap"><input class="w" type="number" min="0" inputmode="decimal" aria-label="消費電力（W）" placeholder="ラベルの値" style="width:100px"> W</label><label style="white-space:nowrap"><input class="h" type="number" min="0" max="24" step="0.5" inputmode="decimal" aria-label="1日の使用時間" style="width:56px"> 時間/日</label><button type="button" class="x" aria-label="この行を削除">×</button>';
+d.innerHTML='<input class="n" type="text" aria-label="暖房器具の名前" placeholder="器具の名前" style="flex:1 1 140px;min-width:0"><label style="white-space:nowrap"><input class="w" type="number" min="0" inputmode="decimal" aria-label="消費電力（W）" placeholder="ラベルの値" style="width:100px"> W</label><label style="white-space:nowrap"><input class="h" type="number" min="0" max="24" step="any" inputmode="decimal" aria-label="1日の使用時間" style="width:56px"> 時間/日</label><button type="button" class="x" aria-label="この行を削除">×</button>';
 d.querySelector('.n').value=name;
 d.querySelector('.x').onclick=function(){d.remove();calc();};
 box.appendChild(d);
