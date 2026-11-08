@@ -80,5 +80,5 @@ calc();
 
 <div id="tool-prods"></div>
 
-<!-- products: foot-heater -->
+<!-- products: foot-heater,denki-moufu -->
 <!-- products: smart-plug-monitor -->

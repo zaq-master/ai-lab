@@ -69,7 +69,7 @@ category: 季節家電
 
 <div id="pr-osusume"></div>
 
-<!-- products: heated-vest,mobile-battery-10000 -->
+<!-- products: heated-vest,mobile-battery-10000,charger-30w -->
 
 ## 充電1回の電気代はいくら？
 モバイルバッテリーを満充電する電力は、電池容量（37Wh）に充電時のロスが乗った分です。ロスを**多めに見て1.5倍**としても、
