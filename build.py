@@ -65,12 +65,28 @@ def jst_today():
 
 # 期限つき文言の目印 → 表示する最終日（JST）。過ぎたら「目印コメント＋次の1段落」を次のビルドで自動的に出さない
 # （手作業の削除が遅れても、終わったセールの案内が残らないようにする保険。元の .md は消さない）
-EXPIRE = {"marathon-2026-11": "2026-11-11"}
+EXPIRE = {"marathon-2026-11": "2026-11-11T01:59"}  # 公式の終了 11/11(水)01:59（11/8 13時深掘りで楽天公式と照合）
+
+
+def jst_now():
+    return datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).replace(tzinfo=None)
+
+
+def until_passed(last, now=None):
+    """last＝表示する最後の日（YYYY-MM-DD・その日いっぱい）か最後の時刻（YYYY-MM-DDTHH:MM・その分いっぱい）。過ぎたら True"""
+    now = now or jst_now()
+    if isinstance(now, datetime.date) and not isinstance(now, datetime.datetime):
+        now = datetime.datetime.combine(now, datetime.time(23, 59, 59))  # 日付だけ渡されたらその日の終わりで判定（従来どおり）
+    if "T" in last:
+        end = datetime.datetime.fromisoformat(last) + datetime.timedelta(seconds=59)
+    else:
+        end = datetime.datetime.combine(datetime.date.fromisoformat(last), datetime.time(23, 59, 59))
+    return now > end
 
 
 def expired(tag, today=None):
     last = EXPIRE.get(tag)
-    return bool(last) and (today or jst_today()) > datetime.date.fromisoformat(last)
+    return bool(last) and until_passed(last, today)
 
 
 def strip_expired(md, today=None):
@@ -344,11 +360,11 @@ HUB = ("posts/fuyu-denkidai-matome.html", "冬の電気代まとめ",
        "暖房・加湿・エアコン自動化の電気代を、悩み別に記事とツールで整理")
 # 期間限定の特集（4つ目＝表示する最終日 JST。過ぎたら次のビルドで自動的に消える）
 SALE = ("posts/rakuten-marathon-fuyu-kaden-list.html", "楽天お買い物マラソン前の冬家電チェックリスト【PR】",
-        "11/4 20:00〜11/11 01:59。電気代で選ぶ暖房・加湿器など", "2026-11-11")
+        "11/4 20:00〜11/11 01:59。電気代で選ぶ暖房・加湿器など", "2026-11-11T01:59")
 # 4つ目の要素（任意）＝表示する最終日（JST、この日まで先頭に出す。過ぎたら次のビルドで自動的に消える）
 TOOLS = [
     ("posts/rakuten-marathon-point-calculator.html", "楽天お買い物マラソン 買いまわり計算（非公式）",
-     "何店舗で何倍か・あと何店舗かの目安。条件は楽天公式で確認", "2026-11-11"),
+     "何店舗で何倍か・あと何店舗かの目安。条件は楽天公式で確認", "2026-11-11T01:59"),
     ("posts/denkidai-calculator.html", "電気代計算", "W数と時間で1日・1ヶ月・ひと冬の目安"),
     ("posts/aircon-danbou-denkidai-calculator.html", "エアコン暖房の電気代計算", "W数と時間で1時間・1日・1ヶ月・ひと冬の目安"),
     ("posts/heater-denkidai-hikaku.html", "暖房器具の電気代比較", "エアコン・ヒーター・こたつを並べて計算"),
@@ -411,7 +427,7 @@ def app_meta(f):
 
 def hub_block():
     ok = lambda p: (OUT / p).exists()
-    live = lambda t: len(t) < 4 or jst_today() <= datetime.date.fromisoformat(t[3])
+    live = lambda t: len(t) < 4 or not until_passed(t[3])
     tools = "".join(f'<li><a href="{t[0]}"><b>{html.escape(t[1])}</b><span>{html.escape(t[2])}</span></a></li>'
                     for t in TOOLS if ok(t[0]) and live(t))
     hub = (f'<a class="hub-main" href="{HUB[0]}"><span class="badge">特集</span><b>{HUB[1]}</b>'
