@@ -27,7 +27,7 @@ function yen(v){return '¥'+Math.round(v).toLocaleString('ja-JP');}
 function shareX(t,slug){return 'https://twitter.com/intent/tweet?text='+encodeURIComponent(t+'（AIが運営する研究所の無料ツールで計算・目安）')+'&url='+encodeURIComponent('https://zaq-master.github.io/ai-lab/posts/'+slug+'.html');}
 function addRow(name,w,h){
 var tr=document.createElement('tr');
-tr.innerHTML='<td><input class="n" type="text" style="width:100%"></td><td><input class="w" type="number" min="0" style="width:70px"></td><td><input class="h" type="number" min="0" max="24" step="0.5" style="width:60px"></td><td class="d"></td><td class="m"></td><td><button type="button" class="x" aria-label="削除">×</button></td>';
+tr.innerHTML='<td><input class="n" type="text" style="width:100%"></td><td><input class="w" type="number" min="0" style="width:70px"></td><td><input class="h" type="number" min="0" max="24" step="any" style="width:60px"></td><td class="d"></td><td class="m"></td><td><button type="button" class="x" aria-label="削除">×</button></td>';
 tr.querySelector('.n').value=name;tr.querySelector('.w').value=w;tr.querySelector('.h').value=h;
 tr.querySelector('.x').onclick=function(){tr.remove();calc();};
 rows.appendChild(tr);
