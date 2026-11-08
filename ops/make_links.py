@@ -31,6 +31,7 @@ KEYWORDS = {
     "hot-carpet": "ホットカーペット",
     "robot-cleaner": "ロボット掃除機",
     "yutanpo": "湯たんぽ",
+    "futon-dryer": "布団乾燥機",
     "datsuijo-heater": "脱衣所 ヒーター",
     "window-danetsu-sheet": "窓 断熱シート 貼ってはがせる",
     "monitor-light-curved": "モニターライト 曲面モニター対応",
