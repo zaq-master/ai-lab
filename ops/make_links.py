@@ -44,6 +44,7 @@ KEYWORDS = {
     "joshitsuki-desiccant": "除湿機 デシカント",
     "joshitsuki-hybrid": "除湿機 ハイブリッド",
     "foot-warmer": "足温器 フットウォーマー",
+    "denki-kettle": "電気ケトル",
 }
 
 
