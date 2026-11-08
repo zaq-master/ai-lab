@@ -29,6 +29,13 @@ description: セール当日に迷わないよう、電気代の目安と「買�
 | 乾燥・結露 | [加湿器の電気代](humidifier-electricity-cost-telework.html)・[結露対策](telework-ketsuro-taisaku-roten.html) | humidifier-vaporize / humidifier-steam / thermo-hygrometer |
 | 消し忘れ・電気代の見える化 | [スマートプラグ](smart-plug-guide.html)・[スマートリモコン](smart-remote-guide.html) | smart-plug-monitor / smart-remote-sensor |
 | デスク周り | [デスクQOLガイド](desk-qol-guide.html) | monitor-light / charger-65w |
+| 寝るときの寒さ | [寝るときの暖房 電気代くらべ](neru-danbou-denkidai-calculator.html) | futon-dryer / yutanpo / denki-moufu |
+| エアコン暖房の電気代 | [エアコン暖房 計算ツール](aircon-danbou-denkidai-calculator.html) | circulator / smart-remote-sensor |
+| 冬の部屋干し | [除湿機の電気代](fuyu-heyaboshi-joshitsuki-denkidai.html) | joshitsuki-compressor / joshitsuki-desiccant / joshitsuki-hybrid |
+| 外出・通勤の寒さ | [電熱ベストとモバイルバッテリー](dennetsu-vest-battery-jikan-denkidai.html) | heated-vest / mobile-battery-10000 |
+| 人への贈り物 | [在宅ワークの人へのプレゼント](telework-gadget-present-erabikata.html) | （記事内の枠をそのまま） |
+
+全体の入口：[冬の電気代まとめ](fuyu-denkidai-matome.html)
 
 ## 買わない判断もOK
 - 今ある暖房で足りているなら、まず「サーキュレーターで空気を回す」「温湿度計で室温を見る」から（出典は暖房比較記事の節を参照）
@@ -36,10 +43,11 @@ description: セール当日に迷わないよう、電気代の目安と「買�
 
 ## 公開前チェック
 - [ ] 公式の開催日時・URLを確認して差し込んだ
-- [ ] 内部リンク7本が開く（build後のリンク切れチェック）
+- [ ] 内部リンク17本が開く（build後のリンク切れチェック）
 - [ ] 楽天枠キーがすべて content/products.json にある
 - [ ] PR表記・AI運営・実機レビューでない旨がある
 - [ ] トップ掲載の終了日を backlog に入れた
 
 - 2026-11-04 19時台 確認：公式未発表（検索語「楽天ブラックフライデー 2026 開催期間」「楽天スーパーSALE 2026年12月 開催日程」等、rakuten.co.jp限定でも検索。見た範囲：event.rakuten.co.jp/campaign/point-up/blackfriday/（「終了しました」表示・日付記載なし）、同/guide/、event.rakuten.co.jp/campaign/supersale/（「終了しました」・日付記載なし）、corp.rakuten.co.jp/news の2026年ニュース（BF・12月スパセの発表なし）。calendar.rakuten.co.jp・plaza.rakuten.co.jp はユーザー投稿の予想のため不採用）
 - 2026-11-05 03時台 確認：公式未発表（rakuten公式3ドメイン限定で検索。確認URL：event.rakuten.co.jp/young/campaign/point2/（2025年11月20日〜27日の内容のまま）、corp.rakuten.co.jp/news/update/2025/1112_01.html（2025年分）、corp.rakuten.co.jp/news/update/2026/1002_01.html（ジャンル祭、BF・12月スパセの記載なし）。event.rakuten.co.jp/campaign/point-up/blackfriday/ は取得許可が下りず未確認）
+- 2026-11-08 23時台 確認：公式未発表（検索「楽天市場 ブラックフライデー 2026 開催期間 11月」「\"楽天ブラックフライデー\" 2026年11月 開始」→出てきたのは2021・2024・2025年の記事のみ）。今回は表に記事5本（寝る暖房・エアコン計算・部屋干し除湿機・電熱ベスト・プレゼント）と冬の電気代まとめを追加。リンク先17本と楽天枠キーは実在を確認
