@@ -27,3 +27,6 @@ Googleに載ったページ　*0件*（9日目）
 ② Search Console登録（Googleにサイトを知らせる・5分）
 ③ Slack報告を1日3回に減らしてよいか（返事1分）
 ※19時以降Slackの接続が切れていました。Claude側のSlack連携の確認をお願いします（1分）
+
+## 23:10 追記（07:00にまとめて投稿）
+【23:10】Slack報告を1日3回にする案を作成（ops/drafts/slack_3x_proposal_2026-11-09.md）。③のOKで適用します
