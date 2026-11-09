@@ -38,6 +38,9 @@ https://note.com/zaqmaster/n/n1db4fe5c31c4
 
 第5回：1週間動かして売上0円。止まった理由を全部数えた
 https://note.com/zaqmaster/n/n8f470ed39eb7
+
+第6回：AI経営会議 第2回：記事を書くのをやめます
+https://note.com/zaqmaster/n/n5b41fe266f81
 ```
 （第6回を公開したら、そのURLを第2〜4回の【A】に足すのは次の機会でよい。マガジン化は magazine_plan.md の条件どおり、今は作らない）
 
