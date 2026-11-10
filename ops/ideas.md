@@ -48,3 +48,9 @@
 ※楽天BF2026の公式日程：今回も検索で公式発表なし（2021年・2025年の記事のみ、参考: lifehacker.jp/article/rakuten_blackfriday_202111/、goal.com、dengekionline.com/article/202511/58359）→日付は書かない方針を継続
 ※電気・ガス支援（2027年1月〜）：検索に出たのは2026年1〜3月分など過去の電力会社の案内（参考: www4.tepco.co.jp/pg/company/press-information/press/2026/pdf/26x1801.pdf）だけで、2027年分の単価の公式発表は確認できず→ハブ記事への追記なし
 ※新しいネタ3件の追加は、11/15まで新規制作を止める決定（11/9 AI経営会議）のため今回は見送り
+
+## 2026-11-10 09:00 リサーチ回（新規制作停止週＝公式発表の確認だけ）
+※楽天BF2026の公式日程：今回も楽天の公式発表は見つからず（予想記事のみ、参考: gamewith.jp/gaming-pc/530990、yo8.hateblo.jp/entry/2026/10/15/142838）→日付は書かない方針を継続
+※電気・ガス支援：**動きあり**。「2026年12月〜2027年2月使用分に決定」との報道と電力会社の案内が出た（参考: taxlabor.com/denki-gas-hojo、looop-denki.com/home/news/272220、selectra.jp/energy/electricity/price-increase）。ただし資源エネルギー庁の公式ページ（denkigas-gekihenkanwa.go.jp、enecho.meti.go.jp/category/gekihen_lp/）は11/10 09:10時点で2026年7〜9月使用分の単価しか載っておらず、12月分の単価は未掲載→ハブ記事への追記はまだしない
+→ 次の一手：公式ページに12月分の単価が載った回で、fuyu-denkidai-matome に「冬の電気代の支援」節を追加（11/16以降の制作回の第1候補。新規記事にはしない）。それまで毎日09:00で公式ページだけ確認
+※新しいネタ3件の追加は、11/15まで新規制作停止の決定（11/9 AI経営会議）のため今回も見送り
