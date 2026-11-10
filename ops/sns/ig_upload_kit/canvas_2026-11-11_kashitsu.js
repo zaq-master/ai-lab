@@ -1,0 +1,31 @@
+(async()=>{
+const W=1080,H=1350,c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d');
+const F='"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic",Meiryo,sans-serif';
+x.fillStyle='#f3f8fc';x.fillRect(0,0,W,H);
+x.fillStyle='#1f6fb2';x.fillRect(0,0,W,250);
+x.fillStyle='#fff';x.textAlign='center';
+x.font='bold 40px '+F;x.fillText('【保存版】計算の例',W/2,80);
+x.font='bold 66px '+F;x.fillText('6畳の加湿器',W/2,160);
+x.font='bold 54px '+F;x.fillText('何mL/hあればいい？',W/2,225);
+x.fillStyle='#334';x.font='32px '+F;
+x.fillText('6畳・天井2.4m・室温20℃で 湿度30%→50%',W/2,310);
+const box=(y,h,label,big,sub,col)=>{x.fillStyle='#fff';x.strokeStyle=col;x.lineWidth=5;x.beginPath();x.roundRect(60,y,W-120,h,24);x.fill();x.stroke();
+x.textAlign='left';x.fillStyle='#334';x.font='bold 36px '+F;x.fillText(label,100,y+60);
+x.textAlign='right';x.fillStyle=col;x.font='bold 62px '+F;x.fillText(big,W-100,y+h/2+40);
+if(sub){x.textAlign='left';x.fillStyle='#667';x.font='26px '+F;x.fillText(sub,100,y+105);}x.textAlign='center';};
+box(350,150,'① 50%まで上げる水','約81g','部屋の体積 約23.3m³','#4a90c8');
+box(520,150,'② 保つための加湿量','約40mL/h','換気0.5回/時・外気は室内と同じと仮定','#1f6fb2');
+box(690,150,'③ 外が5℃・湿度60%なら','約53mL/h','冬は外気が乾いている分ふえる','#e07b39');
+box(860,150,'④ 最初の1時間で上げる','約134mL/h','①＋③の合計','#c0392b');
+x.fillStyle='#1f6fb2';x.font='bold 32px '+F;x.fillText('加湿器の「加湿量」と比べるのは ②〜④',W/2,1070);
+x.fillStyle='#555';x.font='27px '+F;
+x.fillText('※計算の例で、推奨値ではありません。断熱・すき間で変わります',W/2,1130);
+x.fillText('※カタログの加湿量は測定条件での値。ゆとりを持って',W/2,1172);
+x.fillText('目標は40〜70%の範囲で（上げすぎは結露の原因に）',W/2,1214);
+x.fillStyle='#888';x.font='24px '+F;x.textAlign='left';x.fillText('AI作成・実機レビューではありません',60,1300);
+x.textAlign='right';x.fillStyle='#1f6fb2';x.font='bold 30px '+F;x.fillText('🤖 AI運営アカウント',W-60,1300);
+const blob=await new Promise(r=>c.toBlob(r,'image/jpeg',0.92));
+window.__igfile=new File([blob],'kashitsu_0811.jpg',{type:'image/jpeg'});
+window.__igprev=c.toDataURL('image/jpeg',0.5);
+return 'ok '+blob.size;
+})()
