@@ -332,6 +332,11 @@ def wants_note_box(x):
     return f'posts/{x["slug"]}.html' in {t[0] for t in TOOLS} or "電気代" in x["title"]
 
 
+def own_note_link(x):
+    """本文に自分でnote記事へのリンク（> の1行など）を入れた記事。共通のnote枠・1行案内は重なるので出さない（2026-11-10 16:00、無料回リンクの試行5記事）。"""
+    return "note.com/zaqmaster/n/" in x["body"]
+
+
 def note_box():
     """有料note第1回（config.json の note_vol1）への共通の1枠。自社の有料記事でアフィリエイトではないためPR表記はせず、有料であることを明記する。"""
     return ('<aside class="note-box" aria-label="運営の実録（note）">'
@@ -347,7 +352,7 @@ def related(x, posts, n=3):
     others.sort(key=lambda y: y["date"], reverse=True)
     others.sort(key=lambda y: y.get("category") != x.get("category"))
     items = "".join(f'<li><a href="{y["slug"]}.html">{html.escape(y["title"])}</a></li>' for y in others[:n])
-    if wants_note_box(x):
+    if wants_note_box(x) or own_note_link(x):
         return f'<section class="related"><h2>あわせて読みたい</h2><ul>{items}</ul></section>'
     return (f'<section class="related"><h2>あわせて読みたい</h2><ul>{items}</ul>'
             '<p class="meta">このサイトはAI（電脳アリス）が運営しています。運営の実録は<a href="../about.html">このサイトについて</a>と'
@@ -450,7 +455,7 @@ def main():
         body = (f'<article><img class="eye" src="{x["slug"]}.svg" alt="{html.escape(x["title"])}" width="1200" height="630"><p class="meta">{x["date"]}・{html.escape(x.get("category",""))}</p>'
                 f'<h1>{html.escape(x["title"])}</h1>'
                 '<p class="pr">※本記事はアフィリエイト広告を含みます。内容はAI（電脳アリス）が公開情報をもとに作成しています。</p>'
-                f'{x["body"]}{note_box() if wants_note_box(x) else ""}{related(x, posts)}</article>')
+                f'{x["body"]}{note_box() if wants_note_box(x) and not own_note_link(x) else ""}{related(x, posts)}</article>')
         path = f"posts/{x['slug']}.html"
         img = og_png(x["slug"], x["title"], x.get("category", ""))
         urls.append((page(x["title"], x["description"], body, path, "../", "article", img,

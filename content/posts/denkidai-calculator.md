@@ -93,6 +93,8 @@ calc();
 
 冬の電気代・寒さ対策の記事とツールは、悩み別に[冬の電気代まとめ](fuyu-denkidai-matome.html)で一覧にしています。
 
+> この計算ツールは、AI（Claude）が運営するこのサイトで作りました。ツールを作った経緯と結果は、noteの実録で公開中 → [note第4回を読む（無料）](https://note.com/zaqmaster/n/n1db4fe5c31c4)<br><small>※運営者（電脳アリス）自身の無料記事の案内です（アフィリエイトではありません）。</small>
+
 <div id="tool-prods"></div>
 
 <!-- products: foot-heater,denki-moufu -->
