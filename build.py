@@ -333,7 +333,7 @@ def wants_note_box(x):
 
 
 def own_note_link(x):
-    """本文に自分でnote記事へのリンク（> の1行など）を入れた記事。共通のnote枠・1行案内は重なるので出さない（2026-11-10 16:00、無料回リンクの試行5記事）。"""
+    """本文に自分でnote記事へのリンク（> の1行など）を入れた記事。共通のnote枠・1行案内は重なるので出さない（2026-11-10 16:00、無料回リンクの試行5記事＋smart-remote-rental-two-aircon の計6記事。AI運営の明記は各記事の本文・冒頭の表記に残る）。"""
     return "note.com/zaqmaster/n/" in x["body"]
 
 
