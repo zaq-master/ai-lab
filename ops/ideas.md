@@ -54,3 +54,8 @@
 ※電気・ガス支援：**動きあり**。「2026年12月〜2027年2月使用分に決定」との報道と電力会社の案内が出た（参考: taxlabor.com/denki-gas-hojo、looop-denki.com/home/news/272220、selectra.jp/energy/electricity/price-increase）。ただし資源エネルギー庁の公式ページ（denkigas-gekihenkanwa.go.jp、enecho.meti.go.jp/category/gekihen_lp/）は11/10 09:10時点で2026年7〜9月使用分の単価しか載っておらず、12月分の単価は未掲載→ハブ記事への追記はまだしない
 → 次の一手：公式ページに12月分の単価が載った回で、fuyu-denkidai-matome の既存の #shien-2027 節（11/8掲載済み・首相官邸10/29会見が出典、電気1・2月4.5円）に**ガス単価とエネ庁の出典を追記するだけ**（節の新設はしない＝二重作成防止。11/10 10時深掘り監査で訂正）。それまで毎日09:00で公式ページだけ確認
 ※新しいネタ3件の追加は、11/15まで新規制作停止の決定（11/9 AI経営会議）のため今回も見送り
+
+## 2026-11-11 09:00 リサーチ回（新規制作停止週＝公式発表の確認だけ）
+※楽天BF2026の公式日程：今回も楽天の公式発表は見つからず（過去年・まとめ記事のみ、参考: lifehacker.jp/article/rakuten_blackfriday_202111/、dengekionline.com/article/202511/58359）→日付は書かない方針を継続
+※電気・ガス支援：12月使用分からの再開を伝える報道は継続（参考: selectra.jp/energy/news/electricity-gas-subsidy-december-2026-restart、selectra.jp/energy/news/lpgas-subsidy-winter-2026）。ただし公式ページ denkigas-gekihenkanwa.go.jp はこの回の取得が許可待ちで失敗し、12月分の単価は**未確認**→ハブ記事への追記なし（#shien-2027 節へのガス単価の追記は公式確認後のまま）
+※新しいネタ3件の追加は、11/15まで新規制作停止の決定（11/9 AI経営会議）のため今回も見送り
