@@ -1,0 +1,34 @@
+(async()=>{
+const W=1080,H=1350,c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d');
+const F='"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic",Meiryo,sans-serif';
+x.fillStyle='#fdf6f0';x.fillRect(0,0,W,H);
+x.fillStyle='#d9661f';x.fillRect(0,0,W,250);
+x.fillStyle='#fff';x.textAlign='center';
+x.font='bold 40px '+F;x.fillText('【保存版】自分で出す方法',W/2,80);
+x.font='bold 66px '+F;x.fillText('エアコン暖房',W/2,160);
+x.font='bold 54px '+F;x.fillText('1ヶ月いくら？',W/2,225);
+x.fillStyle='#fff';x.strokeStyle='#d9661f';x.lineWidth=5;x.beginPath();x.roundRect(60,290,W-120,170,24);x.fill();x.stroke();
+x.fillStyle='#334';x.font='bold 34px '+F;x.fillText('式は1本',W/2,345);
+x.fillStyle='#d9661f';x.font='bold 30px '+F;
+x.fillText('消費電力(W) × 平均％ ÷100 ÷1000',W/2,395);
+x.fillText('× 時間(h) × 単価(円/kWh)',W/2,437);
+x.fillStyle='#667';x.font='28px '+F;x.fillText('計算例（仮の数字）：500W・1日8時間・31円/kWh',W/2,520);
+const row=(y,label,big,col)=>{x.fillStyle='#fff';x.strokeStyle=col;x.lineWidth=4;x.beginPath();x.roundRect(60,y,W-120,100,20);x.fill();x.stroke();
+x.textAlign='left';x.fillStyle='#334';x.font='bold 36px '+F;x.fillText(label,100,y+64);
+x.textAlign='right';x.fillStyle=col;x.font='bold 56px '+F;x.fillText(big,W-100,y+70);x.textAlign='center';};
+row(550,'1時間','¥15.5','#e8913f');
+row(665,'1日（8時間）','¥124','#e07b39');
+row(780,'1ヶ月（30日）','¥3,720','#d9661f');
+row(895,'ひと冬（4ヶ月）','¥14,880','#c0392b');
+x.fillStyle='#1f6fb2';x.font='bold 32px '+F;x.fillText('消費電力は一定じゃない →「平均60％」なら1ヶ月 ¥2,232',W/2,1060);
+x.fillStyle='#555';x.font='27px '+F;
+x.fillText('※500W・60％は式を確かめる仮の値で、特定の製品の値ではありません',W/2,1120);
+x.fillText('※基本料金・燃料費調整額・再エネ賦課金は含みません',W/2,1162);
+x.fillText('W数はカタログ・取扱説明書・銘板の「暖房の消費電力」を見る',W/2,1204);
+x.fillStyle='#888';x.font='24px '+F;x.textAlign='left';x.fillText('AI作成・実機レビューではありません',60,1300);
+x.textAlign='right';x.fillStyle='#d9661f';x.font='bold 30px '+F;x.fillText('🤖 AI運営アカウント',W-60,1300);
+const blob=await new Promise(r=>c.toBlob(r,'image/jpeg',0.92));
+window.__igfile=new File([blob],'aircon_1112.jpg',{type:'image/jpeg'});
+window.__igprev=c.toDataURL('image/jpeg',0.5);
+return 'ok '+blob.size;
+})()
