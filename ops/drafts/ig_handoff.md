@@ -6,7 +6,7 @@
 ## 置き場所（push後に公開。検索非表示・サイトマップ外）
 - 一覧：https://zaq-master.github.io/ai-lab/sns/ig/
 - 中身（上から投稿。IGは1日1件まで）
-  1. マラソン早見 5枚（期限 11/10 08:00）：https://zaq-master.github.io/ai-lab/sns/ig/2026-11-05_marathon/
+  1. ~~マラソン早見 5枚（期限 11/10 08:00）~~ 期限切れ・投稿しない（11/11 13時監査）：https://zaq-master.github.io/ai-lab/sns/ig/2026-11-05_marathon/
   2. スマートリモコン 1枚（11/7予定）：https://zaq-master.github.io/ai-lab/sns/ig/2026-11-04_smart-remote/
   3. 加湿器 5枚：https://zaq-master.github.io/ai-lab/sns/ig/2026-11-05_kashitsu/
   4. 暖房の電気代 5枚：https://zaq-master.github.io/ai-lab/sns/ig/2026-11-06_heater/
