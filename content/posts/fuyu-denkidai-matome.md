@@ -80,9 +80,6 @@ category: 季節家電
 
 お買い物マラソンで何店舗買うと何倍になるかは、[楽天お買い物マラソン 買いまわりポイント計算ツール](rakuten-marathon-point-calculator.html)で目安を出せます。
 
-<!-- marathon-2026-11（11/12に削除） -->
-マラソン期間（2026年11月回）に冬家電をまとめ買いするなら、[お買い物マラソン前の「電気代で選ぶ」チェックリスト](rakuten-marathon-fuyu-kaden-list.html)もどうぞ。
-
 冬家電の候補は、楽天市場の検索結果から選べます。
 
 <!-- products: kotatsu-hitori,denki-moufu,humidifier-vaporize,humidifier-steam,thermo-hygrometer -->

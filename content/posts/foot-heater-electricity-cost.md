@@ -92,8 +92,5 @@ category: 在宅ワーク
 
 <div id="pr-osusume"></div>
 
-<!-- marathon-2026-11（11/12に削除） -->
-まとめ買いするなら、[マラソン前の冬家電チェックリスト](rakuten-marathon-fuyu-kaden-list.html)で買う物を絞り、お買い物マラソンで何店舗買うと何倍になるかを[買いまわりポイント計算ツール（非公式）](rakuten-marathon-point-calculator.html)で先に確かめておくと安心です（2026年11月回のポイントアップ期間は11/4 20:00〜11/11 01:59。開催中の回の条件は楽天公式で確認してください）。
-
 <!-- products: foot-heater -->
 <!-- products: smart-plug-monitor -->
