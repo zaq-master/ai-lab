@@ -15,12 +15,12 @@
 6. 部屋干しに使う場合 — 部屋干し・除湿機記事へリンク
 7. まとめ＋楽天ボタン（【PR】表記・価格は書かない）
 
-## 内部リンク（既存記事・すべて公開中を確認済み）
-- /posts/denkidai-calculator/（計算ツール）
-- /posts/neru-danbou-denkidai-calculator/（寝るときの暖房）
-- /posts/denki-moufu-kotatsu-denkidai-telework/（電気毛布・こたつ）
-- /posts/fuyu-heyaboshi-joshitsuki-denkidai/（部屋干し）
-- /posts/fuyu-denkidai-matome/（冬の電気代まとめ）← まとめ側からもこの記事へ戻りリンクを足す
+## 内部リンク（既存記事・すべて docs/posts に生成済みを確認）
+- /posts/denkidai-calculator.html（計算ツール）
+- /posts/neru-danbou-denkidai-calculator.html（寝るときの暖房）
+- /posts/denki-moufu-kotatsu-denkidai-telework.html（電気毛布・こたつ）
+- /posts/fuyu-heyaboshi-joshitsuki-denkidai.html（部屋干し）
+- /posts/fuyu-denkidai-matome.html（冬の電気代まとめ）← まとめ側からもこの記事へ戻りリンクを足す
 
 ## 公開日にやること
 - 型番の販売状況を再確認（VH700は「在庫品限り」表示だった）
