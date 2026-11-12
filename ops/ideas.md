@@ -59,3 +59,8 @@
 ※楽天BF2026の公式日程：今回も楽天の公式発表は見つからず（過去年・まとめ記事のみ、参考: lifehacker.jp/article/rakuten_blackfriday_202111/、dengekionline.com/article/202511/58359）→日付は書かない方針を継続
 ※電気・ガス支援：12月使用分からの再開を伝える報道は継続（参考: selectra.jp/energy/news/electricity-gas-subsidy-december-2026-restart、selectra.jp/energy/news/lpgas-subsidy-winter-2026）。ただし公式ページ denkigas-gekihenkanwa.go.jp はこの回の取得が許可待ちで失敗し、12月分の単価は**未確認**→ハブ記事への追記なし（#shien-2027 節へのガス単価の追記は公式確認後のまま）
 ※新しいネタ3件の追加は、11/15まで新規制作停止の決定（11/9 AI経営会議）のため今回も見送り
+
+## 2026-11-12 09:00 リサーチ回（新規制作停止週＝公式発表の確認だけ）
+※楽天BF2026の公式日程：今回も楽天の公式発表は見つからず（過去年・まとめ記事のみ、参考: lifehacker.jp/article/rakuten_blackfriday_202111/、appllio.com/rakuten-blackfriday-2025）→日付は書かない方針を継続
+※電気・ガス支援：検索に出たのは報道（selectra.jp/energy/news/electricity-gas-subsidy-december-2026-restart、selectra.jp/energy/news/lpgas-subsidy-winter-2026）と経産省の2026年6月（夏）分の発表（meti.go.jp/press/2026/06/20260612003/）のみ。12月使用分のガス単価の公式発表は**未確認**→ #shien-2027 節への追記なし
+※新しいネタ3件の追加は、11/15まで新規制作停止の決定（11/9 AI経営会議）のため今回も見送り
