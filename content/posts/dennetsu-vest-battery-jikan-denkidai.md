@@ -98,3 +98,5 @@ category: 季節家電
 在宅ワーク中の寒さ対策全体を比べたいときは、[暖房器具の電気代比較](heater-denkidai-hikaku.html)もどうぞ。
 
 肩からはおるUSB給電の「着る毛布（電気ブランケット）」や電気毛布・こたつの電気代は、[電気毛布・着る毛布・こたつの電気代の記事](denki-moufu-kotatsu-denkidai-telework.html)にW数別の早見表があります。
+
+冬の暖房・加湿・電気代の記事とツールは、悩み別に[冬の電気代まとめ](fuyu-denkidai-matome.html)で一覧にしています。
