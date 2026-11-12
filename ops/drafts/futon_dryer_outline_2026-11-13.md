@@ -26,3 +26,4 @@
 - 型番の販売状況を再確認（VH700は「在庫品限り」表示だった）
 - ops/make_links.py の KEYWORDS には `futon-dryer` が登録済み（34行目）→追加不要。記事に枠を置いて build → push
 - 内部リンクは他の記事と同じく相対（`denkidai-calculator.html` の形）で書く。`/posts/` で始めると `/ai-lab/` の外に飛ぶ
+- 単価は既存の全記事と同じ **31円/kWh**（content/posts 内50か所すべて31円/kWh・他の単価0件を 11/13 04:08 に確認）。試算8件も再計算して一致
