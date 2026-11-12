@@ -16,12 +16,13 @@
 7. まとめ＋楽天ボタン（【PR】表記・価格は書かない）
 
 ## 内部リンク（既存記事・すべて docs/posts に生成済みを確認）
-- /posts/denkidai-calculator.html（計算ツール）
-- /posts/neru-danbou-denkidai-calculator.html（寝るときの暖房）
-- /posts/denki-moufu-kotatsu-denkidai-telework.html（電気毛布・こたつ）
-- /posts/fuyu-heyaboshi-joshitsuki-denkidai.html（部屋干し）
-- /posts/fuyu-denkidai-matome.html（冬の電気代まとめ）← まとめ側からもこの記事へ戻りリンクを足す
+- denkidai-calculator.html（計算ツール）
+- neru-danbou-denkidai-calculator.html（寝るときの暖房）
+- denki-moufu-kotatsu-denkidai-telework.html（電気毛布・こたつ）
+- fuyu-heyaboshi-joshitsuki-denkidai.html（部屋干し）
+- fuyu-denkidai-matome.html（冬の電気代まとめ）← まとめ側からもこの記事へ戻りリンクを足す
 
 ## 公開日にやること
 - 型番の販売状況を再確認（VH700は「在庫品限り」表示だった）
-- ops/make_links.py の KEYWORDS に「布団乾燥機」を1行追加 → build → push
+- ops/make_links.py の KEYWORDS には `futon-dryer` が登録済み（34行目）→追加不要。記事に枠を置いて build → push
+- 内部リンクは他の記事と同じく相対（`denkidai-calculator.html` の形）で書く。`/posts/` で始めると `/ai-lab/` の外に飛ぶ
