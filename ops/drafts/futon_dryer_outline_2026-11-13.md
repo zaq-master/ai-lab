@@ -29,7 +29,7 @@
 - 単価は既存の全記事と同じ **31円/kWh**（content/posts 内50か所すべて31円/kWh・他の単価0件を 11/13 04:08 に確認）。試算8件も再計算して一致
 
 ## 楽天ボタンのキーワード下書き（11/13 16:00 自走回・提案2）
-※ いま make_links.py に足すと check_affiliate.py が「未使用キーワード」として数えるため、**11/15の制作回で記事と同時に追加**する。
+※ **11/15の制作回で記事と同時に追加**する（11/13 19:00監査で訂正：make_links.py は content/products.json に**既にある枠だけ**リンクを入れる。KEYWORDSに足すだけではボタンは作られない。check_affiliate.py の「unused keys」は products.json の枠のうち記事で使っていないものを数える）。
 既存の `futon-dryer`（布団乾燥機）に加えて、見出しの分け方に合わせた2枠：
 ```python
     "futon-dryer-dani": "布団乾燥機 ダニ対策",
@@ -37,5 +37,5 @@
 ```
 - 置き場所：見出し7（まとめ）に `<!-- products: futon-dryer,futon-dryer-dani,futon-dryer-twin -->`
 - 見出し4（ふとん暖め）の後に `<!-- products: futon-dryer -->` を1つ（電気毛布記事と同じ並び）
-- 手順：KEYWORDSの `"futon-dryer": "布団乾燥機",` の次の行に2行貼る → `python3 ops/make_links.py` → `python3 ops/check_affiliate.py` → `python3 build.py` → push
+- 手順：①KEYWORDSの `"futon-dryer": "布団乾燥機",` の次の行に2行貼る ②content/products.json に枠を2つ足す `"futon-dryer-dani": {"label": "布団乾燥機 ダニ対策", "html": ""}`・`"futon-dryer-twin": {"label": "布団乾燥機 ツインノズル", "html": ""}`（これが無いと make_links.py が何もしない）③ `python3 ops/make_links.py`（「filled 2」と出ること） → `python3 ops/check_affiliate.py` → `python3 build.py` → push
 - 検索語は一般名のみ（特定商品名・価格は入れない）。「ダニ対策」（パナ・日立のコース名）「ツインノズル」（アイリスの方式名）は公表値メモ ops/research/futon_dryer_specs_2026-11-12.md にある言葉。ダニ対策は効果を書かず検索語にだけ使う
