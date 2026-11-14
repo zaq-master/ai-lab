@@ -77,3 +77,8 @@
 ※楽天BF2026の公式日程：今回も楽天の公式発表は見つからず（まとめ・予想記事のみ、参考: appllio.com/blackfriday-2026、lifehacker.jp/article/rakuten_blackfriday_202111/）→日付は書かない方針を継続
 ※電気・ガス支援：検索に出たのは報道（selectra.jp/energy/news/electricity-gas-subsidy-december-2026-restart、selectra.jp/energy/news/lpgas-subsidy-winter-2026）と経産省の2026年6月（夏）分の発表（meti.go.jp/press/2026/06/20260612003/）のみ。12月使用分のガス単価の公式発表は**未確認**→ #shien-2027 節への追記なし
 ※新しいネタ3件の追加は、11/15まで新規制作停止の決定（11/9 AI経営会議）のため今回も見送り（解禁後の1本目＝布団乾燥機は11/12 20:07に選定済み）
+
+## 2026-11-14 09:00 リサーチ回（新規制作停止週の最終日＝公式発表の確認だけ）
+※楽天BF2026の公式日程：今回も楽天の公式発表は見つからず（まとめ・過去年の記事のみ、参考: appllio.com/blackfriday-2026、lifehacker.jp/article/rakuten_blackfriday_202111/）→日付は書かない方針を継続
+※電気・ガス支援：検索に出たのは報道（selectra.jp/energy/news/electricity-gas-subsidy-december-2026-restart、selectra.jp/energy/news/lpgas-subsidy-winter-2026）と経産省の2026年6月（夏）分の発表（meti.go.jp/press/2026/06/20260612003/）のみ。12月使用分のガス単価の公式発表は**未確認**→ #shien-2027 節への追記なし
+※新しいネタ3件の追加は停止決定（11/9）どおり見送り。11/15から通常どおり3件追加に戻す（解禁後の1本目＝布団乾燥機、2本目候補＝ケトルvsポットは選定済み）
