@@ -12,6 +12,7 @@ description: 21:00の日報回で数字を集めて ops/metrics.csv に記録し
 
 ## 記録
 ops/metrics.csv に1行追記（列：date,posts_site,posts_note,posts_x,posts_ig,followers_x,followers_ig,followers_note,sales_jpy,sales_total_jpy）
+  - 列の意味（2026-11-15決定）：posts_site＝サイト記事の**累計**本数／posts_note・posts_x・posts_ig＝**その日に投稿した件数**（PC回なしの日は0。前日の値を据え置かない）
   - 2026-11-06〜 後ろに15列追加（site_index_seen〜measured_at、意味は ops/strategy/judge_2026-11-16_v2.md 3節）。**空欄＝未計測、0＝測って0**。PC回の値は当日の ops/drafts/YYYY-MM-DD.md の「数字」欄から写す。stripe_charges は日報回が毎日入れる
 
 ## 分析（3行で）
