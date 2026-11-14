@@ -53,3 +53,8 @@
    `寝る前に温める道具として布団乾燥機を使う場合の電気代は[布団乾燥機の電気代](futon-kansouki-denkidai.html)で計算しています。`
 - 予備：fuyu-heyaboshi-joshitsuki-denkidai.md「冬の部屋干しで電気代をムダにしないコツ」末尾（見出し6「部屋干しに使う場合」を書いた時だけ）。書かなければ足さない
 - 足した後：build → `python3 ops/tests/mobile_check.py` → 生成HTMLで `grep -c futon-kansouki-denkidai.html docs/posts/*.html` が4本（新記事のまとめ戻り含め）以上あるか確認
+
+## 公開手順の最終確認（2026-11-14 22:06 翌日準備回）
+- 差し込み先は実ファイルで全部見つかった：neru-danbou 113行目の節・127行目「実機で試した記録ではなく…」／fuyu-denkidai-matome 57行目「寝るときの暖房の電気代を比べたい」行／denki-moufu 106行目の節・120行目「寝る前に布団を温めておき…」
+- make_links.py 34行目 `futon-dryer` あり・content/products.json に `futon-dryer` 枠あり（dani・twin は未追加＝公開日に足す）・ops/tests/mobile_check.py と ops/check_affiliate.py あり
+- content/posts/futon-kansouki-denkidai.md はまだ無い（会議決定どおり 11/16 の判定後に作る）。行番号は記事を足すとずれるので、当日は見出しの文字で探す
