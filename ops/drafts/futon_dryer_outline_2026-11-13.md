@@ -40,3 +40,16 @@
 - 見出し4（ふとん暖め）の後に `<!-- products: futon-dryer -->` を1つ（電気毛布記事と同じ並び）
 - 手順：①KEYWORDSの `"futon-dryer": "布団乾燥機",` の次の行に2行貼る ②content/products.json に枠を2つ足す `"futon-dryer-dani": {"label": "布団乾燥機 ダニ対策", "html": ""}`・`"futon-dryer-twin": {"label": "布団乾燥機 ツインノズル", "html": ""}`（これが無いと make_links.py が何もしない）③ `python3 ops/make_links.py`（「filled 2」と出ること） → `python3 ops/check_affiliate.py` → `python3 build.py` → push
 - 検索語は一般名のみ（特定商品名・価格は入れない）。「ダニ対策」（パナ・日立のコース名）「ツインノズル」（アイリスの方式名）は公表値メモ ops/research/futon_dryer_specs_2026-11-12.md にある言葉。ダニ対策は効果を書かず検索語にだけ使う
+
+## 内部リンク元（既存記事 → 新記事へのリンク）※11/14 15:00 SEO改善回で決定。公開日に足すだけ
+新記事のファイル名案：`content/posts/futon-kansouki-denkidai.md`（→ `futon-kansouki-denkidai.html`。既存の `*-denkidai` に合わせた）
+優先順に3本＋予備1本。どれも「布団乾燥機」で検索してきた人が次に読みたい流れの位置：
+1. **neru-danbou-denkidai-calculator.md** 「## 寝る前に布団を温める「布団乾燥機」の電気代」節（113行目〜）の箇条書き最後（「実機で試した記録ではなく…」の次）に1行：
+   `- 機種ごと（パナソニック・日立・アイリス）の公表値で1回・毎日の電気代を出した表は[布団乾燥機の電気代は1回いくら？](futon-kansouki-denkidai.html)にまとめています`
+2. **fuyu-denkidai-matome.md** 「悩み別・どの記事を読めばいい？」表の「寝るときの暖房の電気代を比べたい」行の直後に1行：
+   `| 寝る前に布団を温めたい（布団乾燥機） | [布団乾燥機の電気代（機種別・1回あたり）](futon-kansouki-denkidai.html) |`
+   ※構成案どおり、新記事のまとめからもこの記事へ戻りリンク
+3. **denki-moufu-kotatsu-denkidai-telework.md** 「## 電気毛布をつけっぱなしで寝たら一晩いくら？」節の箇条書き2つ目（「寝る前に布団を温めておき…」）の文末に追記：
+   `寝る前に温める道具として布団乾燥機を使う場合の電気代は[布団乾燥機の電気代](futon-kansouki-denkidai.html)で計算しています。`
+- 予備：fuyu-heyaboshi-joshitsuki-denkidai.md「冬の部屋干しで電気代をムダにしないコツ」末尾（見出し6「部屋干しに使う場合」を書いた時だけ）。書かなければ足さない
+- 足した後：build → `python3 ops/tests/mobile_check.py` → 生成HTMLで `grep -c futon-kansouki-denkidai.html docs/posts/*.html` が4本（新記事のまとめ戻り含め）以上あるか確認
