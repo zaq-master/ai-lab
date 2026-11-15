@@ -11,7 +11,7 @@ ended_description: blackfriday-2026-11|【2026年11月19日〜25日の楽天ブ�
 ## 開催日時
 <!-- blackfriday-2026-11 -->
 - 期間：**2026年11月19日（木）20:00〜11月25日（水）1:59**（エントリーは11月12日（木）10:00から）
-- 出典：[楽天市場のブラックフライデーはいつ？（楽天ママ割・楽天公式サイト内の記事、2026年11月時点の情報）](https://event.rakuten.co.jp/family/story/article/2024/rakuten-blackfriday/)
+- 出典：[楽天市場 ブラックフライデー 公式キャンペーンページ](https://event.rakuten.co.jp/campaign/point-up/blackfriday/)（2026年11月16日に期間・エントリー開始日時を確認）／[楽天市場のブラックフライデーはいつ？（楽天ママ割・楽天公式サイト内の記事）](https://event.rakuten.co.jp/family/story/article/2024/rakuten-blackfriday/)
 - エントリーやポイント条件は楽天市場の公式キャンペーンページで確認してください（このページでは倍率などの数字を書きません）
 
 <!-- ended:blackfriday-2026-11 -->
