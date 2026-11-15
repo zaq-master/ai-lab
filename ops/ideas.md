@@ -82,3 +82,12 @@
 ※楽天BF2026の公式日程：今回も楽天の公式発表は見つからず（まとめ・過去年の記事のみ、参考: appllio.com/blackfriday-2026、lifehacker.jp/article/rakuten_blackfriday_202111/）→日付は書かない方針を継続
 ※電気・ガス支援：検索に出たのは報道（selectra.jp/energy/news/electricity-gas-subsidy-december-2026-restart、selectra.jp/energy/news/lpgas-subsidy-winter-2026）と経産省の2026年6月（夏）分の発表（meti.go.jp/press/2026/06/20260612003/）のみ。12月使用分のガス単価の公式発表は**未確認**→ #shien-2027 節への追記なし
 ※新しいネタ3件の追加は停止決定（11/9）どおり見送り。11/15から通常どおり3件追加に戻す（解禁後の1本目＝布団乾燥機、2本目候補＝ケトルvsポットは選定済み）
+
+## 2026-11-15 09:00 リサーチ回（停止週明け＝3件追加を再開）
+※サイト内を検索：「帰省」0本・「電動ブラシ」0本・「値上げ」0本・「大掃除」「留守」は各1本（ついで程度）
+※楽天BF2026の公式日程：今回も楽天の公式発表は見つからず（まとめ・過去年の記事のみ、参考: appllio.com/blackfriday-2026）→日付は書かない方針を継続
+※電気・ガス支援：報道に「12月再開」と「2027年1月から再開」の2系統が出てきた（selectra.jp/energy/news/electricity-gas-subsidy-december-2026-restart／…-restart-january-2027）。食い違いがあるため公式確認まで #shien-2027 節は触らない
+1. **「年末年始 帰省 留守中 暖房・家電の切り忘れ スマートプラグ／スマートリモコン」**（季節・12月中旬〜1月上旬、新規記事候補）— 外出先からエアコン・電気毛布等の電源状態を確認する方法の比較（アプリでオン/オフ・タイマー・電力モニター）。電熱器具をスマートプラグで遠隔オンすることはメーカーが非推奨の場合があるため「取扱説明書で確認、遠隔オンは避けてオフ確認に使う」を明記。既存枠 smart-plug-monitor・smart-plug-basic・smart-remote-std を流用（make_links 追加不要）。smart-plug-guide・smart-remote-guide から内部リンク
+2. **「12月 電気代 値上がり 在宅ワーク 対策」**（時事・ハブ強化）— 報道で東京ガス・大阪ガスの電気の12月料金改定の記事あり（selectra.jp/energy/news/tokyogas-electricity-price-increase-december-2026、…/osakagas-…）。**各社の公式発表を確認できた回だけ**、新規にせず fuyu-denkidai-matome に「12月から何が変わる？」節を追加し、denkidai-calculator で自分の単価に入れ替える導線。未確認の金額・日付は書かない
+3. **「大掃除 電動ブラシ・コードレス掃除機 どれを使う 充電・電気代」**（季節・12月）— 電動回転ブラシ／ハンディ掃除機／窓用ワイパーの用途別の選び方と、充電1回あたり電気代の計算式（バッテリー容量Wh×31円/kWh、メーカー公表値のみ）。洗浄力の比較は書かない（実機なし）。商品枠を新設（denki-brush「電動 お掃除ブラシ」）→ make_links.py の KEYWORDS に追加が必要。robot-cleaner-denkidai から内部リンク。参考: panasonic.jp/life/housework/100062.html、rentio.jp/matome/housecleaning/
+→ 優先：今日11:00は選定済みの布団乾燥機。次の候補は①（12月上旬公開が目安）＞③＞②（②は公式確認待ち）
