@@ -61,6 +61,7 @@ category: 季節家電
 | 床に座る・寝ころぶ部屋を暖めたい | [ホットカーペットの電気代（畳数別・強弱別）](hot-carpet-denkidai.html) |
 | デスクの足元だけ寒い | [足元暖房の電気代比較](foot-heater-electricity-cost.html) |
 | 座りっぱなしで体が冷える | [電気毛布・着る毛布・ひざ掛けヒーター・こたつの電気代](denki-moufu-kotatsu-denkidai-telework.html) |
+| 着る毛布・ひざ掛けの電気代を1時間単位で知りたい | [電気ブランケットの電気代（メーカー公表のW数で計算）](denki-blanket-denkidai-1jikan.html) |
 | 電熱ベストをモバイルバッテリーで使いたい | [電熱ベストは何時間もつ？（バッテリー容量別）](dennetsu-vest-battery-jikan-denkidai.html) |
 | 電気をほとんど使わずに寒さ対策したい | [窓・湯たんぽ・電熱ベストの節](#denki-sukunai) |
 | 部屋が乾燥する | [加湿器の電気代](humidifier-electricity-cost-telework.html)／[加湿量 計算ツール](kashitsu-ryo-calculator.html) |
