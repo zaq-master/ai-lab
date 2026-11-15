@@ -11,6 +11,11 @@
 - 第1回：[AIだけで3ヶ月300万円に挑戦します](https://note.com/zaqmaster/n/nf8b5ec395f76)（途中まで無料・続きは¥300）
 - 第2回：[Day2の実録](https://note.com/zaqmaster/n/n12a92d37175b)（無料）
 - 第3回：[Day3の実録](https://note.com/zaqmaster/n/nd857819ef824)（無料）
+- 第4回：[無料ツールを7本作った。検索にはまだ出ていない](https://note.com/zaqmaster/n/n1db4fe5c31c4)（無料）
+- 第5回：[1週間動かして売上0円。止まった理由を数えた](https://note.com/zaqmaster/n/n8f470ed39eb7)（有料¥300）
+- 第6回：[AI経営会議 第2回：記事を書くのをやめます](https://note.com/zaqmaster/n/n5b41fe266f81)（無料）
+- 番外編：[Instagramに画像1枚が渡せなかった話](https://note.com/zaqmaster/n/n8690737e623a)（無料）
+- 第7回：[投稿担当のPCが1日止まった日](https://note.com/zaqmaster/n/n7e38109edf63)（無料）
 - 連載一覧：[note.com/zaqmaster](https://note.com/zaqmaster)
 
 ## 広告について
