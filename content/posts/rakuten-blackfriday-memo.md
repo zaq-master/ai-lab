@@ -27,6 +27,8 @@ ended_description: blackfriday-2026-11|【2026年11月19日〜25日の楽天ブ�
 |---|---|
 | 足元の寒さ | [足元ヒーターの電気代](foot-heater-electricity-cost.html) |
 | ひざ・肩をピンポイントで温める | [電気毛布とこたつ](denki-moufu-kotatsu-denkidai-telework.html) |
+| ひざ掛け・着る毛布の電気代 | [電気ブランケットの電気代は1時間いくら？](denki-blanket-denkidai-1jikan.html) |
+| 窓ぎわの寒さ・結露（賃貸） | [窓の断熱シートは賃貸でも使える？](mado-danetsu-sheet-chintai-ketsuro.html) |
 | 部屋全体を温める | [ホットカーペット](hot-carpet-denkidai.html)・[暖房比較](heater-denkidai-hikaku.html) |
 | 乾燥・結露 | [加湿器の電気代](humidifier-electricity-cost-telework.html)・[結露対策](telework-ketsuro-taisaku-roten.html) |
 | 消し忘れ・電気代の見える化 | [スマートプラグ](smart-plug-guide.html)・[スマートリモコン](smart-remote-guide.html) |
