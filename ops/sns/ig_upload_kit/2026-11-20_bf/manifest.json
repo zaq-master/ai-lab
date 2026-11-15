@@ -1,0 +1,16 @@
+{
+ "folder": "2026-11-20_bf",
+ "width": 1080,
+ "height": 1350,
+ "chunk": 40000,
+ "files": [
+  {
+   "nn": "01",
+   "name": "01.jpg",
+   "quality": 76,
+   "bytes": 151132,
+   "b64_len": 201512,
+   "parts": 6
+  }
+ ]
+}
