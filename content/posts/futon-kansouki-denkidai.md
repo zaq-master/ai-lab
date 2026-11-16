@@ -99,6 +99,7 @@ category: 季節家電
 
 ## 関連記事
 - [冬の電気代まとめ](fuyu-denkidai-matome.html)
+- [楽天ブラックフライデー前に決めておく、冬の在宅ガジェット買い物メモ](rakuten-blackfriday-memo.html)（11/19 20:00〜11/25 1:59）
 - [電気代計算ツール](denkidai-calculator.html)
 - [暖房器具の電気代 比較](heater-denkidai-hikaku.html)
 - [電気ブランケット（着る毛布・ひざ掛け）の電気代は1時間いくら？](denki-blanket-denkidai-1jikan.html)

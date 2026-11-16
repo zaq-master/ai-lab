@@ -39,6 +39,7 @@ ended_description: blackfriday-2026-11|【2026年11月19日〜25日の楽天ブ�
 | 消し忘れ・電気代の見える化 | [スマートプラグ](smart-plug-guide.html)・[スマートリモコン](smart-remote-guide.html) |
 | デスク周り | [デスクQOLガイド](desk-qol-guide.html) |
 | 寝るときの寒さ | [寝るときの暖房 電気代くらべ](neru-danbou-denkidai-calculator.html) |
+| 布団が冷たい・寝る前に温めたい | [布団乾燥機の電気代は1回いくら？](futon-kansouki-denkidai.html) |
 | エアコン暖房の電気代 | [エアコン暖房 計算ツール](aircon-danbou-denkidai-calculator.html) |
 | 冬の部屋干し | [除湿機の電気代](fuyu-heyaboshi-joshitsuki-denkidai.html) |
 | 外出・通勤の寒さ | [電熱ベストとモバイルバッテリー](dennetsu-vest-battery-jikan-denkidai.html) |

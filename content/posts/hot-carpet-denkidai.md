@@ -102,6 +102,8 @@ category: 季節家電
 - 計算は「**標準消費電力量（Wh）÷1000×時間×31円**」。定格消費電力（W）で計算すると高めに出る
 - 安くするコツは「**必要な面だけ**」「**中以下**」「**断熱シート・タイマー**」
 
+11/19（木）20:00〜11/25（水）1:59 の楽天ブラックフライデーで冬の家電をまとめて検討するなら、何にいくらまで使うかを先に決める[ブラックフライデーの買い物メモ](rakuten-blackfriday-memo.html)もどうぞ。
+
 冬の暖房・加湿・電気代の記事とツールは、悩み別に[冬の電気代まとめ](fuyu-denkidai-matome.html)で一覧にしています。
 
 出典：[パナソニック 電気カーペット・暖房器具 比較表](https://panasonic.jp/danbo/comparison.html)／[パナソニック DC-2NK 仕様](https://panasonic.jp/danbo/products/DC-2NK/spec.html)／[パナソニック DC-3NK 仕様](https://panasonic.jp/danbo/products/DC-3NK/spec.html)／[パナソニック「ホットカーペットの電気代はいくら？」](https://panasonic.jp/life/housework/100166.html)
