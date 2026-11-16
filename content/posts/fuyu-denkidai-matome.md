@@ -58,6 +58,7 @@ category: 季節家電
 | エアコン暖房の電気代を知りたい | [エアコン暖房の電気代 計算ツール](aircon-danbou-denkidai-calculator.html) |
 | 暖房器具どうしを比べたい | [暖房器具の電気代 比較ツール](heater-denkidai-hikaku.html) |
 | 寝るときの暖房の電気代を比べたい | [寝るときの暖房 一晩の電気代くらべ](neru-danbou-denkidai-calculator.html) |
+| 寝る前に布団を温めたい・布団を乾かしたい | [布団乾燥機の電気代（あたため・乾燥・ダニ対策モード別）](futon-kansouki-denkidai.html) |
 | 床に座る・寝ころぶ部屋を暖めたい | [ホットカーペットの電気代（畳数別・強弱別）](hot-carpet-denkidai.html) |
 | デスクの足元だけ寒い | [足元暖房の電気代比較](foot-heater-electricity-cost.html) |
 | 座りっぱなしで体が冷える | [電気毛布・着る毛布・ひざ掛けヒーター・こたつの電気代](denki-moufu-kotatsu-denkidai-telework.html) |

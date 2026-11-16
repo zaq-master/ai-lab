@@ -66,6 +66,7 @@ category: 季節家電
 - 部屋干しの部屋で加湿器も動かすと、除湿と加湿を同時にしてしまい電気代のムダになりやすい。**部屋干しの間は加湿器を止める・弱める**のが無難です
 - 窓の結露が増えたときは、湿度の上げすぎか窓の冷えかを[結露対策の露点早見表](telework-ketsuro-taisaku-roten.html)で見分けられます
 - 乾燥対策の電気代は[加湿器の電気代（方式別の計算式と早見表）](humidifier-electricity-cost-telework.html)で整理しています
+- 洗濯物ではなく布団を乾かしたいときは、[布団乾燥機の電気代（あたため・乾燥・ダニ対策モード別）](futon-kansouki-denkidai.html)にメーカー公表のW数で出した1回あたりの目安をまとめています
 
 <!-- products: thermo-hygrometer -->
 
