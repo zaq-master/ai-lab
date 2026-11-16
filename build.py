@@ -68,8 +68,21 @@ def jst_today():
 EXPIRE = {"marathon-2026-11": "2026-11-11T01:59", "blackfriday-2026-11": "2026-11-25T01:59"}  # 公式の終了 11/11(水)01:59（11/8 13時深掘りで楽天公式と照合）／BF 11/25(水)01:59（11/16 03時監査で公式キャンペーンページと照合）
 
 
+# 開始時刻（JST）。<!-- started:TAG --> の段落と front matter の started_* を「開始〜EXPIRE の期限」の間だけ使う（開催中の表示）
+STARTS = {"blackfriday-2026-11": "2026-11-19T20:00"}  # 楽天BF公式の開始 11/19(木)20:00
+
+
 def jst_now():
     return datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).replace(tzinfo=None)
+
+
+def ongoing(tag, now=None):
+    """開始時刻を過ぎていて、期限（EXPIRE）はまだ過ぎていなければ True（＝開催中）"""
+    first = STARTS.get(tag)
+    now = now or jst_now()
+    if isinstance(now, datetime.date) and not isinstance(now, datetime.datetime):
+        now = datetime.datetime.combine(now, datetime.time(23, 59, 59))
+    return bool(first) and now >= datetime.datetime.fromisoformat(first) and not expired(tag, now)
 
 
 def until_passed(last, now=None):
@@ -92,9 +105,12 @@ def expired(tag, today=None):
 def strip_expired(md, today=None):
     """期限つき文言の出し分け。
     ・<!-- TAG ... -->＋次の段落 … 期限内だけ出す（過ぎたら消す）
-    ・<!-- ended:TAG -->＋次の段落 … 期限が過ぎてから出す（「今回のセールは終了」の案内など。期限内は消す）"""
+    ・<!-- ended:TAG -->＋次の段落 … 期限が過ぎてから出す（「今回のセールは終了」の案内など。期限内は消す）
+    ・<!-- started:TAG -->＋次の段落 … 開催中（STARTS の開始〜期限）だけ出す（「開催中です」の1行など）"""
     for tag in EXPIRE:
         gone = expired(tag, today)
+        started = r"<!--\s*started:" + re.escape(tag) + r"[^>]*-->\n((?:.+\n?)*)\n*"
+        md = re.sub(started, (lambda m: m.group(1) + "\n") if ongoing(tag, today) else "", md)
         ended = r"<!--\s*ended:" + re.escape(tag) + r"[^>]*-->\n((?:.+\n?)*)\n*"
         md = re.sub(ended, (lambda m: m.group(1) + "\n") if gone else "", md)
         if gone:
@@ -103,12 +119,15 @@ def strip_expired(md, today=None):
 
 
 def ended_description(meta, today=None):
-    """front matter の ended_description: TAG|文 … 期限が過ぎたら description（一覧カード・検索結果の説明）を差し替える。"""
-    v = meta.get("ended_description", "")
-    if "|" in v:
-        tag, text = v.split("|", 1)
-        if expired(tag.strip(), today):
-            meta["description"] = text.strip()
+    """front matter の ended_description: TAG|文 … 期限が過ぎたら description（一覧カード・検索結果の説明）を差し替える。
+    同じ形で ended_title（期限後のタイトル）、started_description／started_title（開催中だけ）も使える。URL（slug）は変わらない。"""
+    for key in ("title", "description"):
+        for phase, hit in (("started", ongoing), ("ended", expired)):
+            v = meta.get(f"{phase}_{key}", "")
+            if "|" in v:
+                tag, text = v.split("|", 1)
+                if hit(tag.strip(), today):
+                    meta[key] = text.strip()
     return meta
 
 
@@ -368,6 +387,9 @@ HUB = ("posts/fuyu-denkidai-matome.html", "冬の電気代まとめ",
 # 期間限定の特集（4つ目＝表示する最終日 JST。過ぎたら次のビルドで自動的に消える）
 SALE = ("posts/rakuten-blackfriday-memo.html", "楽天ブラックフライデー前の冬ガジェット買い物メモ【PR】",
         "11/19 20:00〜11/25 01:59。電気代で選ぶ暖房・加湿器など", "2026-11-25T01:59")
+# 開催中（STARTS の開始〜SALE の最終時刻）だけ SALE の見出し・説明をこちらに差し替える（タグ, 見出し, 説明）
+SALE_ON = ("blackfriday-2026-11", "楽天ブラックフライデー開催中：冬ガジェット買い物メモ【PR】",
+           "開催中です（11/25 01:59まで）。電気代で選ぶ暖房・加湿器など")
 # 前回：マラソン（posts/rakuten-marathon-fuyu-kaden-list.html、〜2026-11-11T01:59）
 # 4つ目の要素（任意）＝表示する最終日（JST、この日まで先頭に出す。過ぎたら次のビルドで自動的に消える）
 TOOLS = [
@@ -441,8 +463,9 @@ def hub_block():
     hub = (f'<a class="hub-main" href="{HUB[0]}"><span class="badge">特集</span><b>{HUB[1]}</b>'
            f'<span>{HUB[2]} →</span></a>') if ok(HUB[0]) else ""
     if ok(SALE[0]) and live(SALE):
-        hub = (f'<a class="hub-main" href="{SALE[0]}"><span class="badge">期間限定</span><b>{html.escape(SALE[1])}</b>'
-               f'<span>{html.escape(SALE[2])} →</span></a><div style="height:10px"></div>') + hub
+        head, sub = SALE_ON[1:3] if ongoing(SALE_ON[0]) else SALE[1:3]
+        hub = (f'<a class="hub-main" href="{SALE[0]}"><span class="badge">期間限定</span><b>{html.escape(head)}</b>'
+               f'<span>{html.escape(sub)} →</span></a><div style="height:10px"></div>') + hub
     if not (hub or tools):
         return ""
     return (f'<section class="hub" aria-label="特集と無料ツール">{hub}'

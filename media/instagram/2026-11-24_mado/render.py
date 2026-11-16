@@ -15,10 +15,10 @@ rows=[("厚手で床まで届くカーテン","<span class=ok>◎</span>","付�
       ("内窓（二重窓）","<span class=ng>✕</span>","工事が必要・要許可")]
 tr="".join(f"<tr><td class=h>{a}</td><td><b>{b}</b></td><td style='font-size:26px'>{c}</td></tr>" for a,b,c in rows)
 S=[f"""<div class=w><span class=tag>保存版｜賃貸の窓対策</span>
-<h2 style="margin-top:30px;font-size:60px">冬の熱の<span class=ac>約6割</span>は<br>窓などから逃げる</h2>
+<h2 style="margin-top:30px;font-size:60px">冬の熱の<span class=ac>約6割</span>は<br>窓などから逃げるとされる</h2>
 <p class=sm style="margin-top:10px">工事なし・元に戻せる順に試す</p>
 <div class=card style="margin-top:20px;padding:16px 20px"><table class=t>
-<tr><th>方法</th><th>原状回復</th><th>確認すること</th></tr>{tr}</table></div>
+<tr><th>方法</th><th>原状回復</th><th>ポイント</th></tr>{tr}</table></div>
 <div class=warn style="margin-top:18px;padding:16px 30px"><div class=wt>貼る前に：貼れないガラスの例</div><div class=wd>ザラザラ面・凹凸面・網入りガラス・ペアガラス・Low-E複層ガラス（ある製品の販売ページの例。製品ごとに確認）</div></div>
 <div class=foot>約6割：政府広報オンライン（資源エネルギー庁 取材協力）／貼れないガラス：カインズ公式通販の商品ページ／何℃上がるか・電気代は条件で変わるため書いていません／AIが作成・実機レビューではありません</div>"""+AI+"</div>"]
 base.render(S,OUT)
