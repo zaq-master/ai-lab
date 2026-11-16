@@ -97,5 +97,5 @@
 ※電気・ガス支援：新しく出たのは報道（selectra.jp/money/news/kounetsuhi-fuyu-20261106）と電力会社のお知らせ（www4.tepco.co.jp/ep/notice/pressrelease/2026/pdf/26x1601.pdf＝年初分）のみ。経産省の冬分の公式発表は**未確認**→ #shien-2027 節は触らない
 1. **「脱衣所ヒーター 電気代 1回の入浴で何円？（ヒートショック対策）」**（季節・12〜2月、新規記事候補）— 既存枠 datsuijo-heater あり・記事0本。計算式＝消費電力（メーカー公表値）×使用時間×31円/kWh、10分・20分・30分の表。健康面は自治体の注意喚起（参考: city.kobe.lg.jp/a00685/kenko/health/shippei/heatshock.html）を引用するだけで、医療的な断定はしない。heater-denkidai-hikaku・fuyu-denkidai-matome から内部リンク
 2. **「寒い日にスマホの電池が急に減る？ 冬の充電とモバイルバッテリーの使い方」**（季節・12〜2月）— メーカーの動作温度（Appleの公式サポートページで確認できた数値だけ書く。参考の報道: itmedia.co.jp/mobile/articles/2401/17/news125.html）。電池が減る仕組みの断定は避け「メーカーが案内している範囲」に限定。既存枠 mobile-battery-10000・charger-30w 流用（make_links追加不要）。mobile-battery-jikan-calculator から内部リンク
-3. **「電気ケトルvs電気ポット 在宅の1日で電気代はどっち？」**（通年・11/12選定の2本目候補を具体化）— 1回沸かす電力量と保温の待機電力はメーカー公表値のみ（まとめ記事の数字は使わない。参考: macaro-ni.jp/54235 は構成の参考止まり）。枠 denki-kettle あり、電気ポット枠は新設が必要（"denki-pot": "電気ポット"）。denkidai-calculator への導線
+3. ✅（2026-11-16 記事化：denki-kettle-vs-pot-denkidai）**「電気ケトルvs電気ポット 在宅の1日で電気代はどっち？」**（通年・11/12選定の2本目候補を具体化）— 1回沸かす電力量と保温の待機電力はメーカー公表値のみ（まとめ記事の数字は使わない。参考: macaro-ni.jp/54235 は構成の参考止まり）。枠 denki-kettle あり、電気ポット枠は新設が必要（"denki-pot": "電気ポット"）。denkidai-calculator への導線
 → 優先（週2本まで＝決定2）：今週の2本目は③ケトルvsポット＞①脱衣所ヒーター（12月上旬）＞②スマホ冬（12月中旬）。11/15の①留守中スマートプラグは12月上旬に①と並べて検討

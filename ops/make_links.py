@@ -45,6 +45,7 @@ KEYWORDS = {
     "joshitsuki-hybrid": "除湿機 ハイブリッド",
     "foot-warmer": "足温器 フットウォーマー",
     "denki-kettle": "電気ケトル",
+    "denki-pot": "電気ポット",
     "usb-blanket-pd": "電気ブランケット USB PD対応",
     "sukima-tape-mado": "すきまテープ 窓 サッシ",
     "danetsu-curtain": "断熱カーテン 遮熱",
