@@ -144,7 +144,9 @@ def parse(p):
     meta = dict(l.split(":", 1) for l in m.group(1).splitlines() if ":" in l)
     meta = {k.strip(): v.strip() for k, v in meta.items()}
     meta = ended_description(meta)
-    body = markdown.markdown(strip_expired(m.group(2)), extensions=["tables", "toc"])
+    # <!-- draft-template ... --> は追記用の型（編集者向けメモ）。公開HTMLには一切出さない（2026-11-16 BF更新メモ用に追加）
+    src = re.sub(r"<!--\s*draft-template\b.*?-->\n?", "", m.group(2), flags=re.S)
+    body = markdown.markdown(strip_expired(src), extensions=["tables", "toc"])
     body = re.sub(r"<td((?:\s(?![^>]*\bclass=)[^>]*)?)>(.*?)</td>", short_cell, body, flags=re.S)
     body = re.sub(r"<!--\s*sheet-cta\s*-->", sheet_cta, body)
     meta["body"] = re.sub(r"<!--\s*products:\s*(.*?)\s*-->", product_box, body)

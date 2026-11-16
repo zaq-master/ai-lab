@@ -1,0 +1,16 @@
+{
+ "folder": "2026-11-25_heyaboshi",
+ "width": 1080,
+ "height": 1350,
+ "chunk": 40000,
+ "files": [
+  {
+   "nn": "01",
+   "name": "01.jpg",
+   "quality": 80,
+   "bytes": 151979,
+   "b64_len": 202640,
+   "parts": 6
+  }
+ ]
+}
