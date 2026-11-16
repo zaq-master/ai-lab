@@ -84,6 +84,10 @@ category: 季節家電
 - 一晩の暖房を並べて比べたいときは[寝るときの暖房 一晩の電気代くらべ（計算ツール）](neru-danbou-denkidai-calculator.html)へ
 - 電気毛布のW数別の目安は[電気毛布・こたつの電気代](denki-moufu-kotatsu-denkidai-telework.html)、洗濯物の乾燥は[冬の部屋干し 除湿機の電気代](fuyu-heyaboshi-joshitsuki-denkidai.html)にまとめています
 
+寝ている間も温めたい人向けに、電気毛布と湯たんぽの売り場も置いておきます（実機レビューではありません）。
+
+<!-- products: denki-moufu, yutanpo -->
+
 ## 注意点
 - 運転中の消費電力は一定ではありません。表は「表示W×時間」の概算です
 - 取扱説明書の使い方（ふとんの種類・設置のしかた）を守ってください
