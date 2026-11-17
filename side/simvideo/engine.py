@@ -51,13 +51,33 @@ class Scene:
         self.min_dur = min_dur
 
 
-def tts(s, speed=1.08):
+def tts(s, speed=1.0):
     x, sr = pyopenjtalk.tts(s, speed=speed)
     return x.astype(np.float32), sr
 
 
-def subtitle(img, s):
-    """画面下に字幕（2行まで自動改行）。"""
+def sentences(s):
+    out, cur = [], ""
+    for ch in s:
+        cur += ch
+        if ch in "。？！":
+            out.append(cur)
+            cur = ""
+    if cur:
+        out.append(cur)
+    return out
+
+
+def subtitle(img, s, progress=0.0):
+    """画面下に字幕。声の進み具合（0〜1）に合わせて、1文ずつ切り替えて出す。"""
+    parts = sentences(s)
+    total = sum(len(x) for x in parts)
+    acc = 0
+    for x in parts:
+        acc += len(x)
+        if acc / total >= progress:
+            s = x
+            break
     d = ImageDraw.Draw(img)
     size, maxw = 46, W - 240
     lines, cur = [], ""
@@ -85,7 +105,8 @@ def render(scenes, out_path, footer="AIがシミュレーションして制作")
             x, sr = tts(sc.narration)
         else:
             x = np.zeros(0, np.float32)
-        dur = max(len(x) / sr + sc.pad, sc.min_dur)
+        sc.voice = len(x) / sr
+        dur = max(sc.voice + sc.pad, sc.min_dur)
         n = int(round(dur * sr))
         buf = np.zeros(n, np.float32)
         buf[: len(x)] = x
@@ -115,7 +136,7 @@ def render(scenes, out_path, footer="AIがシミュレーションして制作")
             d = ImageDraw.Draw(img)
             text(d, (W - 40, 30), footer, 26, SUB, anchor="ra")
             if sc.narration:
-                subtitle(img, sc.narration)
+                subtitle(img, sc.narration, (f / FPS) / max(0.1, sc.voice))
             p.stdin.write(img.tobytes())
     p.stdin.close()
     p.wait()
