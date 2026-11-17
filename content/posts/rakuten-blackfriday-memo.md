@@ -33,13 +33,13 @@ ended_description: blackfriday-2026-11|【2026年11月19日〜25日の楽天ブ�
 ### 1. 何に困っているか（寒さの場所）
 - 決めること：足元・ひざ・部屋全体・寝るとき・窓ぎわのどれが一番つらいか
 - 確かめるページ：[冬の寒さ対策診断（5問）](winter-heating-shindan.html)で、どこから手を付けるかの目安を出す
-- 結果が「足元」なら[足元ヒーターの電気代](foot-heater-electricity-cost.html)、「窓ぎわ」なら[窓の断熱シート（賃貸）](mado-danetsu-sheet-chintai-ketsuro.html)へ
+- 足元が一番つらいなら[足元ヒーターの電気代](foot-heater-electricity-cost.html)、窓ぎわが冷えるなら[窓の断熱シート（賃貸）](mado-danetsu-sheet-chintai-ketsuro.html)へ（診断の結果は「足元暖房・エアコン自動化・電気代の見える化」の3タイプで、窓の対策は診断には入っていません）
 
 ### 2. 電気代をいくらまでにするか
 - 決めること：買う候補の**消費電力（W）**と、1日に使う時間
 - 確かめるページ：[電気代計算ツール](denkidai-calculator.html)にW数と時間を入れて、1ヶ月・ひと冬の目安を出す
 - エアコンと比べたいときは[エアコン暖房 計算ツール](aircon-danbou-denkidai-calculator.html)、暖房器具どうしを並べるなら[暖房器具の電気代 比較](heater-denkidai-hikaku.html)
-- エアコンを買い足す前に、今のエアコンで足りるかは[サーキュレーター併用の電気代](circulator-danbou-denkidai.html)も参考に
+- 今のエアコンにサーキュレーターを足す場合の電気代と置き方は[サーキュレーター併用の電気代](circulator-danbou-denkidai.html)で確かめる
 
 ### 3. 寝るときの暖房をどうするか
 - 決めること：一晩つけっぱなしにする物を1つに絞る
