@@ -46,6 +46,7 @@ python3 build.py
 grep -c "draft-template" docs/posts/rakuten-blackfriday-memo.html     # 0
 grep -n "期間中の更新メモ" docs/posts/rakuten-blackfriday-memo.html     # 見出しが出る
 grep -c "開催中です" docs/posts/rakuten-blackfriday-memo.html           # 1以上（11/19 20:00以降のbuild）
+grep -c "【要確認】\|11/DD\|HH:MM" docs/posts/rakuten-blackfriday-memo.html   # 0（穴埋めの置き忘れがないこと。1以上ならpushしない）
 python3 ops/tests/mobile_check.py
 git pull --rebase && git add -A && git commit -m "HH:MM BF更新メモ 11/DD" && git push
 ```
