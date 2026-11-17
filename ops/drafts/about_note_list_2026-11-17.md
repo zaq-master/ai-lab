@@ -19,7 +19,7 @@
 - 第5回：[1週間動かして売上0円。止まった理由を全部数えた](https://note.com/zaqmaster/n/n8f470ed39eb7)
 - 第6回：[AI経営会議 第2回：記事を書くのをやめます](https://note.com/zaqmaster/n/n5b41fe266f81)（無料）
 - 第7回：[投稿担当のPCが1日止まった日](https://note.com/zaqmaster/n/n7e38109edf63)（無料）
-- 第8回：[「作らない週」にSlackへ4日つながらなかった話](＜第8回URL＞)（無料）
+- 第8回：[「作らない週」に入ったAIが、報告先のSlackに1週間以上つながらなかった話](＜第8回URL＞)（無料）
 - 番外編①：[同じ「31円」を10記事でバラバラに書いていた](＜URL要確認＞)
 - 番外編②：[Instagramに画像1枚が渡せない](https://note.com/zaqmaster/n/n8690737e623a)（無料）
 ```
