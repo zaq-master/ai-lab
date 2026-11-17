@@ -27,6 +27,37 @@ ended_description: blackfriday-2026-11|【2026年11月19日〜25日の楽天ブ�
 2. 暖房家電は**消費電力（W）**を見て、電気代を計算してから決める → [電気代計算ツール](denkidai-calculator.html)・[暖房器具の電気代 比較](heater-denkidai-hikaku.html)
 3. 買いまわりをするなら、ショップ数と上限を先に計算 → [楽天マラソン買いまわり計算（非公式）](rakuten-marathon-point-calculator.html)（※ブラックフライデーの条件はマラソンと違う場合あり。公式を確認）
 
+## セール前に決めておくこと（何を決める→どのページで確かめる）
+セールが始まると、価格や在庫を見ながら急いで決めがちです。次の5つは、始まる前に決めておくと迷いが減ります。
+
+### 1. 何に困っているか（寒さの場所）
+- 決めること：足元・ひざ・部屋全体・寝るとき・窓ぎわのどれが一番つらいか
+- 確かめるページ：[冬の寒さ対策診断（5問）](winter-heating-shindan.html)で、どこから手を付けるかの目安を出す
+- 結果が「足元」なら[足元ヒーターの電気代](foot-heater-electricity-cost.html)、「窓ぎわ」なら[窓の断熱シート（賃貸）](mado-danetsu-sheet-chintai-ketsuro.html)へ
+
+### 2. 電気代をいくらまでにするか
+- 決めること：買う候補の**消費電力（W）**と、1日に使う時間
+- 確かめるページ：[電気代計算ツール](denkidai-calculator.html)にW数と時間を入れて、1ヶ月・ひと冬の目安を出す
+- エアコンと比べたいときは[エアコン暖房 計算ツール](aircon-danbou-denkidai-calculator.html)、暖房器具どうしを並べるなら[暖房器具の電気代 比較](heater-denkidai-hikaku.html)
+- エアコンを買い足す前に、今のエアコンで足りるかは[サーキュレーター併用の電気代](circulator-danbou-denkidai.html)も参考に
+
+### 3. 寝るときの暖房をどうするか
+- 決めること：一晩つけっぱなしにする物を1つに絞る
+- 確かめるページ：[寝るときの暖房 一晩の電気代くらべ](neru-danbou-denkidai-calculator.html)で、電気毛布・エアコンなどを同じ条件で比べる
+- 布団を先に温めたいなら[布団乾燥機の電気代](futon-kansouki-denkidai.html)、毛布タイプなら[電気毛布とこたつ](denki-moufu-kotatsu-denkidai-telework.html)・[電気ブランケットの電気代](denki-blanket-denkidai-1jikan.html)
+
+### 4. 乾燥・お湯まわりも一緒に買うか
+- 決めること：加湿器が必要か、必要ならどのくらいの加湿量か
+- 確かめるページ：[部屋の加湿量 計算ツール](kashitsu-ryo-calculator.html)で目安を出してから、[加湿器の電気代](humidifier-electricity-cost-telework.html)で方式ごとの電気代を見る
+- 在宅でお湯をよく使うなら[電気ケトルと電気ポット、電気代はどっち？](denki-kettle-vs-pot-denkidai.html)で使い方に合う方を先に決める
+
+### 5. 自動化・消し忘れ対策をするか
+- 決めること：スマートリモコンを何台にするか、スマートプラグで消し忘れを防ぐか
+- 確かめるページ：[スマートリモコン何台いる？診断](smart-remote-count-shindan.html)、エアコン2台の賃貸なら[賃貸でエアコン2台をスマホ操作](smart-remote-rental-two-aircon.html)
+- 朝の寒さが一番つらいなら[冬の朝のエアコン予約](fuyu-asa-aircon-timer-smart-remote.html)、消し忘れや使用量の確認なら[スマートプラグ](smart-plug-guide.html)
+
+決めた内容は、スマホのメモに「候補・W数・1ヶ月の電気代の目安」の3つだけ書いておくと、セール中に比べやすくなります。前回のお買い物マラソン向けの[冬家電チェックリスト](rakuten-marathon-fuyu-kaden-list.html)も、同じ考え方で使えます（マラソンの日程・条件は終了済みの回のものです）。
+
 ## 用途別：買う前に読む記事
 | 用途 | 先に読む記事 |
 |---|---|
