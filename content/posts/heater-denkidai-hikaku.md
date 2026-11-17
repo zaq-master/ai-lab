@@ -147,6 +147,7 @@ calc();
 - 足元暖房の種類ごとの考え方と早見表 → [在宅ワークの足元暖房、電気代はいくら？](foot-heater-electricity-cost.html)
 - 電力を見える化するなら → [スマートプラグの選び方](smart-plug-guide.html)
 - 暖房中に窓が結露するなら → [窓の結露対策（露点の早見表・賃貸でできる窓断熱）](telework-ketsuro-taisaku-roten.html)
+- 窓ぎわが寒いなら → [窓の断熱シートは賃貸でも使える？（貼れないガラスと選び方表）](mado-danetsu-sheet-chintai-ketsuro.html)
 
 <!-- blackfriday-2026-11（11/25 01:59まで表示・過ぎたらbuildで消える） -->
 11/19（木）20:00〜11/25（水）1:59 の楽天ブラックフライデーで冬の家電をまとめて検討するなら、何にいくらまで使うかを先に決める[ブラックフライデーの買い物メモ](rakuten-blackfriday-memo.html)もどうぞ。
