@@ -1,0 +1,6 @@
+node_modules/
+renders/
+.hyperframes/
+snapshots/
+assets/mix.wav
+__pycache__/

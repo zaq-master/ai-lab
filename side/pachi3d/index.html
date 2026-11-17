@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="assets/lib/gsap.min.js"></script>
+    <script src="assets/data.js"></script>
+    <script type="importmap">
+      { "imports": { "three": "./assets/lib/three.module.js", "three/addons/": "./assets/lib/addons/" } }
+    </script>
+    <style>
+      @font-face { font-family: "Rounded"; src: url("assets/fonts/MPLUSRounded1c-Bold.ttf"); font-weight: 700; }
+      @font-face { font-family: "Rounded"; src: url("assets/fonts/MPLUSRounded1c-ExtraBold.ttf"); font-weight: 800; }
+      @font-face { font-family: "Rounded"; src: url("assets/fonts/MPLUSRounded1c-Medium.ttf"); font-weight: 500; }
+      :root { --ink: #f4f1ea; --sub: #a9b4d6; --gold: #ffc940; --red: #ff6b57; --blue: #5fa8ff; --violet: #b18cff; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: #060914; font-family: "Rounded", sans-serif; }
+      #root { width: 100%; height: 100%; position: relative; }
+      #gl { position: absolute; inset: 0; width: 1920px; height: 1080px; }
+      #ui { position: absolute; inset: 0; pointer-events: none; }
+      #chapter { position: absolute; left: 70px; top: 54px; padding: 10px 26px; border-radius: 30px; font-size: 32px; font-weight: 800;
+        color: #fff; background: linear-gradient(90deg, #4c5cff, #9a5cff); box-shadow: 0 0 30px rgba(120, 100, 255, .6); }
+      #panel { position: absolute; left: 80px; top: 150px; width: 1180px; }
+      .glass { background: rgba(14, 20, 48, .72); border: 2px solid rgba(140, 160, 255, .45); border-radius: 28px; padding: 34px 44px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, .45), inset 0 0 40px rgba(100, 120, 255, .12); }
+      .row { display: flex; justify-content: space-between; align-items: baseline; padding: 12px 0; border-bottom: 1px solid rgba(160,170,220,.18); }
+      .row .k { font-size: 36px; color: var(--sub); font-weight: 700; }
+      .row .v { font-size: 48px; color: var(--ink); font-weight: 800; }
+      .big { font-weight: 800; color: var(--gold); text-shadow: 0 0 30px rgba(255, 200, 64, .6), 0 6px 0 rgba(0,0,0,.35); }
+      .label { position: absolute; transform: translate(-50%, -100%); font-size: 30px; font-weight: 800; color: var(--ink);
+        text-shadow: 0 3px 8px rgba(0,0,0,.8); white-space: nowrap; }
+      .axis { position: absolute; transform: translate(-50%, 0); font-size: 26px; font-weight: 700; color: var(--sub); white-space: nowrap;
+        text-shadow: 0 2px 6px rgba(0,0,0,.9); }
+      #title { position: absolute; left: 80px; top: 300px; width: 1300px; }
+      #cap { position: absolute; left: 0; right: 0; bottom: 0; height: 150px; display: flex; align-items: center; justify-content: center;
+        background: linear-gradient(0deg, rgba(4,6,16,.92), rgba(4,6,16,.55) 70%, rgba(4,6,16,0)); }
+      #captext { white-space: pre-line; font-size: 46px; font-weight: 800; color: #fff; text-align: center; max-width: 1640px; line-height: 1.35;
+        -webkit-text-stroke: 1px rgba(0,0,0,.3); text-shadow: 0 3px 0 #1b1f45, 0 0 18px rgba(80, 100, 255, .5); }
+      #alice { position: absolute; left: 1330px; top: 190px; height: 940px; transform-origin: 50% 100%; filter: drop-shadow(0 0 30px rgba(90,130,255,.45)); }
+      #credit { position: absolute; right: 40px; top: 30px; font-size: 22px; color: rgba(200, 210, 240, .7); font-weight: 700; }
+      .stat { font-size: 34px; color: var(--sub); font-weight: 700; }
+      .num { font-size: 84px; font-weight: 800; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="288.56" data-width="1920" data-height="1080">
+      <canvas id="gl" class="clip" data-start="0" data-duration="288.56" data-track-index="0" width="1920" height="1080"></canvas>
+      <div id="ui" class="clip" data-start="0" data-duration="288.56" data-track-index="1" data-layout-allow-overlap>
+        <div id="labels"></div>
+        <div id="title"></div>
+        <div id="panel"></div>
+        <img id="alice" src="assets/alice/alice_open_smile.png" alt="電脳アリス" />
+        <div id="chapter"></div>
+        <div id="credit">AIがシミュレーションして制作</div>
+        <div id="cap"><div id="captext"></div></div>
+      </div>
+      <audio id="mix" class="clip" src="assets/mix.wav" data-start="0" data-duration="288.56" data-track-index="2"></audio>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      window.__timelines["main"] = tl;
+    </script>
+    <script type="module">
+      import * as THREE from "three";
+      import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+      import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+      import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+      import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
+
+      const D = window.DATA, ST = D.stats, FPS = D.fps;
+      const $ = (id) => document.getElementById(id);
+      const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+      const ease = (x) => { x = clamp(x); return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
+      const out3 = (x) => 1 - Math.pow(1 - clamp(x), 3);
+      const lerp = (a, b, k) => a + (b - a) * k;
+      const fmt = (v) => Math.round(v).toLocaleString("ja-JP");
+      const man = (y) => (y >= 0 ? "+" : "−") + (Math.abs(y) / 10000).toFixed(1) + "万円";
+      function mulberry32(a) { return function () { a |= 0; a = (a + 0x6d2b79f5) | 0; let t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+      const rand = mulberry32(D.stats.seed);
+
+      // ---------- 3D の基本 ----------
+      const renderer = new THREE.WebGLRenderer({ canvas: $("gl"), antialias: true, preserveDrawingBuffer: true });
+      renderer.setSize(1920, 1080, false);
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x060914);
+      scene.fog = new THREE.Fog(0x060914, 26, 70);
+      const camera = new THREE.PerspectiveCamera(35, 1920 / 1080, 0.1, 200);
+      scene.add(new THREE.HemisphereLight(0x8899ff, 0x0b0d1a, 0.7));
+      const key = new THREE.DirectionalLight(0xffe2c0, 2.0); key.position.set(6, 10, 10); scene.add(key);
+      const rim = new THREE.DirectionalLight(0x5b7bff, 2.4); rim.position.set(-8, 5, -6); scene.add(rim);
+
+      // 床：光る格子
+      const grid = new THREE.GridHelper(120, 120, 0x2a3a8a, 0x141c44); grid.position.y = -0.01; scene.add(grid);
+      const floor = new THREE.Mesh(new THREE.PlaneGeometry(200, 200), new THREE.MeshStandardMaterial({ color: 0x080b1c, roughness: 0.95 }));
+      floor.rotation.x = -Math.PI / 2; floor.position.y = -0.02; scene.add(floor);
+
+      // ---------- 台（オリジナルの形）----------
+      const MX = -16, MZ = 0;                                     // 台は左奥に置く
+      const cab = new THREE.Group(); cab.position.set(MX, 4.9, MZ); scene.add(cab);
+      const metal = new THREE.MeshStandardMaterial({ color: 0x2a3168, metalness: 0.6, roughness: 0.45 });
+      const body = new THREE.Mesh(new THREE.BoxGeometry(6.6, 9.8, 1.4), metal); body.position.z = -0.8; cab.add(body);
+      const boardM = new THREE.Mesh(new THREE.BoxGeometry(5.6, 6.2, 0.1), new THREE.MeshStandardMaterial({ color: 0x151b40, roughness: 0.6 }));
+      boardM.position.set(0, 1.2, 0); cab.add(boardM);
+      const lcdCanvas = document.createElement("canvas"); lcdCanvas.width = 512; lcdCanvas.height = 320;
+      const lcdTex = new THREE.CanvasTexture(lcdCanvas); lcdTex.colorSpace = THREE.SRGBColorSpace;
+      const lcd = new THREE.Mesh(new THREE.PlaneGeometry(2.7, 1.68), new THREE.MeshBasicMaterial({ map: lcdTex })); lcd.position.set(0, 1.5, 0.08); cab.add(lcd);
+      const neonMat = new THREE.MeshBasicMaterial({ color: 0x6aa8ff });
+      const neon = new THREE.Mesh(new THREE.TorusGeometry(3.3, 0.07, 12, 96), neonMat); neon.scale.set(0.93, 1.03, 1); neon.position.set(0, 1.2, 0.25); cab.add(neon);
+      const lower = new THREE.Mesh(new THREE.BoxGeometry(5.8, 1.2, 0.8), new THREE.MeshStandardMaterial({ color: 0x3a3f80, metalness: 0.7, roughness: 0.35 }));
+      lower.position.set(0, -2.9, 0.1); cab.add(lower);
+      const strip = new THREE.Mesh(new THREE.BoxGeometry(5.9, 0.08, 0.1), new THREE.MeshBasicMaterial({ color: 0xb18cff })); strip.position.set(0, -2.25, 0.5); cab.add(strip);
+      const pinGeo = new THREE.CylinderGeometry(0.026, 0.026, 0.3, 8); pinGeo.rotateX(Math.PI / 2);
+      const pins = [];
+      for (let r = 0; r < 15; r++) for (let c = 0; c < 15; c++) {
+        const x = -2.5 + c * 0.36 + (r % 2 ? 0.18 : 0), y = 4.0 - r * 0.38;
+        if (Math.abs(x) < 1.55 && y < 2.5 && y > 0.5) continue;
+        if (x > 2.6) continue;
+        pins.push([x, y]);
+      }
+      const pinMesh = new THREE.InstancedMesh(pinGeo, new THREE.MeshStandardMaterial({ color: 0xdcdce6, metalness: 1, roughness: 0.35 }), pins.length);
+      const m4 = new THREE.Matrix4();
+      pins.forEach(([x, y], i) => { m4.makeTranslation(x, y, 0.2); pinMesh.setMatrixAt(i, m4); });
+      cab.add(pinMesh);
+      // 玉：読み込み時に軌跡を計算（8秒ぶん）し、時刻で引く
+      const NB = 220, PF = 60, LIFE = 8, PERIOD = 8;
+      const paths = [];
+      for (let b = 0; b < NB; b++) {
+        let x = 2.45 + rand() * 0.1, y = 4.5, vx = -1.4 - rand() * 1.2, vy = 0.3;
+        const p = [];
+        for (let s = 0; s < PF * LIFE; s++) {
+          const dt = 1 / PF; vy -= 9.8 * dt * 0.5; x += vx * dt; y += vy * dt;
+          for (const [px, py] of pins) { const dx = x - px, dy = y - py, d = Math.hypot(dx, dy); if (d < 0.085 && d > 1e-6) { const nx = dx / d, ny = dy / d, dot = vx * nx + vy * ny; if (dot < 0) { vx -= 1.55 * dot * nx; vy -= 1.55 * dot * ny; vx += (rand() - 0.5) * 0.35; } x = px + nx * 0.085; y = py + ny * 0.085; } }
+          if (Math.abs(x) < 1.42 && y < 2.4 && y > 0.6) { // 液晶の枠で跳ねる
+            if (y > 2.3) { y = 2.4; vy = Math.abs(vy) * 0.4; vx += (x > 0 ? 0.6 : -0.6); } else { x = x > 0 ? 1.42 : -1.42; vx = -vx * 0.5; }
+          }
+          if (x < -2.7) { x = -2.7; vx = Math.abs(vx) * 0.5; } if (x > 2.7) { x = 2.7; vx = -Math.abs(vx) * 0.5; }
+          p.push([x, y, y > -1.9]);
+        }
+        paths.push(p);
+      }
+      const ballMesh = new THREE.InstancedMesh(new THREE.SphereGeometry(0.058, 16, 12), new THREE.MeshStandardMaterial({ color: 0xffffff, metalness: 1, roughness: 0.22, emissive: 0x30304a }), NB);
+      cab.add(ballMesh);
+      const zero = new THREE.Matrix4().makeScale(0, 0, 0);
+      function drawBalls(t) {
+        for (let i = 0; i < NB; i++) {
+          const age = ((t + (i * PERIOD) / NB) % PERIOD + PERIOD) % PERIOD;
+          const s = Math.min(PF * LIFE - 1, Math.floor(age * PF));
+          const [x, y, on] = paths[i][s];
+          if (on) { m4.makeTranslation(x, y, 0.2); ballMesh.setMatrixAt(i, m4); } else ballMesh.setMatrixAt(i, zero);
+        }
+        ballMesh.instanceMatrix.needsUpdate = true;
+      }
+      function drawLCD(t, mode) {
+        const g = lcdCanvas.getContext("2d");
+        const grd = g.createLinearGradient(0, 0, 0, 320); grd.addColorStop(0, "#3b1f8a"); grd.addColorStop(1, "#120a3a");
+        g.fillStyle = grd; g.fillRect(0, 0, 512, 320);
+        g.textAlign = "center"; g.textBaseline = "middle"; g.font = "800 150px Rounded";
+        let s;
+        if (mode === "777") s = "777";
+        else if (mode) s = mode;
+        else { const cyc = t % 3; s = cyc > 2.2 ? "777" : [0, 1, 2].map((k) => (Math.floor(t * (14 - k * 3)) % 9) + 1).join(""); }
+        g.fillStyle = s === "777" ? "#ffd04a" : "#ffffff";
+        if (s.length > 3) g.font = "800 92px Rounded";
+        g.shadowColor = s === "777" ? "#ff9a00" : "#8fb4ff"; g.shadowBlur = 30;
+        g.fillText(s, 256, 165);
+        lcdTex.needsUpdate = true;
+      }
+
+      // ---------- 1万人 ----------
+      const CN = 10000, CS = 0.22;                                // 100x100、間隔0.22
+      const pawnGeo = new THREE.CapsuleGeometry(0.06, 0.1, 4, 8); pawnGeo.translate(0, 0.11, 0);
+      const crowd = new THREE.InstancedMesh(pawnGeo, new THREE.MeshStandardMaterial({ roughness: 0.5, metalness: 0.1 }), CN);
+      const home = [];
+      for (let i = 0; i < CN; i++) { const gx = i % 100, gz = Math.floor(i / 100); home.push([(gx - 49.5) * CS, (gz - 49.5) * CS]); }
+      const col = new THREE.Color();
+      const C_IDLE = new THREE.Color(0x3a4370), C_DIM = new THREE.Color(0x1d2240), C_GOLD = new THREE.Color(0xffc940).multiplyScalar(1.6),
+        C_BLUE = new THREE.Color(0x5fa8ff).multiplyScalar(1.3), C_RED = new THREE.Color(0xff6b57).multiplyScalar(1.2);
+      for (let i = 0; i < CN; i++) crowd.setColorAt(i, C_IDLE);
+      scene.add(crowd);
+      function setCrowd(colorFn, posFn) {
+        for (let i = 0; i < CN; i++) {
+          const [x, z] = posFn ? posFn(i) : home[i];
+          m4.makeTranslation(x, 0, z); crowd.setMatrixAt(i, m4);
+          crowd.setColorAt(i, colorFn(i));
+        }
+        crowd.instanceMatrix.needsUpdate = true; crowd.instanceColor.needsUpdate = true;
+      }
+
+      // ---------- 3Dの柱グラフ ----------
+      const BX = 16;                                              // グラフは右側に置く
+      const barGroup = new THREE.Group(); barGroup.position.set(BX, 0, 0); scene.add(barGroup);
+      const bars = [];
+      for (let i = 0; i < 26; i++) {
+        const m = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.35, metalness: 0.2, emissive: 0x000000 }));
+        m.visible = false; barGroup.add(m); bars.push(m);
+      }
+      // values, colors: 配列。width: 全体の幅。hmax: 最大の高さ
+      function drawBars(values, colors, k, width = 12, hmax = 7, depth = 1.2) {
+        const n = values.length, vmax = Math.max(...values, 1), bw = width / n;
+        bars.forEach((b, i) => {
+          if (i >= n) { b.visible = false; return; }
+          const kk = out3((k * n - i * 0.35) / (n * 0.35 + 1) * 1.6);
+          const h = Math.max(0.02, (values[i] / vmax) * hmax * kk);
+          b.visible = true; b.scale.set(bw * 0.72, h, depth); b.position.set(-width / 2 + bw * (i + 0.5), h / 2, 0);
+          b.material.color.set(colors[i]); b.material.emissive.set(colors[i]); b.material.emissiveIntensity = 0.35;
+        });
+      }
+      function hideBars() { bars.forEach((b) => (b.visible = false)); }
+      const v3 = new THREE.Vector3();
+      function screenOf(x, y, z) { v3.set(x, y, z).project(camera); return [(v3.x * 0.5 + 0.5) * 1920, (-v3.y * 0.5 + 0.5) * 1080]; }
+      function barLabels(values, labels, k, fmtv, width = 12, hmax = 7) {
+        const n = values.length, vmax = Math.max(...values, 1), bw = width / n;
+        let h = "";
+        values.forEach((v, i) => {
+          const x = BX - width / 2 + bw * (i + 0.5), top = (v / vmax) * hmax;
+          const [sx, sy] = screenOf(x, top + 0.25, 0.6), [ax, ay] = screenOf(x, -0.1, 0.9);
+          if (k > 0.85 && fmtv) h += `<div class="label" style="left:${sx}px;top:${sy}px;opacity:${clamp((k - 0.85) * 8)}">${fmtv(v)}</div>`;
+          if (labels) h += `<div class="axis" style="left:${ax}px;top:${ay}px">${labels[i]}</div>`;
+        });
+        return h;
+      }
+
+      // ---------- LTの3段 ----------
+      const steps3 = new THREE.Group(); steps3.position.set(0, 0, -14); scene.add(steps3);
+      const stepCols = [0x5a6aa8, 0xffc940, 0xff6b57];
+      const stepMeshes = stepCols.map((c, i) => {
+        const m = new THREE.Mesh(new THREE.CylinderGeometry(1.6, 1.8, 0.6 + i * 1.6, 48), new THREE.MeshStandardMaterial({ color: c, emissive: c, emissiveIntensity: 0.25, metalness: 0.3, roughness: 0.4 }));
+        m.position.set(-5 + i * 5, (0.6 + i * 1.6) / 2, 0); steps3.add(m);
+        const ring = new THREE.Mesh(new THREE.TorusGeometry(1.75, 0.05, 8, 64), new THREE.MeshBasicMaterial({ color: c }));
+        ring.rotation.x = Math.PI / 2; ring.position.set(-5 + i * 5, 0.6 + i * 1.6 + 0.02, 0); steps3.add(ring);
+        return m;
+      });
+
+      // ---------- 回転率の3本柱 ----------
+      const pods = new THREE.Group(); pods.position.set(BX, 0, -14); scene.add(pods);
+      const podMeshes = [0, 1, 2].map((i) => {
+        const m = new THREE.Mesh(new THREE.CylinderGeometry(1.2, 1.2, 1, 48), new THREE.MeshStandardMaterial({ color: 0x5fa8ff, emissive: 0x5fa8ff, emissiveIntensity: 0.3, roughness: 0.35 }));
+        m.position.set(-4.5 + i * 4.5, 0.5, 0); pods.add(m); return m;
+      });
+
+      // ---------- 光の粒 ----------
+      const PN = 600, pGeo = new THREE.BufferGeometry(), pPos = new Float32Array(PN * 3), pSeed = [];
+      for (let i = 0; i < PN; i++) pSeed.push([rand() * 80 - 40, rand() * 14, rand() * 60 - 40, rand() * 6.28]);
+      pGeo.setAttribute("position", new THREE.BufferAttribute(pPos, 3));
+      const dust = new THREE.Points(pGeo, new THREE.PointsMaterial({ color: 0x8fb4ff, size: 0.08, transparent: true, opacity: 0.8 }));
+      scene.add(dust);
+      function drawDust(t) {
+        for (let i = 0; i < PN; i++) { const [x, y, z, ph] = pSeed[i]; pPos[i * 3] = x + Math.sin(t * 0.2 + ph) * 0.6; pPos[i * 3 + 1] = (y + t * 0.25) % 14; pPos[i * 3 + 2] = z; }
+        pGeo.attributes.position.needsUpdate = true;
+      }
+
+      const composer = new EffectComposer(renderer);
+      composer.addPass(new RenderPass(scene, camera));
+      composer.addPass(new UnrealBloomPass(new THREE.Vector2(960, 540), 0.55, 0.45, 0.85));
+      composer.addPass(new OutputPass());
+
+      // ---------- カメラ ----------
+      const look = new THREE.Vector3();
+      function cam(k, a, b) { // a,b: [px,py,pz, lx,ly,lz]
+        const e = ease(k);
+        camera.position.set(lerp(a[0], b[0], e), lerp(a[1], b[1], e), lerp(a[2], b[2], e));
+        look.set(lerp(a[3], b[3], e), lerp(a[4], b[4], e), lerp(a[5], b[5], e)); camera.lookAt(look); camera.updateMatrixWorld(); camera.updateProjectionMatrix();
+      }
+      const M = (dx, dy, dz, ly = 6) => [MX + dx, dy, MZ + dz, MX, ly, MZ];
+
+      // ---------- 画面の部品 ----------
+      const fade = (u, t0, d = 0.5) => clamp((u - t0) / d);
+      const rows = (list, u, gap = 0.55) => list.map(([k, v], i) => `<div class="row" style="opacity:${fade(u, 0.4 + i * gap)};transform:translateX(${(1 - out3(fade(u, 0.4 + i * gap))) * -40}px)"><span class="k">${k}</span><span class="v">${v}</span></div>`).join("");
+      function pop(u, t0) { const k = out3(fade(u, t0, 0.45)); return `opacity:${k};transform:scale(${0.6 + 0.4 * k})`; }
+
+      // ---------- 場面 ----------
+      const SC = {};
+      SC.hook = (u, d) => {
+        cam(u / d, [0, 9, 30, 0, 1, 0], [0, 5, 22, 0, 1, 0]);
+        setCrowd((i) => (((i * 7919) % 100) < 51 * fade(u, 2, 8) ? C_GOLD : C_IDLE));
+        return { panel: "", title: `<div style="${pop(u, 0.3)};transform-origin:left center"><div class="stat" style="font-size:44px">あなたは知っている？</div>
+          <div class="big" style="font-size:110px;line-height:1.2">RUSHまで<br>平均いくら？</div></div>
+          <div style="${pop(u, 5.5)};transform-origin:left center;margin-top:30px"><div class="big" style="font-size:96px;color:#5fa8ff;text-shadow:0 0 30px rgba(95,168,255,.6)">1日の勝率は？</div></div>`, chapter: "" };
+      };
+      SC.open = (u, d) => {
+        cam(u / d, [MX + 8, 8, 26, MX - 2.5, 6, 0], [MX + 3, 6, 12, MX - 2, 5.5, 0]);
+        drawLCD(u, null);
+        return { title: `<div style="${pop(u, 0.4)};transform-origin:left center"><div class="stat" style="font-size:46px">パチンコ実機を1万人で打ってみた</div>
+          <div class="big" style="font-size:150px">e東京喰種</div><div class="stat" style="font-size:36px;margin-top:10px">解説：電脳アリス（AI）</div></div>`, chapter: "" };
+      };
+      SC.spec = (u, d) => {
+        cam(u / d, M(9, 6.5, 13, 5.5), M(11, 5.5, 9, 5.5));
+        drawLCD(u, "1/199.9");
+        return { chapter: "スペック", panel: `<div class="glass" style="width:860px">${rows([["当たり（合算）", "1/199.9"], ["うち 図柄揃い", "1/399.9"], ["うち 喰種チャージ（約300個）", "1/399.9"],
+          ["RUSH突入（図柄揃いの）", "約51%"], ["RUSH", "130回転・1/95.3"], ["RUSH継続率", "約" + Math.round(ST.C * 100) + "%"], ["RUSH中の大当たり", "約3000個〜"]], u, 0.7)}
+          <div class="stat" style="font-size:24px;margin-top:16px;opacity:.8">出典：攻略サイト各種（メーカー公式資料とは未照合）</div></div>` };
+      };
+      SC.lt = (u, d) => {
+        cam(u / d, [-3, 7, 5, 2, 2.6, -14], [6, 8, 4, 2, 2.8, -14]);
+        stepMeshes.forEach((m, i) => { const k = out3(fade(u, 1 + i * 2.2, 0.8)); m.scale.set(1, Math.max(0.01, k), 1); m.position.y = ((0.6 + i * 1.6) * k) / 2; });
+        let lab = "";
+        [["通常時", "#a9b4d6"], ["RUSH", "#ffc940"], ["LT", "#ff6b57"]].forEach(([s, c], i) => {
+          const [x, y] = screenOf(-5 + i * 5, 0.6 + i * 1.6 + 0.9, -14);
+          lab += `<div class="label" style="left:${x}px;top:${y}px;font-size:54px;color:${c};opacity:${fade(u, 1.5 + i * 2.2)}">${s}</div>`;
+        });
+        return { chapter: "LT（ラッキートリガー）とは", labels: lab,
+          panel: `<div class="glass" style="width:900px;margin-top:520px;${pop(u, 8)}"><div style="font-size:46px;font-weight:800;color:#ffc940">この台はRUSHに入れば、そのままLT</div>
+          <div class="stat" style="margin-top:10px">RUSH中の大当たりは、すべて約3000個以上</div></div>` };
+      };
+      SC.trick = (u, d) => {
+        cam(u / d, M(-6, 6, 14, 5), M(-9, 5, 10, 5));
+        drawLCD(u, u > 6 ? "1/" + ST.r784 : "300");
+        return { chapter: "ここがポイント", panel: `<div class="glass" style="width:1000px;text-align:center">
+          <div class="stat" style="font-size:44px">当たりの半分は</div><div class="big" style="font-size:96px;color:#ff6b57;text-shadow:0 0 30px rgba(255,107,87,.6)">約300個のチャージ</div>
+          <div style="${fade(u, 6) ? "" : ""}opacity:${fade(u, 5.5)}"><div class="stat" style="font-size:44px;margin-top:30px">通常時からRUSHに入るのは</div>
+          <div class="big" style="font-size:150px;${pop(u, 6)}">約 1/${ST.r784}</div></div></div>` };
+      };
+      const enterAt = (i, n) => i < n;
+      SC.exp1 = (u, d) => {
+        cam(u / d, [0, 30, 26, 0, 0, 0], [0, 16, 15, 0, 0, 2]);
+        const n = Math.floor(CN * out3(fade(u, 3, d - 6)));
+        setCrowd((i) => (i < n ? (D.enter[i] ? C_GOLD : C_IDLE) : C_DIM));
+        let entered = 0; for (let i = 0; i < n; i++) entered += D.enter[i];
+        return { chapter: "実験1　図柄揃いを1万回", panel: `<div class="glass" style="width:620px">
+          <div class="stat">図柄揃い</div><div class="num" style="color:#f4f1ea">${fmt(n)}<span style="font-size:44px"> 回</span></div>
+          <div class="stat" style="margin-top:14px">RUSH突入（光った人）</div><div class="num" style="color:#ffc940">${fmt(entered)}<span style="font-size:44px"> 回</span></div>
+          <div class="big" style="font-size:72px;margin-top:6px">${n ? ((entered / n) * 100).toFixed(1) : "0.0"}%</div></div>` };
+      };
+      SC.chain = (u, d) => {
+        cam(u / d, [BX + 2, 8, 22, BX + 3.2, 4.6, 0], [BX + 4.5, 9, 19, BX + 3.4, 4.8, 0]);
+        const k = out3(fade(u, 0.5, 4));
+        const cols = ST.chain_cnt.map((_, i) => (i === 0 ? 0xff6b57 : i < 4 ? 0xffc940 : 0x5fa8ff));
+        drawBars(ST.chain_cnt, cols, k);
+        const labels = ["0回", "1回", "2回", "3回", "4回", "5回", "6回", "7回", "8回〜"];
+        return { chapter: "実験1　RUSHで何回当たった？", labels: barLabels(ST.chain_cnt, labels, k, fmt),
+          panel: `<div class="glass" style="width:560px;padding:24px 34px;margin-left:640px"><div class="stat">RUSHに入った ${fmt(ST.enter_rate * CN)} 回</div>
+          <div style="opacity:${fade(u, 7)}"><div class="stat" style="margin-top:10px">最高</div><div class="big" style="font-size:96px;color:#ff6b57">${ST.chain_max}連続</div></div></div>` };
+      };
+      SC.avg = (u, d) => {
+        cam(u / d, M(7, 3, 12, 4), M(3, 4.5, 9, 4.5));
+        drawLCD(u, "777");
+        const v = ST.avg_rush * out3(fade(u, 0.5, 2.5));
+        return { chapter: "実験1　RUSHの出玉", panel: `<div class="glass" style="width:960px;text-align:center"><div class="stat" style="font-size:44px">RUSHに入ったときの平均出玉</div>
+          <div class="big" style="font-size:170px">約${fmt(v)}<span style="font-size:70px">個</span></div>
+          <div style="opacity:${fade(u, 5)}"><div class="stat" style="font-size:40px">1万個を超えたのは</div><div class="num" style="color:#f4f1ea">1万回中 ${fmt(ST.over10k)}回</div></div></div>` };
+      };
+      SC.cost = (u, d) => {
+        cam(u / d, [BX + 5, 9, 23, BX + 3.6, 3.8, 0], [BX + 2.5, 8, 20, BX + 3.6, 4.0, 0]);
+        const k = out3(fade(u, 0.5, 4));
+        const cols = ST.cost_edges.slice(0, -1).map((e) => (e < ST.q50 ? 0xffc940 : e < ST.q90 ? 0x5fa8ff : 0xff6b57));
+        drawBars(ST.cost_cnt, cols, k, 14);
+        const labels = ST.cost_edges.slice(0, -1).map((e, i, a) => (i === a.length - 1 ? e + "〜" : i % 2 ? "" : String(e)));
+        return { chapter: "実験2　RUSHまで何回転？", labels: barLabels(ST.cost_cnt, labels, k, null, 14),
+          panel: `<div class="glass" style="width:600px;padding:24px 34px;margin-left:600px"><div class="stat">半分の人</div><div class="num" style="color:#ffc940">${fmt(ST.q50)}回転まで</div>
+          <div style="opacity:${fade(u, 6)}"><div class="stat" style="margin-top:8px">遅いほうの1割</div><div class="num" style="color:#ff6b57">${fmt(ST.q90)}回転〜</div></div></div>` };
+      };
+      SC.cost2 = (u, d) => {
+        cam(u / d, [0, 22, 30, 0, 0, 0], [-6, 12, 18, 0, 0, 0]);
+        setCrowd(() => C_DIM);
+        const y = (spins) => "約" + (spins / ST.rate * 1000 / 10000).toFixed(1) + "万円";
+        return { chapter: "実験2　RUSHまでいくら？", panel: `<div class="glass" style="width:1000px">
+          <div class="stat" style="font-size:28px;color:#b18cff;margin-bottom:6px">1000円で${ST.rate}回転・途中の出玉を使わない場合の目安</div>
+          ${rows([["平均", `${fmt(ST.cost_mean)}回転 → <span style="color:#ffc940">${y(ST.cost_mean)}</span>`], ["半分の人", `${fmt(ST.q50)}回転 → <span style="color:#ffc940">${y(ST.q50)}</span>`],
+            ["遅いほうの1割", `${fmt(ST.q90)}回転 → <span style="color:#ffc940">${y(ST.q90)}</span>`], ["いちばんハマった人", `${fmt(ST.deep)}回転 → <span style="color:#ff6b57">約${Math.round(ST.deep / ST.rate * 1000 / 10000)}万円</span>`]], u, 1.3)}</div>` };
+      };
+      SC.day = (u, d) => {
+        const k = fade(u, 1.5, 6);
+        if (u < 9) {
+          cam(u / 9, [0, 26, 24, 0, 0, 0], [0, 18, 16, 0, 0, 1]);
+          setCrowd((i) => (i < CN * k ? (D.daywin[i] ? C_BLUE : C_RED) : C_DIM));
+          hideBars();
+          return { chapter: "実験3　1万人が1日打つ", panel: `<div class="glass" style="width:620px"><div class="stat">勝った人（青）</div>
+            <div class="big" style="font-size:110px;color:#5fa8ff">${(ST.win_day * 100 * out3(k)).toFixed(1)}%</div>
+            <div class="stat" style="font-size:26px;margin-top:8px">等価・1000円で${ST.rate}回転・通常時2000回転</div></div>` };
+        }
+        cam((u - 9) / (d - 9), [BX + 3, 9, 25, BX + 3.8, 4.6, 0], [BX + 5, 9, 22, BX + 3.8, 4.8, 0]);
+        const kk = out3(fade(u, 9.2, 3.5));
+        drawBars(ST.day_cnt, ST.day_edges.slice(0, -1).map((e) => (e >= 0 ? 0x5fa8ff : 0xff6b57)), kk, 16, 7);
+        const labels = ST.day_edges.slice(0, -1).map((e, i, a) => (i === 0 ? "−10万以下" : i === a.length - 1 ? "+15万以上" : e === 0 ? "0" : e % 50000 === 0 ? (e > 0 ? "+" : "−") + Math.abs(e / 10000) + "万" : ""));
+        return { chapter: "実験3　1日の収支（1万人）", labels: barLabels(ST.day_cnt, labels, kk, null, 16, 7),
+          panel: `<div class="glass" style="width:520px;padding:24px 34px;margin-left:660px"><div class="stat">勝った人</div><div class="num" style="color:#5fa8ff">${(ST.win_day * 100).toFixed(1)}%</div>
+          <div class="stat" style="margin-top:6px">平均</div><div class="num" style="font-size:64px;color:#f4f1ea">${man(ST.avg_day)}</div></div>` };
+      };
+      SC.dayext = (u, d) => {
+        cam(u / d, [-4, 14, 14, 0, 0, 0], [5, 10, 10, 0, 0, 0]);
+        setCrowd((i) => (D.daywin[i] ? C_BLUE : C_RED));
+        return { chapter: "実験3　1日の収支（1万人）", panel: `<div class="glass" style="width:1000px">${rows([["いちばん勝った人", `<span style="color:#5fa8ff">${man(ST.best_day)}</span>`],
+          ["いちばん負けた人", `<span style="color:#ff6b57">${man(ST.worst_day)}</span>`], ["真ん中の人", man(ST.med_day)], ["RUSHに1回も入れなかった人", `<span style="color:#ff6b57">${Math.round(ST.norush_day * 100)}%</span>`]], u, 1.6)}</div>` };
+      };
+      SC.rates = (u, d) => {
+        cam(u / d, [BX - 3, 9, 6, BX + 2, 4.5, -14], [BX + 4, 9, 5, BX + 2, 4.8, -14]);
+        let lab = "";
+        ["14", "16", "18"].forEach((r, i) => {
+          const [wr, av] = ST.rates[r], k = out3(fade(u, 1 + i * 1.6, 1.2)), h = Math.max(0.02, wr * 12 * k);
+          const m = podMeshes[i]; m.scale.set(1, h, 1); m.position.y = h / 2;
+          const c = av >= 0 ? 0x5fa8ff : 0xff6b57; m.material.color.set(c); m.material.emissive.set(c);
+          const [x, y] = screenOf(BX - 4.5 + i * 4.5, h + 0.6, -14), [ax, ay] = screenOf(BX - 4.5 + i * 4.5, -0.2, -12.6);
+          lab += `<div class="label" style="left:${x}px;top:${y}px;opacity:${fade(u, 2 + i * 1.6)};text-align:center"><div style="font-size:56px;color:#ffc940">${(wr * 100).toFixed(1)}%</div><div style="font-size:34px;color:${av >= 0 ? "#5fa8ff" : "#ff6b57"}">平均 ${man(av)}</div></div>`;
+          lab += `<div class="axis" style="left:${ax}px;top:${ay}px;font-size:36px;color:#f4f1ea">${r}回転</div>`;
+        });
+        return { chapter: "実験4　回転率で変わる？", labels: lab,
+          panel: `<div class="glass" style="width:760px;padding:18px 30px;opacity:${fade(u, 8)}"><div class="stat">この計算での損益の分かれ目</div><div class="num" style="color:#b18cff;font-size:72px">約${ST.border.toFixed(1)}回転 / 1000円</div></div>` };
+      };
+      SC.month = (u, d) => {
+        cam(u / d, [0, 30, 28, 0, 0, 0], [0, 20, 22, 0, 0, 0]);
+        const k = ease(fade(u, 1, 5));
+        setCrowd((i) => (D.monthwin[i] ? C_BLUE : C_RED), (i) => { const [x, z] = home[i]; const tx = D.monthwin[i] ? x * 0.55 + 6.5 : x * 0.55 - 6.5; return [lerp(x, tx, k), z]; });
+        let lab = "";
+        const [lx, ly] = screenOf(-6.5, 1.5, -11.5), [rx, ry] = screenOf(6.5, 1.5, -11.5);
+        lab += `<div class="label" style="left:${lx}px;top:${ly}px;color:#ff6b57;font-size:48px;opacity:${fade(u, 5)}">負け ${(100 - ST.win_month * 100).toFixed(1)}%</div>`;
+        lab += `<div class="label" style="left:${rx}px;top:${ry}px;color:#5fa8ff;font-size:48px;opacity:${fade(u, 5)}">勝ち ${(ST.win_month * 100).toFixed(1)}%</div>`;
+        return { chapter: "実験5　1ヶ月（20日）打つ", labels: lab,
+          panel: `<div class="glass" style="width:520px;padding:22px 32px;opacity:${fade(u, 6)}"><div class="stat">平均</div><div class="num" style="color:#5fa8ff;font-size:70px">${man(ST.avg_month)}</div></div>` };
+      };
+      SC.summary = (u, d) => {
+        cam(u / d, M(14, 7, 22, 5), M(8, 6, 15, 5));
+        drawLCD(u, null);
+        const L = [`当たりの半分はチャージ。RUSHは約1/${ST.r784}`, `RUSHに入れば 平均約${fmt(ST.avg_rush)}個`, `1日の勝率は ${(ST.win_day * 100).toFixed(0)}%（${ST.rate}回転・等価）`, "決めるのは 運 ＋ 回転率"];
+        return { chapter: "まとめ", panel: `<div class="glass" style="width:1100px">${L.map((s, i) => `<div style="display:flex;gap:24px;align-items:center;padding:14px 0;opacity:${fade(u, 0.6 + i * 1.8)}"><div class="big" style="font-size:64px;color:#b18cff;width:60px">${i + 1}</div><div style="font-size:48px;font-weight:800;color:#f4f1ea">${s}</div></div>`).join("")}</div>` };
+      };
+      SC.end = (u, d) => {
+        cam(u / d, M(5, 6, 14, 5), M(0, 9, 30, 5));
+        drawLCD(u, "777");
+        const L = ["この動画はAIがシミュレーションして制作しています", "数値は公開情報から。実際の台・お店の条件で変わります", "必勝法ではありません。18歳未満は遊技できません"];
+        return { chapter: "", panel: `<div class="glass" style="width:1220px;text-align:center">${L.map((s, i) => `<div style="font-size:38px;font-weight:700;color:#f4f1ea;padding:12px 0;opacity:${fade(u, 0.5 + i * 0.6)}">${s}</div>`).join("")}
+          <div class="stat" style="font-size:26px;margin-top:14px">条件：1万人・乱数の種 ${ST.seed}／音声：HTS voice tohoku-f01（東北大学, CC BY 4.0）</div></div>` };
+      };
+
+      // ---------- アリス ----------
+      function alice(t, sc, u) {
+        const f = Math.floor(t * FPS), mo = D.mouth[Math.min(f, D.mouth.length - 1)] || 0;
+        let eyes = sc ? sc.face : "open";
+        const mouth = mo === 2 ? "a" : mo === 1 ? "o" : eyes === "happy" ? "grin" : "smile";
+        if (eyes === "grin") eyes = "happy";
+        if (eyes === "open" && t % 3.7 < 0.12) eyes = "closed";
+        const el = $("alice");
+        const src = `assets/alice/alice_${eyes}_${mouth}.png`;
+        if (!el.src.endsWith(src)) el.src = src;
+        const enter = out3(clamp((t - 0.6) / 0.9));
+        const sway = Math.sin(t * 1.3) * 1.2, bob = Math.sin(t * 2.1) * 6 + (mo ? -3 : 0);
+        el.style.opacity = 1;
+        el.style.transform = `translate(${(1 - enter) * 500}px, ${bob}px) rotate(${sway}deg)`;
+      }
+
+      // ---------- 字幕：声の進み具合で1文ずつ ----------
+      function balance(s) {
+        if (s.length <= 32) return s;
+        const mid = s.length / 2;
+        let best = -1;
+        for (let i = 0; i < s.length - 1; i++) if ("、」）".includes(s[i]) && (best < 0 || Math.abs(i - mid) < Math.abs(best - mid))) best = i;
+        if (best < 0 || Math.abs(best - mid) > s.length * 0.3) best = Math.floor(mid);
+        return s.slice(0, best + 1) + "\n" + s.slice(best + 1);
+      }
+      function caption(sc, u) {
+        if (!sc || u > sc.voice_len + 0.6) return "";
+        const parts = sc.sub.match(/[^。？！]+[。？！]?/g) || [sc.sub];
+        const total = parts.reduce((a, s) => a + s.length, 0), prog = u / sc.voice_len;
+        let acc = 0;
+        let line = parts[parts.length - 1];
+        for (const p of parts) { acc += p.length; if (acc / total >= prog) { line = p; break; } }
+        return balance(line);
+      }
+
+      const objs = { cab, crowd, barGroup, steps3, pods };
+      const SHOW = { hook: ["crowd"], open: ["cab"], spec: ["cab"], lt: ["steps3"], trick: ["cab"], exp1: ["crowd"], chain: ["barGroup"], avg: ["cab"],
+        cost: ["barGroup"], cost2: ["crowd"], day: ["crowd", "barGroup"], dayext: ["crowd"], rates: ["pods"], month: ["crowd"], summary: ["cab"], end: ["cab"] };
+
+      function renderAt(t) {
+        let sc = D.scenes[0];
+        for (const s of D.scenes) if (t >= s.start) sc = s;
+        const before = t < D.scenes[0].start;
+        const u = before ? 0 : t - sc.start, d = sc.dur;
+        const show = SHOW[sc.id] || [];
+        for (const [k, o] of Object.entries(objs)) o.visible = show.includes(k);
+        if (sc.id === "day") barGroup.visible = u >= 9;
+        drawBalls(t); drawDust(t);
+        const r = (SC[sc.id] || (() => ({})))(u, d) || {};
+        $("panel").innerHTML = r.panel || "";
+        $("title").innerHTML = r.title || "";
+        $("labels").innerHTML = r.labels || "";
+        $("chapter").textContent = r.chapter || "";
+        $("chapter").style.opacity = r.chapter ? 1 : 0;
+        const fadeIn = clamp(u / 0.35);
+        $("panel").style.opacity = fadeIn; $("title").style.opacity = fadeIn; $("labels").style.opacity = fadeIn;
+        $("captext").textContent = before ? "" : caption(sc, u);
+        alice(t, sc, u);
+        composer.render();
+      }
+      window.addEventListener("hf-seek", (e) => renderAt(e.detail.time));
+      document.fonts.ready.then(() => renderAt(0));
+      renderAt(0);
+    </script>
+  </body>
+</html>
