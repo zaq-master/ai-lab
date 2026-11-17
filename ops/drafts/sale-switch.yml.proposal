@@ -1,0 +1,57 @@
+# セール切替の再ビルド（保険）：build.py の表示は「ビルドした時刻」で切り替わる（STARTS／EXPIRE）。
+# 定時の回が止まっても、楽天BFの開始（11/19 20:00 JST）と終了（11/25 1:59 JST）の直後に自動で build→docs だけ commit→push する。
+# docs に変化がなければ何もしない（定時の回が先に再ビルドしていれば空振りで終わる）。外部Actionは actions/checkout のみ（SHA固定）。
+# 公開リポジトリの GitHub Actions は無料。シークレット不要（GITHUB_TOKEN のみ）。2026-11-18 01:00 自走回で追加。
+name: Sale switch rebuild
+
+on:
+  schedule:
+    # cron は UTC。JST = UTC+9。Actions の定時は数分〜十数分遅れることがあるため、30分後にもう1回（2回目は通常空振り）
+    - cron: "3 11 19 11 *"   # 11/19 20:03 JST（BF開始）
+    - cron: "33 11 19 11 *"  # 11/19 20:33 JST（予備）
+    - cron: "3 17 24 11 *"   # 11/25 02:03 JST（BF終了 1:59 の後）
+    - cron: "33 17 24 11 *"  # 11/25 02:33 JST（予備）
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sale-switch
+  cancel-in-progress: false
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: main
+
+      - name: build.py を実行（JST の今の時刻で表示を切り替える）
+        run: |
+          pip install --quiet "markdown==3.11"
+          TZ=Asia/Tokyo date
+          python3 build.py
+
+      - name: docs に変化があれば commit → push（最大3回 pull --rebase して再試行）
+        run: |
+          if git diff --quiet -- docs && [ -z "$(git ls-files --others --exclude-standard docs)" ]; then
+            echo "docs に変化なし（定時の回が先に再ビルド済み）→ 終了"; exit 0
+          fi
+          git status --short docs | head -40
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs
+          git commit -m "セール切替の自動再ビルド（$(TZ=Asia/Tokyo date '+%m/%d %H:%M') JST・sale-switch.yml）"
+          for i in 1 2 3; do
+            if git pull --rebase origin main && git push origin HEAD:main; then exit 0; fi
+            git rebase --abort 2>/dev/null || true
+            # 定時の回と docs がぶつかったら、最新の main で作り直す
+            git reset --hard origin/main && python3 build.py
+            if git diff --quiet -- docs && [ -z "$(git ls-files --others --exclude-standard docs)" ]; then exit 0; fi
+            git add docs && git commit -m "セール切替の自動再ビルド（再試行$i・sale-switch.yml）"
+            sleep 10
+          done
+          exit 1
