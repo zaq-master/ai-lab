@@ -181,6 +181,40 @@ def bgm(total):
     return out
 
 
+BGM_DIR = os.path.join(ASSETS, "bgm")
+# 場面 → 曲（オーナー提供。OpenTracks：商用の背景音楽として利用可・表記不要。作曲者ごとの条件はオーナー確認）
+BGM_PLAN = [("hook", "summer_triangle.mp3"), ("spec", "nandeshou.mp3"), ("exp1", "honey_lemon.mp3"), ("summary", "morning.mp3")]
+
+
+def load_mp3(path):
+    import subprocess
+    raw = subprocess.run(["ffmpeg", "-v", "error", "-i", path, "-f", "s16le", "-ac", "1", "-ar", str(SR), "-"],
+                         capture_output=True, check=True).stdout
+    return np.frombuffer(raw, np.int16).astype(np.float32) / 32768.0
+
+
+def bgm_tracks(total):
+    n = int(total * SR)
+    out = np.zeros(n, np.float32)
+    starts = {s["id"]: s["start"] for s in S}
+    plan = [(starts[sid] if sid != "hook" else 0.0, f) for sid, f in BGM_PLAN]
+    xf = int(1.5 * SR)                                  # 曲のつなぎ目は1.5秒で重ねる
+    for i, (t0, f) in enumerate(plan):
+        t1 = plan[i + 1][0] if i + 1 < len(plan) else total
+        a, b = int(t0 * SR), min(n, int(t1 * SR) + xf)
+        x = load_mp3(os.path.join(BGM_DIR, f))
+        x = x / (np.sqrt((x ** 2).mean()) + 1e-9) * 0.12  # 曲ごとの音量をそろえる
+        seg = np.tile(x, (b - a) // len(x) + 1)[: b - a]
+        env = np.ones(b - a, np.float32)
+        k = min(xf, len(env) // 2)
+        if i > 0:
+            env[:k] = np.linspace(0, 1, k)
+        if i + 1 < len(plan):
+            env[-k:] = np.linspace(1, 0, k)
+        out[a:b] += seg * env
+    return out
+
+
 def whoosh():
     d = 0.6
     t = np.arange(int(d * SR)) / SR
@@ -232,8 +266,8 @@ def main():
     ref = np.percentile(env[env > 1e-4], 85) if (env > 1e-4).any() else 1
     mouth = np.where(env > ref * 0.6, 2, np.where(env > ref * 0.22, 1, 0)).tolist()
 
-    # BGM（声がある間は小さく）
-    music = bgm(total)
+    # BGM：OpenTracks（旧DOVA-SYNDROME）の曲を場面ごとに切り替える（曲はリポジトリに入れない）
+    music = bgm_tracks(total) if os.path.isdir(BGM_DIR) else bgm(total)
     duck = np.repeat(np.array([0.45 if m else 1.0 for m in mouth], np.float32), hop)
     duck = np.convolve(np.pad(duck, (0, len(music) - len(duck)), constant_values=1.0), np.ones(4800) / 4800, "same")
     mix = vo * 0.95 + music * duck * 0.55
