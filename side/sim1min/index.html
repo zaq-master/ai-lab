@@ -190,7 +190,7 @@
           L = lab(-3.3, 5.6, -4.6, `<span style="color:#ff8a8a">A組</span><br><span style="font-size:36px">ハマり台に座る</span>`, clamp(u * 2)) +
               lab(3.3, 5.6, -4.6, `<span style="color:#8ac4ff">B組</span><br><span style="font-size:36px">当たった直後の台</span>`, clamp((u - 2.5) * 2)); }
         else if (sc.id === "rule") { camMove(k, [0, 10, 19, 0, 2.2, -0.5], [0, 8, 16, 0, 2.6, -0.5]);
-          title = `<div style="transform:scale(${0.5 + 0.5 * back(u / 0.5)})">どちらも <span style="color:#ffd84a">1/399.9</span><br><span style="font-size:70px">300回転だけ打つ</span></div>`; }
+          title = `<div style="transform:scale(${0.5 + 0.5 * back(u / 0.5)})">どちらも <span style="color:#ffd84a">1/399.9</span><br><span style="font-size:70px">300回転だけ打つ</span><br><span style="font-size:44px;color:#fff3c4">1000円17回転・約1.8万円ぶん</span></div>`; }
         else if (sc.id === "race") { camMove(k, [0, 8, 16, 0, 1.2, 0.5], [0, 7.5, 14.5, 0, 1.4, 0.5]);
           L = lab(-1.8, 6.0, 0.4, `<span style="color:#ff8a8a">A組</span> ${nA.toLocaleString()}人`, 1, 50) + lab(1.8, 6.0, 0.4, `<span style="color:#8ac4ff">B組</span> ${nB.toLocaleString()}人`, 1, 50);
           title = `<div style="font-size:64px;margin-top:760px">${Math.floor(spins)} / 300 回転</div>`; }

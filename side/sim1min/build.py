@@ -29,11 +29,14 @@ A, B = first_hit(), first_hit()          # A＝ハマり台、B＝当たった�
 ra, rb = float((A > 0).mean()), float((B > 0).mean())
 theory = 1 - (1 - P) ** SPINS
 pct = lambda x: f"{x * 100:.1f}%"
+# リアル条件（pachisim.Conditions の標準：1000円17回転・等価）で300回転の投資額
+from pachisim import Conditions  # noqa: E402
+COST = f"{round(SPINS / Conditions().rate * 1000, -3):,.0f}"   # 例：18,000
 
 S = [
     dict(id="hook", face="surprised", sub="500回転もハマってる台。そろそろ当たりそうな気、しませんか？"),
     dict(id="setup", face="pose_pointing", sub="じゃあ、確かめてみましょう。1万人を2組に分けます。A組はハマってる台、B組は当たった直後の台です。"),
-    dict(id="rule", face="base", sub="当たり確率は、どちらも1/399.9。300回転だけ打って、当たった人の数をくらべます。"),
+    dict(id="rule", face="base", sub=f"当たり確率は、どちらも1/399.9。1000円で17回る台を、300回転。だいたい{COST}円ぶん打って、当たった人の数をくらべます。"),
     dict(id="race", face="pose_thinking", sub="当たった人は、金色の玉になってタンクにたまります。さあ、どっちが多くなると思いますか？"),
     dict(id="result", face="pose_excited",
          sub=f"結果は…A組{pct(ra)}。B組{pct(rb)}。ほとんど、同じなんです。"),
@@ -43,7 +46,7 @@ S = [
 
 
 def tts(say):
-    x, _ = sbv2_ja.tts_script(say, "ami", sr_out=SR)   # 語りかけ調（文ごとに調子・速さ・間を変える）
+    x, _ = sbv2_ja.tts_script(say, "jvnv", sr_out=SR)   # 語りかけ調（文ごとに調子・速さ・間を変える）
     return x
 
 
