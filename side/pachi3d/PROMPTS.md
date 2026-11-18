@@ -94,6 +94,8 @@ loopable, no sudden drops, background music under narration.
 - 締めはコメント誘導（「次に試してほしいこと、コメントで教えてね！」）
 - 尺は40〜60秒。冒頭2秒で問いかけ
 
+【シミュレーション条件】side/pachi3d/pachisim.py（リアルな1日）を使い、回転率・交換率・時間・財布・持ち玉・やめる作戦を必ず画面と説明欄に出す（詳細は pachi-sim-video スキル 2.5）
+
 【構成】side/pachi3d/STRUCTURE.md の順番で作る（問いかけ→予想→ルール→実験→結果→理由→締め）
 
 【作り方】
