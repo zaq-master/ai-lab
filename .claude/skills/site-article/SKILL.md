@@ -36,5 +36,6 @@ python3 build.py && git add -A && git commit -m "HH:MM 制作：<タイトル>" 
 アイキャッチ・関連記事・sitemapは build.py が自動生成する。push後1〜2分で公開。
 
 ## 4. 記録
+- front matter に `updated` がある記事は、本文を実質的に直したら `updated` をその日に更新する（リンク追加だけなら変えない。build.py は `updated` をコミット日より優先する）
 - ops/ideas.md の該当行に✅
 - ops/log/当日.md に1行、Slack報告に記事URLを入れる

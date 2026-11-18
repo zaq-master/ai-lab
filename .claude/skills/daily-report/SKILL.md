@@ -8,7 +8,7 @@ description: 21:00の日報回で数字を集めて ops/metrics.csv に記録し
 - 記事数：`ls content/posts | wc -l`
 - 売上：Stripe（読み取り、acct_1SRwxtFamAPaDCXY、livemode=true）の当日 charges の合計
 - note・X・IG・もしもの数字は、直近のPC回のログ（ops/log）に書かれた値を使う。なければ空欄にし「未計測」と書く。推測で埋めない
-- インデックス状況：WebSearch で `site:zaq-master.github.io/ai-lab` の件数
+- インデックス状況：WebSearch の `site:` は他サイトも混ざり、絞り込みが保証されないので掲載数に使わない（2026-11-18 対照テスト）。PC回の内蔵ブラウザでGoogleに `site:zaq-master.github.io/ai-lab` を検索した件数を使う（**週2回まで**、CAPTCHAが出たら中止）。測らない日・測れない回は site_index_seen を空欄にする（0と書かない）
 
 ## 記録
 ops/metrics.csv に1行追記（列：date,posts_site,posts_note,posts_x,posts_ig,followers_x,followers_ig,followers_note,sales_jpy,sales_total_jpy）
