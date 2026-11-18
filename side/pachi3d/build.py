@@ -124,10 +124,16 @@ for _s in S:
 _eng = {}
 
 
-ENGINE = os.environ.get("VOICE", "kokoro")      # kokoro（Apache-2.0）／ hts（東北大 tohoku-f01）
+ENGINE = os.environ.get("VOICE", "ami")      # kokoro（Apache-2.0）／ hts（東北大 tohoku-f01）
 
 
 def tts(say, emo):
+    if ENGINE in ("ami", "ami_neutral"):
+        import sbv2_ja
+        x, sr = sbv2_ja.tts(say, "ami", "るんるん" if ENGINE == "ami" else "Neutral")
+        if sr != SR:
+            x = np.interp(np.arange(int(len(x) * SR / sr)) / SR, np.arange(len(x)) / sr, x).astype(np.float32)
+        return x
     if ENGINE == "kokoro":
         from kokoro_ja import tts as ktts
         x, sr = ktts(say, voice="jf_alpha", speed=1.0)

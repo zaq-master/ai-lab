@@ -9,7 +9,7 @@
 実際の台・お店の条件で変わります。必勝法ではありません。18歳未満は遊技できません。
 
 BGM：OpenTracks（旧DOVA-SYNDROME）
-音声：Kokoro（Apache-2.0）
+音声：Style-BertVITS2モデル: 小春音アミ、あみたろの声素材工房 (https://amitaro.net/)
 キャラクター画像：Canvaで生成（オリジナル）
 
 #パチンコ #東京喰種 #シミュレーション #確率 #電脳アリス

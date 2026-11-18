@@ -15,7 +15,16 @@ ROOT = os.path.dirname(HERE)
 sys.path.insert(0, ROOT)
 import build as B  # noqa: E402  （本編のシミュレーション結果）
 from yomi import check, to_say  # noqa: E402
-from kokoro_ja import tts  # noqa: E402
+from kokoro_ja import tts as _ktts  # noqa: E402
+
+VOICE = os.environ.get("VOICE", "ami")            # ami（小春音アミ・るんるん）／kokoro
+
+
+def tts(say):
+    if VOICE == "kokoro":
+        return _ktts(say)
+    import sbv2_ja
+    return sbv2_ja.tts(say, "ami", "るんるん" if VOICE == "ami" else "Neutral")
 
 SR, FPS = 48000, 30
 yen = lambda spins: spins / B.RATE * 1000
