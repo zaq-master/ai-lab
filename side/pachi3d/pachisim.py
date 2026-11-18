@@ -57,7 +57,8 @@ def simulate(m: Machine, c: Conditions, n=10000, seed=0):
     rush_p = np.array([h[0] for h in m.rush_hits]); rush_pay = np.array([h[1] for h in m.rush_hits])
     nh_p = np.array([h[0] for h in m.normal_hits]); nh_pay = np.array([h[1] for h in m.normal_hits]); nh_in = np.array([h[2] for h in m.normal_hits])
     out = dict(yen=np.zeros(n), cash=np.zeros(n), balls_end=np.zeros(n), spins=np.zeros(n, int), hits=np.zeros(n, int),
-               rush_entries=np.zeros(n, int), max_chain=np.zeros(n, int), hours_played=np.zeros(n))
+               rush_entries=np.zeros(n, int), max_chain=np.zeros(n, int), hours_played=np.zeros(n),
+               first_rush_cash=np.full(n, -1.0), first_rush_spin=np.full(n, -1, int))   # 初めてRUSHに入った時点の現金・回転数（入れなければ-1）
     total_sec = c.hours * 3600
     for i in range(n):
         rate = max(8.0, rng.normal(c.rate, c.rate_spread))
@@ -82,6 +83,8 @@ def simulate(m: Machine, c: Conditions, n=10000, seed=0):
             if not nh_in[k]:
                 continue
             # RUSH：ST回転のうちに当たれば継続
+            if entries == 0:
+                out["first_rush_cash"][i] = cash; out["first_rush_spin"][i] = spins
             entries += 1; chain = 0
             while True:
                 g = rng.geometric(m.p_rush)
@@ -115,6 +118,7 @@ def describe(c: Conditions):
 
 
 # 公開スペック（攻略サイト等。メーカー公式資料とは未照合）
+# 2026-11-18 再確認：1geki.jp/pachinko/e_tokyoghoul/ と pachiseven.jp/machines/7159 で一致
 ST_MACHINE_TOKYOGHOUL = Machine(
     name="e東京喰種",
     p_normal=1 / 399.9,
@@ -122,7 +126,7 @@ ST_MACHINE_TOKYOGHOUL = Machine(
     p_charge=1 / 399.9, charge_pay=300,
     st_spins=130, p_rush=1 / 95.3,
     rush_hits=[(0.03, 6000), (0.97, 3000)],
-    sources=["https://nana-press.com/kaiseki/machine/933/", "https://p-town.dmm.com/specials/news/8623"],
+    sources=["https://1geki.jp/pachinko/e_tokyoghoul/", "https://pachiseven.jp/machines/7159"],
 )
 
 
