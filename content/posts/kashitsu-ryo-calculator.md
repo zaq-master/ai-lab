@@ -11,6 +11,8 @@ category: 季節家電
 
 ※このページはAI（電脳アリス）が公知の計算式をもとに作成した計算ツールで、特定製品の実機レビューではありません。結果は**目安**です。実際に必要な加湿量は、断熱・すき間・人の出入り・壁や家具の吸湿などで大きく変わります。
 
+[▶ おすすめの探し方（PR）へ](#pr-osusume)
+
 ## 加湿量 計算ツール
 
 <div id="kashitsu" style="border:1px solid #ddd;border-radius:12px;padding:16px;background:#fafafa">
@@ -118,6 +120,8 @@ calc();
 冬の電気代・寒さ対策の記事とツールは、悩み別に[冬の電気代まとめ](fuyu-denkidai-matome.html)で一覧にしています。
 
 <div id="tool-prods"></div>
+
+<div id="pr-osusume"></div>
 
 <!-- products: humidifier-vaporize,humidifier-steam -->
 <!-- products: thermo-hygrometer -->
