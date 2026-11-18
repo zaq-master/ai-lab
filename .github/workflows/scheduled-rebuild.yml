@@ -15,6 +15,9 @@ on:
     - cron: "35 11 19 11 *"  # 11/19 20:35 JST（念のため）
     - cron: "5 17 24 11 *"   # 11/25 02:05 JST（BF終了の直後）
     - cron: "35 17 24 11 *"  # 11/25 02:35 JST（念のため）
+    # 予備（2026-11-18 追加）：上の2回がどちらも飛ばされた場合や、切替前に作った古い表示が後から push された場合に自動で戻す。変化がなければ何もしない
+    - cron: "15 12-14 19 11 *"  # 11/19 21:15・22:15・23:15 JST
+    - cron: "15 18-20 24 11 *"  # 11/25 03:15・04:15・05:15 JST
   workflow_dispatch:
 
 # 同時に2つ走って push がぶつからないよう1本ずつ（待機中の回は新しい回に置き換わってよい：どの回も最新の main を作り直すため）
@@ -52,7 +55,8 @@ jobs:
             before=$(git rev-parse HEAD)
             python3 build.py
             # 既にあるOGP画像は戻す（このサーバーとAIの回でフォントの描き方が少し違い、毎回全画像が書き換わるため。11/18 初回の手動実行で発見）
-            git checkout -q -- docs/og
+            # ただしBFメモの画像だけは残す（開催中・終了でタイトルが変わり、画像の文字も変える必要があるため。11/18 試しビルドで発見）
+            git checkout -q -- docs/og ':(exclude)docs/og/rakuten-blackfriday-memo.png'
             git add -A docs
             if git diff --cached --quiet; then
               echo "変化なし。commit しません。"
