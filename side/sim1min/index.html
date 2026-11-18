@@ -54,13 +54,13 @@
       // ---------- 3D ----------
       const R = new THREE.WebGLRenderer({ canvas: $("gl"), antialias: true, preserveDrawingBuffer: true });
       R.setSize(1080, 1920, false); R.toneMapping = THREE.ACESFilmicToneMapping; R.outputColorSpace = THREE.SRGBColorSpace;
-      R.shadowMap.enabled = true; R.shadowMap.type = THREE.PCFSoftShadowMap;
+      R.shadowMap.enabled = true; R.shadowMap.type = THREE.PCFShadowMap;
       const scene = new THREE.Scene(); scene.background = new THREE.Color(0x2b1d14); scene.fog = new THREE.Fog(0x2b1d14, 30, 70);
       scene.environment = new THREE.PMREMGenerator(R).fromScene(new RoomEnvironment(), 0.04).texture; scene.environmentIntensity = 0.55;
       const cam = new THREE.PerspectiveCamera(50, 1080 / 1920, 0.1, 200);
       scene.add(new THREE.HemisphereLight(0xfff1dc, 0x3a2a1e, 1.2));
       const key = new THREE.SpotLight(0xffe7c4, 900, 80, 0.7, 0.6); key.position.set(4, 22, 10); key.castShadow = true;
-      key.shadow.mapSize.set(2048, 2048); key.target.position.set(0, 0, 0); scene.add(key, key.target);
+      key.shadow.mapSize.set(1024, 1024); key.target.position.set(0, 0, 0); scene.add(key, key.target);
 
       // 木のテーブル
       const wc = document.createElement("canvas"); wc.width = 1024; wc.height = 1024; const w = wc.getContext("2d");
@@ -101,7 +101,7 @@
         const base = new THREE.Mesh(new THREE.CylinderGeometry(1.4, 1.5, 0.3, 48), new THREE.MeshStandardMaterial({ color: 0x2b2f55, metalness: 0.6, roughness: 0.3 }));
         base.position.y = 0.15; g.add(base);
         const NB = 900;
-        const balls = new THREE.InstancedMesh(new THREE.SphereGeometry(0.13, 12, 10), new THREE.MeshStandardMaterial({ color: 0xffc23a, metalness: 0.9, roughness: 0.2, emissive: 0x442200 }), NB);
+        const balls = new THREE.InstancedMesh(new THREE.SphereGeometry(0.13, 8, 6), new THREE.MeshStandardMaterial({ color: 0xffc23a, metalness: 0.9, roughness: 0.2, emissive: 0x442200 }), NB);
         balls.castShadow = true; g.add(balls);
         return { g, balls, NB };
       }
@@ -121,19 +121,19 @@
       }
 
       // 1万人（左右に5000人ずつ）
-      const pBody = new THREE.CapsuleGeometry(0.07, 0.06, 4, 8); pBody.translate(0, 0.1, 0);
-      const pHead = new THREE.SphereGeometry(0.075, 10, 8); pHead.translate(0, 0.25, 0);
+      const pBody = new THREE.CapsuleGeometry(0.07, 0.06, 2, 6); pBody.translate(0, 0.1, 0);
+      const pHead = new THREE.SphereGeometry(0.075, 6, 5); pHead.translate(0, 0.25, 0);
       function crowd(x0) {
-        const b = new THREE.InstancedMesh(pBody, new THREE.MeshStandardMaterial({ roughness: 0.5 }), 5000);
-        const h = new THREE.InstancedMesh(pHead, new THREE.MeshStandardMaterial({ color: 0xffe2cf, roughness: 0.6 }), 5000);
+        const b = new THREE.InstancedMesh(pBody, new THREE.MeshLambertMaterial({ emissive: 0x2a2a2a }), 5000);
+        const h = new THREE.InstancedMesh(pHead, new THREE.MeshLambertMaterial({ color: 0xfff4ea, emissive: 0x2a2a2a }), 5000);
         for (let i = 0; i < 5000; i++) h.setColorAt(i, new THREE.Color(0xffffff));
         const pos = [];
         for (let i = 0; i < 5000; i++) { const gx = i % 50, gz = Math.floor(i / 50); pos.push([x0 + (gx - 24.5) * 0.1, 2.2 + gz * 0.1]); }
-        b.castShadow = true; scene.add(b, h);
+        scene.add(b, h);   // 1万人は影を落とさない（小さすぎて見えず、計算だけ重い）
         return { b, h, pos };
       }
       const CA = crowd(-2.7), CB = crowd(2.7);
-      const cGrey = new THREE.Color(0x7d84b8), cGold = new THREE.Color(0xffa000), cSkin = new THREE.Color(0xffffff);
+      const cGrey = new THREE.Color(0x7d84b8), cGold = new THREE.Color(0xffb414), cSkin = new THREE.Color(0xffffff);
       function drawCrowd(C, arr, spinsNow, t) {
         for (let i = 0; i < 5000; i++) {
           const hit = arr[i] > 0 && arr[i] <= spinsNow;
