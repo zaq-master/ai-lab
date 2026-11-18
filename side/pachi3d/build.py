@@ -116,7 +116,18 @@ S = [
 _eng = {}
 
 
+ENGINE = os.environ.get("VOICE", "kokoro")      # kokoro（Apache-2.0）／ hts（東北大 tohoku-f01）
+
+
 def tts(say, emo):
+    if ENGINE == "kokoro":
+        from kokoro_ja import tts as ktts
+        x, sr = ktts(say, voice="jf_alpha", speed=1.0)
+        if sr != SR:                                   # 24kHz → 48kHz
+            t_old = np.arange(len(x)) / sr
+            t_new = np.arange(int(len(x) * SR / sr)) / SR
+            x = np.interp(t_new, t_old, x).astype(np.float32)
+        return x
     if emo not in _eng:
         _eng[emo] = pyopenjtalk.HTSEngine(os.path.join(VOICES, f"tohoku-f01-{emo}.htsvoice").encode())
     e = _eng[emo]
