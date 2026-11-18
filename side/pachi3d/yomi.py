@@ -39,6 +39,10 @@ def check(say):
     bad = [b for b in BAD if b in kana]
     if re.search(r"[A-Za-zＡ-Ｚａ-ｚ]", kana):
         bad.append("英字が残っている")
+    # 小数点（例：199.9）の数と、読みの「テン」の数が合っているか
+    dots = len(re.findall(r"\d\.\d", say))
+    if dots and kana.count("テン") < dots:
+        bad.append(f"小数点{dots}か所に対して「テン」が{kana.count('テン')}か所")
     return kana, bad
 
 

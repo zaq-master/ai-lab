@@ -241,8 +241,10 @@ def main():
         a = int((s["start"] - 0.25) * SR)
         w = whoosh()
         mix[a:a + len(w)] += w[: len(mix) - a]
-    for sid, at in [("trick", 6.0), ("exp1", 9.0), ("avg", 1.5), ("day", 9.5), ("month", 5.0)]:
-        s = next(x for x in S if x["id"] == sid)       # 大事な数字が出る瞬間に「キラン」
+    ex = next(x for x in S if x["id"] == "exp1")
+    fx = {"trick": 6.0, "exp1": round(ex["dur"] - 3.0, 2), "avg": 1.0, "day": 9.0, "dayext": 1.0, "rates": 6.0, "month": 5.0}
+    for sid, at in fx.items():
+        s = next(x for x in S if x["id"] == sid)       # 大事な数字が出る瞬間に「キラン」（画面の紙吹雪と同じ時刻）
         a = int((s["start"] + at) * SR)
         c = chime()
         mix[a:a + len(c)] += c[: len(mix) - a]
@@ -254,7 +256,7 @@ def main():
         w.writeframes((mix * 32767).astype(np.int16).tobytes())
 
     data = dict(
-        total=round(total, 3), fps=FPS, mouth=mouth,
+        total=round(total, 3), fps=FPS, mouth=mouth, fx=fx,
         scenes=[{k: s[k] for k in ("id", "sub", "start", "dur", "voice_len")} | {"face": s.get("face", "open")} for s in S],
         stats=dict(enter_rate=enter_rate, avg_rush=avg_rush, chain_max=chain_max, chain_cnt=chain_cnt, over10k=over10k,
                    q50=q50, q90=q90, deep=deep, cost_cnt=cost_cnt, cost_edges=cost_edges, rate=RATE,

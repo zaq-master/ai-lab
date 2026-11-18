@@ -19,6 +19,16 @@
       #root { width: 100%; height: 100%; position: relative; }
       #gl { position: absolute; inset: 0; width: 1920px; height: 1080px; }
       #ui { position: absolute; inset: 0; pointer-events: none; }
+      #sky { position: absolute; inset: 0; overflow: hidden; }
+      .cloud { position: absolute; background: #fff; border-radius: 200px; opacity: .85; filter: blur(2px); }
+      .cloud::before, .cloud::after { content: ""; position: absolute; background: #fff; border-radius: 50%; }
+      .cloud::before { width: 55%; height: 160%; left: 12%; top: -70%; }
+      .cloud::after { width: 40%; height: 130%; right: 14%; top: -45%; }
+      #vignette { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 45%, rgba(0,0,0,0) 62%, rgba(38,43,87,.22) 100%); }
+      #wipe { position: absolute; inset: -200px; }
+      #wipe .band { position: absolute; top: 0; bottom: 0; width: 900px; transform: skewX(-18deg); }
+      #burst { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+      .confetti { position: absolute; width: 18px; height: 26px; border-radius: 3px; }
       #chapter { position: absolute; left: 70px; top: 50px; padding: 10px 28px; border-radius: 34px; font-size: 34px; font-weight: 800;
         color: var(--navy); background: #ffd84a; border: 5px solid var(--navy); box-shadow: 6px 6px 0 var(--navy); }
       #panel { position: absolute; left: 80px; top: 150px; width: 1180px; }
@@ -43,9 +53,12 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="246.531" data-width="1920" data-height="1080">
-      <canvas id="gl" class="clip" data-start="0" data-duration="246.531" data-track-index="0" width="1920" height="1080"></canvas>
-      <div id="ui" class="clip" data-start="0" data-duration="246.531" data-track-index="1" data-layout-allow-overlap>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="243.415" data-width="1920" data-height="1080">
+      <div id="sky" class="clip" data-start="0" data-duration="243.415" data-track-index="3"></div>
+      <canvas id="gl" class="clip" data-start="0" data-duration="243.415" data-track-index="0" width="1920" height="1080"></canvas>
+      <div id="ui" class="clip" data-start="0" data-duration="243.415" data-track-index="1" data-layout-allow-overlap>
+        <div id="vignette"></div>
+        <svg id="burst" viewBox="0 0 1920 1080"></svg>
         <div id="labels"></div>
         <div id="title"></div>
         <div id="panel"></div>
@@ -53,8 +66,10 @@
         <div id="chapter"></div>
         <div id="credit">AIがシミュレーションして制作</div>
         <div id="cap"><div id="captext"></div></div>
+        <div id="confetti"></div>
+        <div id="wipe"><div class="band" style="background:#ffd84a"></div><div class="band" style="background:#262b57"></div><div class="band" style="background:#2f7bff"></div></div>
       </div>
-      <audio id="mix" class="clip" src="assets/mix.wav" data-start="0" data-duration="246.531" data-track-index="2"></audio>
+      <audio id="mix" class="clip" src="assets/mix.wav" data-start="0" data-duration="243.415" data-track-index="2"></audio>
     </div>
     <script>
       const tl = gsap.timeline({ paused: true });
@@ -280,8 +295,9 @@
 
       // ---------- 画面の部品 ----------
       const fade = (u, t0, d = 0.5) => clamp((u - t0) / d);
-      const rows = (list, u, gap = 0.55) => list.map(([k, v], i) => `<div class="row" style="opacity:${fade(u, 0.4 + i * gap)};transform:translateX(${(1 - out3(fade(u, 0.4 + i * gap))) * -40}px)"><span class="k">${k}</span><span class="v">${v}</span></div>`).join("");
-      function pop(u, t0) { const k = out3(fade(u, t0, 0.45)); return `opacity:${k};transform:scale(${0.6 + 0.4 * k})`; }
+      const rows = (list, u, gap = 0.55) => list.map(([k, v], i) => `<div class="row" style="opacity:${fade(u, 0.4 + i * gap, 0.25)};transform:translateX(${(1 - back(fade(u, 0.4 + i * gap, 0.45))) * -60}px)"><span class="k">${k}</span><span class="v">${v}</span></div>`).join("");
+      const back = (x) => { x = clamp(x); const c = 1.9; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+      function pop(u, t0) { const k = fade(u, t0, 0.5); return `opacity:${clamp(k * 3)};transform:scale(${0.4 + 0.6 * back(k)})`; }
 
       // ---------- 場面 ----------
       const SC = {};
@@ -437,17 +453,57 @@
       };
 
       // ---------- アリス ----------
+      let hype = 0;
       function alice(t, sc, u) {
         const f = Math.floor(t * FPS), mo = D.mouth[Math.min(f, D.mouth.length - 1)] || 0;
         const blink = t % 3.7 < 0.13 && mo === 0;
         $("a_talk").style.opacity = mo >= 1 ? 1 : 0;
         $("a_blink").style.opacity = blink ? 1 : 0;
         const enter = out3(clamp((t - 0.6) / 0.9));
-        const sway = Math.sin(t * 1.3) * 0.8, bob = Math.sin(t * 2.1) * 5 + (mo ? -2 : 0);
+        const sway = Math.sin(t * 1.3) * 0.8, bob = Math.sin(t * 2.1) * 5 + (mo ? -2 : 0) - Math.abs(Math.sin((1 - hype) * Math.PI * 3)) * 40 * hype;
         const breath = 1 + Math.sin(t * 2.1) * 0.006;
         const el = $("alice");
         el.style.opacity = 1;
         el.style.transform = `translate(${(1 - enter) * 600}px, ${bob}px) rotate(${sway}deg) scale(${1 / breath}, ${breath})`;
+      }
+
+      // ---------- 演出：雲・切り替えの帯・集中線・紙吹雪・揺れ ----------
+      const CLOUDS = [0, 1, 2, 3, 4, 5].map((i) => ({ x: (i * 397) % 1900, y: 40 + ((i * 131) % 220), w: 220 + ((i * 89) % 180), sp: 6 + (i % 3) * 4 }));
+      $("sky").innerHTML = CLOUDS.map((c, i) => `<div class="cloud" id="cl${i}" style="width:${c.w}px;height:${c.w * 0.32}px;top:${c.y}px"></div>`).join("");
+      function sky(t) { CLOUDS.forEach((c, i) => { $("cl" + i).style.left = (((c.x + t * c.sp) % 2400) - 300) + "px"; }); }
+      function wipe(t) {
+        // 次の場面の頭で、帯が左から右へ画面を横切る（前0.3秒で覆い、後0.35秒で抜ける）
+        let k = -1;
+        for (const s of D.scenes) { const dt = t - s.start; if (s !== D.scenes[0] && dt > -0.3 && dt < 0.35) k = dt < 0 ? (dt + 0.3) / 0.3 : 1 + dt / 0.35; }
+        const bands = $("wipe").children;
+        for (let i = 0; i < 3; i++) {
+          const kk = k < 0 ? -1 : k - i * 0.08;
+          const x = kk < 0 ? -1400 : kk <= 1 ? lerp(-1400, 0, out3(kk)) * 1 + i * 520 : lerp(i * 520, 2600, ease(kk - 1));
+          bands[i].style.left = x + "px"; bands[i].style.width = (kk >= 0 && kk <= 1.02 ? 1600 : 1000) + "px";
+        }
+      }
+      const FX = D.fx;
+      function burst(u, at) {
+        const k = (u - at) / 1.3;
+        if (k < 0 || k > 1) { $("burst").innerHTML = ""; $("confetti").innerHTML = ""; return 0; }
+        const r0 = 260 + 500 * out3(k), r1 = r0 + 260 + 400 * out3(k), op = (1 - k) * 0.85;
+        let svg = "";
+        for (let i = 0; i < 36; i++) {
+          const a = (i / 36) * Math.PI * 2 + 0.05, w = i % 2 ? 0.035 : 0.02;
+          const p = (r) => [700 + Math.cos(a) * r, 520 + Math.sin(a) * r * 0.75];
+          const [x0, y0] = p(r0), [x1, y1] = p(r1), [x2, y2] = [700 + Math.cos(a + w) * r1, 520 + Math.sin(a + w) * r1 * 0.75];
+          svg += `<polygon points="${x0},${y0} ${x1},${y1} ${x2},${y2}" fill="${i % 3 ? "#ffd84a" : "#ffffff"}" opacity="${op}"/>`;
+        }
+        $("burst").innerHTML = svg;
+        let cf = "";
+        const cols = ["#ff4d4d", "#ffd84a", "#2f7bff", "#3ad29f", "#ff7ad9"];
+        for (let i = 0; i < 70; i++) {
+          const sx = (i * 977) % 1500 + 60, vx = (((i * 37) % 21) - 10) * 18, vy = -380 - ((i * 53) % 300);
+          const tt = k * 1.3, x = sx + vx * tt, y = 700 + vy * tt + 900 * tt * tt;
+          cf += `<div class="confetti" style="left:${x}px;top:${y}px;background:${cols[i % 5]};opacity:${1 - k * 0.6};transform:rotate(${(i * 47 + tt * 540 * (i % 2 ? 1 : -1)) % 360}deg)"></div>`;
+        }
+        $("confetti").innerHTML = cf;
+        return 1 - k;
       }
 
       // ---------- 字幕：声の進み具合で1文ずつ ----------
@@ -481,7 +537,7 @@
         const show = SHOW[sc.id] || [];
         for (const [k, o] of Object.entries(objs)) o.visible = show.includes(k);
         if (sc.id === "day") barGroup.visible = u >= 9;
-        drawBalls(t); drawDust(t);
+        drawBalls(t); drawDust(t); sky(t); wipe(t);
         const r = (SC[sc.id] || (() => ({})))(u, d) || {};
         $("panel").innerHTML = r.panel || "";
         $("title").innerHTML = r.title || "";
@@ -491,6 +547,9 @@
         const fadeIn = clamp(u / 0.35);
         $("panel").style.opacity = fadeIn; $("title").style.opacity = fadeIn; $("labels").style.opacity = fadeIn;
         $("captext").textContent = before ? "" : caption(sc, u);
+        hype = FX[sc.id] !== undefined ? burst(u, FX[sc.id]) : burst(-1, 0);
+        const shake = hype > 0.6 ? (hype - 0.6) * 2.5 : 0;
+        $("ui").style.transform = shake ? `translate(${Math.sin(t * 90) * 10 * shake}px, ${Math.cos(t * 77) * 8 * shake}px)` : "";
         alice(t, sc, u);
         composer.render();
       }
