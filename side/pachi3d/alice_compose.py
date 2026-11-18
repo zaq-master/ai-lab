@@ -39,7 +39,7 @@ def align(base, img, skip=None):
                                    cv2.MOTION_AFFINE, crit, mask, 5)
     h, w = base.shape[:2]
     return cv2.warpAffine(img, warp, (w, h), flags=cv2.INTER_CUBIC + cv2.WARP_INVERSE_MAP,
-                          borderMode=cv2.BORDER_REPLICATE), warp
+                          borderMode=cv2.BORDER_CONSTANT, borderValue=(255, 255, 255)), warp
 
 
 def feather(shape, box, blur=25):
@@ -77,7 +77,22 @@ def main():
     me = feather(base.shape, EYES, 14)
     out_talk = b * (1 - mt) + talk.astype(np.float32) * mt
     out_blink = b * (1 - me) + blink.astype(np.float32) * me
-    for name, im in [("base", base), ("talk", out_talk.astype(np.uint8)), ("blink", out_blink.astype(np.uint8))]:
+    outs = [("base", base), ("talk", out_talk.astype(np.uint8)), ("blink", out_blink.astype(np.uint8))]
+    # 顔だけ変わる表情：顔の内側（目〜口）だけを土台に貼る
+    FACEIN = (566, 450, 970, 790)
+    mf = feather(base.shape, FACEIN, 20)
+    for n in ("happy", "surprised", "troubled"):
+        im, w = align(base, load(n), (540, 420, 1000, 800))
+        print(n, "warp", np.round(w, 3).tolist())
+        outs.append((n, (b * (1 - mf) + im.astype(np.float32) * mf).astype(np.uint8)))
+    # ポーズのある表情：絵ごと使う（顔で位置合わせ）。話すとき用に「話す」の口を貼った版も作る
+    tk = talk.astype(np.float32)
+    for n in ("thinking", "pointing", "excited"):
+        im, w = align(base, load(n), (540, 420, 1000, 800))
+        print(n, "warp", np.round(w, 3).tolist())
+        outs.append((f"pose_{n}", im))
+        outs.append((f"pose_{n}_talk", (im.astype(np.float32) * (1 - mt) + tk * mt).astype(np.uint8)))
+    for name, im in outs:
         cv2.imwrite(os.path.join(OUT, f"{name}.png"), cutout(im))
     print("ok")
 

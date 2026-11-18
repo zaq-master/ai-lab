@@ -112,6 +112,14 @@ S = [
          sub="この動画は、AIがシミュレーションして作りました。数字は公開情報をもとにしていて、実際のお店の条件で変わります。遊ぶときは無理のない範囲で。電脳アリスでした。"),
 ]
 
+# 場面ごとのアリスの表情（assets/alice_hq の名前。pose_* は手のポーズ付き）
+FACES = {"hook": "surprised", "open": "happy", "spec": "pose_pointing", "lt": "base", "trick": "pose_pointing",
+         "exp1": "base", "chain": "pose_thinking", "avg": "pose_excited", "cost": "base", "cost2": "troubled",
+         "day": "base", "dayext": "surprised", "rates": "pose_thinking", "month": "pose_excited",
+         "summary": "happy", "end": "happy"}
+for _s in S:
+    _s["face"] = FACES.get(_s["id"], "base")
+
 # ---------------- 声 ----------------
 _eng = {}
 
