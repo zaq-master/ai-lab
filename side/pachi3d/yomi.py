@@ -27,6 +27,7 @@ def fraction(m):
 
 def to_say(s):
     s = re.sub(r"(\d+)/(\d+(?:\.\d+)?)", fraction, s)
+    s = re.sub(r"(\d)\.(\d)", r"\1点\2", s)          # 小数点は「点」に（どの読み上げソフトでもテンと読ませる）
     for a, b in TABLE:
         s = s.replace(a, b)
     s = s.replace("％", "パーセント").replace("%", "パーセント")
@@ -40,7 +41,7 @@ def check(say):
     if re.search(r"[A-Za-zＡ-Ｚａ-ｚ]", kana):
         bad.append("英字が残っている")
     # 小数点（例：199.9）の数と、読みの「テン」の数が合っているか
-    dots = len(re.findall(r"\d\.\d", say))
+    dots = len(re.findall(r"\d[.点]\d", say))
     if dots and kana.count("テン") < dots:
         bad.append(f"小数点{dots}か所に対して「テン」が{kana.count('テン')}か所")
     return kana, bad
