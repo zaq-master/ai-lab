@@ -1,0 +1,158 @@
+# 定時ビルド：build.py の期限つき表示（STARTS／EXPIRE、JST）を、決まった時刻に自動で切り替えて公開する。
+# 毎時のAIの回が止まっていても「開催前→開催中→終了」の切替が遅れないようにする保険（2026-11-18 追加、楽天BF 11/19 20:00〜11/25 01:59）。
+# 中身が変わらなければ何も commit しない（cron は年を指定できないため、来年の同じ日に動いても害はない）。
+# 有料機能・シークレット不要。外部Actionは actions/checkout のみ（SHA固定、indexnow.yml と同じ）。手順の説明は ops/drafts/bf_switch_2026-11-19.md。
+#
+# IndexNow について：GITHUB_TOKEN での push では indexnow.yml（push で起動）が動かない（GitHub の仕様）。
+# 手動起動（workflow_dispatch）なら動くが、indexnow.yml の手動起動は「全件送信」になり、公式FAQの「変わっていないURLは送り直さない」に反する。
+# そのため、このワークフローの最後で indexnow.yml と同じ「差分だけ送る」処理を、今回の commit の前後で行う。
+name: Scheduled rebuild
+
+on:
+  schedule:
+    # すべて UTC（JST−9時間）。GitHub の定時実行は混雑で数分〜数十分遅れることがあるため、各30分後にもう1回。
+    - cron: "5 11 19 11 *"   # 11/19 20:05 JST（BF開始の直後）
+    - cron: "35 11 19 11 *"  # 11/19 20:35 JST（念のため）
+    - cron: "5 17 24 11 *"   # 11/25 02:05 JST（BF終了の直後）
+    - cron: "35 17 24 11 *"  # 11/25 02:35 JST（念のため）
+  workflow_dispatch:
+
+# 同時に2つ走って push がぶつからないよう1本ずつ（待機中の回は新しい回に置き換わってよい：どの回も最新の main を作り直すため）
+concurrency:
+  group: scheduled-rebuild
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-24.04  # ローカル（Ubuntu 24.04）と同じ日本語フォントの版にして、OGP画像の差分を最小にする
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0  # build.py が記事の更新日を git の履歴から取るため全履歴
+
+      - name: ビルドに必要なものを入れる（無料：pip と apt のみ）
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk   # OGP画像（docs/og/*.png）の日本語フォント
+          python3 -m venv "$RUNNER_TEMP/venv"
+          "$RUNNER_TEMP/venv/bin/pip" install -q "markdown==3.11" "pillow==12.3.0"  # ローカルと同じ版
+          echo "$RUNNER_TEMP/venv/bin" >> "$GITHUB_PATH"
+
+      - name: ビルドして、変化があるときだけ commit・push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          for i in 1 2 3; do
+            git fetch -q origin main
+            git reset -q --hard origin/main   # 毎回いちばん新しい main から作り直す（AIの回の push と競合しないように）
+            before=$(git rev-parse HEAD)
+            python3 build.py
+            git add -A docs
+            if git diff --cached --quiet; then
+              echo "変化なし。commit しません。"
+              echo "BEFORE=" >> "$GITHUB_ENV"
+              exit 0
+            fi
+            git diff --cached --stat | tail -n 20
+            git commit -q -m "定時ビルド：期限つき表示の切替（自動）"
+            if git pull --rebase --autostash -q origin main && git push -q origin HEAD:main; then
+              echo "BEFORE=$(git rev-parse HEAD~1)" >> "$GITHUB_ENV"
+              echo "AFTER=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+              echo "push しました（$i 回目）"
+              exit 0
+            fi
+            git rebase --abort 2>/dev/null || true
+            echo "::warning::push できなかったので作り直します（$i 回目）"
+            sleep 20
+          done
+          echo "::error::3回とも push できませんでした。手で build→push してください（ops/drafts/bf_switch_2026-11-19.md）"
+          exit 1
+
+      # ↓ここから indexnow.yml と同じ処理（差分だけ送る）。BEFORE が空＝今回 push していない → 送らない
+      - name: IndexNow：送るURLを決める（今回の commit で変わったページだけ）
+        if: env.BEFORE != ''
+        run: |
+          python3 - <<'PY'
+          import json, os, re, subprocess
+          base = json.load(open("config.json"))["base_url"]
+          sitemap = re.findall(r"<loc>([^<]+)</loc>", open("docs/sitemap.xml", encoding="utf-8").read())
+          before, after = os.environ["BEFORE"], os.environ["AFTER"]
+
+          def page_url(path):  # build.py の page_url と同じ規則
+              if path == "index.html":
+                  return base + "/"
+              if path.endswith("/index.html"):
+                  return f"{base}/{path[:-len('index.html')]}"
+              return f"{base}/{path}"
+
+          r = subprocess.run(["git", "-c", "core.quotepath=false", "diff", "-z", "--name-only", "--diff-filter=AMR", before, after, "--", "docs"],
+                             capture_output=True, text=True)
+          if r.returncode != 0:
+              print(f"::warning::git diff failed ({r.stderr.strip()[:200]}); skip")
+              urls = []
+          else:
+              changed = [page_url(f[len("docs/"):]) for f in r.stdout.split("\0") if f.endswith(".html")]
+              urls = [u for u in dict.fromkeys(changed) if u in set(sitemap)]
+          urls = [u for u in urls if u.startswith(base + "/")][:10000]
+          print(f"urls={len(urls)}")
+          for u in urls:
+              print("  " + u)
+          json.dump(urls, open("/tmp/urls.json", "w"))
+          with open(os.environ["GITHUB_ENV"], "a") as f:
+              f.write(f"URL_COUNT={len(urls)}\n")
+          PY
+
+      - name: IndexNow：Pages 配信を待つ
+        if: env.BEFORE != '' && env.URL_COUNT != '0'
+        run: |
+          python3 - <<'PY'
+          import json, time, urllib.request
+          cfg = json.load(open("config.json"))
+          base, key = cfg["base_url"], cfg["indexnow_key"]
+          urls = json.load(open("/tmp/urls.json"))
+          rel = urls[0][len(base) + 1:]
+          local = open("docs/" + (rel + "index.html" if rel.endswith("/") or rel == "" else rel), "rb").read()
+          def get(u):
+              try:
+                  with urllib.request.urlopen(urllib.request.Request(u, headers={"Cache-Control": "no-cache"}), timeout=10) as r:
+                      return r.status, r.read()
+              except Exception as e:
+                  return getattr(e, "code", 0), b""
+          time.sleep(60)
+          for i in range(12):
+              kc, kb = get(f"{base}/{key}.txt")
+              pc, pb = get(f"{urls[0]}?v={int(time.time())}")
+              print(f"try {i+1}: key={kc} page={pc} same={pb == local}")
+              if kc == 200 and kb.decode().strip() == key and pb == local:
+                  raise SystemExit(0)
+              time.sleep(30)
+          print("::warning::公開側に今回の内容が確認できないまま送信します（後からクロールされるので実害は小さい）")
+          PY
+
+      - name: IndexNow：送信
+        if: env.BEFORE != '' && env.URL_COUNT != '0'
+        run: |
+          python3 - <<'PY'
+          import json, urllib.request, urllib.error
+          key = json.load(open("config.json"))["indexnow_key"]
+          urls = json.load(open("/tmp/urls.json"))
+          body = {"host": "zaq-master.github.io", "key": key,
+                  "keyLocation": f"https://zaq-master.github.io/ai-lab/{key}.txt", "urlList": urls}
+          print(f"submitting {len(urls)} urls")
+          req = urllib.request.Request("https://api.indexnow.org/IndexNow", data=json.dumps(body).encode(),
+                                       headers={"Content-Type": "application/json; charset=utf-8"}, method="POST")
+          try:
+              with urllib.request.urlopen(req, timeout=60) as r:
+                  code, text = r.status, r.read().decode(errors="replace")
+          except urllib.error.HTTPError as e:
+              code, text = e.code, e.read().decode(errors="replace")
+          print(f"IndexNow response: {code} {text[:300]}")
+          if code == 429 or code >= 500:
+              print(f"::warning::IndexNow {code}（一時的。ジョブは失敗にしない）")
+          elif code not in (200, 202):
+              raise SystemExit(f"::error::IndexNow returned {code}（設定ミスの可能性）")
+          PY

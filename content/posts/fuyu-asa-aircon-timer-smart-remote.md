@@ -69,4 +69,7 @@ category: スマートホーム
 
 朝の暖房を何分つけるといくらになるかは、[エアコン暖房の電気代 計算ツール](aircon-danbou-denkidai-calculator.html)で消費電力と時間を入れると目安が出せます。部屋が2つある場合の台数は[賃貸でエアコン2台をスマホ操作](smart-remote-rental-two-aircon.html)、必要台数とセンサーの要否は[スマートリモコン何台いる？診断](smart-remote-count-shindan.html)を参考にしてください。
 
+<!-- blackfriday-2026-11（11/25 01:59まで表示・過ぎたらbuildで消える） -->
+11/19（木）20:00〜11/25（水）1:59 の楽天ブラックフライデーで冬の家電をまとめて検討するなら、何にいくらまで使うかを先に決める[ブラックフライデーの買い物メモ](rakuten-blackfriday-memo.html)もどうぞ。
+
 冬の電気代・寒さ対策の記事とツールは、悩み別に[冬の電気代まとめ](fuyu-denkidai-matome.html)で一覧にしています。

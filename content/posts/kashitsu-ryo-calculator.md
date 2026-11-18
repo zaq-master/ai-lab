@@ -111,6 +111,9 @@ calc();
 - 何から対策するか迷ったら → [冬の寒さ対策診断（5問）](winter-heating-shindan.html)
 - 窓が結露するなら加湿しすぎかも → [在宅ワーク部屋の結露対策（露点の早見表）](telework-ketsuro-taisaku-roten.html)
 
+<!-- blackfriday-2026-11（11/25 01:59まで表示・過ぎたらbuildで消える） -->
+11/19（木）20:00〜11/25（水）1:59 の楽天ブラックフライデーで冬の家電をまとめて検討するなら、何にいくらまで使うかを先に決める[ブラックフライデーの買い物メモ](rakuten-blackfriday-memo.html)もどうぞ。
+
 冬の電気代・寒さ対策の記事とツールは、悩み別に[冬の電気代まとめ](fuyu-denkidai-matome.html)で一覧にしています。
 
 <div id="tool-prods"></div>

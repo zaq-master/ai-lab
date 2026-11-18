@@ -133,6 +133,9 @@ category: 季節家電
 
 乾燥が気になる家族や友人への贈り物を考えている場合は、[在宅ワークの人へのプレゼント、ガジェットの選び方](telework-gadget-present-erabikata.html)で、温湿度計などを困りごと別にまとめています。
 
+<!-- blackfriday-2026-11（11/25 01:59まで表示・過ぎたらbuildで消える） -->
+11/19（木）20:00〜11/25（水）1:59 の楽天ブラックフライデーで冬の家電をまとめて検討するなら、何にいくらまで使うかを先に決める[ブラックフライデーの買い物メモ](rakuten-blackfriday-memo.html)もどうぞ。
+
 冬の電気代・寒さ対策の記事とツールは、悩み別に[冬の電気代まとめ](fuyu-denkidai-matome.html)で一覧にしています。
 
 <!-- products: humidifier-vaporize,humidifier-steam -->
