@@ -9,32 +9,34 @@ body { width: 1080px; height: 1920px; overflow: hidden; font-family: R, sans-ser
 .t { position: absolute; left: 0; right: 0; text-align: center; font-weight: 800; color: #fff;
   -webkit-text-stroke: 22px #1b1f45; paint-order: stroke fill; text-shadow: 12px 12px 0 #1b1f45; line-height: 1.05; }
 #t1 { top: 120px; font-size: 120px; }
-#t2 { top: 300px; font-size: 300px; color: #ffe94a; letter-spacing: -8px; transform: rotate(-4deg); }
+#t2 { top: 300px; font-size: 270px; color: #ffe94a; letter-spacing: -8px; transform: rotate(-4deg); }
 #t3 { top: 640px; font-size: 130px; color: #ff3b3b; }
 #badge { position: absolute; left: 60px; top: 860px; padding: 18px 38px; border-radius: 60px; background: #fff;
   border: 10px solid #1b1f45; box-shadow: 10px 10px 0 #1b1f45; font-size: 64px; font-weight: 800; color: #1b1f45; transform: rotate(-3deg); }
 #dots { position: absolute; left: 60px; top: 1040px; width: 560px; height: 560px; border-radius: 30px; border: 10px solid #1b1f45;
   box-shadow: 10px 10px 0 #1b1f45; background: #fff; }
 #alice { position: absolute; right: -150px; bottom: -120px; width: 820px; filter: drop-shadow(14px 14px 0 rgba(27,31,69,.35)); }
-#q { position: absolute; left: 110px; top: 1650px; font-size: 110px; font-weight: 800; color: #fff; -webkit-text-stroke: 18px #1b1f45; paint-order: stroke fill; }
+#q { position: absolute; left: 60px; top: 1650px; font-size: 84px; font-weight: 800; color: #fff; -webkit-text-stroke: 18px #1b1f45; paint-order: stroke fill; }
 </style></head>
 <body>
 <canvas id="rays" width="1080" height="1920"></canvas>
 <canvas id="dots" width="540" height="540"></canvas>
 <img id="alice" src="assets/alice/surprised_768.png">
-<div class="t" id="t1">RUSHまでの最長</div>
-<div class="t" id="t2">48万円</div>
-<div class="t" id="t3">1万人で検証</div>
+<div class="t" id="t1"></div>
+<div class="t" id="t2"></div>
+<div class="t" id="t3">RUSHに入れず</div>
 <div id="badge">e東京喰種</div>
-<div id="q">嘘だろ…</div>
+<div id="q">1万人で検証</div>
+<script src="assets/data.js"></script>
 <script>
+const S = window.DATA.stats;
+document.getElementById("t1").textContent = "財布" + S.budget_txt + "でも";
+document.getElementById("t2").textContent = "約" + S.out_pct + "%";
 const r = document.getElementById("rays").getContext("2d");
 r.translate(540, 800); r.fillStyle = "rgba(255,255,255,0.28)";
 for (let i = 0; i < 28; i++) { const a = i / 28 * Math.PI * 2; r.beginPath(); r.moveTo(0, 0); r.arc(0, 0, 2000, a, a + Math.PI / 28); r.fill(); }
 const d = document.getElementById("dots").getContext("2d");
 for (let i = 0; i < 10000; i++) { const x = (i % 100) * 5.2 + 10, y = Math.floor(i / 100) * 5.2 + 10;
-  d.fillStyle = "#ff9f1a"; d.fillRect(x, y, 4.2, 4.2); }
-d.fillStyle = "#ff1f1f"; d.fillRect(10 + 77 * 5.2 - 3, 10 + 41 * 5.2 - 3, 10, 10);
-d.strokeStyle = "#ff1f1f"; d.lineWidth = 7; d.beginPath(); d.arc(10 + 77 * 5.2 + 2, 10 + 41 * 5.2 + 2, 34, 0, 7); d.stroke();
+  d.fillStyle = window.DATA.cash[i] < 0 ? "#ff1f3a" : "#ffb52e"; d.fillRect(x, y, 4.2, 4.2); }
 </script>
 </body></html>

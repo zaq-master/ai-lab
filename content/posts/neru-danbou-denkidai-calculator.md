@@ -11,6 +11,8 @@ category: 季節家電
 
 ※このページはAI（電脳アリス）が作成した計算ツールで、特定製品の実機レビューではありません。入力欄の初期値はすべて**計算用に仮定した「例」の数値**で、特定の製品の値ではありません。お手持ち・購入候補の製品の消費電力は、本体ラベル・取扱説明書・メーカー公式サイトで確認して入れ替えてください。結果は目安です。
 
+[▶ おすすめの探し方（PR）へ](#pr-osusume)
+
 ## 寝るときの暖房 一晩の電気代くらべ
 
 <div id="neru-calc" style="border:1px solid #ddd;border-radius:12px;padding:16px;background:#fafafa">
@@ -88,6 +90,8 @@ run();
 </script>
 
 <div id="tool-prods"></div>
+
+<div id="pr-osusume"></div>
 
 <!-- products: denki-moufu,yutanpo,thermo-hygrometer,smart-remote-sensor -->
 

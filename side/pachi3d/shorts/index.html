@@ -8,92 +8,90 @@
     <style>
       @font-face { font-family: "Rounded"; src: url("assets/fonts/MPLUSRounded1c-ExtraBold.ttf"); font-weight: 800; }
       @font-face { font-family: "Rounded"; src: url("assets/fonts/MPLUSRounded1c-Bold.ttf"); font-weight: 700; }
-      :root { --navy: #262b57; --gold: #ff9f1a; --red: #ff4d4d; --blue: #2f7bff; }
+      :root { --navy: #14152e; --gold: #ffb52e; --red: #ff4d5e; }
       * { margin: 0; padding: 0; box-sizing: border-box; }
-      html, body { width: 1080px; height: 1920px; overflow: hidden; font-family: "Rounded", sans-serif; background: #ffe9a8; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; font-family: "Rounded", sans-serif; background: #14152e; }
       #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; }
       #bg { position: absolute; inset: 0; }
-      #top { position: absolute; left: 50px; right: 50px; top: 150px; text-align: center; }
-      .tag { display: inline-block; padding: 10px 30px; border-radius: 40px; background: #ffd84a; border: 6px solid var(--navy);
-        box-shadow: 6px 6px 0 var(--navy); font-size: 40px; font-weight: 800; color: var(--navy); }
-      .big { font-weight: 800; color: #fff; -webkit-text-stroke: 16px var(--navy); paint-order: stroke fill; text-shadow: 8px 8px 0 var(--navy); line-height: 1.15; }
-      #q { margin-top: 18px; font-size: 80px; }
-      #board { position: absolute; left: 165px; top: 600px; width: 750px; height: 750px; border-radius: 40px; background: #fff;
-        border: 8px solid var(--navy); box-shadow: 12px 12px 0 var(--navy); overflow: hidden; }
-      #grid { position: absolute; left: 25px; top: 25px; width: 700px; height: 700px; }
-      #counter { position: absolute; left: 60px; top: 1370px; width: 960px; display: flex; justify-content: center; gap: 60px; align-items: baseline; white-space: nowrap;
-        font-size: 36px; font-weight: 800; color: var(--navy); }
-      #counter b { font-size: 60px; color: var(--gold); -webkit-text-stroke: 8px var(--navy); paint-order: stroke fill; }
-      #pop { position: absolute; left: 0; right: 0; top: 820px; text-align: center; }
-      #pop .lab { font-size: 60px; }
-      #pop .num { font-size: 170px; }
-      #cap { position: absolute; left: 30px; right: 30px; top: 445px; height: 140px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 50px; white-space: pre-line; }
-      #alice { position: absolute; right: 120px; bottom: -235px; width: 480px; height: 640px; transform-origin: 50% 100%;
-        filter: drop-shadow(8px 10px 0 rgba(38,43,87,.25)); }
+      #top { position: absolute; left: 50px; right: 50px; top: 130px; text-align: center; }
+      .tag { display: inline-block; padding: 8px 30px; border-radius: 40px; background: #ffd84a; border: 6px solid var(--navy);
+        font-size: 38px; font-weight: 800; color: var(--navy); }
+      .big { font-weight: 800; color: #fff; -webkit-text-stroke: 16px var(--navy); paint-order: stroke fill; text-shadow: 6px 6px 0 var(--navy); line-height: 1.15; }
+      #q { margin-top: 14px; font-size: 76px; }
+      #cap { position: absolute; left: 30px; right: 30px; top: 425px; height: 150px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 50px; white-space: pre-line; }
+      #board { position: absolute; left: 190px; top: 590px; width: 700px; height: 700px; border-radius: 32px; background: #20223f;
+        border: 8px solid #f4f1ff; overflow: hidden; }
+      #grid { position: absolute; left: 17px; top: 17px; width: 650px; height: 650px; }
+      #counter { position: absolute; left: 40px; top: 1300px; width: 1000px; display: flex; justify-content: center; gap: 44px; align-items: baseline; white-space: nowrap;
+        font-size: 34px; font-weight: 800; color: #fff; }
+      #counter b { font-size: 58px; color: var(--gold); }
+      #cond { position: absolute; left: 50px; top: 1386px; width: 980px; padding: 10px 22px; border-radius: 18px; background: rgba(10,10,28,.86); color: #fff; font-size: 27px; font-weight: 700; line-height: 1.32; text-align: center; }
+      #pop { position: absolute; left: 0; right: 0; top: 760px; text-align: center; }
+      #pop .lab { font-size: 58px; }
+      #pop .num { font-size: 160px; }
+      #legal { position: absolute; left: 150px; top: 640px; width: 780px; padding: 38px 30px; border-radius: 30px; background: #fff; border: 8px solid var(--navy); color: var(--navy);
+        font-size: 44px; font-weight: 800; line-height: 1.5; text-align: center; opacity: 0; }
+      #alice { position: absolute; right: 90px; bottom: -235px; width: 480px; height: 640px; transform-origin: 50% 100%; }
       #alice img { position: absolute; inset: 0; width: 480px; height: 640px; }
       #flash { position: absolute; inset: 0; background: #fff; opacity: 0; }
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="29.477" data-width="1080" data-height="1920">
-      <canvas id="bg" class="clip" data-start="0" data-duration="29.477" data-track-index="0" width="1080" height="1920"></canvas>
-      <div id="ui" class="clip" data-start="0" data-duration="29.477" data-track-index="1" data-layout-allow-overlap data-layout-allow-overflow>
-        <div id="board"><canvas id="grid" width="700" height="700"></canvas></div>
-        <div id="counter"><span id="c1"></span><span id="c2"></span></div>
-        <div id="top"><div class="tag">e東京喰種を1万人で打ってみた</div><div id="q" class="big"></div></div>
-        <div id="pop"></div>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="58.693" data-width="1080" data-height="1920">
+      <canvas id="bg" class="clip" data-start="0" data-duration="58.693" data-track-index="0" width="1080" height="1920"></canvas>
+      <div id="ui" class="clip" data-start="0" data-duration="58.693" data-track-index="1" data-layout-allow-overlap data-layout-allow-overflow>
         <div id="alice"></div>
+        <div id="board"><canvas id="grid" width="650" height="650"></canvas></div>
+        <div id="counter"><span id="c1"></span><span id="c2"></span></div>
+        <div id="cond"></div>
+        <div id="top"><div class="tag">e東京喰種を1万人で試算</div><div id="q" class="big"></div></div>
+        <div id="pop"></div>
+        <div id="legal">AI制作のシミュレーション<br>必勝法ではありません<br>18歳未満は遊技できません<br>音声 VOICEVOX:四国めたん</div>
         <div id="cap" class="big"></div>
         <div id="flash"></div>
       </div>
-      <audio id="mix" class="clip" src="assets/mix.wav" data-start="0" data-duration="29.477" data-track-index="2"></audio>
+      <audio id="mix" class="clip" src="assets/mix.wav" data-start="0" data-duration="58.693" data-track-index="2"></audio>
     </div>
     <script>
-      const tl = gsap.timeline({ paused: true });
-      window.__timelines["main"] = tl;
+      window.__timelines = window.__timelines || {};
       const D = window.DATA, ST = D.stats, FPS = D.fps;
       const $ = (id) => document.getElementById(id);
       const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
       const out3 = (x) => 1 - Math.pow(1 - clamp(x), 3);
-      const ease = (x) => { x = clamp(x); return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
       const back = (x) => { x = clamp(x); const c = 1.9; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
       const fmt = (v) => Math.round(v).toLocaleString("ja-JP");
       const SC = Object.fromEntries(D.scenes.map((s) => [s.id, s]));
+      $("cond").innerHTML = "条件：" + ST.cond.replace("・持ち玉", "<br>持ち玉") + "<br>AI制作／音声 VOICEVOX:四国めたん";
 
-      // アリス
       const NAMES = ["base", "talk", "blink", "happy", "surprised", "troubled", "pose_thinking", "pose_thinking_talk", "pose_pointing", "pose_pointing_talk", "pose_excited", "pose_excited_talk"];
       $("alice").innerHTML = NAMES.map((n) => `<img id="a_${n}" src="assets/alice/${n}_768.png" alt="${n === "base" ? "電脳アリス" : ""}" style="opacity:0">`).join("");
 
-      // 背景：回る放射線（明るい黄色）
+      // 背景：赤い月と夜の街（オリジナル。位置は固定の式で決める）
       const bg = $("bg").getContext("2d");
+      const noise = (i) => { const x = Math.sin(i * 127.1) * 43758.5453; return x - Math.floor(x); };
       function drawBg(t) {
-        const g = bg.createRadialGradient(540, 960, 50, 540, 960, 1300);
-        g.addColorStop(0, "#fff6c9"); g.addColorStop(1, "#ffc94a");
+        const g = bg.createLinearGradient(0, 0, 0, 1920);
+        g.addColorStop(0, "#1a1038"); g.addColorStop(0.55, "#3a1436"); g.addColorStop(1, "#14152e");
         bg.fillStyle = g; bg.fillRect(0, 0, 1080, 1920);
-        bg.save(); bg.translate(540, 960); bg.rotate(t * 0.12);
-        bg.fillStyle = "rgba(255,255,255,0.35)";
-        for (let i = 0; i < 24; i++) { bg.beginPath(); bg.moveTo(0, 0); const a = (i / 24) * Math.PI * 2, w = Math.PI / 24;
-          bg.arc(0, 0, 1600, a, a + w); bg.closePath(); bg.fill(); }
-        bg.restore();
+        const mx = 540, my = 930, r = 640 + Math.sin(t * 0.8) * 10;
+        const m = bg.createRadialGradient(mx, my, 100, mx, my, r);
+        m.addColorStop(0, "rgba(255,70,90,.55)"); m.addColorStop(0.7, "rgba(190,30,70,.28)"); m.addColorStop(1, "rgba(190,30,70,0)");
+        bg.fillStyle = m; bg.fillRect(0, 0, 1080, 1920);
+        bg.fillStyle = "#0e0f24";
+        for (let i = 0; i < 14; i++) { const w = 80, h = 120 + noise(i) * 260; bg.fillRect(i * w, 1920 - h - 120, w - 4, h + 120); }
+        bg.fillStyle = "rgba(255,120,130,.75)";
+        for (let i = 0; i < 44; i++) { const y = (noise(i + 50) * 1920 + t * (24 + noise(i) * 50)) % 1920, x = noise(i + 9) * 1080 + Math.sin(t + i) * 18;
+          bg.beginPath(); bg.arc(x, y, 2 + noise(i + 3) * 4, 0, Math.PI * 2); bg.fill(); }
       }
 
-      // 1万人：100x100 の点。RUSHに入った順に光る
-      const gc = $("grid").getContext("2d"), CELL = 7;
-      function drawGrid(spinsNow, highlightDeep, t) {
-        gc.clearRect(0, 0, 700, 700);
+      // 1万人：100x100 の点。使ったお金が増えるとRUSHに入った人が光る
+      const gc = $("grid").getContext("2d"), CELL = 6.5;
+      function drawGrid(spent, missK) {
+        gc.clearRect(0, 0, 650, 650);
         for (let i = 0; i < 10000; i++) {
-          const x = (i % 100) * CELL, y = Math.floor(i / 100) * CELL;
-          const lit = D.spins[i] <= spinsNow;
-          gc.fillStyle = lit ? "#ff9f1a" : "#cfd3ea";
-          gc.fillRect(x + 0.8, y + 0.8, CELL - 1.6, CELL - 1.6);
-        }
-        if (highlightDeep > 0) {
-          let di = 0; for (let i = 1; i < 10000; i++) if (D.spins[i] > D.spins[di]) di = i;
-          const x = (di % 100) * CELL + CELL / 2, y = Math.floor(di / 100) * CELL + CELL / 2;
-          gc.fillStyle = "#ff3b3b"; gc.fillRect(x - CELL / 2, y - CELL / 2, CELL, CELL);
-          gc.strokeStyle = "#ff3b3b"; gc.lineWidth = 6;
-          const r = 20 + 40 * (1 - highlightDeep) + 6 * Math.sin(t * 10);
-          gc.beginPath(); gc.arc(x, y, r, 0, Math.PI * 2); gc.stroke();
+          const c = D.cash[i], lit = c >= 0 && c <= spent;
+          gc.fillStyle = lit ? (missK > 0 ? "#7a5a2a" : "#ffb52e") : (c < 0 && missK > 0 ? "#ff3b4e" : "#565a86");
+          gc.fillRect((i % 100) * CELL + 0.7, Math.floor(i / 100) * CELL + 0.7, CELL - 1.4, CELL - 1.4);
         }
       }
 
@@ -113,45 +111,40 @@
         return balance(line.replace(/。$/, ""));
       }
 
+      const QS = { hook: "RUSHまで<br>平均いくら？", guess: "予想して<br>みてください", rule: "ルールは<br>これだけ", race: "1万人で<br>確かめる！", mean: "平均は…", half: "真ん中の人は…", miss: "入れなかった人", why: "どうして？", end: "平均のワナ" };
       function renderAt(t) {
         let sc = D.scenes[0]; for (const s of D.scenes) if (t >= s.start) sc = s;
         const u = t - sc.start;
         drawBg(t);
-        // 回転数の進み
-        let spins = 0, deep = 0;
-        const S = SC;
-        if (t >= S.setup.start) spins = ST.mean_spins * ease((t - S.setup.start) / (S.setup.dur - 0.4));
-        if (t >= S.half.start) spins = ST.half_spins;
-        if (t >= S.deep.start) { const k = ease((t - S.deep.start) / 2.6); spins = ST.half_spins + (ST.deep_spins - ST.half_spins) * k; deep = k >= 1 ? clamp((t - S.deep.start - 2.6) / 0.6) : 0; }
-        drawGrid(spins, deep, t);
-        let lit = 0; for (let i = 0; i < 10000; i++) if (D.spins[i] <= spins) lit++;
-        $("c1").innerHTML = `<b>${fmt(spins)}</b> 回転目`;
-        $("c2").innerHTML = `RUSHに入った人 <b>${fmt(lit)}</b>`;
-        // 上の問いかけ
-        const qs = { hook: "RUSHまで<br>平均いくら？", setup: "1万人で<br>確かめる！", mean: "平均は…", half: "半分の人は…", deep: "でも最長は…", end: "運の差<br>大きすぎ！" };
-        const qk = back(clamp(u / 0.45));
-        $("q").innerHTML = qs[sc.id] || ""; $("q").style.transform = `scale(${0.5 + 0.5 * qk})`;
-        // 数字がドン
+        const spent = t < ST.race_s ? 0 : ST.budget * clamp((t - ST.race_s) / ST.race_d);
+        const missK = t >= SC.miss.start && t < SC.why.start ? 1 : 0;
+        drawGrid(spent, missK);
+        let lit = 0; for (let i = 0; i < 10000; i++) if (D.cash[i] >= 0 && D.cash[i] <= spent) lit++;
+        $("c1").innerHTML = `使ったお金 <b>${fmt(spent)}</b>円`;
+        $("c2").innerHTML = `RUSHに入った人 <b>${fmt(lit)}</b>人`;
+        $("q").innerHTML = QS[sc.id] || ""; $("q").style.transform = `scale(${0.5 + 0.5 * back(clamp(u / 0.45))})`;
         let pop = "";
         const P = (lab, num, col, at) => { const k = clamp((u - at) / 0.4); if (k <= 0) return "";
           return `<div style="transform:scale(${0.3 + 0.7 * back(k)});opacity:${clamp(k * 3)}"><div class="big lab">${lab}</div><div class="big num" style="color:${col}">${num}</div></div>`; };
-        const pk = sc.voice_len * 0.5;
-        if (sc.id === "mean") pop = P("平均", "約" + (ST.mean / 10000).toFixed(1) + "万円", "#ffd84a", pk);
-        if (sc.id === "half") pop = P("半分の人", "約" + (ST.half / 10000).toFixed(1) + "万円", "#7fd1ff", pk);
-        if (sc.id === "deep") pop = P("いちばんハマった人", "約" + Math.round(ST.deep / 10000) + "万円", "#ff4d4d", 2.7);
+        const at = sc.voice_len * (sc.id === "mean" ? 0.62 : sc.id === "half" ? 0.55 : 0.5);
+        if (sc.id === "mean") pop = P("入れた人の平均", "約" + ST.mean_txt, "#ffd84a", at);
+        if (sc.id === "half") pop = P("真ん中の人", "約" + ST.half_txt, "#7fd1ff", at);
+        if (sc.id === "miss") pop = P(ST.budget_txt + "でも入れず", "約" + ST.out_pct + "%", "#ff6b78", at);
         $("pop").innerHTML = pop;
-        $("flash").style.opacity = (sc.id === "mean" || sc.id === "half") && u > pk && u < pk + 0.15 ? 0.6 * (1 - (u - pk) / 0.15) : sc.id === "deep" && u > 2.7 && u < 2.85 ? 0.7 * (1 - (u - 2.7) / 0.15) : 0;
-        // 字幕
+        $("flash").style.opacity = ["mean", "half", "miss"].includes(sc.id) && u > at && u < at + 0.15 ? 0.55 * (1 - (u - at) / 0.15) : 0;
+        $("legal").style.opacity = clamp((t - (D.total - 5.6)) / 0.3);
         $("cap").textContent = t < D.lead ? "" : caption(sc, u);
-        // アリス
         const f = Math.floor(t * FPS), mo = D.mouth[Math.min(f, D.mouth.length - 1)] || 0, face = sc.face || "base";
-        let show = face === "base" ? (mo ? "talk" : (t % 3.3 < 0.12 ? "blink" : "base")) : face.startsWith("pose_") ? (mo ? face + "_talk" : face) : face;
+        const show = face === "base" ? (mo ? "talk" : (t % 3.3 < 0.12 ? "blink" : "base")) : face.startsWith("pose_") ? (mo ? face + "_talk" : face) : face;
         for (const n of NAMES) $("a_" + n).style.opacity = n === show ? 1 : 0;
-        const enter = out3(clamp((t - 0.2) / 0.6)), bob = Math.sin(t * 2.3) * 6 + (mo ? -3 : 0), pp = u < 0.3 ? Math.sin((u / 0.3) * Math.PI) * 0.04 : 0;
-        $("alice").style.transform = `translate(${(1 - enter) * 500}px, ${bob}px) rotate(${Math.sin(t * 1.4)}deg) scale(${1 + pp})`;
+        const enter = out3(clamp((t - 0.2) / 0.6)), bob = Math.sin(t * 2.3) * 6 + (mo ? -3 : 0);
+        $("alice").style.transform = `translate(${(1 - enter) * 500}px, ${bob}px) rotate(${Math.sin(t * 1.4)}deg)`;
       }
-      window.addEventListener("hf-seek", (e) => renderAt(e.detail.time));
-      document.fonts.ready.then(() => renderAt(0));
+      const clock = { t: 0 };
+      const tl = gsap.timeline({ paused: true });
+      tl.to(clock, { t: D.total, duration: D.total, ease: "none", onUpdate: () => renderAt(clock.t) }, 0);
+      window.__timelines["main"] = tl;
+      document.fonts.ready.then(() => renderAt(clock.t));
       renderAt(0);
     </script>
   </body>
