@@ -83,3 +83,5 @@ category: 季節家電
 - ドア下の通気・換気口はふさがない
 
 窓そのものの冷え（ガラス面）や結露が気になる人は、[窓の断熱シートは賃貸でも使える？](mado-danetsu-sheet-chintai-ketsuro.html)もあわせてどうぞ。結露しやすい湿度は[窓の結露対策（露点の早見表）](telework-ketsuro-taisaku-roten.html)で確認できます。暖房全体の電気代は[冬の電気代まとめ](fuyu-denkidai-matome.html)にまとめています。
+
+楽天ブラックフライデー（2026年11月19日20:00〜）に冬の対策グッズをまとめて買う人は、[楽天ブラックフライデーの買う前メモ](rakuten-blackfriday-memo.html)で用途別に読む記事を確認できます。

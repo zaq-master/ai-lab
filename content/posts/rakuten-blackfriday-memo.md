@@ -33,7 +33,7 @@ ended_description: blackfriday-2026-11|【2026年11月19日〜25日の楽天ブ�
 ### 1. 何に困っているか（寒さの場所）
 - 決めること：足元・ひざ・部屋全体・寝るとき・窓ぎわのどれが一番つらいか
 - 確かめるページ：[冬の寒さ対策診断（5問）](winter-heating-shindan.html)で、どこから手を付けるかの目安を出す
-- 足元が一番つらいなら[足元ヒーターの電気代](foot-heater-electricity-cost.html)、窓ぎわが冷えるなら[窓の断熱シート（賃貸）](mado-danetsu-sheet-chintai-ketsuro.html)へ（診断の結果は「足元暖房・エアコン自動化・電気代の見える化」の3タイプで、窓の対策は診断には入っていません）
+- 足元が一番つらいなら[足元ヒーターの電気代](foot-heater-electricity-cost.html)、窓ぎわが冷えるなら[窓の断熱シート（賃貸）](mado-danetsu-sheet-chintai-ketsuro.html)、すき間風なら[すきまテープの選び方](sukima-tape-erabikata-chintai.html)へ（診断の結果は「足元暖房・エアコン自動化・電気代の見える化」の3タイプで、窓の対策は診断には入っていません）
 
 ### 2. 毎月の電気代をいくらまでにするか
 - 決めること：毎月の電気代の上限（自分で決める金額）と、買う候補の**消費電力（W）**・1日に使う時間
@@ -65,6 +65,7 @@ ended_description: blackfriday-2026-11|【2026年11月19日〜25日の楽天ブ�
 | ひざ・肩をピンポイントで温める | [電気毛布とこたつ](denki-moufu-kotatsu-denkidai-telework.html) |
 | ひざ掛け・着る毛布の電気代 | [電気ブランケットの電気代は1時間いくら？](denki-blanket-denkidai-1jikan.html) |
 | 窓ぎわの寒さ・結露（賃貸） | [窓の断熱シートは賃貸でも使える？](mado-danetsu-sheet-chintai-ketsuro.html) |
+| 窓サッシ・玄関ドアのすき間風 | [すきまテープの選び方](sukima-tape-erabikata-chintai.html) |
 | 部屋全体を温める | [ホットカーペット](hot-carpet-denkidai.html)・[暖房比較](heater-denkidai-hikaku.html) |
 | 乾燥・結露 | [加湿器の電気代](humidifier-electricity-cost-telework.html)・[結露対策](telework-ketsuro-taisaku-roten.html) |
 | 消し忘れ・電気代の見える化 | [スマートプラグ](smart-plug-guide.html)・[スマートリモコン](smart-remote-guide.html) |
