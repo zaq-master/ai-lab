@@ -124,10 +124,14 @@ for _s in S:
 _eng = {}
 
 
-ENGINE = os.environ.get("VOICE", "jvnv")     # kokoro（Apache-2.0）／ hts（東北大 tohoku-f01）
+ENGINE = os.environ.get("VOICE", "metan")     # kokoro（Apache-2.0）／ hts（東北大 tohoku-f01）
 
 
 def tts(say, emo):
+    if ENGINE == "metan":                     # VOICEVOX:四国めたん（既定）
+        import vv_ja
+        x, _ = vv_ja.tts_script(say, sr_out=SR)
+        return x
     if ENGINE == "jvnv":
         import sbv2_ja
         x, _ = sbv2_ja.tts_script(say, "jvnv", sr_out=SR)

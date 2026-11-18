@@ -34,10 +34,12 @@ description: 電脳アリスが解説する「パチンコ それ実際どうな
 - 小数点は「点」に置き換え済み（テンと読む）
 
 ## 4. 声・BGM
-- 声：Style-Bert-VITS2 **JVNV（女性F1・JP-Extra）**。`side/pachi3d/sbv2_ja.py` の `tts_script(text, "jvnv")`＝文ごとに調子（Happy/Neutral）・速さ・間を変える
-- クレジット（説明欄に必須）：「音声：Style-Bert-VITS2 JVNVモデル（JVNVコーパス, CC BY-SA 4.0）」
+- 声：**VOICEVOX 四国めたん**（2026-11-18 オーナー決定「めたんで！」、規約にもオーナーが同意済み）。`side/pachi3d/vv_ja.py` の `tts_script(text, sr_out=48000)`＝問いかけ・！は「あまあま」、ふつうは「ノーマル」、数字の文はゆっくり、？と…のあとに間
+- クレジット（説明欄と動画の最後に**必須**）：「VOICEVOX:四国めたん」。書かないと1キャラ40万円の契約が必要になる
+- 使ってはいけない使い方（zunko.jp 規約）：公序良俗に反する、政治・宗教、情報商材・仮想通貨の宣伝、わざと誤解を招く内容、風俗営業1〜3号・性風俗、反社。→「勝てる」とあおらない、数字は正直に
+- 準備：`vv_ja.py` の先頭に書いた curl 4行（GitHubのAPIは使えないので版を直接指定）。ファイルは ~/vv/ に置き、リポジトリに入れない。読みは `create_audio_query(...).kana` で確認できる
 - **小春音アミは使わない**：あみたろの声素材工房の規約で「ギャンブル・薬物・武器の宣伝」「年齢制限のある作品・子どもに見せられない使い方」が禁止（2026-11-18 公式規約で確認）
-- 声のモデルは `side/pachi3d/voices_sbv2/`（リポジトリに入れない。無ければ huggingface_hub で litagin/style_bert_vits2_jvnv の jvnv-F1-jp/{config.json,jvnv-F1-jp_e160_s14000.safetensors,style_vectors.npy} を voices_sbv2/jvnv/ へ、ku-nlp/deberta-v2-large-japanese-char-wwm も）
+- 予備の声：Style-Bert-VITS2 JVNV（`sbv2_ja.tts_script(text,"jvnv")`、クレジット「音声：Style-Bert-VITS2 JVNVモデル（JVNVコーパス, CC BY-SA 4.0）」）
 - BGM：オーナーが手で落とした OpenTracks の曲（`side/pachi3d/assets/bgm/`、リポジトリに入れない）。無ければ自作の `bgm()`
 
 ## 5. 映像

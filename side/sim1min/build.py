@@ -14,7 +14,7 @@ import numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__))
 P3 = os.path.join(HERE, "..", "pachi3d")
 sys.path.insert(0, P3)
-import sbv2_ja  # noqa: E402
+import vv_ja  # noqa: E402
 from yomi import check, to_say  # noqa: E402
 
 SR, FPS = 48000, 30
@@ -46,7 +46,7 @@ S = [
 
 
 def tts(say):
-    x, _ = sbv2_ja.tts_script(say, "jvnv", sr_out=SR)   # 語りかけ調（文ごとに調子・速さ・間を変える）
+    x, _ = vv_ja.tts_script(say, sr_out=SR)   # VOICEVOX:四国めたん、語りかけ調
     return x
 
 
