@@ -83,6 +83,7 @@
       import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
       import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
       import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+      import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
 
       const D = window.DATA, ST = D.stats, FPS = D.fps;
       const $ = (id) => document.getElementById(id);
@@ -125,8 +126,8 @@
       const MX = -16, MZ = 0;                                     // 台は左奥に置く
       const cab = new THREE.Group(); cab.position.set(MX, 4.9, MZ); scene.add(cab);
       const metal = new THREE.MeshStandardMaterial({ color: 0xf7f4ff, metalness: 0.15, roughness: 0.35 });
-      const body = new THREE.Mesh(new THREE.BoxGeometry(6.6, 9.8, 1.4), metal); body.position.z = -0.8; body.castShadow = true; cab.add(body);
-      const trim = new THREE.Mesh(new THREE.BoxGeometry(6.9, 10.1, 1.0), new THREE.MeshStandardMaterial({ color: 0xffb627, metalness: 0.6, roughness: 0.3 })); trim.position.z = -1.0; cab.add(trim);
+      const body = new THREE.Mesh(new RoundedBoxGeometry(6.6, 9.8, 1.4, 6, 0.45), metal); body.position.z = -0.8; body.castShadow = true; cab.add(body);
+      const trim = new THREE.Mesh(new RoundedBoxGeometry(6.95, 10.15, 1.0, 6, 0.5), new THREE.MeshStandardMaterial({ color: 0xffb627, metalness: 0.6, roughness: 0.3 })); trim.position.z = -1.0; cab.add(trim);
       const boardM = new THREE.Mesh(new THREE.BoxGeometry(5.6, 6.2, 0.1), new THREE.MeshStandardMaterial({ color: 0xdfe9ff, roughness: 0.6 }));
       boardM.position.set(0, 1.2, 0); cab.add(boardM);
       const lcdCanvas = document.createElement("canvas"); lcdCanvas.width = 512; lcdCanvas.height = 320;
@@ -134,9 +135,42 @@
       const lcd = new THREE.Mesh(new THREE.PlaneGeometry(2.7, 1.68), new THREE.MeshBasicMaterial({ map: lcdTex })); lcd.position.set(0, 1.5, 0.08); cab.add(lcd);
       const neonMat = new THREE.MeshStandardMaterial({ color: 0xff5fa2, metalness: 0.3, roughness: 0.3 });
       const neon = new THREE.Mesh(new THREE.TorusGeometry(3.3, 0.07, 12, 96), neonMat); neon.scale.set(0.93, 1.03, 1); neon.position.set(0, 1.2, 0.25); cab.add(neon);
-      const lower = new THREE.Mesh(new THREE.BoxGeometry(5.8, 1.2, 0.8), new THREE.MeshStandardMaterial({ color: 0x3d7bff, metalness: 0.3, roughness: 0.35 }));
+      const lower = new THREE.Mesh(new RoundedBoxGeometry(5.8, 1.2, 0.8, 4, 0.3), new THREE.MeshStandardMaterial({ color: 0x3d7bff, metalness: 0.3, roughness: 0.35 }));
       lower.position.set(0, -2.9, 0.1); cab.add(lower);
       const strip = new THREE.Mesh(new THREE.BoxGeometry(5.9, 0.08, 0.1), new THREE.MeshStandardMaterial({ color: 0xffb627, metalness: 0.5, roughness: 0.3 })); strip.position.set(0, -2.25, 0.5); cab.add(strip);
+      // てっぺんの飾り（オリジナル：王冠＋光る玉）
+      const gold = new THREE.MeshStandardMaterial({ color: 0xffc23a, metalness: 0.8, roughness: 0.25, emissive: 0x553300 });
+      const crown = new THREE.Group(); crown.position.set(0, 5.35, -0.2); cab.add(crown);
+      const crownBase = new THREE.Mesh(new THREE.CylinderGeometry(1.4, 1.6, 0.5, 40, 1, true), gold); crown.add(crownBase);
+      for (let i = 0; i < 5; i++) { const sp = new THREE.Mesh(new THREE.ConeGeometry(0.28, 0.9, 16), gold); const a = (i / 4 - 0.5) * 2.2; sp.position.set(Math.sin(a) * 1.3, 0.6, Math.cos(a) * 0.4); crown.add(sp); }
+      const gem = new THREE.Mesh(new THREE.SphereGeometry(0.42, 32, 24), new THREE.MeshStandardMaterial({ color: 0xff3d8b, emissive: 0xff2a7a, emissiveIntensity: 0.6, roughness: 0.15 }));
+      gem.position.set(0, 0.55, 0.45); crown.add(gem);
+      // 盤面のまわりのLED（色が流れる）
+      const mL = new THREE.Matrix4();
+      const NLED = 64, ledMesh = new THREE.InstancedMesh(new THREE.SphereGeometry(0.075, 10, 8), new THREE.MeshBasicMaterial({ color: 0xffffff }), NLED);
+      for (let i = 0; i < NLED; i++) { const a = (i / NLED) * Math.PI * 2; mL.makeTranslation(Math.cos(a) * 3.07, 1.2 + Math.sin(a) * 3.4, 0.32); ledMesh.setMatrixAt(i, mL); }
+      cab.add(ledMesh);
+      // サイドの光る帯
+      const sideMat = new THREE.MeshBasicMaterial({ color: 0x55c8ff });
+      [-3.25, 3.25].forEach((x) => { const sb = new THREE.Mesh(new RoundedBoxGeometry(0.16, 8.4, 0.2, 2, 0.07), sideMat); sb.position.set(x, 0.6, 0.0); cab.add(sb); });
+      // ハンドル（右下）と受け皿
+      const handle = new THREE.Group(); handle.position.set(2.45, -3.0, 0.6); cab.add(handle);
+      handle.add(new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.48, 0.35, 32).rotateX(Math.PI / 2), new THREE.MeshStandardMaterial({ color: 0x2b2f55, metalness: 0.6, roughness: 0.35 })));
+      const knob = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 0.5, 16).rotateX(Math.PI / 2), gold); knob.position.set(0.25, 0.1, 0.2); handle.add(knob);
+      const tray = new THREE.Mesh(new RoundedBoxGeometry(3.6, 0.5, 0.9, 4, 0.2), new THREE.MeshStandardMaterial({ color: 0xf3f0ff, metalness: 0.3, roughness: 0.3 }));
+      tray.position.set(-0.8, -3.75, 0.55); cab.add(tray);
+      const pileN = 120, pile = new THREE.InstancedMesh(new THREE.SphereGeometry(0.085, 12, 10), new THREE.MeshStandardMaterial({ color: 0xe8ebf2, metalness: 1, roughness: 0.18 }), pileN);
+      for (let i = 0; i < pileN; i++) { const r = rand(), a = rand() * 6.28; mL.makeTranslation(-0.8 + (rand() - 0.5) * 3.1, -3.45 + Math.pow(rand(), 2) * 0.25, 0.55 + (rand() - 0.5) * 0.6); pile.setMatrixAt(i, mL); }
+      cab.add(pile);
+      const ledCol = new THREE.Color();
+      function drawCabFx(t) {
+        for (let i = 0; i < NLED; i++) { ledCol.setHSL(((i / NLED) + t * 0.35) % 1, 1, 0.6); ledMesh.setColorAt(i, ledCol); }
+        ledMesh.instanceColor.needsUpdate = true;
+        gem.material.emissiveIntensity = 0.5 + 0.5 * Math.sin(t * 4);
+        sideMat.color.setHSL((t * 0.15) % 1, 0.9, 0.62);
+        crown.rotation.y = Math.sin(t * 0.8) * 0.15;
+        handle.rotation.z = -0.4 + Math.sin(t * 2) * 0.05;
+      }
       const pinGeo = new THREE.CylinderGeometry(0.026, 0.026, 0.3, 8); pinGeo.rotateX(Math.PI / 2);
       const pins = [];
       for (let r = 0; r < 15; r++) for (let c = 0; c < 15; c++) {
@@ -196,11 +230,17 @@
 
       // ---------- 1万人 ----------
       const CN = 10000, CS = 0.22;                                // 100x100、間隔0.22
-      const pBody = new THREE.CapsuleGeometry(0.065, 0.08, 4, 10); pBody.translate(0, 0.105, 0);
-      const pHead = new THREE.SphereGeometry(0.06, 12, 10); pHead.translate(0, 0.27, 0);
-      const pawnGeo = mergeGeometries([pBody, pHead]);
-      const crowd = new THREE.InstancedMesh(pawnGeo, new THREE.MeshStandardMaterial({ roughness: 0.45, metalness: 0.0 }), CN);
+      const pBody = new THREE.CapsuleGeometry(0.06, 0.07, 4, 10); pBody.translate(0, 0.095, 0);
+      const crowd = new THREE.InstancedMesh(pBody, new THREE.MeshStandardMaterial({ roughness: 0.45, metalness: 0.0 }), CN);
       crowd.castShadow = true;
+      const pHead = new THREE.SphereGeometry(0.072, 14, 10); pHead.translate(0, 0.25, 0);
+      const heads = new THREE.InstancedMesh(pHead, new THREE.MeshStandardMaterial({ color: 0xffe2cf, roughness: 0.6 }), CN);
+      const pHair = new THREE.SphereGeometry(0.078, 14, 8, 0, Math.PI * 2, 0, Math.PI * 0.55); pHair.translate(0, 0.262, -0.006);
+      const hair = new THREE.InstancedMesh(pHair, new THREE.MeshStandardMaterial({ roughness: 0.55 }), CN);
+      const HAIRC = [0x2a2230, 0x5a3a24, 0x8a5a2c, 0xd9b36a, 0x3b3f6e, 0xf2f2f6].map((c) => new THREE.Color(c));
+      for (let i = 0; i < CN; i++) hair.setColorAt(i, HAIRC[(i * 2654435761 >>> 0) % 6]);
+      crowd.add(heads); crowd.add(hair);
+      let crowdT = 0;
       const home = [];
       for (let i = 0; i < CN; i++) { const gx = i % 100, gz = Math.floor(i / 100); home.push([(gx - 49.5) * CS, (gz - 49.5) * CS]); }
       const col = new THREE.Color();
@@ -211,10 +251,15 @@
       function setCrowd(colorFn, posFn) {
         for (let i = 0; i < CN; i++) {
           const [x, z] = posFn ? posFn(i) : home[i];
-          m4.makeTranslation(x, 0, z); crowd.setMatrixAt(i, m4);
-          crowd.setColorAt(i, colorFn(i));
+          const c = colorFn(i);
+          // 光った人（RUSH・勝ち）はその場で跳ねて喜ぶ
+          const happy = c === C_GOLD || c === C_BLUE;
+          const y = happy ? Math.abs(Math.sin(crowdT * 7 + (i % 97) * 0.37)) * 0.09 : 0;
+          m4.makeTranslation(x, y, z); crowd.setMatrixAt(i, m4); heads.setMatrixAt(i, m4); hair.setMatrixAt(i, m4);
+          crowd.setColorAt(i, c);
         }
         crowd.instanceMatrix.needsUpdate = true; crowd.instanceColor.needsUpdate = true;
+        heads.instanceMatrix.needsUpdate = true; hair.instanceMatrix.needsUpdate = true; hair.instanceColor.needsUpdate = true;
       }
 
       // ---------- 3Dの柱グラフ ----------
@@ -542,7 +587,7 @@
         const show = SHOW[sc.id] || [];
         for (const [k, o] of Object.entries(objs)) o.visible = show.includes(k);
         if (sc.id === "day") barGroup.visible = u >= 9;
-        drawBalls(t); drawDust(t); sky(t); wipe(t);
+        crowdT = t; drawBalls(t); drawDust(t); sky(t); wipe(t); drawCabFx(t);
         const r = (SC[sc.id] || (() => ({})))(u, d) || {};
         $("panel").innerHTML = r.panel || "";
         $("title").innerHTML = r.title || "";
