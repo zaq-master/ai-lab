@@ -2,7 +2,8 @@
 
 声のモデル（voices_sbv2/、リポジトリには入れない）
   ami  ：小春音アミ（CV:あみたろ） クレジット必須「Style-BertVITS2モデル: 小春音アミ、あみたろの声素材工房 (https://amitaro.net/)」
-  jvnv ：JVNV F1（JP-Extra） CC BY-SA 4.0 クレジット必須「JVNVコーパス（CC BY-SA 4.0）」
+  jvnv ：JVNV F1（JP-Extra） CC BY-SA 4.0 クレジット必須「Style-Bert-VITS2 JVNVモデル（JVNVコーパス, CC BY-SA 4.0）」
+         ※2026-11-18 パチンコ動画は小春音アミ不可（規約でギャンブルの宣伝・子どもに見せられない用途が禁止）→ jvnv を使う
 読みは Open JTalk（SBV2 内部）＝ yomi.py の点検と同じ読み。
 """
 import os
@@ -62,7 +63,7 @@ if __name__ == "__main__":
     print(name, styles(name))
 
 
-def tts_script(text, name="ami", sr_out=None):
+def tts_script(text, name="jvnv", sr_out=None):
     """語りかけ調の読み上げ：1文ずつ声を作り、文の種類で速さ・声の調子・間を変える。
     - 問いかけ（？）：明るい調子、あとに長めの間（考えてもらう）
     - 数字を含む文：少しゆっくり（大事な数字を聞き取りやすく）
@@ -75,7 +76,8 @@ def tts_script(text, name="ami", sr_out=None):
     for p in parts:
         is_q = "？" in p or "?" in p
         has_num = bool(re.search(r"[0-9０-９]|パーセント|万円|分の", p))
-        style = "るんるん" if (is_q or "！" in p) else "Neutral"
+        bright = is_q or "！" in p
+        style = ("るんるん" if bright else "Neutral") if name == "ami" else ("Happy" if bright else "Neutral")
         speed = 0.97 if has_num else 1.12
         x, sr = tts(p, name, style, 1.0, speed)
         out.append(x)

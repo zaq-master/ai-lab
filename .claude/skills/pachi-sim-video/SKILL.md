@@ -34,8 +34,10 @@ description: 電脳アリスが解説する「パチンコ それ実際どうな
 - 小数点は「点」に置き換え済み（テンと読む）
 
 ## 4. 声・BGM
-- 声：Style-Bert-VITS2 小春音アミ（`side/pachi3d/sbv2_ja.py` の `tts_script`＝文ごとに調子・速さ・間を変える）。クレジット「Style-BertVITS2モデル: 小春音アミ、あみたろの声素材工房 (https://amitaro.net/)」
-- 声のモデルは `voices_sbv2/`（リポジトリに入れない。無ければ huggingface_hub で litagin/sbv2_koharune_ami と ku-nlp/deberta-v2-large-japanese-char-wwm を取得）
+- 声：Style-Bert-VITS2 **JVNV（女性F1・JP-Extra）**。`side/pachi3d/sbv2_ja.py` の `tts_script(text, "jvnv")`＝文ごとに調子（Happy/Neutral）・速さ・間を変える
+- クレジット（説明欄に必須）：「音声：Style-Bert-VITS2 JVNVモデル（JVNVコーパス, CC BY-SA 4.0）」
+- **小春音アミは使わない**：あみたろの声素材工房の規約で「ギャンブル・薬物・武器の宣伝」「年齢制限のある作品・子どもに見せられない使い方」が禁止（2026-11-18 公式規約で確認）
+- 声のモデルは `side/pachi3d/voices_sbv2/`（リポジトリに入れない。無ければ huggingface_hub で litagin/style_bert_vits2_jvnv の jvnv-F1-jp/{config.json,jvnv-F1-jp_e160_s14000.safetensors,style_vectors.npy} を voices_sbv2/jvnv/ へ、ku-nlp/deberta-v2-large-japanese-char-wwm も）
 - BGM：オーナーが手で落とした OpenTracks の曲（`side/pachi3d/assets/bgm/`、リポジトリに入れない）。無ければ自作の `bgm()`
 
 ## 5. 映像
