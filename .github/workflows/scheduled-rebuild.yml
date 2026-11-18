@@ -51,6 +51,8 @@ jobs:
             git reset -q --hard origin/main   # 毎回いちばん新しい main から作り直す（AIの回の push と競合しないように）
             before=$(git rev-parse HEAD)
             python3 build.py
+            # 既にあるOGP画像は戻す（このサーバーとAIの回でフォントの描き方が少し違い、毎回全画像が書き換わるため。11/18 初回の手動実行で発見）
+            git checkout -q -- docs/og
             git add -A docs
             if git diff --cached --quiet; then
               echo "変化なし。commit しません。"

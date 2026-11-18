@@ -473,7 +473,7 @@ def hub_block():
 
 
 def main():
-    posts = sorted((parse(p) for p in (ROOT / "content" / "posts").glob("*.md")),
+    posts = sorted((parse(p) for p in sorted((ROOT / "content" / "posts").glob("*.md"))),  # 名前順で並べてから日付順＝同じ日付の並びが環境で変わらない（11/18 定時ビルドで発見）
                    key=lambda x: x["date"], reverse=True)
     urls = []
     for x in posts:
