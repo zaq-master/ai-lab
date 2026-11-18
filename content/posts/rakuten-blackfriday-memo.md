@@ -84,14 +84,11 @@ ended_description: blackfriday-2026-11|【2026年11月19日〜25日の楽天ブ�
 <div id="bf-picks"></div>
 
 ## 用途別の候補（楽天の検索結果へのリンク）
-価格・在庫は変わることがあります。消費電力（W）を確認してから選んでください。
+価格・在庫は変わることがあります。電気で動く物は消費電力（W）を、窓やすき間に貼る物は貼る場所の寸法を確認してから選んでください。
 
-<!-- products: foot-heater -->
-<!-- products: denki-moufu -->
-<!-- products: humidifier-steam -->
-<!-- products: circulator -->
-<!-- products: smart-plug-monitor -->
-<!-- products: thermo-hygrometer -->
+並びは「足元・ひざ → 窓・すき間 → 乾燥 → 部屋全体 → 寝るとき → 消し忘れ・自動化」の順です。
+
+<!-- products: foot-heater,denki-moufu,window-danetsu-sheet,sukima-tape-mado,humidifier-steam,thermo-hygrometer,circulator,futon-dryer,smart-plug-monitor,smart-remote-std -->
 
 全体の入口：[冬の電気代まとめ](fuyu-denkidai-matome.html)
 
