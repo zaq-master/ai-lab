@@ -31,21 +31,19 @@ theory = 1 - (1 - P) ** SPINS
 pct = lambda x: f"{x * 100:.1f}%"
 
 S = [
-    dict(id="hook", face="surprised", sub="500回転ハマってる台って、そろそろ当たりそうな気がしませんか？"),
-    dict(id="setup", face="pose_pointing", sub="1万人を2組に分けて確かめます。A組はハマってる台、B組は当たった直後の台です。"),
-    dict(id="rule", face="base", sub="どちらも当たり確率は1/399.9。300回転だけ打って、当たった人の数をくらべます。"),
-    dict(id="race", face="pose_thinking", sub="当たった人は、金色の玉になってタンクにたまっていきます。さあ、どっちが多い？"),
+    dict(id="hook", face="surprised", sub="500回転もハマってる台。そろそろ当たりそうな気、しませんか？"),
+    dict(id="setup", face="pose_pointing", sub="じゃあ、確かめてみましょう。1万人を2組に分けます。A組はハマってる台、B組は当たった直後の台です。"),
+    dict(id="rule", face="base", sub="当たり確率は、どちらも1/399.9。300回転だけ打って、当たった人の数をくらべます。"),
+    dict(id="race", face="pose_thinking", sub="当たった人は、金色の玉になってタンクにたまります。さあ、どっちが多くなると思いますか？"),
     dict(id="result", face="pose_excited",
-         sub=f"結果は、A組{pct(ra)}、B組{pct(rb)}。ほとんど同じでした。"),
-    dict(id="why", face="pose_pointing", sub="台は前の結果を覚えていません。何回ハマっていても、次の1回転は1/399.9のままです。"),
-    dict(id="end", face="happy", sub="そろそろ当たるは、ただの気のせい。AIのシミュレーションでした！"),
+         sub=f"結果は…A組{pct(ra)}。B組{pct(rb)}。ほとんど、同じなんです。"),
+    dict(id="why", face="pose_pointing", sub="実は、台は前の結果を覚えていません。次の1回転も、ずっと1/399.9のままなんです。"),
+    dict(id="end", face="happy", sub="そろそろ当たるっていうのは、気のせいだったんですね。次に試してほしいこと、コメントで教えてね！"),
 ]
 
 
 def tts(say):
-    x, sr = sbv2_ja.tts(say, "ami", "るんるん")
-    if sr != SR:
-        x = np.interp(np.arange(int(len(x) * SR / sr)) / SR, np.arange(len(x)) / sr, x).astype(np.float32)
+    x, _ = sbv2_ja.tts_script(say, "ami", sr_out=SR)   # 語りかけ調（文ごとに調子・速さ・間を変える）
     return x
 
 
@@ -70,7 +68,7 @@ def main():
     lead, t, parts = 0.5, 0.5, []
     for s in S:
         x = tts(s["say"])
-        pad = {"race": 6.0, "result": 0.9, "end": 1.4}.get(s["id"], 0.55)   # レースは声のあとも玉がたまる時間を取る
+        pad = {"race": 3.5, "result": 0.6, "end": 1.2}.get(s["id"], 0.3)   # レースは声のあとも玉がたまる時間を取る
         s["start"], s["voice_len"], s["dur"] = round(t, 3), round(len(x) / SR, 3), round(len(x) / SR + pad, 3)
         b = np.zeros(int(s["dur"] * SR), np.float32); b[: len(x)] = x
         parts.append(b); t += s["dur"]
