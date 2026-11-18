@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/lib/gsap.min.js"></script>
+    <script src="assets/data.js"></script>
+    <script type="importmap">{ "imports": { "three": "./assets/lib/three.module.js", "three/addons/": "./assets/lib/addons/" } }</script>
+    <style>
+      @font-face { font-family: R; src: url("assets/fonts/MPLUSRounded1c-ExtraBold.ttf"); font-weight: 800; }
+      @font-face { font-family: R; src: url("assets/fonts/MPLUSRounded1c-Bold.ttf"); font-weight: 700; }
+      :root { --navy: #262b57; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #3a2a1e; font-family: R, sans-serif; }
+      #root { position: relative; width: 1080px; height: 1920px; }
+      #gl { position: absolute; inset: 0; width: 1080px; height: 1920px; }
+      #ui { position: absolute; inset: 0; }
+      .big { font-weight: 800; color: #fff; -webkit-text-stroke: 14px var(--navy); paint-order: stroke fill; text-shadow: 7px 7px 0 var(--navy); }
+      #title { position: absolute; left: 0; right: 0; top: 170px; text-align: center; font-size: 84px; line-height: 1.15; }
+      #labels .lab { position: absolute; transform: translate(-50%, -100%); text-align: center; white-space: nowrap; }
+      #cap { position: absolute; left: 30px; right: 30px; top: 1250px; text-align: center; font-size: 50px; white-space: pre-line; }
+      #alice { position: absolute; right: 150px; bottom: -260px; width: 520px; height: 693px; transform-origin: 50% 100%; filter: drop-shadow(8px 10px 0 rgba(0,0,0,.3)); }
+      #alice img { position: absolute; inset: 0; width: 520px; height: 693px; }
+      #flash { position: absolute; inset: 0; background: #fff; opacity: 0; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="61.152" data-width="1080" data-height="1920">
+      <canvas id="gl" class="clip" data-start="0" data-duration="61.152" data-track-index="0" width="1080" height="1920"></canvas>
+      <div id="ui" class="clip" data-start="0" data-duration="61.152" data-track-index="1" data-layout-allow-overlap data-layout-allow-overflow>
+        <div id="labels"></div>
+        <div id="title" class="big"></div>
+        <div id="alice"></div>
+        <div id="cap" class="big"></div>
+        <div id="flash"></div>
+      </div>
+      <audio id="mix" class="clip" src="assets/mix.wav" data-start="0" data-duration="61.152" data-track-index="2"></audio>
+    </div>
+    <script>window.__timelines["main"] = gsap.timeline({ paused: true });</script>
+    <script type="module">
+      import * as THREE from "three";
+      import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
+      import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+
+      const D = window.DATA, ST = D.stats, FPS = D.fps;
+      const $ = (id) => document.getElementById(id);
+      const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+      const ease = (x) => { x = clamp(x); return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
+      const back = (x) => { x = clamp(x); const c = 1.9; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+      const lerp = (a, b, k) => a + (b - a) * k;
+      function rnd(i) { let x = Math.sin(i * 12.9898) * 43758.5453; return x - Math.floor(x); }
+
+      // ---------- 3D ----------
+      const R = new THREE.WebGLRenderer({ canvas: $("gl"), antialias: true, preserveDrawingBuffer: true });
+      R.setSize(1080, 1920, false); R.toneMapping = THREE.ACESFilmicToneMapping; R.outputColorSpace = THREE.SRGBColorSpace;
+      R.shadowMap.enabled = true; R.shadowMap.type = THREE.PCFSoftShadowMap;
+      const scene = new THREE.Scene(); scene.background = new THREE.Color(0x2b1d14); scene.fog = new THREE.Fog(0x2b1d14, 30, 70);
+      scene.environment = new THREE.PMREMGenerator(R).fromScene(new RoomEnvironment(), 0.04).texture; scene.environmentIntensity = 0.55;
+      const cam = new THREE.PerspectiveCamera(50, 1080 / 1920, 0.1, 200);
+      scene.add(new THREE.HemisphereLight(0xfff1dc, 0x3a2a1e, 1.2));
+      const key = new THREE.SpotLight(0xffe7c4, 900, 80, 0.7, 0.6); key.position.set(4, 22, 10); key.castShadow = true;
+      key.shadow.mapSize.set(2048, 2048); key.target.position.set(0, 0, 0); scene.add(key, key.target);
+
+      // 木のテーブル
+      const wc = document.createElement("canvas"); wc.width = 1024; wc.height = 1024; const w = wc.getContext("2d");
+      for (let i = 0; i < 16; i++) { w.fillStyle = i % 2 ? "#a8693a" : "#b6773f"; w.fillRect(0, i * 64, 1024, 64);
+        w.fillStyle = "rgba(60,30,10,.25)"; w.fillRect(0, i * 64 + 62, 1024, 2);
+        for (let k = 0; k < 30; k++) { w.strokeStyle = "rgba(90,45,15,.18)"; w.beginPath(); const y = i * 64 + rnd(i * 31 + k) * 64; w.moveTo(0, y); w.bezierCurveTo(300, y + 6, 700, y - 6, 1024, y + 3); w.stroke(); } }
+      const wt = new THREE.CanvasTexture(wc); wt.colorSpace = THREE.SRGBColorSpace; wt.wrapS = wt.wrapT = THREE.RepeatWrapping; wt.repeat.set(3, 3);
+      const table = new THREE.Mesh(new THREE.PlaneGeometry(80, 80), new THREE.MeshStandardMaterial({ map: wt, roughness: 0.6 }));
+      table.rotation.x = -Math.PI / 2; table.receiveShadow = true; scene.add(table);
+      // 緑のフェルト
+      const felt = new THREE.Mesh(new RoundedBoxGeometry(14, 0.12, 20, 4, 0.06), new THREE.MeshStandardMaterial({ color: 0x1f6b45, roughness: 0.95 }));
+      felt.position.y = 0.06; felt.receiveShadow = true; scene.add(felt);
+      const rim = new THREE.Mesh(new RoundedBoxGeometry(14.6, 0.18, 20.6, 4, 0.08), new THREE.MeshStandardMaterial({ color: 0xc8a24a, metalness: 0.7, roughness: 0.3 }));
+      rim.position.y = 0.03; scene.add(rim);
+
+      // 台（左A・右B）
+      function machine(x, col, label) {
+        const g = new THREE.Group(); g.position.set(x, 0.12, -4.6); scene.add(g);
+        const body = new THREE.Mesh(new RoundedBoxGeometry(3.2, 4.6, 1.2, 5, 0.3), new THREE.MeshStandardMaterial({ color: 0xf6f3ff, roughness: 0.35 }));
+        body.position.y = 2.3; body.castShadow = true; g.add(body);
+        const frame = new THREE.Mesh(new THREE.TorusGeometry(1.25, 0.07, 10, 60), new THREE.MeshStandardMaterial({ color: col, emissive: col, emissiveIntensity: 0.4 }));
+        frame.position.set(0, 2.7, 0.62); g.add(frame);
+        const cv = document.createElement("canvas"); cv.width = 256; cv.height = 160; const tx = new THREE.CanvasTexture(cv); tx.colorSpace = THREE.SRGBColorSpace;
+        const lcd = new THREE.Mesh(new THREE.PlaneGeometry(1.6, 1.0), new THREE.MeshBasicMaterial({ map: tx })); lcd.position.set(0, 2.7, 0.63); g.add(lcd);
+        const crown = new THREE.Mesh(new THREE.ConeGeometry(0.5, 0.7, 5), new THREE.MeshStandardMaterial({ color: 0xffc23a, metalness: 0.8, roughness: 0.25 }));
+        crown.position.set(0, 4.95, 0); g.add(crown);
+        return { g, cv, tx, label, col };
+      }
+      const MA = machine(-3.3, 0xff5d5d), MB = machine(3.3, 0x4aa3ff);
+      function lcd(m, s, c) { const x = m.cv.getContext("2d"); x.fillStyle = "#1b2450"; x.fillRect(0, 0, 256, 160);
+        x.fillStyle = c || "#fff"; x.font = "800 64px R"; x.textAlign = "center"; x.textBaseline = "middle"; x.fillText(s, 128, 84); m.tx.needsUpdate = true; }
+
+      // ガラスのタンク（当たった人の数＝金の玉）
+      function tank(x) {
+        const g = new THREE.Group(); g.position.set(x, 0.12, 0.4); scene.add(g);
+        const glass = new THREE.Mesh(new THREE.CylinderGeometry(1.25, 1.25, 6, 48, 1, true), new THREE.MeshPhysicalMaterial({ color: 0xffffff, transmission: 0.9, roughness: 0.05, thickness: 0.2, transparent: true, opacity: 0.35, side: THREE.DoubleSide }));
+        glass.position.y = 3; g.add(glass);
+        const base = new THREE.Mesh(new THREE.CylinderGeometry(1.4, 1.5, 0.3, 48), new THREE.MeshStandardMaterial({ color: 0x2b2f55, metalness: 0.6, roughness: 0.3 }));
+        base.position.y = 0.15; g.add(base);
+        const NB = 900;
+        const balls = new THREE.InstancedMesh(new THREE.SphereGeometry(0.13, 12, 10), new THREE.MeshStandardMaterial({ color: 0xffc23a, metalness: 0.9, roughness: 0.2, emissive: 0x442200 }), NB);
+        balls.castShadow = true; g.add(balls);
+        return { g, balls, NB };
+      }
+      const TA = tank(-1.8), TB = tank(1.8);
+      const M4 = new THREE.Matrix4(), ZERO = new THREE.Matrix4().makeScale(0, 0, 0);
+      // 1玉＝4人
+      function fillTank(T, n, t) {
+        const shown = Math.floor(n / 4);
+        for (let i = 0; i < T.NB; i++) {
+          if (i >= shown) { T.balls.setMatrixAt(i, ZERO); continue; }
+          const layer = Math.floor(i / 45), k = i % 45, ring = k < 15 ? 0.33 : k < 30 ? 0.7 : 1.05, a = (k % 15) / 15 * Math.PI * 2 + layer * 0.5;
+          let y = 0.45 + layer * 0.2;
+          if (i > shown - 8) y += (1 - clamp((shown - i) / 8)) * 1.2;    // いちばん上の玉は落ちてくる
+          M4.makeTranslation(Math.cos(a) * ring, y, Math.sin(a) * ring); T.balls.setMatrixAt(i, M4);
+        }
+        T.balls.instanceMatrix.needsUpdate = true;
+      }
+
+      // 1万人（左右に5000人ずつ）
+      const pBody = new THREE.CapsuleGeometry(0.07, 0.06, 4, 8); pBody.translate(0, 0.1, 0);
+      const pHead = new THREE.SphereGeometry(0.075, 10, 8); pHead.translate(0, 0.25, 0);
+      function crowd(x0) {
+        const b = new THREE.InstancedMesh(pBody, new THREE.MeshStandardMaterial({ roughness: 0.5 }), 5000);
+        const h = new THREE.InstancedMesh(pHead, new THREE.MeshStandardMaterial({ color: 0xffe2cf, roughness: 0.6 }), 5000);
+        for (let i = 0; i < 5000; i++) h.setColorAt(i, new THREE.Color(0xffffff));
+        const pos = [];
+        for (let i = 0; i < 5000; i++) { const gx = i % 50, gz = Math.floor(i / 50); pos.push([x0 + (gx - 24.5) * 0.1, 2.2 + gz * 0.1]); }
+        b.castShadow = true; scene.add(b, h);
+        return { b, h, pos };
+      }
+      const CA = crowd(-2.7), CB = crowd(2.7);
+      const cGrey = new THREE.Color(0x7d84b8), cGold = new THREE.Color(0xffa000), cSkin = new THREE.Color(0xffffff);
+      function drawCrowd(C, arr, spinsNow, t) {
+        for (let i = 0; i < 5000; i++) {
+          const hit = arr[i] > 0 && arr[i] <= spinsNow;
+          const [x, z] = C.pos[i];
+          const y = hit ? Math.abs(Math.sin(t * 7 + i * 0.37)) * 0.07 : 0;
+          M4.makeTranslation(x, 0.12 + y, z); C.b.setMatrixAt(i, M4); C.h.setMatrixAt(i, M4);
+          C.b.setColorAt(i, hit ? cGold : cGrey); C.h.setColorAt(i, hit ? cGold : cSkin);
+        }
+        C.b.instanceMatrix.needsUpdate = true; C.h.instanceMatrix.needsUpdate = true; C.b.instanceColor.needsUpdate = true; C.h.instanceColor.needsUpdate = true;
+      }
+
+      const v3 = new THREE.Vector3();
+      function scr(x, y, z) { v3.set(x, y, z).project(cam); return [(v3.x * 0.5 + 0.5) * 1080, (-v3.y * 0.5 + 0.5) * 1920]; }
+      function camAt(p, l) { cam.position.set(...p); cam.lookAt(...l); cam.updateMatrixWorld(); }
+      function camMove(k, a, b) { const e = ease(k); camAt([0, 1, 2].map((i) => lerp(a[i], b[i], e)), [3, 4, 5].map((i) => lerp(a[i], b[i], e))); }
+
+      // ---------- アリス・字幕 ----------
+      const NAMES = ["base", "talk", "blink", "happy", "surprised", "troubled", "pose_thinking", "pose_thinking_talk", "pose_pointing", "pose_pointing_talk", "pose_excited", "pose_excited_talk"];
+      $("alice").innerHTML = NAMES.map((n) => `<img id="a_${n}" src="assets/alice/${n}_768.png" alt="${n === "base" ? "電脳アリス" : ""}" style="opacity:0">`).join("");
+      function alice(t, sc, u) {
+        const f = Math.floor(t * FPS), mo = D.mouth[Math.min(f, D.mouth.length - 1)] || 0, face = sc.face || "base";
+        const show = face === "base" ? (mo ? "talk" : (t % 3.4 < 0.12 ? "blink" : "base")) : face.startsWith("pose_") ? (mo ? face + "_talk" : face) : face;
+        for (const n of NAMES) $("a_" + n).style.opacity = n === show ? 1 : 0;
+        const pp = u < 0.3 ? Math.sin(u / 0.3 * Math.PI) * 0.04 : 0, en = 1 - Math.pow(1 - clamp((t - 0.2) / 0.7), 3);
+        $("alice").style.transform = `translate(${(1 - en) * 600}px, ${Math.sin(t * 2.2) * 6 + (mo ? -3 : 0)}px) rotate(${Math.sin(t * 1.3) * 0.8}deg) scale(${1 + pp})`;
+      }
+      function caption(sc, u) {
+        if (u > sc.voice_len + 0.4) return "";
+        const parts = sc.sub.match(/[^。？！]+[。？！]?/g) || [sc.sub], tot = parts.reduce((a, s) => a + s.length, 0), pr = u / sc.voice_len;
+        let acc = 0, line = parts[parts.length - 1];
+        for (const p of parts) { acc += p.length; if (acc / tot >= pr) { line = p; break; } }
+        line = line.replace(/。$/, "");
+        if (line.length > 26) { const m = line.length / 2; let b = -1; for (let i = 0; i < line.length; i++) if ("、".includes(line[i]) && (b < 0 || Math.abs(i - m) < Math.abs(b - m))) b = i; if (b < 0) b = Math.floor(m); line = line.slice(0, b + 1) + "\n" + line.slice(b + 1); }
+        return line;
+      }
+
+      // ---------- 場面 ----------
+      const SC = Object.fromEntries(D.scenes.map((s) => [s.id, s]));
+      const lab = (x, y, z, html, op = 1, size = 54) => { const [sx, sy] = scr(x, y, z); return `<div class="lab big" style="left:${sx}px;top:${sy}px;font-size:${size}px;opacity:${op}">${html}</div>`; };
+      function renderAt(t) {
+        let sc = D.scenes[0]; for (const s of D.scenes) if (t >= s.start) sc = s;
+        const u = t - sc.start, k = u / sc.dur;
+        // 回転の進み（レース中だけ進む）
+        const spins = t < ST.race_start ? 0 : D.spins * clamp((t - ST.race_start) / ST.race_dur);
+        const nA = D.A.filter((v) => v > 0 && v <= spins).length, nB = D.B.filter((v) => v > 0 && v <= spins).length;
+        fillTank(TA, nA, t); fillTank(TB, nB, t);
+        drawCrowd(CA, D.A, spins, t); drawCrowd(CB, D.B, spins, t);
+        lcd(MA, t < ST.race_start ? "500" : String(500 + Math.floor(spins)), "#ff8a8a");
+        lcd(MB, t < ST.race_start ? "0" : String(Math.floor(spins)), "#8ac4ff");
+        let title = "", L = "";
+        if (sc.id === "hook") { camMove(k, [-3.3, 3.2, 5.0, -3.3, 2.6, -4.6], [-2.6, 4.0, 8.0, -3.3, 2.4, -4.6]);
+          title = `<div style="transform:scale(${0.5 + 0.5 * back(u / 0.5)})">ハマってる台は<br><span style="color:#ffd84a">そろそろ当たる？</span></div>`;
+          L = lab(-3.3, 5.6, -4.6, "500回転ハマり中…", clamp((u - 1) * 3), 46); }
+        else if (sc.id === "setup") { camMove(k, [0, 9, 17, 0, 2.2, -0.5], [0, 10, 19, 0, 2.2, -0.5]);
+          L = lab(-3.3, 5.6, -4.6, `<span style="color:#ff8a8a">A組</span><br><span style="font-size:36px">ハマり台に座る</span>`, clamp(u * 2)) +
+              lab(3.3, 5.6, -4.6, `<span style="color:#8ac4ff">B組</span><br><span style="font-size:36px">当たった直後の台</span>`, clamp((u - 2.5) * 2)); }
+        else if (sc.id === "rule") { camMove(k, [0, 10, 19, 0, 2.2, -0.5], [0, 8, 16, 0, 2.6, -0.5]);
+          title = `<div style="transform:scale(${0.5 + 0.5 * back(u / 0.5)})">どちらも <span style="color:#ffd84a">1/399.9</span><br><span style="font-size:70px">300回転だけ打つ</span></div>`; }
+        else if (sc.id === "race") { camMove(k, [0, 8, 16, 0, 1.2, 0.5], [0, 7.5, 14.5, 0, 1.4, 0.5]);
+          L = lab(-1.8, 6.0, 0.4, `<span style="color:#ff8a8a">A組</span> ${nA.toLocaleString()}人`, 1, 50) + lab(1.8, 6.0, 0.4, `<span style="color:#8ac4ff">B組</span> ${nB.toLocaleString()}人`, 1, 50);
+          title = `<div style="font-size:64px;margin-top:760px">${Math.floor(spins)} / 300 回転</div>`; }
+        else if (sc.id === "result") { camMove(clamp(k * 1.5), [0, 7.5, 14.5, 0, 1.4, 0.5], [0, 8, 15.5, 0, 1.6, 0.5]);
+          const pk = clamp((u - sc.voice_len * 0.45) / 0.45);
+          L = lab(-1.8, 5.6, 0.4, `<span style="color:#ff8a8a;font-size:50px">A組</span><br>${(ST.ra * 100).toFixed(1)}%`, clamp(u * 3), 96) +
+              lab(1.8, 5.6, 0.4, `<span style="color:#8ac4ff;font-size:50px">B組</span><br>${(ST.rb * 100).toFixed(1)}%`, clamp(u * 3), 96);
+          if (pk > 0) title = `<div style="transform:scale(${0.4 + 0.6 * back(pk)});color:#ffd84a;font-size:120px;margin-top:700px">ほぼ同じ！</div>`;
+          $("flash").style.opacity = pk > 0 && pk < 0.35 ? 0.55 * (1 - pk / 0.35) : 0; }
+        else if (sc.id === "why") { camMove(k, [-2.6, 4.2, 8, -3.3, 2.0, -4.6], [2.6, 4.2, 8, 3.3, 2.0, -4.6]);
+          title = `<div style="transform:scale(${0.5 + 0.5 * back(u / 0.5)})">台は前の結果を<br><span style="color:#ffd84a">覚えていない</span></div>`;
+          L = lab(-3.3, 5.4, -4.6, "次も 1/399.9", clamp((u - 2) * 2), 44) + lab(3.3, 5.4, -4.6, "次も 1/399.9", clamp((u - 3.5) * 2), 44); }
+        else { camMove(k, [0, 8, 16, 0, 1.2, 0], [0, 12, 24, 0, 0.6, 0]);
+          title = `<div style="transform:scale(${0.5 + 0.5 * back(u / 0.5)})">「そろそろ当たる」は<br><span style="color:#ffd84a">気のせい</span></div>`; }
+        if (sc.id !== "result") $("flash").style.opacity = 0;
+        $("title").innerHTML = title; $("labels").innerHTML = L;
+        $("cap").textContent = t < D.lead ? "" : caption(sc, u);
+        alice(t, sc, u);
+        R.render(scene, cam);
+      }
+      window.addEventListener("hf-seek", (e) => renderAt(e.detail.time));
+      document.fonts.ready.then(() => renderAt(0));
+      renderAt(0);
+    </script>
+  </body>
+</html>

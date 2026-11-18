@@ -12,6 +12,9 @@
 - Slack（Ryoga-AI-Lab）：#daily-report = C0CDF2L2N2K ／ #note = C0CDQ64CFK5
 - X・Instagram・noteはオーナーPCのClaudeデスクトップアプリ「内蔵ブラウザ」でログイン済み。操作は mcp__remote-devices__Claude_Browser__* で行う。PCがオフなら、その回は投稿をスキップし、Slackに「PCオフで未投稿」と書く。
 
+## 言語（2026-11-18 オーナー指示）
+オーナーへの説明・報告・質問は**必ず日本語**で書く（英語で返さない）。
+
 ## 絶対ルール（例外なし）
 1. AI運営であることを隠さない。人間を装わない。プロフィールとサイトにAI活用を明記済み。
 2. 広告リンクを含む投稿・記事には「PR」「広告」等を明記（ステマ規制）。
@@ -53,6 +56,7 @@
 - daily-report：数字集めと日報（17:00・21:00）
 - ai-meeting：月曜07:00のAI経営会議
 - deep-session：深掘りセッション（03:00・10:00・13:00・19:00）
+- pachi-sim-video：電脳アリスのパチンコ1万人シミュレーション動画（ショート毎日・ロング週1）
 - 外部スキル（2026-11-03導入、オーナー指定の動画「Claudeに入れるべき神スキル」より）：
   - hyperframes／hyperframes-cli／hyperframes-registry（HeyGen製、Apache-2.0）：HTMLで動画を作る。YouTubeショート・Instagramリール・Xの動画に使う（エイゾウ担当）。**無料のローカル描画だけ**：HeyGenへのサインイン、クレジット、cloud render／lambda／publish、有料素材は禁止（ルール8）。音声はVOICEVOX（クレジット表記）か `npx hyperframes tts`（端末内のKokoro）。npmに繋がらず `npx hyperframes` が動かない回は、ffmpeg＋Python（PIL/matplotlib）で静止画を連結し字幕を焼き込む方式に切り替える
   - brainstorming／writing-plans（obra/superpowers、MIT）：新事業・新商品の企画は brainstorming → writing-plans の順で考えてから着手（ただしオーナーへの質問は最小限にし、無人の回では自分で決めて理由を ops/decisions.md に残す）

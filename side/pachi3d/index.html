@@ -1,0 +1,610 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="assets/lib/gsap.min.js"></script>
+    <script src="assets/data.js"></script>
+    <script type="importmap">
+      { "imports": { "three": "./assets/lib/three.module.js", "three/addons/": "./assets/lib/addons/" } }
+    </script>
+    <style>
+      @font-face { font-family: "Rounded"; src: url("assets/fonts/MPLUSRounded1c-Bold.ttf"); font-weight: 700; }
+      @font-face { font-family: "Rounded"; src: url("assets/fonts/MPLUSRounded1c-ExtraBold.ttf"); font-weight: 800; }
+      @font-face { font-family: "Rounded"; src: url("assets/fonts/MPLUSRounded1c-Medium.ttf"); font-weight: 500; }
+      :root { --navy: #262b57; --ink: #2a2f5a; --sub: #6b7099; --gold: #ff9f1a; --red: #ff4d4d; --blue: #2f7bff; --violet: #7a5cff; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; font-family: "Rounded", sans-serif;
+        background: linear-gradient(180deg, #bfe3ff 0%, #e8f4ff 45%, #fff4dc 100%); }
+      #root { width: 100%; height: 100%; position: relative; }
+      #gl { position: absolute; inset: 0; width: 1920px; height: 1080px; }
+      #ui { position: absolute; inset: 0; pointer-events: none; }
+      #sky { position: absolute; inset: 0; overflow: hidden; }
+      .cloud { position: absolute; background: #fff; border-radius: 200px; opacity: .85; filter: blur(2px); }
+      .cloud::before, .cloud::after { content: ""; position: absolute; background: #fff; border-radius: 50%; }
+      .cloud::before { width: 55%; height: 160%; left: 12%; top: -70%; }
+      .cloud::after { width: 40%; height: 130%; right: 14%; top: -45%; }
+      #vignette { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 45%, rgba(0,0,0,0) 62%, rgba(38,43,87,.22) 100%); }
+      #wipe { position: absolute; inset: -200px; }
+      #wipe .band { position: absolute; top: 0; bottom: 0; width: 900px; transform: skewX(-18deg); }
+      #burst { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+      .confetti { position: absolute; width: 18px; height: 26px; border-radius: 3px; }
+      #chapter { position: absolute; left: 70px; top: 50px; padding: 10px 28px; border-radius: 34px; font-size: 34px; font-weight: 800;
+        color: var(--navy); background: #ffd84a; border: 5px solid var(--navy); box-shadow: 6px 6px 0 var(--navy); }
+      #panel { position: absolute; left: 80px; top: 150px; width: 1180px; }
+      .glass { background: #ffffff; border: 6px solid var(--navy); border-radius: 30px; padding: 30px 42px; box-shadow: 10px 10px 0 var(--navy); }
+      .row { display: flex; justify-content: space-between; align-items: baseline; padding: 12px 0; border-bottom: 3px dashed #dfe2f2; }
+      .row .k { font-size: 36px; color: var(--sub); font-weight: 700; }
+      .row .v { font-size: 48px; color: var(--ink); font-weight: 800; }
+      .big { font-weight: 800; color: var(--gold); -webkit-text-stroke: 9px var(--navy); paint-order: stroke fill; text-shadow: 5px 5px 0 var(--navy); }
+      .label { position: absolute; transform: translate(-50%, -100%); font-size: 34px; font-weight: 800; color: var(--ink);
+        -webkit-text-stroke: 8px #fff; paint-order: stroke fill; white-space: nowrap; }
+      .axis { position: absolute; transform: translate(-50%, 0); font-size: 28px; font-weight: 800; color: var(--ink); white-space: nowrap;
+        -webkit-text-stroke: 7px #fff; paint-order: stroke fill; }
+      #title { position: absolute; left: 80px; top: 300px; width: 1300px; }
+      #cap { position: absolute; left: 0; right: 0; bottom: 18px; height: 150px; display: flex; align-items: center; justify-content: center; }
+      #captext { white-space: pre-line; font-size: 52px; font-weight: 800; color: #fff; text-align: center; max-width: 1640px; line-height: 1.3;
+        -webkit-text-stroke: 10px var(--navy); paint-order: stroke fill; text-shadow: 0 5px 0 var(--navy); letter-spacing: .02em; }
+      #alice { position: absolute; left: 1290px; top: 210px; width: 690px; height: 920px; transform-origin: 50% 100%; filter: drop-shadow(10px 12px 0 rgba(38,43,87,.22)); }
+      #alice img { position: absolute; inset: 0; width: 690px; height: 920px; }
+      #credit { position: absolute; right: 40px; top: 30px; font-size: 24px; color: #262b57; font-weight: 800; opacity: .75; }
+      .stat { font-size: 34px; color: var(--sub); font-weight: 700; }
+      .num { font-size: 84px; font-weight: 800; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="243.415" data-width="1920" data-height="1080">
+      <div id="sky" class="clip" data-start="0" data-duration="243.415" data-track-index="3"></div>
+      <canvas id="gl" class="clip" data-start="0" data-duration="243.415" data-track-index="0" width="1920" height="1080"></canvas>
+      <div id="ui" class="clip" data-start="0" data-duration="243.415" data-track-index="1" data-layout-allow-overlap>
+        <div id="vignette"></div>
+        <svg id="burst" viewBox="0 0 1920 1080"></svg>
+        <div id="labels"></div>
+        <div id="title"></div>
+        <div id="panel"></div>
+        <div id="alice"><img id="a_base" src="assets/alice_v2/base_768.png" alt="電脳アリス" /><img id="a_talk" src="assets/alice_v2/talk_768.png" alt="" /><img id="a_blink" src="assets/alice_v2/blink_768.png" alt="" /><img id="a_happy" src="assets/alice_v2/happy_768.png" alt="" /><img id="a_surprised" src="assets/alice_v2/surprised_768.png" alt="" /><img id="a_troubled" src="assets/alice_v2/troubled_768.png" alt="" /><img id="a_pose_thinking" src="assets/alice_v2/pose_thinking_768.png" alt="" /><img id="a_pose_thinking_talk" src="assets/alice_v2/pose_thinking_talk_768.png" alt="" /><img id="a_pose_pointing" src="assets/alice_v2/pose_pointing_768.png" alt="" /><img id="a_pose_pointing_talk" src="assets/alice_v2/pose_pointing_talk_768.png" alt="" /><img id="a_pose_excited" src="assets/alice_v2/pose_excited_768.png" alt="" /><img id="a_pose_excited_talk" src="assets/alice_v2/pose_excited_talk_768.png" alt="" /></div>
+        <div id="chapter"></div>
+        <div id="cap"><div id="captext"></div></div>
+        <div id="confetti"></div>
+        <div id="wipe"><div class="band" style="background:#ffd84a"></div><div class="band" style="background:#262b57"></div><div class="band" style="background:#2f7bff"></div></div>
+      </div>
+      <audio id="mix" class="clip" src="assets/mix.wav" data-start="0" data-duration="243.415" data-track-index="2"></audio>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      window.__timelines["main"] = tl;
+    </script>
+    <script type="module">
+      import * as THREE from "three";
+      import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+      import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+      import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+      import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
+      import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
+      import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+      import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
+
+      const D = window.DATA, ST = D.stats, FPS = D.fps;
+      const $ = (id) => document.getElementById(id);
+      const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+      const ease = (x) => { x = clamp(x); return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
+      const out3 = (x) => 1 - Math.pow(1 - clamp(x), 3);
+      const lerp = (a, b, k) => a + (b - a) * k;
+      const fmt = (v) => Math.round(v).toLocaleString("ja-JP");
+      const man = (y) => (y >= 0 ? "+" : "−") + (Math.abs(y) / 10000).toFixed(1) + "万円";
+      function mulberry32(a) { return function () { a |= 0; a = (a + 0x6d2b79f5) | 0; let t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+      const rand = mulberry32(D.stats.seed);
+
+      // ---------- 3D の基本 ----------
+      const renderer = new THREE.WebGLRenderer({ canvas: $("gl"), antialias: true, alpha: true, preserveDrawingBuffer: true });
+      renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap; renderer.toneMappingExposure = 1.15;
+      renderer.setSize(1920, 1080, false);
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      const scene = new THREE.Scene();
+      scene.background = null;
+      scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.04).texture; scene.environmentIntensity = 0.6;
+      scene.fog = new THREE.Fog(0xf3ead8, 40, 95);
+      const camera = new THREE.PerspectiveCamera(35, 1920 / 1080, 0.1, 200);
+      scene.add(new THREE.HemisphereLight(0xffffff, 0xe8d8bf, 1.6));
+      const key = new THREE.DirectionalLight(0xfff2dc, 2.2); key.position.set(10, 18, 14); key.castShadow = true;
+      key.shadow.mapSize.set(2048, 2048); Object.assign(key.shadow.camera, { left: -40, right: 40, top: 30, bottom: -30, near: 1, far: 80 }); key.shadow.bias = -0.0005;
+      key.target.position.set(0, 0, -4); scene.add(key); scene.add(key.target);
+      const fill = new THREE.DirectionalLight(0xcfe4ff, 0.8); fill.position.set(-10, 8, 6); scene.add(fill);
+
+      // 床：光る格子
+      const floorCanvas = document.createElement("canvas"); floorCanvas.width = floorCanvas.height = 512;
+      { const g = floorCanvas.getContext("2d"); g.fillStyle = "#f2dfbf"; g.fillRect(0, 0, 512, 512);
+        for (let i = 0; i < 8; i++) { g.fillStyle = i % 2 ? "#f0dcba" : "#f4e2c4"; g.fillRect(0, i * 64, 512, 62); g.fillStyle = "#ead3ad"; g.fillRect(0, i * 64 + 62, 512, 2); } }
+      const floorTex = new THREE.CanvasTexture(floorCanvas); floorTex.wrapS = floorTex.wrapT = THREE.RepeatWrapping; floorTex.repeat.set(30, 30); floorTex.colorSpace = THREE.SRGBColorSpace;
+      const floor = new THREE.Mesh(new THREE.PlaneGeometry(200, 200), new THREE.MeshStandardMaterial({ map: floorTex, roughness: 0.85 }));
+      floor.receiveShadow = true;
+      floor.rotation.x = -Math.PI / 2; floor.position.y = -0.02; scene.add(floor);
+
+      // ---------- 台（オリジナルの形）----------
+      const MX = -16, MZ = 0;                                     // 台は左奥に置く
+      const cab = new THREE.Group(); cab.position.set(MX, 4.9, MZ); scene.add(cab);
+      const metal = new THREE.MeshStandardMaterial({ color: 0xf7f4ff, metalness: 0.15, roughness: 0.35 });
+      const body = new THREE.Mesh(new RoundedBoxGeometry(6.6, 9.8, 1.4, 6, 0.45), metal); body.position.z = -0.8; body.castShadow = true; cab.add(body);
+      const trim = new THREE.Mesh(new RoundedBoxGeometry(6.95, 10.15, 1.0, 6, 0.5), new THREE.MeshStandardMaterial({ color: 0xffb627, metalness: 0.6, roughness: 0.3 })); trim.position.z = -1.0; cab.add(trim);
+      const boardM = new THREE.Mesh(new THREE.BoxGeometry(5.6, 6.2, 0.1), new THREE.MeshStandardMaterial({ color: 0xdfe9ff, roughness: 0.6 }));
+      boardM.position.set(0, 1.2, 0); cab.add(boardM);
+      const lcdCanvas = document.createElement("canvas"); lcdCanvas.width = 512; lcdCanvas.height = 320;
+      const lcdTex = new THREE.CanvasTexture(lcdCanvas); lcdTex.colorSpace = THREE.SRGBColorSpace;
+      const lcd = new THREE.Mesh(new THREE.PlaneGeometry(2.7, 1.68), new THREE.MeshBasicMaterial({ map: lcdTex })); lcd.position.set(0, 1.5, 0.08); cab.add(lcd);
+      const neonMat = new THREE.MeshStandardMaterial({ color: 0xff5fa2, metalness: 0.3, roughness: 0.3 });
+      const neon = new THREE.Mesh(new THREE.TorusGeometry(3.3, 0.07, 12, 96), neonMat); neon.scale.set(0.93, 1.03, 1); neon.position.set(0, 1.2, 0.25); cab.add(neon);
+      const lower = new THREE.Mesh(new RoundedBoxGeometry(5.8, 1.2, 0.8, 4, 0.3), new THREE.MeshStandardMaterial({ color: 0x3d7bff, metalness: 0.3, roughness: 0.35 }));
+      lower.position.set(0, -2.9, 0.1); cab.add(lower);
+      const strip = new THREE.Mesh(new THREE.BoxGeometry(5.9, 0.08, 0.1), new THREE.MeshStandardMaterial({ color: 0xffb627, metalness: 0.5, roughness: 0.3 })); strip.position.set(0, -2.25, 0.5); cab.add(strip);
+      // てっぺんの飾り（オリジナル：王冠＋光る玉）
+      const gold = new THREE.MeshStandardMaterial({ color: 0xffc23a, metalness: 0.8, roughness: 0.25, emissive: 0x553300 });
+      const crown = new THREE.Group(); crown.position.set(0, 5.35, -0.2); cab.add(crown);
+      const crownBase = new THREE.Mesh(new THREE.CylinderGeometry(1.4, 1.6, 0.5, 40, 1, true), gold); crown.add(crownBase);
+      for (let i = 0; i < 5; i++) { const sp = new THREE.Mesh(new THREE.ConeGeometry(0.28, 0.9, 16), gold); const a = (i / 4 - 0.5) * 2.2; sp.position.set(Math.sin(a) * 1.3, 0.6, Math.cos(a) * 0.4); crown.add(sp); }
+      const gem = new THREE.Mesh(new THREE.SphereGeometry(0.42, 32, 24), new THREE.MeshStandardMaterial({ color: 0xff3d8b, emissive: 0xff2a7a, emissiveIntensity: 0.6, roughness: 0.15 }));
+      gem.position.set(0, 0.55, 0.45); crown.add(gem);
+      // 盤面のまわりのLED（色が流れる）
+      const mL = new THREE.Matrix4();
+      const NLED = 64, ledMesh = new THREE.InstancedMesh(new THREE.SphereGeometry(0.075, 10, 8), new THREE.MeshBasicMaterial({ color: 0xffffff }), NLED);
+      for (let i = 0; i < NLED; i++) { const a = (i / NLED) * Math.PI * 2; mL.makeTranslation(Math.cos(a) * 3.07, 1.2 + Math.sin(a) * 3.4, 0.32); ledMesh.setMatrixAt(i, mL); }
+      cab.add(ledMesh);
+      // サイドの光る帯
+      const sideMat = new THREE.MeshBasicMaterial({ color: 0x55c8ff });
+      [-3.25, 3.25].forEach((x) => { const sb = new THREE.Mesh(new RoundedBoxGeometry(0.16, 8.4, 0.2, 2, 0.07), sideMat); sb.position.set(x, 0.6, 0.0); cab.add(sb); });
+      // ハンドル（右下）と受け皿
+      const handle = new THREE.Group(); handle.position.set(2.45, -3.0, 0.6); cab.add(handle);
+      handle.add(new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.48, 0.35, 32).rotateX(Math.PI / 2), new THREE.MeshStandardMaterial({ color: 0x2b2f55, metalness: 0.6, roughness: 0.35 })));
+      const knob = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 0.5, 16).rotateX(Math.PI / 2), gold); knob.position.set(0.25, 0.1, 0.2); handle.add(knob);
+      const tray = new THREE.Mesh(new RoundedBoxGeometry(3.6, 0.5, 0.9, 4, 0.2), new THREE.MeshStandardMaterial({ color: 0xf3f0ff, metalness: 0.3, roughness: 0.3 }));
+      tray.position.set(-0.8, -3.75, 0.55); cab.add(tray);
+      const pileN = 120, pile = new THREE.InstancedMesh(new THREE.SphereGeometry(0.085, 12, 10), new THREE.MeshStandardMaterial({ color: 0xe8ebf2, metalness: 1, roughness: 0.18 }), pileN);
+      for (let i = 0; i < pileN; i++) { const r = rand(), a = rand() * 6.28; mL.makeTranslation(-0.8 + (rand() - 0.5) * 3.1, -3.45 + Math.pow(rand(), 2) * 0.25, 0.55 + (rand() - 0.5) * 0.6); pile.setMatrixAt(i, mL); }
+      cab.add(pile);
+      const ledCol = new THREE.Color();
+      function drawCabFx(t) {
+        for (let i = 0; i < NLED; i++) { ledCol.setHSL(((i / NLED) + t * 0.35) % 1, 1, 0.6); ledMesh.setColorAt(i, ledCol); }
+        ledMesh.instanceColor.needsUpdate = true;
+        gem.material.emissiveIntensity = 0.5 + 0.5 * Math.sin(t * 4);
+        sideMat.color.setHSL((t * 0.15) % 1, 0.9, 0.62);
+        crown.rotation.y = Math.sin(t * 0.8) * 0.15;
+        handle.rotation.z = -0.4 + Math.sin(t * 2) * 0.05;
+      }
+      const pinGeo = new THREE.CylinderGeometry(0.026, 0.026, 0.3, 8); pinGeo.rotateX(Math.PI / 2);
+      const pins = [];
+      for (let r = 0; r < 15; r++) for (let c = 0; c < 15; c++) {
+        const x = -2.5 + c * 0.36 + (r % 2 ? 0.18 : 0), y = 4.0 - r * 0.38;
+        if (Math.abs(x) < 1.55 && y < 2.5 && y > 0.5) continue;
+        if (x > 2.6) continue;
+        pins.push([x, y]);
+      }
+      const pinMesh = new THREE.InstancedMesh(pinGeo, new THREE.MeshStandardMaterial({ color: 0xb8a070, metalness: 0.9, roughness: 0.35 }), pins.length);
+      const m4 = new THREE.Matrix4();
+      pins.forEach(([x, y], i) => { m4.makeTranslation(x, y, 0.2); pinMesh.setMatrixAt(i, m4); });
+      cab.add(pinMesh);
+      // 玉：読み込み時に軌跡を計算（8秒ぶん）し、時刻で引く
+      const NB = 220, PF = 60, LIFE = 8, PERIOD = 8;
+      const paths = [];
+      for (let b = 0; b < NB; b++) {
+        let x = 2.45 + rand() * 0.1, y = 4.5, vx = -1.4 - rand() * 1.2, vy = 0.3;
+        const p = [];
+        for (let s = 0; s < PF * LIFE; s++) {
+          const dt = 1 / PF; vy -= 9.8 * dt * 0.5; x += vx * dt; y += vy * dt;
+          for (const [px, py] of pins) { const dx = x - px, dy = y - py, d = Math.hypot(dx, dy); if (d < 0.085 && d > 1e-6) { const nx = dx / d, ny = dy / d, dot = vx * nx + vy * ny; if (dot < 0) { vx -= 1.55 * dot * nx; vy -= 1.55 * dot * ny; vx += (rand() - 0.5) * 0.35; } x = px + nx * 0.085; y = py + ny * 0.085; } }
+          if (Math.abs(x) < 1.42 && y < 2.4 && y > 0.6) { // 液晶の枠で跳ねる
+            if (y > 2.3) { y = 2.4; vy = Math.abs(vy) * 0.4; vx += (x > 0 ? 0.6 : -0.6); } else { x = x > 0 ? 1.42 : -1.42; vx = -vx * 0.5; }
+          }
+          if (x < -2.7) { x = -2.7; vx = Math.abs(vx) * 0.5; } if (x > 2.7) { x = 2.7; vx = -Math.abs(vx) * 0.5; }
+          p.push([x, y, y > -1.9]);
+        }
+        paths.push(p);
+      }
+      const ballMesh = new THREE.InstancedMesh(new THREE.SphereGeometry(0.058, 16, 12), new THREE.MeshStandardMaterial({ color: 0xe8ebf2, metalness: 1, roughness: 0.18 }), NB);
+      cab.add(ballMesh);
+      const zero = new THREE.Matrix4().makeScale(0, 0, 0);
+      function drawBalls(t) {
+        for (let i = 0; i < NB; i++) {
+          const age = ((t + (i * PERIOD) / NB) % PERIOD + PERIOD) % PERIOD;
+          const s = Math.min(PF * LIFE - 1, Math.floor(age * PF));
+          const [x, y, on] = paths[i][s];
+          if (on) { m4.makeTranslation(x, y, 0.2); ballMesh.setMatrixAt(i, m4); } else ballMesh.setMatrixAt(i, zero);
+        }
+        ballMesh.instanceMatrix.needsUpdate = true;
+      }
+      function drawLCD(t, mode) {
+        const g = lcdCanvas.getContext("2d");
+        const grd = g.createLinearGradient(0, 0, 0, 320); grd.addColorStop(0, "#5b8cff"); grd.addColorStop(1, "#2a3fb8");
+        g.fillStyle = grd; g.fillRect(0, 0, 512, 320);
+        g.textAlign = "center"; g.textBaseline = "middle"; g.font = "800 150px Rounded";
+        let s;
+        if (mode === "777") s = "777";
+        else if (mode) s = mode;
+        else { const cyc = t % 3; s = cyc > 2.2 ? "777" : [0, 1, 2].map((k) => (Math.floor(t * (14 - k * 3)) % 9) + 1).join(""); }
+        g.fillStyle = s === "777" ? "#ffd04a" : "#ffffff";
+        if (s.length > 3) g.font = "800 92px Rounded";
+        g.shadowColor = s === "777" ? "#ff9a00" : "#8fb4ff"; g.shadowBlur = 30;
+        g.fillText(s, 256, 165);
+        lcdTex.needsUpdate = true;
+      }
+
+      // ---------- 1万人 ----------
+      const CN = 10000, CS = 0.22;                                // 100x100、間隔0.22
+      const pBody = new THREE.CapsuleGeometry(0.06, 0.07, 4, 10); pBody.translate(0, 0.095, 0);
+      const crowd = new THREE.InstancedMesh(pBody, new THREE.MeshStandardMaterial({ roughness: 0.45, metalness: 0.0 }), CN);
+      crowd.castShadow = true;
+      const pHead = new THREE.SphereGeometry(0.072, 14, 10); pHead.translate(0, 0.25, 0);
+      const heads = new THREE.InstancedMesh(pHead, new THREE.MeshStandardMaterial({ color: 0xffe2cf, roughness: 0.6 }), CN);
+      const pHair = new THREE.SphereGeometry(0.078, 14, 8, 0, Math.PI * 2, 0, Math.PI * 0.55); pHair.translate(0, 0.262, -0.006);
+      const hair = new THREE.InstancedMesh(pHair, new THREE.MeshStandardMaterial({ roughness: 0.55 }), CN);
+      const HAIRC = [0x2a2230, 0x5a3a24, 0x8a5a2c, 0xd9b36a, 0x3b3f6e, 0xf2f2f6].map((c) => new THREE.Color(c));
+      for (let i = 0; i < CN; i++) hair.setColorAt(i, HAIRC[(i * 2654435761 >>> 0) % 6]);
+      crowd.add(heads); crowd.add(hair);
+      let crowdT = 0;
+      const home = [];
+      for (let i = 0; i < CN; i++) { const gx = i % 100, gz = Math.floor(i / 100); home.push([(gx - 49.5) * CS, (gz - 49.5) * CS]); }
+      const col = new THREE.Color();
+      const C_IDLE = new THREE.Color(0x8a93c8), C_DIM = new THREE.Color(0xe4dccb), C_GOLD = new THREE.Color(0xffa51f),
+        C_BLUE = new THREE.Color(0x2f7bff), C_RED = new THREE.Color(0xff4d4d);
+      for (let i = 0; i < CN; i++) crowd.setColorAt(i, C_IDLE);
+      scene.add(crowd);
+      function setCrowd(colorFn, posFn) {
+        for (let i = 0; i < CN; i++) {
+          const [x, z] = posFn ? posFn(i) : home[i];
+          const c = colorFn(i);
+          // 光った人（RUSH・勝ち）はその場で跳ねて喜ぶ
+          const happy = c === C_GOLD || c === C_BLUE;
+          const y = happy ? Math.abs(Math.sin(crowdT * 7 + (i % 97) * 0.37)) * 0.09 : 0;
+          m4.makeTranslation(x, y, z); crowd.setMatrixAt(i, m4); heads.setMatrixAt(i, m4); hair.setMatrixAt(i, m4);
+          crowd.setColorAt(i, c);
+        }
+        crowd.instanceMatrix.needsUpdate = true; crowd.instanceColor.needsUpdate = true;
+        heads.instanceMatrix.needsUpdate = true; hair.instanceMatrix.needsUpdate = true; hair.instanceColor.needsUpdate = true;
+      }
+
+      // ---------- 3Dの柱グラフ ----------
+      const BX = 16;                                              // グラフは右側に置く
+      const barGroup = new THREE.Group(); barGroup.position.set(BX, 0, 0); scene.add(barGroup);
+      const bars = [];
+      for (let i = 0; i < 26; i++) {
+        const m = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.35, metalness: 0.2, emissive: 0x000000 }));
+        m.visible = false; m.castShadow = true; barGroup.add(m); bars.push(m);
+      }
+      // values, colors: 配列。width: 全体の幅。hmax: 最大の高さ
+      function drawBars(values, colors, k, width = 12, hmax = 7, depth = 1.2) {
+        const n = values.length, vmax = Math.max(...values, 1), bw = width / n;
+        bars.forEach((b, i) => {
+          if (i >= n) { b.visible = false; return; }
+          const kk = out3((k * n - i * 0.35) / (n * 0.35 + 1) * 1.6);
+          const h = Math.max(0.02, (values[i] / vmax) * hmax * kk);
+          b.visible = true; b.scale.set(bw * 0.72, h, depth); b.position.set(-width / 2 + bw * (i + 0.5), h / 2, 0);
+          b.material.color.set(colors[i]); b.material.emissive.set(colors[i]); b.material.emissiveIntensity = 0.08;
+        });
+      }
+      function hideBars() { bars.forEach((b) => (b.visible = false)); }
+      const v3 = new THREE.Vector3();
+      function screenOf(x, y, z) { v3.set(x, y, z).project(camera); return [(v3.x * 0.5 + 0.5) * 1920, (-v3.y * 0.5 + 0.5) * 1080]; }
+      function barLabels(values, labels, k, fmtv, width = 12, hmax = 7) {
+        const n = values.length, vmax = Math.max(...values, 1), bw = width / n;
+        let h = "";
+        values.forEach((v, i) => {
+          const x = BX - width / 2 + bw * (i + 0.5), top = (v / vmax) * hmax;
+          const [sx, sy] = screenOf(x, top + 0.25, 0.6), [ax, ay] = screenOf(x, -0.1, 0.9);
+          if (k > 0.85 && fmtv) h += `<div class="label" style="left:${sx}px;top:${sy}px;opacity:${clamp((k - 0.85) * 8)}">${fmtv(v)}</div>`;
+          if (labels) h += `<div class="axis" style="left:${ax}px;top:${ay}px">${labels[i]}</div>`;
+        });
+        return h;
+      }
+
+      // ---------- LTの3段 ----------
+      const steps3 = new THREE.Group(); steps3.position.set(0, 0, -14); scene.add(steps3);
+      const stepCols = [0x9aa3d6, 0xffa51f, 0xff4d4d];
+      const stepMeshes = stepCols.map((c, i) => {
+        const m = new THREE.Mesh(new THREE.CylinderGeometry(1.6, 1.8, 0.6 + i * 1.6, 48), new THREE.MeshStandardMaterial({ color: c, emissive: c, emissiveIntensity: 0.25, metalness: 0.3, roughness: 0.4 }));
+        m.position.set(-5 + i * 5, (0.6 + i * 1.6) / 2, 0); steps3.add(m);
+        const ring = new THREE.Mesh(new THREE.TorusGeometry(1.75, 0.05, 8, 64), new THREE.MeshBasicMaterial({ color: c }));
+        ring.rotation.x = Math.PI / 2; ring.position.set(-5 + i * 5, 0.6 + i * 1.6 + 0.02, 0); steps3.add(ring);
+        return m;
+      });
+
+      // ---------- 回転率の3本柱 ----------
+      const pods = new THREE.Group(); pods.position.set(BX, 0, -14); scene.add(pods);
+      const podMeshes = [0, 1, 2].map((i) => {
+        const m = new THREE.Mesh(new THREE.CylinderGeometry(1.2, 1.2, 1, 48), new THREE.MeshStandardMaterial({ color: 0x2f7bff, emissive: 0x2f7bff, emissiveIntensity: 0.3, roughness: 0.35 }));
+        m.position.set(-4.5 + i * 4.5, 0.5, 0); pods.add(m); return m;
+      });
+
+      // ---------- 光の粒 ----------
+      const PN = 600, pGeo = new THREE.BufferGeometry(), pPos = new Float32Array(PN * 3), pSeed = [];
+      for (let i = 0; i < PN; i++) pSeed.push([rand() * 80 - 40, rand() * 14, rand() * 60 - 40, rand() * 6.28]);
+      pGeo.setAttribute("position", new THREE.BufferAttribute(pPos, 3));
+      const dust = new THREE.Points(pGeo, new THREE.PointsMaterial({ color: 0x8fb4ff, size: 0.08, transparent: true, opacity: 0.8 }));
+      dust.visible = false;
+      function drawDust(t) {
+        for (let i = 0; i < PN; i++) { const [x, y, z, ph] = pSeed[i]; pPos[i * 3] = x + Math.sin(t * 0.2 + ph) * 0.6; pPos[i * 3 + 1] = (y + t * 0.25) % 14; pPos[i * 3 + 2] = z; }
+        pGeo.attributes.position.needsUpdate = true;
+      }
+
+      const composer = new EffectComposer(renderer);
+      composer.addPass(new RenderPass(scene, camera));
+            composer.addPass(new OutputPass());
+
+      // ---------- カメラ ----------
+      const look = new THREE.Vector3();
+      function cam(k, a, b) { // a,b: [px,py,pz, lx,ly,lz]
+        const e = ease(k);
+        camera.position.set(lerp(a[0], b[0], e), lerp(a[1], b[1], e), lerp(a[2], b[2], e));
+        look.set(lerp(a[3], b[3], e), lerp(a[4], b[4], e), lerp(a[5], b[5], e)); camera.lookAt(look); camera.updateMatrixWorld(); camera.updateProjectionMatrix();
+      }
+      const M = (dx, dy, dz, ly = 6) => [MX + dx, dy, MZ + dz, MX, ly, MZ];
+
+      // ---------- 画面の部品 ----------
+      const fade = (u, t0, d = 0.5) => clamp((u - t0) / d);
+      const rows = (list, u, gap = 0.55) => list.map(([k, v], i) => `<div class="row" style="opacity:${fade(u, 0.4 + i * gap, 0.25)};transform:translateX(${(1 - back(fade(u, 0.4 + i * gap, 0.45))) * -60}px)"><span class="k">${k}</span><span class="v">${v}</span></div>`).join("");
+      const back = (x) => { x = clamp(x); const c = 1.9; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+      function pop(u, t0) { const k = fade(u, t0, 0.5); return `opacity:${clamp(k * 3)};transform:scale(${0.4 + 0.6 * back(k)})`; }
+
+      // ---------- 場面 ----------
+      const SC = {};
+      SC.hook = (u, d) => {
+        cam(u / d, [0, 9, 30, 0, 1, 0], [0, 5, 22, 0, 1, 0]);
+        setCrowd((i) => (((i * 7919) % 100) < 51 * fade(u, 2, 8) ? C_GOLD : C_IDLE));
+        return { panel: "", title: `<div style="${pop(u, 0.3)};transform-origin:left center"><div class="stat" style="font-size:44px">あなたは知っている？</div>
+          <div class="big" style="font-size:110px;line-height:1.2">RUSHまで<br>平均いくら？</div></div>
+          <div style="${pop(u, 5.5)};transform-origin:left center;margin-top:30px"><div class="big" style="font-size:96px;color:#2f7bff;text-shadow:6px 6px 0 #262b57">1日の勝率は？</div></div>`, chapter: "" };
+      };
+      SC.open = (u, d) => {
+        cam(u / d, [MX + 8, 8, 26, MX - 2.5, 6, 0], [MX + 3, 6, 12, MX - 2, 5.5, 0]);
+        drawLCD(u, null);
+        return { title: `<div style="${pop(u, 0.4)};transform-origin:left center"><div class="stat" style="font-size:46px">パチンコ実機を1万人で打ってみた</div>
+          <div class="big" style="font-size:150px">e東京喰種</div><div class="stat" style="font-size:36px;margin-top:10px">解説：電脳アリス（AI）</div></div>`, chapter: "" };
+      };
+      SC.spec = (u, d) => {
+        cam(u / d, M(9, 6.5, 13, 5.5), M(11, 5.5, 9, 5.5));
+        drawLCD(u, "1/199.9");
+        return { chapter: "スペック", panel: `<div class="glass" style="width:860px">${rows([["当たり（合算）", "1/199.9"], ["うち 図柄揃い", "1/399.9"], ["うち 喰種チャージ（約300個）", "1/399.9"],
+          ["RUSH突入（図柄揃いの）", "約51%"], ["RUSH", "130回転・1/95.3"], ["RUSH継続率", "約" + Math.round(ST.C * 100) + "%"], ["RUSH中の大当たり", "約3000個〜"]], u, 0.7)}
+          <div class="stat" style="font-size:24px;margin-top:16px;opacity:.8">出典：攻略サイト各種（メーカー公式資料とは未照合）</div></div>` };
+      };
+      SC.lt = (u, d) => {
+        cam(u / d, [-3, 7, 5, 2, 2.6, -14], [6, 8, 4, 2, 2.8, -14]);
+        stepMeshes.forEach((m, i) => { const k = out3(fade(u, 1 + i * 2.2, 0.8)); m.scale.set(1, Math.max(0.01, k), 1); m.position.y = ((0.6 + i * 1.6) * k) / 2; });
+        let lab = "";
+        [["通常時", "#6b7099"], ["RUSH", "#ff9f1a"], ["LT", "#ff4d4d"]].forEach(([s, c], i) => {
+          const [x, y] = screenOf(-5 + i * 5, 0.6 + i * 1.6 + 0.9, -14);
+          lab += `<div class="label" style="left:${x}px;top:${y}px;font-size:54px;color:${c};opacity:${fade(u, 1.5 + i * 2.2)}">${s}</div>`;
+        });
+        return { chapter: "LT（ラッキートリガー）とは", labels: lab,
+          panel: `<div class="glass" style="width:900px;margin-top:520px;${pop(u, 8)}"><div style="font-size:46px;font-weight:800;color:#ff9f1a">この台はRUSHに入れば、そのままLT</div>
+          <div class="stat" style="margin-top:10px">RUSH中の大当たりは、すべて約3000個以上</div></div>` };
+      };
+      SC.trick = (u, d) => {
+        cam(u / d, M(-6, 6, 14, 5), M(-9, 5, 10, 5));
+        drawLCD(u, u > 6 ? "1/" + ST.r784 : "300");
+        return { chapter: "ここがポイント", panel: `<div class="glass" style="width:1000px;text-align:center">
+          <div class="stat" style="font-size:44px">当たりの半分は</div><div class="big" style="font-size:96px;color:#ff4d4d;text-shadow:6px 6px 0 #262b57">約300個のチャージ</div>
+          <div style="${fade(u, 6) ? "" : ""}opacity:${fade(u, 5.5)}"><div class="stat" style="font-size:44px;margin-top:30px">通常時からRUSHに入るのは</div>
+          <div class="big" style="font-size:150px;${pop(u, 6)}">約 1/${ST.r784}</div></div></div>` };
+      };
+      const enterAt = (i, n) => i < n;
+      SC.exp1 = (u, d) => {
+        cam(u / d, [0, 30, 26, 0, 0, 0], [0, 16, 15, 0, 0, 2]);
+        const n = Math.floor(CN * out3(fade(u, 3, d - 6)));
+        setCrowd((i) => (i < n ? (D.enter[i] ? C_GOLD : C_IDLE) : C_DIM));
+        let entered = 0; for (let i = 0; i < n; i++) entered += D.enter[i];
+        return { chapter: "実験1　図柄揃いを1万回", panel: `<div class="glass" style="width:620px">
+          <div class="stat">図柄揃い</div><div class="num" style="color:#2a2f5a">${fmt(n)}<span style="font-size:44px"> 回</span></div>
+          <div class="stat" style="margin-top:14px">RUSH突入（光った人）</div><div class="num" style="color:#ff9f1a">${fmt(entered)}<span style="font-size:44px"> 回</span></div>
+          <div class="big" style="font-size:72px;margin-top:6px">${n ? ((entered / n) * 100).toFixed(1) : "0.0"}%</div></div>` };
+      };
+      SC.chain = (u, d) => {
+        cam(u / d, [BX + 2, 8, 22, BX + 3.2, 4.6, 0], [BX + 4.5, 9, 19, BX + 3.4, 4.8, 0]);
+        const k = out3(fade(u, 0.5, 4));
+        const cols = ST.chain_cnt.map((_, i) => (i === 0 ? 0xff4d4d : i < 4 ? 0xffa51f : 0x2f7bff));
+        drawBars(ST.chain_cnt, cols, k);
+        const labels = ["0回", "1回", "2回", "3回", "4回", "5回", "6回", "7回", "8回〜"];
+        return { chapter: "実験1　RUSHで何回当たった？", labels: barLabels(ST.chain_cnt, labels, k, fmt),
+          panel: `<div class="glass" style="width:560px;padding:24px 34px;margin-left:640px"><div class="stat">RUSHに入った ${fmt(ST.enter_rate * CN)} 回</div>
+          <div style="opacity:${fade(u, 7)}"><div class="stat" style="margin-top:10px">最高</div><div class="big" style="font-size:96px;color:#ff4d4d">${ST.chain_max}連続</div></div></div>` };
+      };
+      SC.avg = (u, d) => {
+        cam(u / d, M(7, 3, 12, 4), M(3, 4.5, 9, 4.5));
+        drawLCD(u, "777");
+        const v = ST.avg_rush * out3(fade(u, 0.5, 2.5));
+        return { chapter: "実験1　RUSHの出玉", panel: `<div class="glass" style="width:960px;text-align:center"><div class="stat" style="font-size:44px">RUSHに入ったときの平均出玉</div>
+          <div class="big" style="font-size:170px">約${fmt(v)}<span style="font-size:70px">個</span></div>
+          <div style="opacity:${fade(u, 5)}"><div class="stat" style="font-size:40px">1万個を超えたのは</div><div class="num" style="color:#2a2f5a">1万回中 ${fmt(ST.over10k)}回</div></div></div>` };
+      };
+      SC.cost = (u, d) => {
+        cam(u / d, [BX + 5, 9, 23, BX + 3.6, 3.8, 0], [BX + 2.5, 8, 20, BX + 3.6, 4.0, 0]);
+        const k = out3(fade(u, 0.5, 4));
+        const cols = ST.cost_edges.slice(0, -1).map((e) => (e < ST.q50 ? 0xffa51f : e < ST.q90 ? 0x2f7bff : 0xff4d4d));
+        drawBars(ST.cost_cnt, cols, k, 14);
+        const labels = ST.cost_edges.slice(0, -1).map((e, i, a) => (i === a.length - 1 ? e + "〜" : i % 2 ? "" : String(e)));
+        return { chapter: "実験2　RUSHまで何回転？", labels: barLabels(ST.cost_cnt, labels, k, null, 14),
+          panel: `<div class="glass" style="width:600px;padding:24px 34px;margin-left:600px"><div class="stat">半分の人</div><div class="num" style="color:#ff9f1a">${fmt(ST.q50)}回転まで</div>
+          <div style="opacity:${fade(u, 6)}"><div class="stat" style="margin-top:8px">遅いほうの1割</div><div class="num" style="color:#ff4d4d">${fmt(ST.q90)}回転〜</div></div></div>` };
+      };
+      SC.cost2 = (u, d) => {
+        cam(u / d, [0, 22, 30, 0, 0, 0], [-6, 12, 18, 0, 0, 0]);
+        setCrowd(() => C_DIM);
+        const y = (spins) => "約" + (spins / ST.rate * 1000 / 10000).toFixed(1) + "万円";
+        return { chapter: "実験2　RUSHまでいくら？", panel: `<div class="glass" style="width:1000px">
+          <div class="stat" style="font-size:28px;color:#7a5cff;margin-bottom:6px">1000円で${ST.rate}回転・途中の出玉を使わない場合の目安</div>
+          ${rows([["平均", `${fmt(ST.cost_mean)}回転 → <span style="color:#ff9f1a">${y(ST.cost_mean)}</span>`], ["半分の人", `${fmt(ST.q50)}回転 → <span style="color:#ff9f1a">${y(ST.q50)}</span>`],
+            ["遅いほうの1割", `${fmt(ST.q90)}回転 → <span style="color:#ff9f1a">${y(ST.q90)}</span>`], ["いちばんハマった人", `${fmt(ST.deep)}回転 → <span style="color:#ff4d4d">約${Math.round(ST.deep / ST.rate * 1000 / 10000)}万円</span>`]], u, 1.3)}</div>` };
+      };
+      SC.day = (u, d) => {
+        const k = fade(u, 1.5, 6);
+        if (u < 9) {
+          cam(u / 9, [0, 26, 24, 0, 0, 0], [0, 18, 16, 0, 0, 1]);
+          setCrowd((i) => (i < CN * k ? (D.daywin[i] ? C_BLUE : C_RED) : C_DIM));
+          hideBars();
+          return { chapter: "実験3　1万人が1日打つ", panel: `<div class="glass" style="width:620px"><div class="stat">勝った人（青）</div>
+            <div class="big" style="font-size:110px;color:#2f7bff">${(ST.win_day * 100 * out3(k)).toFixed(1)}%</div>
+            <div class="stat" style="font-size:26px;margin-top:8px">等価・1000円で${ST.rate}回転・通常時2000回転</div></div>` };
+        }
+        cam((u - 9) / (d - 9), [BX + 3, 9, 25, BX + 3.8, 4.6, 0], [BX + 5, 9, 22, BX + 3.8, 4.8, 0]);
+        const kk = out3(fade(u, 9.2, 3.5));
+        drawBars(ST.day_cnt, ST.day_edges.slice(0, -1).map((e) => (e >= 0 ? 0x2f7bff : 0xff4d4d)), kk, 16, 7);
+        const labels = ST.day_edges.slice(0, -1).map((e, i, a) => (i === 0 ? "−10万以下" : i === a.length - 1 ? "+15万以上" : e === 0 ? "0" : e % 50000 === 0 ? (e > 0 ? "+" : "−") + Math.abs(e / 10000) + "万" : ""));
+        return { chapter: "実験3　1日の収支（1万人）", labels: barLabels(ST.day_cnt, labels, kk, null, 16, 7),
+          panel: `<div class="glass" style="width:520px;padding:24px 34px;margin-left:660px"><div class="stat">勝った人</div><div class="num" style="color:#2f7bff">${(ST.win_day * 100).toFixed(1)}%</div>
+          <div class="stat" style="margin-top:6px">平均</div><div class="num" style="font-size:64px;color:#2a2f5a">${man(ST.avg_day)}</div></div>` };
+      };
+      SC.dayext = (u, d) => {
+        cam(u / d, [-4, 14, 14, 0, 0, 0], [5, 10, 10, 0, 0, 0]);
+        setCrowd((i) => (D.daywin[i] ? C_BLUE : C_RED));
+        return { chapter: "実験3　1日の収支（1万人）", panel: `<div class="glass" style="width:1000px">${rows([["いちばん勝った人", `<span style="color:#2f7bff">${man(ST.best_day)}</span>`],
+          ["いちばん負けた人", `<span style="color:#ff4d4d">${man(ST.worst_day)}</span>`], ["真ん中の人", man(ST.med_day)], ["RUSHに1回も入れなかった人", `<span style="color:#ff4d4d">${Math.round(ST.norush_day * 100)}%</span>`]], u, 1.6)}</div>` };
+      };
+      SC.rates = (u, d) => {
+        cam(u / d, [BX - 3, 9, 6, BX + 2, 4.5, -14], [BX + 4, 9, 5, BX + 2, 4.8, -14]);
+        let lab = "";
+        ["14", "16", "18"].forEach((r, i) => {
+          const [wr, av] = ST.rates[r], k = out3(fade(u, 1 + i * 1.6, 1.2)), h = Math.max(0.02, wr * 12 * k);
+          const m = podMeshes[i]; m.scale.set(1, h, 1); m.position.y = h / 2;
+          const c = av >= 0 ? 0x2f7bff : 0xff4d4d; m.material.color.set(c); m.material.emissive.set(c);
+          const [x, y] = screenOf(BX - 4.5 + i * 4.5, h + 0.6, -14), [ax, ay] = screenOf(BX - 4.5 + i * 4.5, -0.2, -12.6);
+          lab += `<div class="label" style="left:${x}px;top:${y}px;opacity:${fade(u, 2 + i * 1.6)};text-align:center"><div style="font-size:56px;color:#ff9f1a">${(wr * 100).toFixed(1)}%</div><div style="font-size:34px;color:${av >= 0 ? "#2f7bff" : "#ff4d4d"}">平均 ${man(av)}</div></div>`;
+          lab += `<div class="axis" style="left:${ax}px;top:${ay}px;font-size:36px;color:#2a2f5a">${r}回転</div>`;
+        });
+        return { chapter: "実験4　回転率で変わる？", labels: lab,
+          panel: `<div class="glass" style="width:760px;padding:18px 30px;opacity:${fade(u, 8)}"><div class="stat">この計算での損益の分かれ目</div><div class="num" style="color:#7a5cff;font-size:72px">約${ST.border.toFixed(1)}回転 / 1000円</div></div>` };
+      };
+      SC.month = (u, d) => {
+        cam(u / d, [0, 30, 28, 0, 0, 0], [0, 20, 22, 0, 0, 0]);
+        const k = ease(fade(u, 1, 5));
+        setCrowd((i) => (D.monthwin[i] ? C_BLUE : C_RED), (i) => { const [x, z] = home[i]; const tx = D.monthwin[i] ? x * 0.55 + 6.5 : x * 0.55 - 6.5; return [lerp(x, tx, k), z]; });
+        let lab = "";
+        const [lx, ly] = screenOf(-6.5, 1.5, -6), [rx, ry] = screenOf(6.5, 1.5, -6);
+        lab += `<div class="label" style="left:${lx}px;top:${ly}px;color:#ff4d4d;font-size:48px;opacity:${fade(u, 5)}">負け ${(100 - ST.win_month * 100).toFixed(1)}%</div>`;
+        lab += `<div class="label" style="left:${rx}px;top:${ry}px;color:#2f7bff;font-size:48px;opacity:${fade(u, 5)}">勝ち ${(ST.win_month * 100).toFixed(1)}%</div>`;
+        return { chapter: "実験5　1ヶ月（20日）打つ", labels: lab,
+          panel: `<div class="glass" style="width:520px;padding:22px 32px;margin-top:560px;opacity:${fade(u, 6)}"><div class="stat">平均</div><div class="num" style="color:#2f7bff;font-size:70px">${man(ST.avg_month)}</div></div>` };
+      };
+      SC.summary = (u, d) => {
+        cam(u / d, M(14, 7, 22, 5), M(8, 6, 15, 5));
+        drawLCD(u, null);
+        const L = [`当たりの半分はチャージ。RUSHは約1/${ST.r784}`, `RUSHに入れば 平均約${fmt(ST.avg_rush)}個`, `1日の勝率は ${(ST.win_day * 100).toFixed(0)}%（${ST.rate}回転・等価）`, "決めるのは 運 ＋ 回転率"];
+        return { chapter: "まとめ", panel: `<div class="glass" style="width:1100px">${L.map((s, i) => `<div style="display:flex;gap:24px;align-items:center;padding:14px 0;opacity:${fade(u, 0.6 + i * 1.8)}"><div class="big" style="font-size:64px;color:#7a5cff;width:60px">${i + 1}</div><div style="font-size:48px;font-weight:800;color:#2a2f5a">${s}</div></div>`).join("")}</div>` };
+      };
+      SC.end = (u, d) => {
+        cam(u / d, M(5, 6, 14, 5), M(0, 9, 30, 5));
+        drawLCD(u, "777");
+        const L = ["この動画はAIがシミュレーションして制作しています", "数値は公開情報から。実際の台・お店の条件で変わります", "必勝法ではありません。18歳未満は遊技できません"];
+        return { chapter: "", panel: `<div class="glass" style="width:1220px;text-align:center">${L.map((s, i) => `<div style="font-size:38px;font-weight:700;color:#2a2f5a;padding:12px 0;opacity:${fade(u, 0.5 + i * 0.6)}">${s}</div>`).join("")}
+          <div class="stat" style="font-size:26px;margin-top:14px">条件：1万人・乱数の種 ${ST.seed}／音声：Style-BertVITS2モデル 小春音アミ、あみたろの声素材工房（amitaro.net）／キャラ画像：Canvaで生成</div></div>` };
+      };
+
+      // ---------- アリス ----------
+      let hype = 0;
+      const ALICE = ["base", "talk", "blink", "happy", "surprised", "troubled", "pose_thinking", "pose_thinking_talk", "pose_pointing", "pose_pointing_talk", "pose_excited", "pose_excited_talk"];
+      function alice(t, sc, u) {
+        const f = Math.floor(t * FPS), mo = D.mouth[Math.min(f, D.mouth.length - 1)] || 0;
+        const face = (sc && sc.face) || "base";
+        let show;
+        if (face === "base") show = mo >= 1 ? "talk" : (t % 3.7 < 0.13 ? "blink" : "base");
+        else if (face.startsWith("pose_")) show = mo >= 1 ? face + "_talk" : face;
+        else show = face;
+        for (const n of ALICE) $("a_" + n).style.opacity = n === show ? 1 : 0;
+        const enter = out3(clamp((t - 0.6) / 0.9));
+        const pop = sc && u < 0.35 ? Math.sin((u / 0.35) * Math.PI) * 0.035 : 0;     // 表情が変わる瞬間に少し弾む
+        const sway = Math.sin(t * 1.3) * 0.8, bob = Math.sin(t * 2.1) * 5 + (mo ? -2 : 0) - Math.abs(Math.sin((1 - hype) * Math.PI * 3)) * 40 * hype;
+        const breath = 1 + Math.sin(t * 2.1) * 0.006;
+        const el = $("alice");
+        el.style.opacity = 1;
+        el.style.transform = `translate(${(1 - enter) * 600}px, ${bob}px) rotate(${sway}deg) scale(${(1 + pop) / breath}, ${(1 + pop) * breath})`;
+      }
+
+      // ---------- 演出：雲・切り替えの帯・集中線・紙吹雪・揺れ ----------
+      const CLOUDS = [0, 1, 2, 3, 4, 5].map((i) => ({ x: (i * 397) % 1900, y: 40 + ((i * 131) % 220), w: 220 + ((i * 89) % 180), sp: 6 + (i % 3) * 4 }));
+      $("sky").innerHTML = CLOUDS.map((c, i) => `<div class="cloud" id="cl${i}" style="width:${c.w}px;height:${c.w * 0.32}px;top:${c.y}px"></div>`).join("");
+      function sky(t) { CLOUDS.forEach((c, i) => { $("cl" + i).style.left = (((c.x + t * c.sp) % 2400) - 300) + "px"; }); }
+      function wipe(t) {
+        // 次の場面の頭で、帯が左から右へ画面を横切る（前0.3秒で覆い、後0.35秒で抜ける）
+        let k = -1;
+        for (const s of D.scenes) { const dt = t - s.start; if (s !== D.scenes[0] && dt > -0.3 && dt < 0.35) k = dt < 0 ? (dt + 0.3) / 0.3 : 1 + dt / 0.35; }
+        const bands = $("wipe").children;
+        for (let i = 0; i < 3; i++) {
+          const kk = k < 0 ? -1 : k - i * 0.08;
+          const x = kk < 0 ? -1400 : kk <= 1 ? lerp(-1400, 0, out3(kk)) * 1 + i * 520 : lerp(i * 520, 2600, ease(kk - 1));
+          bands[i].style.left = x + "px"; bands[i].style.width = (kk >= 0 && kk <= 1.02 ? 1600 : 1000) + "px";
+        }
+      }
+      const FX = D.fx;
+      function burst(u, at) {
+        const k = (u - at) / 1.3;
+        if (k < 0 || k > 1) { $("burst").innerHTML = ""; $("confetti").innerHTML = ""; return 0; }
+        const r0 = 260 + 500 * out3(k), r1 = r0 + 260 + 400 * out3(k), op = (1 - k) * 0.85;
+        let svg = "";
+        for (let i = 0; i < 36; i++) {
+          const a = (i / 36) * Math.PI * 2 + 0.05, w = i % 2 ? 0.035 : 0.02;
+          const p = (r) => [700 + Math.cos(a) * r, 520 + Math.sin(a) * r * 0.75];
+          const [x0, y0] = p(r0), [x1, y1] = p(r1), [x2, y2] = [700 + Math.cos(a + w) * r1, 520 + Math.sin(a + w) * r1 * 0.75];
+          svg += `<polygon points="${x0},${y0} ${x1},${y1} ${x2},${y2}" fill="${i % 3 ? "#ffd84a" : "#ffffff"}" opacity="${op}"/>`;
+        }
+        $("burst").innerHTML = svg;
+        let cf = "";
+        const cols = ["#ff4d4d", "#ffd84a", "#2f7bff", "#3ad29f", "#ff7ad9"];
+        for (let i = 0; i < 70; i++) {
+          const sx = (i * 977) % 1500 + 60, vx = (((i * 37) % 21) - 10) * 18, vy = -380 - ((i * 53) % 300);
+          const tt = k * 1.3, x = sx + vx * tt, y = 700 + vy * tt + 900 * tt * tt;
+          cf += `<div class="confetti" style="left:${x}px;top:${y}px;background:${cols[i % 5]};opacity:${1 - k * 0.6};transform:rotate(${(i * 47 + tt * 540 * (i % 2 ? 1 : -1)) % 360}deg)"></div>`;
+        }
+        $("confetti").innerHTML = cf;
+        return 1 - k;
+      }
+
+      // ---------- 字幕：声の進み具合で1文ずつ ----------
+      function balance(s) {
+        if (s.length <= 32) return s;
+        const mid = s.length / 2;
+        let best = -1;
+        for (let i = 0; i < s.length - 1; i++) if ("、」）".includes(s[i]) && (best < 0 || Math.abs(i - mid) < Math.abs(best - mid))) best = i;
+        if (best < 0 || Math.abs(best - mid) > s.length * 0.3) best = Math.floor(mid);
+        return s.slice(0, best + 1) + "\n" + s.slice(best + 1);
+      }
+      function caption(sc, u) {
+        if (!sc || u > sc.voice_len + 0.6) return "";
+        const parts = sc.sub.match(/[^。？！]+[。？！]?/g) || [sc.sub];
+        const total = parts.reduce((a, s) => a + s.length, 0), prog = u / sc.voice_len;
+        let acc = 0;
+        let line = parts[parts.length - 1];
+        for (const p of parts) { acc += p.length; if (acc / total >= prog) { line = p; break; } }
+        return balance(line);
+      }
+
+      const objs = { cab, crowd, barGroup, steps3, pods };
+      const SHOW = { hook: ["crowd"], open: ["cab"], spec: ["cab"], lt: ["steps3"], trick: ["cab"], exp1: ["crowd"], chain: ["barGroup"], avg: ["cab"],
+        cost: ["barGroup"], cost2: ["crowd"], day: ["crowd", "barGroup"], dayext: ["crowd"], rates: ["pods"], month: ["crowd"], summary: ["cab"], end: ["cab"] };
+
+      function renderAt(t) {
+        let sc = D.scenes[0];
+        for (const s of D.scenes) if (t >= s.start) sc = s;
+        const before = t < D.scenes[0].start;
+        const u = before ? 0 : t - sc.start, d = sc.dur;
+        const show = SHOW[sc.id] || [];
+        for (const [k, o] of Object.entries(objs)) o.visible = show.includes(k);
+        if (sc.id === "day") barGroup.visible = u >= 9;
+        crowdT = t; drawBalls(t); drawDust(t); sky(t); wipe(t); drawCabFx(t);
+        const r = (SC[sc.id] || (() => ({})))(u, d) || {};
+        $("panel").innerHTML = r.panel || "";
+        $("title").innerHTML = r.title || "";
+        $("labels").innerHTML = r.labels || "";
+        $("chapter").textContent = r.chapter || "";
+        $("chapter").style.opacity = r.chapter ? 1 : 0;
+        const fadeIn = clamp(u / 0.35);
+        $("panel").style.opacity = fadeIn; $("title").style.opacity = fadeIn; $("labels").style.opacity = fadeIn;
+        $("captext").textContent = before ? "" : caption(sc, u);
+        hype = FX[sc.id] !== undefined ? burst(u, FX[sc.id]) : burst(-1, 0);
+        const shake = hype > 0.6 ? (hype - 0.6) * 2.5 : 0;
+        $("ui").style.transform = shake ? `translate(${Math.sin(t * 90) * 10 * shake}px, ${Math.cos(t * 77) * 8 * shake}px)` : "";
+        alice(t, sc, u);
+        composer.render();
+      }
+      window.addEventListener("hf-seek", (e) => renderAt(e.detail.time));
+      document.fonts.ready.then(() => renderAt(0));
+      renderAt(0);
+    </script>
+  </body>
+</html>
