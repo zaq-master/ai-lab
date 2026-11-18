@@ -37,7 +37,7 @@ S = [
     dict(id="mean", face="pose_excited", sub=f"平均は、約{man(mean_y)}。"),
     dict(id="half", face="base", sub=f"半分の人は、約{man(half_y)}までにRUSHに入りました。"),
     dict(id="deep", face="surprised", sub=f"でも、いちばんハマった人は、なんと約{deep_y / 10000:.0f}万円。"),
-    dict(id="end", face="happy", sub="運の差、大きすぎ…。続きの実験は本編で！"),
+    dict(id="end", face="happy", sub="運の差、大きすぎ…。次に試してほしいこと、コメントで教えてね！"),
 ]
 
 
