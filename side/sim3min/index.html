@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/lib/gsap.min.js"></script>
+    <script src="assets/data.js"></script>
+    <style>
+      @font-face { font-family: R; src: url("assets/fonts/MPLUSRounded1c-ExtraBold.ttf"); font-weight: 800; }
+      @font-face { font-family: R; src: url("assets/fonts/MPLUSRounded1c-Bold.ttf"); font-weight: 700; }
+      :root { --navy: #1c2150; --gold: #ffd84a; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #14183a; font-family: R, sans-serif; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; }
+      #bg { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 30%, #2d3577 0%, #171b42 60%, #0e1130 100%); }
+      #balls { position: absolute; inset: 0; }
+      .ball { position: absolute; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff6c8 0%, #ffd23f 35%, #c98a08 80%, #7a5203 100%); }
+      #ui { position: absolute; inset: 0; }
+      .big { font-weight: 800; color: #fff; -webkit-text-stroke: 12px var(--navy); paint-order: stroke fill; text-shadow: 6px 6px 0 var(--navy); }
+      #title { position: absolute; left: 0; right: 0; top: 120px; text-align: center; font-size: 80px; line-height: 1.18; }
+      #stage { position: absolute; left: 50px; right: 50px; top: 430px; height: 820px; }
+      #cap { position: absolute; left: 30px; right: 30px; top: 1310px; text-align: center; font-size: 46px; white-space: pre-line; line-height: 1.3; }
+      #alice { position: absolute; right: 150px; bottom: -260px; width: 520px; height: 693px; transform-origin: 50% 100%; filter: drop-shadow(8px 10px 0 rgba(0,0,0,.35)); }
+      #alice img { position: absolute; inset: 0; width: 520px; height: 693px; transform: scaleX(0.9); transform-origin: 50% 100%; }
+      #flash { position: absolute; inset: 0; background: #fff; opacity: 0; }
+      .panel { background: rgba(255,255,255,.96); border-radius: 36px; box-shadow: 0 14px 0 rgba(0,0,0,.25); padding: 34px 40px; color: var(--navy); }
+      .ph { font-weight: 800; font-size: 46px; text-align: center; margin-bottom: 22px; }
+      .row { display: flex; align-items: center; height: 118px; }
+      .lbl { width: 300px; font-weight: 800; font-size: 38px; line-height: 1.1; white-space: nowrap; }
+      .bar { height: 74px; border-radius: 16px; position: relative; }
+      .val { font-weight: 800; font-size: 54px; margin-left: 18px; white-space: nowrap; }
+      .card { display: flex; align-items: center; gap: 26px; height: 150px; margin-bottom: 26px; border-radius: 30px; padding: 0 36px; font-weight: 800; font-size: 56px; color: #fff; box-shadow: 0 10px 0 rgba(0,0,0,.25); }
+      .num { width: 84px; height: 84px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 54px; }
+      .cond { display: flex; justify-content: space-between; align-items: center; height: 86px; border-bottom: 3px dashed #c9cde6; font-size: 42px; font-weight: 800; }
+      .cond b { color: #d9480f; }
+      .note { font-size: 30px; font-weight: 700; color: #5a5f86; text-align: center; margin-top: 14px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="173.7" data-width="1080" data-height="1920">
+      <div id="bg" class="clip" data-start="0" data-duration="173.7" data-track-index="0"></div>
+      <div id="ui" class="clip" data-start="0" data-duration="173.7" data-track-index="1" data-layout-allow-overlap data-layout-allow-overflow>
+        <div id="balls"></div>
+        <div id="title" class="big"></div>
+        <div id="stage"></div>
+        <div id="alice"></div>
+        <div id="cap" class="big"></div>
+        <div id="flash"></div>
+        <div id="credit" style="position:absolute;right:28px;top:24px;font:700 26px R,sans-serif;color:rgba(255,255,255,.85);text-shadow:0 2px 4px rgba(0,0,0,.6)">VOICEVOX:四国めたん</div>
+        <div style="position:absolute;left:28px;top:24px;font:700 26px R,sans-serif;color:rgba(255,255,255,.7)">AIによるシミュレーション</div>
+      </div>
+      <audio id="mix" class="clip" src="assets/mix.wav" data-start="0" data-duration="173.7" data-track-index="2"></audio>
+    </div>
+    <script>window.__timelines = window.__timelines || {}; window.__timelines["main"] = gsap.timeline({ paused: true });</script>
+    <script>
+      const D = window.DATA, FPS = D.fps, K = D.K, C = D.COL, N = D.SHORT, P = D.P;
+      const $ = (id) => document.getElementById(id);
+      const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+      const ease = (x) => { x = clamp(x); return 1 - Math.pow(1 - x, 3); };
+      const back = (x) => { x = clamp(x); const c = 1.9; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+      function rnd(i) { let x = Math.sin(i * 12.9898) * 43758.5453; return x - Math.floor(x); }
+      const pc = (x) => Math.round(x * 100) + "%";
+      const man = (y) => (y < 0 ? "−" : "+") + (Math.abs(y) / 10000).toFixed(1) + "万円";
+      const SC = Object.fromEntries(D.scenes.map((s) => [s.id, s]));
+      // 台本の中でその言葉が読まれる時刻（字幕と絵を合わせる）
+      const at = (id, word) => { const s = SC[id], i = Math.max(0, s.sub.indexOf(word)); return s.start + s.voice_len * i / s.sub.length; };
+      const pop = (t, t0, d = 0.45) => back((t - t0) / d);
+      const op = (t, t0, d = 0.3) => clamp((t - t0) / d);
+
+      // 背景：ゆっくり落ちる金の玉
+      $("balls").innerHTML = Array.from({ length: 26 }, (_, i) => `<div class="ball" id="b${i}"></div>`).join("");
+      function drawBalls(t) {
+        for (let i = 0; i < 26; i++) {
+          const s = 26 + rnd(i) * 40, sp = 40 + rnd(i + 50) * 60, x = rnd(i + 99) * 1080, y = ((t * sp + rnd(i + 7) * 2200) % 2200) - 140;
+          const e = $("b" + i); e.style.cssText = `left:${x}px;top:${y}px;width:${s}px;height:${s}px;opacity:${0.18 + rnd(i + 3) * 0.2}`;
+        }
+      }
+
+      function bars(t, title, items, opts = {}) {
+        // items: [{k, v, txt, t0}]  v は 0〜1 の長さ
+        const rows = items.map((it) => {
+          const g = ease((t - it.t0) / 0.6), w = Math.max(0.02, it.v) * 430 * g;
+          const hi = opts.hi === it.k ? `box-shadow:0 0 0 6px ${C[it.k]}55;` : "";
+          return `<div class="row"><div class="lbl" style="color:${C[it.k]}">${N[it.k]}</div>
+            <div class="bar" style="width:${w}px;background:${C[it.k]};${hi}"></div>
+            <div class="val" style="opacity:${op(t, it.t0 + 0.3)};transform:scale(${0.6 + 0.4 * pop(t, it.t0 + 0.3)})">${it.txt}</div></div>`;
+        }).join("");
+        return `<div class="panel"><div class="ph">${title}</div>${rows}${opts.note ? `<div class="note">${opts.note}</div>` : ""}</div>`;
+      }
+
+      function stage(t, sc) {
+        const v = sc.vis, u = t - sc.start;
+        if (v === "hook") {
+          const tt = SC.hook.start, t2 = SC.hook2.start;
+          return { title: `<div style="transform:scale(${0.5 + 0.5 * pop(t, tt, 0.5)})">「勝ったらすぐ帰る」は<br><span style="color:var(--gold);font-size:110px">本当に得？</span></div>`,
+            html: `<div class="ball" style="left:${390 - 0}px;top:${60 + Math.sin(t * 3) * 18}px;width:300px;height:300px;opacity:${1 - op(t, at("hook2", "1万人"))};display:flex;align-items:center;justify-content:center;transform:scale(${pop(t, 0.6, 0.6)})"><span class="big" style="font-size:200px">？</span></div>
+              <div style="text-align:center;margin-top:120px;opacity:${op(t, at("hook2", "1万人"))};transform:scale(${0.6 + 0.4 * pop(t, at("hook2", "1万人"))})">
+              <div class="big" style="font-size:150px;color:#fff">1万人<span style="font-size:90px">×</span>30日</div>
+              <div class="big" style="font-size:70px;color:var(--gold);margin-top:10px">やめ方4つで検証</div></div>` };
+        }
+        if (v === "plans") {
+          const ws = ["18時", "2万円", "RUSH", "財布"];
+          const cards = K.map((k, i) => { const t0 = at("plans", ws[i]);
+            return `<div class="card" style="background:${C[k]};opacity:${op(t, t0)};transform:translateX(${(1 - ease((t - t0) / 0.4)) * 300}px)">
+              <div class="num" style="color:${C[k]}">${i + 1}</div>${["18時まで打つ", "2万円勝ったら帰る", "RUSH1回で帰る", "財布に1万円だけ"][i]}</div>`; }).join("");
+          const g = sc.id === "guess" ? `<div class="big" style="text-align:center;font-size:74px;color:var(--gold);margin-top:10px;transform:scale(${0.6 + 0.4 * pop(t, sc.start)})">いちばん得なのは？</div>` : "";
+          return { title: `やめ方は<span style="color:var(--gold)">4つ</span>`, html: cards + g };
+        }
+        if (v === "rule") {
+          const rows = [["台", "e東京喰種のスペック", "e東京"], ["当たり", "約1/399.9", "e東京"], ["回る数", "1000円で<b>16回転</b>", "16回転"], ["交換", "等価（1玉4円）", "等価"],
+            ["時間", "10時〜18時", "朝10時"], ["財布", "1日5万円まで", "財布"], ["人数", "<b>1万人</b>ずつ × <b>30日</b>", "1万人"]];
+          const html = `<div class="panel"><div class="ph">今回の条件</div>${rows.map(([a, b, w]) => {
+            const t0 = SC.rule.sub.includes(w) ? at("rule", w) : at("rule2", w);
+            return `<div class="cond" style="opacity:${op(t, t0)}"><span style="color:#5a5f86">${a}</span><span>${b}</span></div>`; }).join("")}
+            <div class="note" style="opacity:${op(t, at("rule2", "極端"))}">※作戦を比べるための、ちょっと極端な条件です</div></div>`;
+          return { title: `条件は<span style="color:var(--gold)">リアル</span>に`, html };
+        }
+        if (v === "d1") {
+          const t0 = [at("d1r", "18時"), at("d1r", "2万円"), at("d1r", "RUSH"), at("d1w", "たった")];
+          return { title: `<span style="color:var(--gold)">1日だけ</span>なら？`, html: bars(t, "勝った人の割合（1日目）", K.map((k, i) => ({ k, v: P[k].d1win / 0.5, txt: pc(P[k].d1win), t0: t0[i] })),
+            { hi: t > t0[3] ? "lose1" : null, note: t > t0[3] ? "財布1万円は、勝っても18時まで打つ設定" : "" }) };
+        }
+        if (v === "broke") {
+          const n = Math.round(P.close.broke * 100), t0 = at("broke", "18時まで打った");
+          const dots = Array.from({ length: 100 }, (_, i) => { const red = i < n && t > t0 + i * 0.012;
+            return `<div style="width:36px;height:36px;border-radius:50%;background:${red ? "#ff4d4d" : "#d5d8ec"};display:flex;align-items:center;justify-content:center;font-size:20px">${red ? "💸" : ""}</div>`; }).join("");
+          return { title: `18時まで打つと…`, html: `<div class="panel"><div class="ph">100人にすると（1日目）</div>
+            <div style="display:grid;grid-template-columns:repeat(20,36px);gap:7px;justify-content:center">${dots}</div>
+            <div class="ph" style="margin-top:24px;color:#e03131;opacity:${op(t, t0 + 1.4)}">${n}人が 5万円を全部なくす</div>
+            <div class="note" style="opacity:${op(t, t0 + 2.2)}">一方で、上位1割は1日で${man(P.close.d1p90)}以上</div></div>` };
+        }
+        if (v === "mo") {
+          const t0 = SC.mow ? at("mow", "どの作戦") : sc.start;
+          return { title: `<span style="color:var(--gold)">30日</span>続けたら？`, html: bars(t, "30日トータルでプラスの人", K.map((k, i) => ({ k, v: P[k].mowin / 0.5, txt: pc(P[k].mowin), t0: t0 + i * 0.25 })),
+            { note: t > t0 ? "1日目より差が縮まった" : "" }) };
+        }
+        if (v === "mom") {
+          const ws = ["18時", "2万円", "RUSH1回", "財布1万円"], mx = -P.close.momean;
+          return { title: `30日の<span style="color:var(--gold)">平均</span>は…`, html: bars(t, "30日の平均の収支", K.map((k, i) => ({ k, v: -P[k].momean / mx, txt: man(P[k].momean), t0: at("mom", ws[i]) })),
+            { note: t > at("mom", "財布1万円") ? K.map((k) => `${N[k].slice(0, 4)} ${Math.round(P[k].hours)}時間`).join("／") + "（30日で遊んだ時間）" : "" }) };
+        }
+        if (v === "hour") {
+          const t0 = at("hour", "4つとも");
+          const tiles = K.map((k, i) => `<div style="background:${C[k]};border-radius:28px;padding:26px 10px;text-align:center;color:#fff;opacity:${op(t, t0 + i * 0.3)};transform:scale(${0.5 + 0.5 * pop(t, t0 + i * 0.3)})">
+            <div style="font-size:36px;font-weight:800">${N[k]}</div><div style="font-size:84px;font-weight:800">−${Math.round(-P[k].perhour / 10) * 10}円</div></div>`).join("");
+          return { title: `<span style="color:var(--gold)">1時間あたり</span>の損`, html: `<div class="panel"><div class="ph">1時間あたりの損（30日の平均）</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">${tiles}</div>
+            <div class="ph" style="margin-top:30px;font-size:64px;color:#e03131;opacity:${op(t, at("hour", "ほとんど"))};transform:scale(${0.6 + 0.4 * pop(t, at("hour", "ほとんど"))})">ほとんど同じ！</div></div>` };
+        }
+        if (v === "why") {
+          const mx = P.close.hours, t1 = at("why2", "どこでやめても");
+          const rows = K.map((k) => `<div class="row" style="height:96px"><div class="lbl" style="color:${C[k]};font-size:36px">${N[k]}</div>
+            <div class="bar" style="width:${P[k].hours / mx * 420}px;height:60px;background:${C[k]}"></div><div class="val" style="font-size:42px">${Math.round(P[k].hours)}時間</div></div>`).join("");
+          return { title: `損の大きさ ＝<br><span style="color:var(--gold)">遊んだ時間</span>`, html: `<div class="panel"><div class="ph">30日で遊んだ時間</div>${rows}
+            <div class="ph" style="margin-top:20px;font-size:50px;opacity:${op(t, t1)}">損 ＝ 1時間の損 × <span style="color:#e03131">遊んだ時間</span></div>
+            <div class="note" style="opacity:${op(t, t1)}">台は前の結果を覚えていない（天井のない台の場合）</div></div>` };
+        }
+        if (v === "rate") {
+          const t16 = SC.rate2 ? at("rate2", "16回転") : 1e9, t15 = SC.rate2 ? at("rate2", "15回転") : 1e9, mx = -D.rate[15];
+          const bar = (lab, y, t0, col) => `<div class="row"><div class="lbl" style="color:${col}">${lab}</div>
+            <div class="bar" style="width:${(-y / mx) * 430 * ease((t - t0) / 0.6)}px;background:${col}"></div><div class="val" style="opacity:${op(t, t0 + 0.3)}">${man(y)}</div></div>`;
+          return { title: `お金を変えるのは<br><span style="color:var(--gold)">1000円で何回まわるか</span>`, html: `<div class="panel"><div class="ph">18時まで打つ・30日の平均</div>
+            <div class="cond" style="justify-content:center;opacity:${op(t, at("rate2", "損得ゼロ"))}">損得ゼロ ＝ 約<b>${D.border.toFixed(1)}回転</b>（この計算の設定）</div>
+            ${bar("16回転", D.rate[16], t16, "#ff8a5b")}${bar("15回転", D.rate[15], t15, "#e03131")}
+            <div class="ph" style="font-size:58px;color:#e03131;opacity:${op(t, at("rate2", "倍以上"))}">1回転の差で 倍以上</div></div>` };
+        }
+        if (v === "sum") {
+          const ls = [["やめ方で変わるのは", "勝つ人の割合と遊ぶ時間", "勝つ人"], ["1時間あたりの損は", "変わらない", "1時間"], ["遊ぶお金と時間は", "先に決めておこう", "遊ぶお金"]];
+          return { title: `<span style="color:var(--gold)">まとめ</span>`, html: `<div class="panel">${ls.map(([a, b, w], i) => `<div style="opacity:${op(t, at("sum", w))};margin:22px 0">
+            <div style="font-size:40px;font-weight:700;color:#5a5f86">${i + 1}. ${a}</div><div style="font-size:60px;font-weight:800">${b}</div></div>`).join("")}</div>` };
+        }
+        return { title: `次に確かめてほしい<br><span style="color:var(--gold)">言い伝え</span>は？`, html: `<div class="panel" style="margin-top:40px">
+          <div class="ph" style="font-size:42px">これはAIのシミュレーションです</div>
+          <div class="note" style="font-size:36px">必勝法ではありません／18歳未満は遊技できません<br>台・お店の条件で結果は変わります</div></div>
+          <div class="panel" style="margin-top:30px;text-align:center"><div style="font-size:40px;font-weight:700;color:#5a5f86">今日わかったこと</div>
+          <div style="font-size:58px;font-weight:800;margin-top:8px">どのやめ方でも<br>1時間 <span style="color:#e03131">約620〜670円</span> の損</div></div>` };
+      }
+
+      const NAMES = ["base", "talk", "talk_half", "blink", "happy", "surprised", "troubled", "pose_thinking", "pose_thinking_talk", "pose_thinking_half", "pose_pointing", "pose_pointing_talk", "pose_pointing_half", "pose_excited", "pose_excited_talk"];
+      $("alice").innerHTML = NAMES.map((n) => `<img id="a_${n}" src="assets/alice/${n}_768.png" alt="${n === "base" ? "電脳アリス" : ""}" style="opacity:0">`).join("");
+      function alice(t, sc, u) {
+        const f = Math.floor(t * FPS), mo = D.mouth[Math.min(f, D.mouth.length - 1)] || 0, face = sc.face || "base";
+        const half = { base: "talk_half", pose_thinking: "pose_thinking_half", pose_pointing: "pose_pointing_half", pose_excited: "pose_excited" };
+        const f0 = face.startsWith("pose_") ? face : (mo ? "base" : face);
+        const show = mo === 2 ? (f0 === "base" ? "talk" : f0 + "_talk") : mo === 1 ? half[f0] : (f0 === "base" && t % 3.4 < 0.12 ? "blink" : f0);
+        for (const n of NAMES) $("a_" + n).style.opacity = n === show ? 1 : 0;
+        const pp = u < 0.3 ? Math.sin(u / 0.3 * Math.PI) * 0.04 : 0, en = 1 - Math.pow(1 - clamp((t - 0.2) / 0.7), 3);
+        $("alice").style.transform = `translate(${(1 - en) * 600}px, ${Math.sin(t * 2.2) * 6 + (mo ? -3 : 0)}px) rotate(${Math.sin(t * 1.3) * 0.8}deg) scale(${1 + pp})`;
+      }
+      function caption(sc, u) {
+        if (u > sc.voice_len + 0.3) return "";
+        const parts = sc.sub.match(/[^。？！…]+[。？！…]*/g) || [sc.sub], tot = parts.reduce((a, s) => a + s.length, 0), pr = u / sc.voice_len;
+        let acc = 0, line = parts[parts.length - 1];
+        for (const p of parts) { acc += p.length; if (acc / tot >= pr) { line = p; break; } }
+        line = line.replace(/。$/, "");
+        if (line.length > 22) { const m = line.length / 2; let b = -1; for (let i = 0; i < line.length; i++) if ("、".includes(line[i]) && (b < 0 || Math.abs(i - m) < Math.abs(b - m))) b = i; if (b < 0) b = Math.floor(m); line = line.slice(0, b + 1) + "\n" + line.slice(b + 1); }
+        return line;
+      }
+      let lastVis = "";
+      function renderAt(t) {
+        let sc = D.scenes[0]; for (const s of D.scenes) if (t >= s.start) sc = s;
+        const u = t - sc.start;
+        drawBalls(t);
+        const r = stage(t, sc);
+        // 場面が変わるときは、絵を少し下から出す
+        let vs = sc; for (const s of D.scenes) { if (s.vis === sc.vis && s.start <= sc.start) { vs = s; } }
+        let first = sc; for (const s of D.scenes) if (s.vis === sc.vis) { first = s; break; }
+        const ent = ease((t - first.start) / 0.45);
+        $("stage").style.transform = `translateY(${(1 - ent) * 120}px)`; $("stage").style.opacity = ent;
+        $("stage").innerHTML = r.html; $("title").innerHTML = r.title;
+        $("title").style.transform = `scale(${0.7 + 0.3 * back((t - first.start) / 0.5)})`;
+        $("cap").textContent = t < D.lead ? "" : caption(sc, u);
+        alice(t, sc, u);
+        const fl = ["d1r", "mom", "hour", "rate2"].includes(sc.id) ? clamp(1 - u / 0.3) * 0.35 : 0; $("flash").style.opacity = fl;
+      }
+      window.addEventListener("hf-seek", (e) => renderAt(e.detail.time));
+      document.fonts.ready.then(() => renderAt(0));
+      renderAt(0);
+    </script>
+  </body>
+</html>
