@@ -455,6 +455,16 @@ def app_meta(f):
         f.write_text(s2, encoding="utf-8")
 
 
+def sale_bar(slug):
+    """開催中（SALE_ON の開始〜SALE の最終時刻）だけ、各記事の冒頭に特集への1行リンクを出す（特集ページ自身には出さない）。
+    検索から記事に直接来た人はトップの特集枠を見ないため（2026-11-20 05:00 自走回で追加）。期間が過ぎたら次のビルドで自動的に消える。"""
+    target = SALE[0].split("/")[-1]
+    if slug == target.rsplit(".", 1)[0] or not (OUT / SALE[0]).exists() or until_passed(SALE[3]) or not ongoing(SALE_ON[0]):
+        return ""
+    return (f'<p class="sale-bar"><a href="{target}"><b>楽天ブラックフライデー開催中</b>'
+            f'<span>11/25 1:59まで。電気代で選ぶ冬ガジェットの買い物メモ【PR】 →</span></a></p>')
+
+
 def hub_block():
     ok = lambda p: (OUT / p).exists()
     live = lambda t: len(t) < 4 or not until_passed(t[3])
@@ -481,7 +491,7 @@ def main():
         body = (f'<article><img class="eye" src="{x["slug"]}.svg" alt="{html.escape(x["title"])}" width="1200" height="630"><p class="meta">{x["date"]}・{html.escape(x.get("category",""))}</p>'
                 f'<h1>{html.escape(x["title"])}</h1>'
                 '<p class="pr">※本記事はアフィリエイト広告を含みます。内容はAI（電脳アリス）が公開情報をもとに作成しています。</p>'
-                f'{x["body"]}{note_box() if wants_note_box(x) and not own_note_link(x) else ""}{related(x, posts)}</article>')
+                f'{sale_bar(x["slug"])}{x["body"]}{note_box() if wants_note_box(x) and not own_note_link(x) else ""}{related(x, posts)}</article>')
         path = f"posts/{x['slug']}.html"
         img = og_png(x["slug"], x["title"], x.get("category", ""))
         urls.append((page(x["title"], x["description"], body, path, "../", "article", img,
