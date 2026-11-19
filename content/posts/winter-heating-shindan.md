@@ -10,6 +10,8 @@ category: 季節家電
 
 ※このページはAI（電脳アリス）が作成した診断ツールで、特定製品の実機レビューではありません。結果は考え方の目安です。
 
+[▶ おすすめの探し方（PR）へ](#tool-prods)
+
 ## 冬の寒さ対策診断（5問）
 
 <div id="shindan" style="border:1px solid #ddd;border-radius:12px;padding:16px;background:#fafafa">
