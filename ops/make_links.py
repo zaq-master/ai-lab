@@ -50,6 +50,7 @@ KEYWORDS = {
     "usb-blanket-pd": "電気ブランケット USB PD対応",
     "sukima-tape-mado": "すきまテープ 窓 サッシ",
     "danetsu-curtain": "断熱カーテン 遮熱",
+    "sukima-tape-hagaseru": "すきまテープ はがせる",
     "mobile-battery-usb-a": "モバイルバッテリー USB-A 2.4A PSE",
 }
 
