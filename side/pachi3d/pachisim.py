@@ -32,7 +32,7 @@ class Machine:
     st_spins: int = 130                # RUSHの回転数
     p_rush: float = 1 / 95.3           # RUSH中の当たり確率
     rush_hits: list = field(default_factory=lambda: [(1.0, 3000)])  # RUSH中の振り分け [(割合, 払い出し)]
-    net_ratio: float = 0.94            # 払い出しのうち、実際に増える割合（消化中の打ち出し分を引く）
+    net_ratio: float = 0.933           # 払い出しのうち実際に増える割合。1R＝払い出し150個−打ち込み10個＝140個（140/150）。2026-11-19 確認
     rush_ball_per_spin: float = -0.3   # RUSH中1回転あたりの玉の増減（電サポ中の目減り）
     sec_per_rush_spin: float = 3.0     # RUSH中1回転にかかる秒数
     sec_per_1000_balls: float = 75.0   # 大当たり消化：1000個払い出すのにかかる秒数
@@ -49,6 +49,9 @@ class Conditions:
     budget_yen: float = 50000.0        # 財布の上限（これ以上は使わない）
     stop_win_yen: float = None         # この金額以上勝っていたら、RUSH終了時に帰る（None＝帰らない）
     stop_after_rush: bool = False      # 1回RUSHが終わったら帰る
+    finish_rush: bool = True           # 時間を過ぎてもRUSH・大当たり中は最後まで打つ（False＝閉店で打ち切り）
+    hashidama: bool = True             # 交換できない端玉（exchange_unit未満）は0円として扱う
+    exchange_unit: int = 1             # 特殊景品1個あたりの玉数の刻み（例：等価で25玉＝100円）
 
 
 def simulate(m: Machine, c: Conditions, n=10000, seed=0):
@@ -58,28 +61,31 @@ def simulate(m: Machine, c: Conditions, n=10000, seed=0):
     nh_p = np.array([h[0] for h in m.normal_hits]); nh_pay = np.array([h[1] for h in m.normal_hits]); nh_in = np.array([h[2] for h in m.normal_hits])
     out = dict(yen=np.zeros(n), cash=np.zeros(n), balls_end=np.zeros(n), spins=np.zeros(n, int), hits=np.zeros(n, int),
                rush_entries=np.zeros(n, int), max_chain=np.zeros(n, int), hours_played=np.zeros(n),
-               first_rush_cash=np.full(n, -1.0), first_rush_spin=np.full(n, -1, int))   # 初めてRUSHに入った時点の現金・回転数（入れなければ-1）
+               first_rush_cash=np.full(n, -1.0), first_rush_spin=np.full(n, -1, int),
+               big_hits=np.zeros(n, int), charge_hits=np.zeros(n, int), broke=np.zeros(n, bool))   # 初めてRUSHに入った時点の現金・回転数（入れなければ-1）
     total_sec = c.hours * 3600
     for i in range(n):
         rate = max(8.0, rng.normal(c.rate, c.rate_spread))
         balls_per_spin = 250.0 / rate
         sec_per_spin = 3600.0 / c.spins_per_hour
-        t = 0.0; balls = 0.0; cash = 0.0; spins = 0; hits = 0; entries = 0; maxc = 0
+        t = 0.0; balls = 0.0; cash = 0.0; spins = 0; hits = 0; entries = 0; maxc = 0; big = 0; chg = 0; broke = False
         while t < total_sec:
             # 玉が足りなければ現金で借りる（1000円ずつ）
             if balls < balls_per_spin:
                 if cash + 1000 > c.budget_yen:
+                    broke = True
                     break
                 cash += 1000; balls += 250
             balls -= balls_per_spin; spins += 1; t += sec_per_spin
-            hit_normal = rng.random() < m.p_normal
-            hit_charge = (not hit_normal) and m.p_charge > 0 and rng.random() < m.p_charge
+            u = rng.random()                                   # 1回の抽選で 大当たり／小当たり／ハズレ を排他的に決める
+            hit_normal = u < m.p_normal
+            hit_charge = (not hit_normal) and u < m.p_normal + m.p_charge
             if hit_charge:
-                balls += m.charge_pay * m.net_ratio; t += m.charge_pay / 1000 * m.sec_per_1000_balls; hits += 1
+                balls += m.charge_pay * m.net_ratio; t += m.charge_pay / 1000 * m.sec_per_1000_balls; hits += 1; chg += 1
             if not hit_normal:
                 continue
             k = rng.choice(len(nh_p), p=nh_p)
-            balls += nh_pay[k] * m.net_ratio; t += nh_pay[k] / 1000 * m.sec_per_1000_balls; hits += 1
+            balls += nh_pay[k] * m.net_ratio; t += nh_pay[k] / 1000 * m.sec_per_1000_balls; hits += 1; big += 1
             if not nh_in[k]:
                 continue
             # RUSH：ST回転のうちに当たれば継続
@@ -90,18 +96,20 @@ def simulate(m: Machine, c: Conditions, n=10000, seed=0):
                 g = rng.geometric(m.p_rush)
                 used = min(g, m.st_spins)
                 balls += used * m.rush_ball_per_spin; t += used * m.sec_per_rush_spin
-                if g > m.st_spins or t >= total_sec:
+                if g > m.st_spins or (t >= total_sec and not c.finish_rush):
                     break
                 j = rng.choice(len(rush_p), p=rush_p)
                 balls += rush_pay[j] * m.net_ratio; t += rush_pay[j] / 1000 * m.sec_per_1000_balls
-                chain += 1; hits += 1
+                chain += 1; hits += 1; big += 1
             maxc = max(maxc, chain)
             now = balls * c.exchange_yen - cash
             if c.stop_after_rush or (c.stop_win_yen is not None and now >= c.stop_win_yen):
                 break
-        out["yen"][i] = balls * c.exchange_yen - cash
+        paid = (balls // c.exchange_unit) * c.exchange_unit if c.hashidama else balls
+        out["yen"][i] = paid * c.exchange_yen - cash
+        out["big_hits"][i] = big; out["charge_hits"][i] = chg; out["broke"][i] = broke
         out["cash"][i] = cash; out["balls_end"][i] = balls; out["spins"][i] = spins; out["hits"][i] = hits
-        out["rush_entries"][i] = entries; out["max_chain"][i] = maxc; out["hours_played"][i] = min(t, total_sec) / 3600
+        out["rush_entries"][i] = entries; out["max_chain"][i] = maxc; out["hours_played"][i] = t / 3600   # RUSHを最後まで打った分も含む
     out["rush_continue_rate"] = C
     return out
 
@@ -139,4 +147,4 @@ if __name__ == "__main__":
     print(describe(c))
     print(f"勝率 {(y > 0).mean()*100:.1f}%  平均 {y.mean():+.0f}円  中央値 {np.median(y):+.0f}円  "
           f"平均回転 {r['spins'].mean():.0f}  RUSH平均 {r['rush_entries'].mean():.2f}回  遊技時間 {r['hours_played'].mean():.1f}h  "
-          f"財布切れ {(r['cash'] >= c.budget_yen).mean()*100:.1f}%  {time.time()-t0:.1f}s")
+          f"財布切れ {r['broke'].mean()*100:.1f}%  {time.time()-t0:.1f}s")
