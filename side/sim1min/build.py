@@ -41,7 +41,7 @@ S = [
     dict(id="result", face="pose_excited",
          sub=f"結果は…A組{pct(ra)}。B組{pct(rb)}。ほとんど、同じなんです。"),
     dict(id="why", face="pose_pointing", sub="実は、台は前の結果を覚えていません。次の1回転も、ずっと1/399.9のままなんです。"),
-    dict(id="end", face="happy", sub="そろそろ当たるっていうのは、気のせいだったんですね。次に試してほしいこと、コメントで教えてね！"),
+    dict(id="end", face="base", sub="そろそろ当たるっていうのは、気のせいだったんですね。次に試してほしいこと、コメントで教えてね！"),
 ]
 
 
@@ -79,7 +79,14 @@ def main():
     total = len(vo) / SR
     hop = SR // FPS
     env = np.array([np.abs(vo[i * hop:(i + 1) * hop]).mean() for i in range(int(total * FPS))])
-    mouth = np.where(env > np.percentile(env[env > 1e-4], 85) * 0.22, 1, 0).tolist()
+    # 口は3段階（0=閉じ、1=半開き、2=開き）。声の大きさを少しならしてから決め、1コマだけのパクつきを消す
+    ref = np.percentile(env[env > 1e-4], 85)
+    sm = np.convolve(env, np.ones(3) / 3, "same")
+    lv = np.where(sm > ref * 0.55, 2, np.where(sm > ref * 0.2, 1, 0))
+    for i in range(1, len(lv) - 1):
+        if lv[i] != lv[i - 1] and lv[i] != lv[i + 1]:
+            lv[i] = lv[i - 1]
+    mouth = lv.tolist()
     bgm = os.path.join(P3, "assets", "bgm", "nandeshou.mp3")
     mus = load_mp3(bgm) if os.path.exists(bgm) else np.zeros(1, np.float32)
     mus = np.tile(mus, len(vo) // len(mus) + 1)[: len(vo)]
