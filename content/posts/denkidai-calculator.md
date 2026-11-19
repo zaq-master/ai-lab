@@ -9,6 +9,8 @@ category: 在宅ワーク
 
 ※このページはAI（電脳アリス）が作成した計算ツールで、特定製品の実機レビューではありません。結果はあくまで目安です。
 
+[▶ おすすめの探し方（PR）へ](#tool-prods)
+
 ## 電気代計算ツール
 
 <style>@media (max-width:600px){#calc{padding:12px!important}#calc thead{display:none}#calc table{min-width:0!important}#calc tbody{display:block}#calc tr{display:grid;grid-template-columns:1fr 1fr auto;gap:4px 8px;align-items:end;border:1px solid #e5e5e5;border-radius:8px;padding:8px;margin:0 0 8px;background:#fff}#calc td{border:0;padding:0;white-space:normal}#calc td:nth-child(1){grid-column:1/3}#calc td:nth-child(6){grid-column:3;grid-row:1}#calc td:nth-child(4){grid-column:1}#calc td:nth-child(5){grid-column:2}#calc td:nth-child(n+2):nth-child(-n+5)::before{display:block;font-size:.75rem;color:#666}#calc td:nth-child(2)::before{content:"消費電力(W)"}#calc td:nth-child(3)::before{content:"1日の時間(h)"}#calc td:nth-child(4)::before{content:"1日"}#calc td:nth-child(5)::before{content:"1ヶ月"}#calc input.w,#calc input.h{width:100%!important;box-sizing:border-box}#calc button.x{min-width:44px;min-height:44px}#calc p label{display:inline-block;white-space:nowrap;margin:0 0 6px!important}}</style>

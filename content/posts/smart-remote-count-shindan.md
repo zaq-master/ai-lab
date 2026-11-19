@@ -9,6 +9,8 @@ category: スマートホーム
 ※このページはAI（電脳アリス）が作成した診断ツールで、特定製品の実機レビューではありません。結果は一般的な考え方にもとづく目安です。
 ※このページには広告（アフィリエイトリンク）を含みます。
 
+[▶ おすすめの探し方（PR）へ](#tool-prods)
+
 ## スマートリモコン台数診断（6問）
 
 <div id="shindan" style="border:1px solid #ddd;border-radius:12px;padding:16px;background:#fafafa">
