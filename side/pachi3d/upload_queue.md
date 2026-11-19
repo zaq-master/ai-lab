@@ -4,3 +4,4 @@
 | 日付 | タイトル | 動画URL（読み込み用） | 説明欄 | 状態 | YouTubeのURL |
 |---|---|---|---|---|---|
 | 2026-11-18 | 1万人がRUSHまで打ったら平均いくら？【e東京喰種】#shorts | https://raw.githubusercontent.com/zaq-master/ai-lab/main/media/videos/sim/2026-11-18_rush/short.mp4 | media/videos/sim/2026-11-18_rush/description.txt | 待ち | |
+| 2026-11-19 | 500回転ハマってる台は「そろそろ当たる」のか？1万人で検証 #shorts | https://raw.githubusercontent.com/zaq-master/ai-lab/main/media/videos/sim/2026-11-19_hamari/short.mp4 | media/videos/sim/2026-11-19_hamari/description.txt | 待ち | |
