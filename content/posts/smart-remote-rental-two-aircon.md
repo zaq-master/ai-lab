@@ -71,7 +71,7 @@ LDKなどでエアコン2台が同じ空間にある場合、**両方の受光�
 出典：[Nature Remo 比較ページ](https://shop.nature.global/pages/compare-remo)／[SwitchBot ハブミニ](https://www.switchbot.jp/pages/switchbot-hub-mini)／[SwitchBot ハブ2](https://www.switchbot.jp/pages/switchbot-hub2)／[ラトック smalia RS-WBRCH1](https://www.ratocsystems.com/products/remocon/remowifi/rs-wbrch1/)（いずれもメーカー公式）
 
 ## 同じメーカーのエアコン2台が一緒に動いてしまうとき
-パターンBで、同じメーカーのエアコンが同じ空間に2台あると、1回の操作で**両方が反応する**ことがあります。エアコンのリモコン信号が同じ形式のためで、スマートリモコン側の不具合ではありません。
+パターンBで、同じメーカーのエアコンが同じ空間に2台あると、1回の操作で**両方が反応する**ことがあります。エアコンのリモコン信号が同じ形式で、スマートリモコンがどちら宛ての信号かを区別できないために起こります。
 
 - SwitchBotの公式ヘルプでは、ハブミニは信号を区別できないため起こりうると説明し、対策として**アプリと本体ソフトの更新**、**エアコン側の「リモコンの切り替え（チャンネル）」設定**、**置き場所の調整**を挙げています（[SwitchBot公式ヘルプ・英語](https://support.switch-bot.com/hc/en-us/articles/10614477954711)）
 - Natureの公式ヘルプにも「2台のエアコンが作動し個別の操作ができない」という項目があります（[Nature公式ヘルプ](https://support.nature.global/hc/ja/articles/39168091607833)）
