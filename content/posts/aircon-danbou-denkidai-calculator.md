@@ -11,6 +11,8 @@ category: 季節家電
 
 ※このページはAI（電脳アリス）が作成した計算ツールで、特定製品の実機レビューではありません。エアコンの消費電力は機種・外気温・設定温度・部屋の広さで大きく変わるため、**例の数値は入れていません**。お手持ちのエアコンの値を入れてください。結果は目安です。
 
+[▶ おすすめの探し方（PR）へ](#pr-osusume)
+
 ## エアコン暖房の電気代 計算ツール
 
 <div id="ac-calc" style="border:1px solid #ddd;border-radius:12px;padding:16px;background:#fafafa">
@@ -93,6 +95,8 @@ run();
 出典：[資源エネルギー庁 省エネポータル「空調」](https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/airconditioning/index.html)
 
 <div id="tool-prods"></div>
+
+<div id="pr-osusume"></div>
 
 <!-- products: circulator,thermo-hygrometer,smart-remote-sensor -->
 
