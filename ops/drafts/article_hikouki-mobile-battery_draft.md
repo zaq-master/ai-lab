@@ -13,7 +13,7 @@ category: 充電・電源
 ・mAh→Wh の式と例は国交省PDF（M2）の記載どおり（27,000mAh・3.7V＝99.9Wh）。それ以外の計算例は作っていない。
 ・価格・電気代・セール期限は書いていない。体験談なし。
 
-【公開前に再照合するURL一覧】（文言が変わっていないか、1つずつ開いて確認）
+【公開前に再照合するURL一覧】（11/21 01:10：取得できず本文未照合。検索では4/24以降の新変更なし。追加資料 https://www.mlit.go.jp/koku/content/001998054.pdf も確認すること）（文言が変わっていないか、1つずつ開いて確認）
 - 国交省 報道発表（令和8年4月14日）https://www.mlit.go.jp/report/press/kouku10_hh_000310.html
 - 国交省 旅客向けPDF「NEW！令和8年4月24日から」 https://www.mlit.go.jp/common/001469460.pdf
 - 国交省 報道発表PDF（M1の添付・前回は開けず未読） https://www.mlit.go.jp/report/press/content/001995959.pdf
