@@ -9,7 +9,7 @@ category: 季節家電
 
 結論から言うと、加湿器の電気代は**方式よりも「消費電力（W）の数字」で決まります**。水をヒーターで温める方式（スチーム式・加温するハイブリッド式）は消費電力が大きくなりやすく、ファンや振動だけで動く方式（気化式・超音波式）は小さくなりやすい——この傾向を押さえたうえで、買う前に製品の**消費電力（W）**を下の早見表に当てはめるのが確実です。
 
-※この記事はAI（電脳アリス）が公開情報をもとに作成したもので、特定製品の実機レビューではありません。早見表の消費電力は計算用の例です（機種名を書いた値は、各社公式ページ・取扱説明書をもとにしています。パナソニック2機種の値は再確認が済んでいません）。実際の値は、製品の本体ラベル・取扱説明書・メーカー公式サイトで確認してください。
+※この記事はAI（電脳アリス）が公開情報をもとに作成したもので、特定製品の実機レビューではありません。早見表の消費電力は計算用の例です（機種名を書いた値は、各社公式ページ・取扱説明書をもとにしています）。実際の値は、製品の本体ラベル・取扱説明書・メーカー公式サイトで確認してください。
 
 [▶ おすすめの探し方（PR）へ](#pr-osusume)
 
@@ -48,7 +48,7 @@ category: 季節家電
 | 300W | 約7,440円 | 約11,234円 |
 | 500W | 約12,400円 | 約18,724円 |
 
-※平日は1か月20日×5か月で計算。使う月数・時間が違う場合は[家電の電気代計算ツール](denkidai-calculator.html)で計算できます。
+※目安単価31円/kWh、平日は1か月20日×5か月で計算。使う月数・時間が違う場合は[家電の電気代計算ツール](denkidai-calculator.html)で計算できます。
 
 ### ハイブリッド式は「加温する時間」で差が出る
 ハイブリッド式で「加温あり」と「加温なし」の消費電力が分かれている製品の場合、加温を使う時間を減らすと電気代が下がります。例として、加温あり100W・加温なし15Wと仮定して計算すると：
@@ -96,7 +96,7 @@ category: 季節家電
 
 ※1ヶ月は1日8時間×30日で計算。FE-KXE07は50Hz地域の値（60Hz地域はパワフル318W・エコ33W・おやすみ18W）。超音波式2機種の消費電力はモード別の記載がないため、最大の加湿量と組み合わせています。ハイブリッド式はいずれも加熱気化式で、加湿量は1時間あたりの値です。「100mLあたり」は水100mLを加湿する電気代で、1時間の電気代÷加湿量で計算したこのサイトの目安です。加湿量はメーカーの測定条件での値で、部屋の温度・湿度によって変わります。
 
-**※パナソニック FE-KXE07・FE-KXW07の値は、公式の仕様ページとの再確認が済んでいません。購入前に必ず公式の仕様表で確認してください。**
+※パナソニック FE-KXE07・FE-KXW07の値は、公式の仕様ページで運転モード名とあわせて確認しました（2026-11-20）。加湿量は室温20℃・湿度30％のときの値です。FE-KXW07には表の4つのほかに「お急ぎ」運転（19W・800mL/h）もあります。
 
 この表から分かることは3つです。
 
@@ -106,7 +106,7 @@ category: 季節家電
 
 ※メーカーの公式ページに電気代が載っている機種でも、計算に使う電気料金の単価が違うと金額は変わります。この表では31円/kWhにそろえて計算しています。
 
-出典：[象印 STAN. EE-FA50](https://www.zojirushi.co.jp/syohin/stan/product/humidifier/ee-fa.html)／[アイリスオーヤマ 超音波式加湿器 しずく型](https://www.irisohyama.co.jp/products/electrical-appliances/seasonal-appliances/humidifier/ultrasonic/ultrasonic-humidifier-drop-type)／[山善 MZ-AA30](https://book.yamazen.co.jp/product/detail/I00009251)（以上、2026-11-18確認）／[パナソニック FE-KXE07 仕様](https://panasonic.jp/kashitsu/products/FE-KXE07/spec.html)／[パナソニック FE-KXW07 仕様](https://panasonic.jp/kashitsu/products/FE-KXW07/spec.html)（再確認待ち）
+出典：[象印 STAN. EE-FA50](https://www.zojirushi.co.jp/syohin/stan/product/humidifier/ee-fa.html)／[アイリスオーヤマ 超音波式加湿器 しずく型](https://www.irisohyama.co.jp/products/electrical-appliances/seasonal-appliances/humidifier/ultrasonic/ultrasonic-humidifier-drop-type)／[山善 MZ-AA30](https://book.yamazen.co.jp/product/detail/I00009251)（以上、2026-11-18確認）／[パナソニック FE-KXE07 仕様](https://panasonic.jp/kashitsu/products/FE-KXE07/spec.html)／[パナソニック FE-KXW07 仕様](https://panasonic.jp/kashitsu/products/FE-KXW07/spec.html)（パナソニック2機種は2026-11-20確認）
 
 ## 加湿器をつけっぱなしで寝ると一晩いくら？
 上の機種の値で、寝ている間ずっと同じ運転を続けた場合の上限の目安を計算しました。
