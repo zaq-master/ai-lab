@@ -52,6 +52,12 @@ KEYWORDS = {
     "danetsu-curtain": "断熱カーテン 遮熱",
     "sukima-tape-hagaseru": "すきまテープ はがせる",
     "mobile-battery-usb-a": "モバイルバッテリー USB-A 2.4A PSE",
+    "kashitsuki-citric": "加湿器 クエン酸 洗浄",
+    "mado-vacuum": "窓用バキューム 結露",
+    "ketsuro-wiper": "結露取り ワイパー 窓",
+    "ketsuro-kyusui-tape": "結露 吸水テープ 窓",
+    "suihanki": "炊飯器 5.5合",
+    "aircon-filter-brush": "エアコン フィルター 掃除 ブラシ",
 }
 
 
