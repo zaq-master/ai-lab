@@ -140,3 +140,11 @@
 1. **「エアコン暖房のフィルター掃除で電気代はどれだけ変わる？（大掃除の前に）」**（季節・12月上旬）（11/21 03時深掘り）— Panasonic（panasonic.jp/life/air/170106.html）＝手入れ2週間に1度、注記の試算で暖房1,081kWh（自動お掃除あり）／1,351kWh（掃除なし）。本文の「約1万円以上」と注記の条件が一致しないので kWh だけ条件付きで引用。NG例（内部洗浄・スプレー不可）は panasonic.jp/topics/2023/12/000000856.html。新枠 "aircon-filter-brush" 要。aircon-danbou-denkidai-calculator から内部リンク
 2. **「加湿器の掃除 クエン酸の量と頻度」**（季節・12月上旬〜中旬）（11/21 03時深掘り）— Panasonic（panasonic.jp/life/air/170137.html）＝タンク毎日、フィルター約1か月に1回、クエン酸は水3Lに20g、取説優先。新枠 "kuensan-souji" 要。humidifier-electricity-cost-telework・kashitsu-ryo-calculator から内部リンク
 3. **「窓の結露を毎朝ラクに取る道具（窓用バキューム）」**（季節・12月中旬）（11/21 03時深掘り）— ケルヒャー公式で結露取り用途を明記、WV 2 BLACK EDITION＝稼働35分・充電230分・0.6kg。新枠 "mado-vacuum" 要。mado-danetsu-sheet-chintai-ketsuro・telework-ketsuro-taisaku-roten から内部リンク。実機なしを明記
+
+## 2026-11-21 09:00 リサーチ回
+※楽天スーパーSALE 12月：今回の検索でも2026年12月の公式告知は出ず（出たのは2026年9月開催分の楽天ページ event.rakuten.co.jp/campaign/supersale/20260904kahkt/ と過去年のまとめ）→ **未発表**、日付は書かない
+※03:00深掘りの3件（フィルター掃除・加湿器クエン酸・窓バキューム）と重ならない「年末年始の家の中」の3件を追加
+1. **「ご飯の保温と、冷凍してレンジで温め直し 電気代はどっちが安い？」**（季節・12〜1月の在宅増、通年でも検索あり、サイト内0本）— 炊飯器のカタログ値「炊飯時消費電力量（Wh/回）」「保温時消費電力量（Wh/h）」と、電子レンジの消費電力×温め時間を 31円/kWh で計算する表（**メーカー公表値のある機種だけ**、味の比較は書かない）。参考の考え方：アイリスオーヤマ公式（irisohyama.co.jp/plusoneday/electronics/189）。新枠 "suihanki": "炊飯器 3合" を make_links に追加が必要。denki-kettle-vs-pot-denkidai・denkidai-calculator から内部リンク
+2. **「年末年始の鍋 卓上IHとカセットコンロ、1回いくら？ 自分の単価で計算」**（季節・12月中旬〜1月）— IHはメーカー公表の消費電力（例：最大1400W）×時間×電気単価、カセットコンロは「自分が買ったボンベの価格÷燃焼時間（メーカー公表）」の式だけ示す。他サイトの「1回◯円の差」は条件が違うので引用しない（参考：enechange.jp/articles/ih-tabletop-stove-cost、financial-field.com/living/entry-262435）。カセットボンベの安全は「メーカーの注意書きに従う」とだけ書く。新枠 "takujo-ih": "卓上IHコンロ" が必要。fuyu-denkidai-matome から内部リンク
+3. **「大掃除の前に コードレス掃除機・ハンディクリーナー 充電1回の電気代と電池の持ち」**（季節・12月中旬〜下旬、サイト内0本）— 電池容量（Wh、メーカー公表値）÷充電効率（表示がなければ仮の値と明記）×31円/kWh。mobile-battery-jikan-calculator と同じ考え方で、robot-cleaner-denkidai から内部リンク。掃除の手順はメーカー公式（panasonic.jp/life/housework/100062.html）へのリンクだけ。新枠 "handy-cleaner": "コードレス ハンディクリーナー" が必要
+→ 優先（週2本まで＝決定2）：スーパーSALE（公式発表が出たら最優先）＞暖房7℃（11/23公開予定）＞フィルター掃除（11/21深掘り①、12月上旬）＞①ご飯の保温（既存のケトル記事の型を流用でき早い）＞検針票＞②鍋（12月中旬）＞③ハンディクリーナー
