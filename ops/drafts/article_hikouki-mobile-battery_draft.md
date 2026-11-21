@@ -1,5 +1,5 @@
 ---
-title: 年末年始の帰省、飛行機のモバイルバッテリー新ルール｜2個まで・160Wh以下・機内で充電しない（2026年4月24日〜・国内線）
+title: 飛行機のモバイルバッテリー新ルール｜2個まで・160Wh以下・機内で充電しない【国内線・帰省前に】
 date: 2026-11-24
 description: 2026年4月24日から国内線のモバイルバッテリーのルールが変わりました。持ち込みは1人2個・160Wh以下まで、機内での充電、預け入れ、収納棚はどうなるのかを国交省・ANA・JALの案内で整理し、mAhからWhを出す手順も表にしました。
 category: 充電・電源
@@ -144,10 +144,10 @@ category: 充電・電源
 電熱ベストやUSB毛布をバッテリーで使う場合の考え方は、[電熱ベストはモバイルバッテリーで何時間もつ？](dennetsu-vest-battery-jikan-denkidai.html) も参考にしてください。
 
 ### 出典（2026年11月21日に再確認）
-- 国土交通省「モバイルバッテリーの機内持込みの新たなルールについて」（令和8年4月14日）：https://www.mlit.go.jp/report/press/kouku10_hh_000310.html
-- 国土交通省 旅客向け案内PDF「NEW！令和8年4月24日から」：https://www.mlit.go.jp/common/001469460.pdf
-- 国土交通省「モバイルバッテリーを収納棚に入れないで！」（令和7年7月1日）：https://www.mlit.go.jp/report/press/kouku10_hh_000284.html
-- ANA「モバイルバッテリーの取り扱い変更について（2026年4月24日搭乗分より）」：https://www.ana.co.jp/ja/jp/special-notice/001379.html
-- ANA 国内線「機内持ち込み・お預かりに条件があるもの」：https://www.ana.co.jp/ja/jp/guide/boarding-procedures/baggage/domestic/caution-restriction03/
-- JAL 国内線「手荷物の制限」：https://www.jal.co.jp/jp/ja/dom/baggage/limit/
-- 羽田空港「モバイルバッテリー等の航空機内持ち込みについて（2026年4月24日以降）」：https://tokyo-haneda.com/information/2026/detail_00022.html
+- [国土交通省「モバイルバッテリーの機内持込みの新たなルールについて」（令和8年4月14日）](https://www.mlit.go.jp/report/press/kouku10_hh_000310.html)
+- [国土交通省 旅客向け案内PDF「NEW！令和8年4月24日から」](https://www.mlit.go.jp/common/001469460.pdf)
+- [国土交通省「モバイルバッテリーを収納棚に入れないで！」（令和7年7月1日）](https://www.mlit.go.jp/report/press/kouku10_hh_000284.html)
+- [ANA「モバイルバッテリーの取り扱い変更について（2026年4月24日搭乗分より）」](https://www.ana.co.jp/ja/jp/special-notice/001379.html)
+- [ANA 国内線「機内持ち込み・お預かりに条件があるもの」](https://www.ana.co.jp/ja/jp/guide/boarding-procedures/baggage/domestic/caution-restriction03/)
+- [JAL 国内線「手荷物の制限」](https://www.jal.co.jp/jp/ja/dom/baggage/limit/)
+- [羽田空港「モバイルバッテリー等の航空機内持ち込みについて（2026年4月24日以降）」](https://tokyo-haneda.com/information/2026/detail_00022.html)
