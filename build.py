@@ -390,6 +390,10 @@ SALE = ("posts/rakuten-blackfriday-memo.html", "楽天ブラックフライデ�
 # 開催中（STARTS の開始〜SALE の最終時刻）だけ SALE の見出し・説明をこちらに差し替える（タグ, 見出し, 説明）
 SALE_ON = ("blackfriday-2026-11", "楽天ブラックフライデー開催中：冬ガジェット買い物メモ【PR】",
            "開催中です（11/25 01:59まで）。電気代で選ぶ暖房・加湿器など")
+# BF終了後〜次のセール記事を公開するまで、トップに出す「合間」の案内（日付は書かない。最後の要素＝保険の表示最終日）
+AFTER = ("posts/rakuten-blackfriday-memo.html", "セールの合間の冬ガジェット買い物メモ【PR】",
+         "ブラックフライデーは終了。次の大型セールの日程は楽天市場の公式発表のあとに載せます。今のうちに電気代で候補を決めておけます",
+         "2026-12-31")
 # 前回：マラソン（posts/rakuten-marathon-fuyu-kaden-list.html、〜2026-11-11T01:59）
 # 4つ目の要素（任意）＝表示する最終日（JST、この日まで先頭に出す。過ぎたら次のビルドで自動的に消える）
 TOOLS = [
@@ -476,6 +480,9 @@ def hub_block():
         head, sub = SALE_ON[1:3] if ongoing(SALE_ON[0]) else SALE[1:3]
         hub = (f'<a class="hub-main" href="{SALE[0]}"><span class="badge">期間限定</span><b>{html.escape(head)}</b>'
                f'<span>{html.escape(sub)} →</span></a><div style="height:10px"></div>') + hub
+    elif ok(AFTER[0]) and until_passed(SALE[3]) and live(AFTER):
+        hub = (f'<a class="hub-main" href="{AFTER[0]}"><span class="badge">買い物メモ</span><b>{html.escape(AFTER[1])}</b>'
+               f'<span>{html.escape(AFTER[2])} →</span></a><div style="height:10px"></div>') + hub
     if not (hub or tools):
         return ""
     return (f'<section class="hub" aria-label="特集と無料ツール">{hub}'
