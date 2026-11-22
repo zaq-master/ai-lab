@@ -144,6 +144,7 @@ A. 早くつけた時間の分だけ、ツールの「1日の使用時間」に�
 - エアコン以外の家電もまとめて計算するなら → [家電の電気代計算ツール](denkidai-calculator.html)
 - 何から対策するか迷ったら → [冬の寒さ対策診断（5問）](winter-heating-shindan.html)
 - 起きる前に部屋を暖めておく → [冬の朝のエアコン予約（入タイマーとスマートリモコン）](fuyu-asa-aircon-timer-smart-remote.html)
+- 暖房を何℃・いつからつけるか決めたい → [暖房は何℃からつける？（外の気温・室温で決める目安）](danbou-nando-kion-denkidai.html)
 - エアコンをスマホで操作して切り忘れを防ぐ → [賃貸でエアコン2台をスマホ操作](smart-remote-rental-two-aircon.html)
 
 <!-- blackfriday-2026-11（11/25 01:59まで表示・過ぎたらbuildで消える） -->

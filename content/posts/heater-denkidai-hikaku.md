@@ -173,6 +173,7 @@ A. よく使うモードの値で計算するのが目安です。強と弱を�
 
 ## 関連ツール・記事
 - エアコンだけを1時間・1日・ひと冬で計算するなら → [エアコン暖房の電気代 計算ツール](aircon-danbou-denkidai-calculator.html)
+- 暖房をいつから・何℃でつけるか迷ったら → [暖房は何℃からつける？（外の気温・室温で決める目安）](danbou-nando-kion-denkidai.html)
 - 暖房以外の家電もまとめて計算するなら → [家電の電気代計算ツール](denkidai-calculator.html)
 - 寝るときの暖房（電気毛布・湯たんぽ・エアコンなど）を一晩で比べるなら → [寝るときの暖房 一晩の電気代くらべ](neru-danbou-denkidai-calculator.html)
 - 寝る前に布団を温める布団乾燥機の1回あたりの電気代 → [布団乾燥機の電気代（あたため・乾燥・ダニ対策モード別）](futon-kansouki-denkidai.html)
