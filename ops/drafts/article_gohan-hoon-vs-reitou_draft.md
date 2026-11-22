@@ -5,7 +5,8 @@ description: 炊いたご飯を保温しておくか、冷凍してレンジで�
 category: 季節家電
 ---
 <!-- 下書きメモ（2026-11-21 18:00 制作③）：公開候補 12月上旬（週2本までの枠で、スーパーSALE・フィルター掃除の後）。date は公開日に直し、ops/drafts → content/posts/gohan-hoon-vs-reitou-denkidai.md に移す。
-・商品枠 suihanki は未登録。公開回で ops/make_links.py の KEYWORDS に "suihanki": "炊飯器 5.5合" を足して実行し、content/products.json にも枠を追加してから build する。
+・商品枠 suihanki は登録済み（make_links の KEYWORDS・products.json とも。2026-11-22 18:06確認）→ 公開回は移動と date 修正だけでよい。
+・2026-11-22 18:06 試しビルド済み：計算12か所すべて一致（31円/kWh）、build 35本・content_guard OK・mobile_check 問題0、文中リンク3本の先あり、PR表記あり
 ・数字の出典（2026-11-21 カンサが公式ページで再照合済み。結果は ops/research/2026-11-21_gohan_recheck.md。SR-A110Dはヒーター式（IHではない）と判明し本文を修正）：
   - パナソニック SR-A110D：炊飯時 161Wh/回（エコ炊飯）・保温時 20.0Wh/h・年間 86.1kWh（省エネ法の測定方法による） panasonic.jp/suihan/products/SR-A110D/spec.html
   - シャープ KS-HF10B：炊飯時 171.3Wh/回・保温時 18.8Wh/h（同、エコ炊飯コース、目安） jp.sharp/ricecooker/products/kshf10b/spec/
