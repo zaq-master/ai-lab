@@ -1,0 +1,16 @@
+{
+ "folder": "2026-11-26_danbou-nando",
+ "width": 1080,
+ "height": 1350,
+ "chunk": 40000,
+ "files": [
+  {
+   "nn": "01",
+   "name": "01.jpg",
+   "quality": 78,
+   "bytes": 153532,
+   "b64_len": 204712,
+   "parts": 6
+  }
+ ]
+}

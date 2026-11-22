@@ -1,0 +1,16 @@
+{
+ "folder": "2026-11-28_futon-kansouki",
+ "width": 1080,
+ "height": 1350,
+ "chunk": 40000,
+ "files": [
+  {
+   "nn": "01",
+   "name": "01.jpg",
+   "quality": 78,
+   "bytes": 150929,
+   "b64_len": 201240,
+   "parts": 6
+  }
+ ]
+}

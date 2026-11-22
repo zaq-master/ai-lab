@@ -56,6 +56,11 @@
 | mobile-battery-jikan-calculator | mobile-battery-10000 | 外出や帰省でスマホの電池が心配な人（PSEマークを確認） |
 | dennetsu-vest-battery-jikan-denkidai | mobile-battery-usb-a | USB-Aで給電する機器を使っている人 |
 
+## 公式の特集ページ（出典用・値段は書かない）
+- クリスマス特集2026：https://event.rakuten.co.jp/xmas/ （2026-11-23 03:11 本文で「2026」を確認）
+- 同・贈る相手別で探す：https://event.rakuten.co.jp/xmas/present/ （検索結果のみ・使う前に本文確認）
+- お歳暮・冬ギフト2026：https://event.rakuten.co.jp/oseibo/ （2026-11-23 03:11 本文で「2026」を確認）
+
 ## 次に使うとき
 - 入口は telework-gadget-present-erabikata の「クリスマスに贈るなら」節。X・Instagram・noteで紹介するときはこの記事1本に集める
 - 新しい商品枠は作らない。上の枠で足りない悩みが出たら、先に既存記事の枠で代用できないか見る

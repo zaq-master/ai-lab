@@ -12,6 +12,7 @@ category: 季節家電
   - シャープ KS-HF10B：炊飯時 171.3Wh/回・保温時 18.8Wh/h（同、エコ炊飯コース、目安） jp.sharp/ricecooker/products/kshf10b/spec/
   - パナソニック NE-FL1C：消費電力（レンジ）1400W panasonic.jp/range/products/NE-FL1C/spec.html
   - 日立 MRO-S8E レシピ：冷凍ごはん1個（約150g）加熱 約3分（自動あたため） kadenfan.hitachi.co.jp/range/recipe/mro-s8e/magazine/A004.html ※機種が違うので「上限の目安」として使う
+・【2026-11-23 03:00 ペンネ再照合】公式4ページを開いて全値一致（不一致0件・本文修正なし）：SR-A110D 161Wh/回（エコ炊飯）・20.0Wh/h・86.1kWh/年・ヒーター式・5.5合／KS-HF10B 171.3Wh/回・18.8Wh/h（エコ炊飯コース）・5.5合／NE-FL1C レンジ1400W・1000Wは最大1分30秒→600Wに自動切換／日立MRO-S8E 冷凍ごはん1個（約150g）約3分（開いたURLは kadenfan.hitachi.co.jp/range/recipe/mro-s8e/s/A004.html）。計算12か所も再計算で一致。31円/kWhの出典（公取協）は今回は再確認していない。結果：ops/research/2026-11-23_0300_penne_check.md
 ・アイリスオーヤマ公式記事（irisohyama.co.jp/plusoneday/electronics/189）の「保温4時間が目安」は要約経由でしか読めていないため本文に入れていない。原文を確認できたら出典として1行足してよい。
 ・冷凍庫の電気代・味の比較・価格は書かない（未確認・実機なし）。 -->
 **【PR】この記事にはアフィリエイト広告（楽天市場へのリンク）が含まれます。**

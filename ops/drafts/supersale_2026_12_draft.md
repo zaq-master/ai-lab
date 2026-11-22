@@ -9,6 +9,7 @@
   - 検索「楽天スーパーSALE 2026年12月 開催期間」（rakuten.co.jp 限定）→ 出たのは calendar.rakuten.co.jp・plaza.rakuten.co.jp（ユーザー投稿の予想）だけ＝不採用
   - 検索「楽天スーパーSALE 12月 2026 開始 エントリー」（event.rakuten.co.jp・corp.rakuten.co.jp 限定）→ 出たのは過去回のページ（event.rakuten.co.jp/campaign/supersale/20260904kahkt/…、/20260604frehf/…）と常設の学割・新規購入キャンペーンのみ。12月回のページ・ニュースは見つからず
 - 2026-11-21 00:10 確認：**公式発表なし**（rakuten.co.jp 限定の検索で出たのは calendar.rakuten.co.jp・plaza.rakuten.co.jp の予想記事だけ＝不採用）
+- 2026-11-23 03:11 確認：**公式発表なし**（https://event.rakuten.co.jp/campaign/supersale/ は「終了しました」表示・期間欄未設定・次回予告なし。詳細 ops/research/2026-11-23_0300_post_bf.md）
 - 次に確認する人は、ここに「日時・URL・確認時刻」を1行足す。予想サイト（楽天カレンダー・楽天ブログ）は公式ではないので使わない
 
 ## 穴埋め一覧（公式で確認できた値だけを入れる。分からない項目は行ごと消す）

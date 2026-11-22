@@ -1,0 +1,16 @@
+{
+ "folder": "2026-11-29_sukima-tape",
+ "width": 1080,
+ "height": 1350,
+ "chunk": 40000,
+ "files": [
+  {
+   "nn": "01",
+   "name": "01.jpg",
+   "quality": 82,
+   "bytes": 149077,
+   "b64_len": 198772,
+   "parts": 5
+  }
+ ]
+}
