@@ -18,3 +18,5 @@ __pycache__/
 # YouTubeショートの make.py が書き出す確認用画像はコミットしない
 media/videos/**/preview_*.png
 music/**/*.wav
+# 動画の採点用に切り出した画面（video_review.py）はコミットしない。採点結果の review.md だけ残す
+media/videos/**/review/
