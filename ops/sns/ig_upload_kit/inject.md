@@ -1,5 +1,8 @@
 # IG 画像受け渡しキット（ネットワーク不使用）
 
+> ⚠️ 2026-11-22：input[type=file] は3つある（0=プロフィール写真jpeg／1=プロフィール写真jpeg,png／2=新規投稿 multiple・video/mp4あり）。**必ず multiple かつ video/mp4 を含む欄だけ**に入れる。0・1に入れるとプロフィール写真が即変更される。
+> 💡 量を減らす：16色PNG（PIL quantize colors=16, dither無し）にすると1枚 base64 約7.6万文字（JPEGの約1/3）。入れる前に SHA-256 をPythonと照合。chunkは localStorage にも保存しておくと、ブラウザが切れても再送不要。
+
 作成：2026-11-06 ハエル（事業4）。
 目的：IGの新規投稿画面に、内蔵ブラウザから画像を渡す。ファイル添付の道具がなく、IGはCSPで外部画像を読み込めない（2026-11-06 08:02に未投稿）。
 方法：画像のbase64をJSに直接書き込む → Blob/File → DataTransfer → IGの `input[type=file]` に設定 → `input`/`change` イベントを送る。ネットワークは使わない。
@@ -87,7 +90,7 @@ for(const nn of ORDER){
 window.__igFiles=files;
 const all=[...document.querySelectorAll('input[type=file]')];
 const ok=all.filter(i=>!i.disabled&&(!i.accept||/image|jpe?g|\*/i.test(i.accept)));
-const input=ok.find(i=>i.closest('[role=dialog]'))||ok[0];
+const input=ok.find(i=>i.multiple&&/video\/mp4/.test(i.accept)); // ⚠️ok[0]は禁止：プロフィール写真の入力欄で、写真が変わる（2026-11-22 23:4x発生）
 if(!input) return 'NG: input[type=file] が見つからない（数='+all.length+'）→ (c) で確認';
 const dt=new DataTransfer(); files.forEach(f=>dt.items.add(f));
 input.files=dt.files;
