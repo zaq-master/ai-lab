@@ -58,6 +58,8 @@ KEYWORDS = {
     "ketsuro-kyusui-tape": "結露 吸水テープ 窓",
     "suihanki": "炊飯器 5.5合",
     "aircon-filter-brush": "エアコン フィルター 掃除 ブラシ",
+    "takujo-ih": "卓上IHコンロ",
+    "cassette-konro": "カセットコンロ",
 }
 
 
