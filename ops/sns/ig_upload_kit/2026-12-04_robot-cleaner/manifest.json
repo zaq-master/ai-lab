@@ -1,0 +1,16 @@
+{
+ "folder": "2026-12-04_robot-cleaner",
+ "width": 1080,
+ "height": 1350,
+ "chunk": 40000,
+ "files": [
+  {
+   "nn": "01",
+   "name": "01.jpg",
+   "quality": 78,
+   "bytes": 153559,
+   "b64_len": 204748,
+   "parts": 6
+  }
+ ]
+}

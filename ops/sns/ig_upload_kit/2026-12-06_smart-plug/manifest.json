@@ -1,0 +1,16 @@
+{
+ "folder": "2026-12-06_smart-plug",
+ "width": 1080,
+ "height": 1350,
+ "chunk": 40000,
+ "files": [
+  {
+   "nn": "01",
+   "name": "01.jpg",
+   "quality": 76,
+   "bytes": 153280,
+   "b64_len": 204376,
+   "parts": 6
+  }
+ ]
+}
