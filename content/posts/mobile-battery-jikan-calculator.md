@@ -138,6 +138,7 @@ run();
 - 100Whを超え160Wh以下のものは、予備電池との組み合わせで持ち込める個数が変わる場合があります。航空会社の案内の図で確認してください
 - モバイルバッテリーは**預け入れ荷物に入れられません**。機内では**バッテリー本体への充電は禁止**、バッテリーから機器への充電も**しないよう求められています**
 - 細かい条件は航空会社ごとに案内があるので、搭乗前にご利用の航空会社のページで確認してください
+- 新ルールの早見表、機内での充電・収納棚の扱い、帰省前のチェックリストは[飛行機のモバイルバッテリー新ルール（国内線）](hikouki-mobile-battery.html)にまとめています
 
 出典：[国土交通省「モバイルバッテリーの機内持込みの新たなルールについて」](https://www.mlit.go.jp/report/press/kouku10_hh_000310.html)／[国土交通省 旅客向け案内（PDF）](https://www.mlit.go.jp/common/001469460.pdf)／[ANA「モバイルバッテリーの取り扱い変更について」](https://www.ana.co.jp/ja/ch/special-notice/001379.html)／[ANA 国内線「機内持ち込み・お預かりに条件があるもの」](https://www.ana.co.jp/ja/jp/guide/boarding-procedures/baggage/domestic/caution-restriction03/)／[JAL 国内線 手荷物の制限](https://www.jal.co.jp/jp/ja/dom/baggage/limit/)
 
