@@ -1,0 +1,16 @@
+{
+ "folder": "2026-12-03_ketsuro-dougu",
+ "width": 1080,
+ "height": 1350,
+ "chunk": 40000,
+ "files": [
+  {
+   "nn": "01",
+   "name": "01.jpg",
+   "quality": 74,
+   "bytes": 151729,
+   "b64_len": 202308,
+   "parts": 6
+  }
+ ]
+}

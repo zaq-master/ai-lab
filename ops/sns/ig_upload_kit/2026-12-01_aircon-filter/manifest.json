@@ -1,0 +1,16 @@
+{
+ "folder": "2026-12-01_aircon-filter",
+ "width": 1080,
+ "height": 1350,
+ "chunk": 40000,
+ "files": [
+  {
+   "nn": "01",
+   "name": "01.jpg",
+   "quality": 72,
+   "bytes": 152217,
+   "b64_len": 202956,
+   "parts": 6
+  }
+ ]
+}
