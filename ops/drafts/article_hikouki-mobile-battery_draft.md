@@ -24,7 +24,7 @@ category: 充電・電源
 - 国交省 報道発表PDF（M1の添付・前回は開けず未読） https://www.mlit.go.jp/report/press/content/001995959.pdf
 - 国交省 報道発表（令和7年7月1日・収納棚） https://www.mlit.go.jp/report/press/kouku10_hh_000284.html
 - 国交省 制限品目ページ https://www.mlit.go.jp/koku/koku_fr2_000007.html
-- ANA お知らせ（2026年4月24日搭乗分より） https://www.ana.co.jp/ja/ch/special-notice/001379.html
+- ANA お知らせ（2026年4月24日搭乗分より） https://www.ana.co.jp/ja/jp/special-notice/001379.html
 - ANA 国内線 条件があるもの https://www.ana.co.jp/ja/jp/guide/boarding-procedures/baggage/domestic/caution-restriction03/
 - JAL 国内線 手荷物の制限（2027年の100Wh化の記載） https://www.jal.co.jp/jp/ja/dom/baggage/limit/
 - JAL お知らせ（前回は開けず未読） https://www.jal.co.jp/jp/ja/info/2026/other/260330/
