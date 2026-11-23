@@ -463,13 +463,22 @@ def app_meta(f):
         f.write_text(s2, encoding="utf-8")
 
 
+def sale_last_day(now=None):
+    """SALE の終了時刻の「前日0:00〜終了」なら True（最終日の表示に切り替える。2026-11-24 06:00 自走回で追加）"""
+    now = now or jst_now()
+    end = datetime.datetime.fromisoformat(SALE[3])
+    start = datetime.datetime.combine(end.date() - datetime.timedelta(days=1), datetime.time(0, 0))
+    return start <= now and not until_passed(SALE[3], now)
+
+
 def sale_bar(slug):
     """開催中（SALE_ON の開始〜SALE の最終時刻）だけ、各記事の冒頭に特集への1行リンクを出す（特集ページ自身には出さない）。
     検索から記事に直接来た人はトップの特集枠を見ないため（2026-11-20 05:00 自走回で追加）。期間が過ぎたら次のビルドで自動的に消える。"""
     target = SALE[0].split("/")[-1]
     if slug == target.rsplit(".", 1)[0] or not (OUT / SALE[0]).exists() or until_passed(SALE[3]) or not ongoing(SALE_ON[0]):
         return ""
-    return (f'<p class="sale-bar"><a href="{target}"><b>楽天ブラックフライデー開催中</b>'
+    head = "楽天ブラックフライデー 最終日" if sale_last_day() else "楽天ブラックフライデー開催中"
+    return (f'<p class="sale-bar"><a href="{target}"><b>{head}</b>'
             f'<span>11/25 1:59まで。電気代で選ぶ冬ガジェットの買い物メモ【PR】 →</span></a></p>')
 
 
@@ -482,6 +491,8 @@ def hub_block():
            f'<span>{HUB[2]} →</span></a>') if ok(HUB[0]) else ""
     if ok(SALE[0]) and live(SALE):
         head, sub = SALE_ON[1:3] if ongoing(SALE_ON[0]) else SALE[1:3]
+        if ongoing(SALE_ON[0]) and sale_last_day():
+            head, sub = head.replace("開催中", "最終日"), "今夜（11/25 01:59）で終了。電気代で選ぶ暖房・加湿器など"
         hub = (f'<a class="hub-main" href="{SALE[0]}"><span class="badge">期間限定</span><b>{html.escape(head)}</b>'
                f'<span>{html.escape(sub)} →</span></a><div style="height:10px"></div>') + hub
     elif ok(AFTER[0]) and until_passed(SALE[3]) and live(AFTER):
