@@ -13,7 +13,7 @@
 | 3 | humidifier-electricity-cost-telework.md | 「お手入れは…」節の最後「※クエン酸などの洗浄剤が使えるかどうか…取扱説明書を確認してください。」 | 年末の大掃除で加湿器・エアコン・窓をまとめて手入れするときの早見表は[大掃除で家電のお手入れ3つ](oosouji-kaden-oteire-matome.html)にあります。 |
 | 4 | mado-danetsu-sheet-chintai-ketsuro.md | 注意点「結露を放置するとカビの原因になることがあります。窓や窓枠の水滴は拭き取ってください」 | 。毎朝の結露取りの道具3つは[大掃除で家電のお手入れ3つ](oosouji-kaden-oteire-matome.html)で比べています |
 | 5 | telework-ketsuro-taisaku-roten.md | 注意点（141行目）の同じ文「…窓や窓枠の水滴は拭き取ってください」 | 4と同じ文 |
-| 6 | robot-cleaner-denkidai.md | 「年末の大掃除で使う前に」節の「…手で窓・棚・水まわり」の順にすると、上の表の「片付ける」が先に済みます。」 | 手で掃除する家電（エアコンのフィルター・加湿器・窓の結露）の手順は[大掃除で家電のお手入れ3つ](oosouji-kaden-oteire-matome.html)にまとめています。 |
+| 6 | robot-cleaner-denkidai.md | 「年末の大掃除で使う前に」節の88行目の段落の**最後**「…お風呂・トイレなどの水まわりでは使わないよう書かれている機種もあります（パナソニック MC-RS1）。」（※11/23 19:00 リハーサルで修正：元案の「…先に済みます。」は行の途中で、直後に水まわりの文が続くため、段落の末尾に足す） | 手で掃除する家電（エアコンのフィルター・加湿器・窓の結露）の手順は[大掃除で家電のお手入れ3つ](oosouji-kaden-oteire-matome.html)にまとめています。 |
 
 ## 入れない記事（理由）
 - danbou-nando-kion-denkidai.md：「フィルター掃除」は一言だけで、文脈が暖房の始め方。リンクを足すと本筋がぶれる
@@ -27,3 +27,8 @@
 ## 公開回のチェック
 1. build.py → `python3 ops/tests/mobile_check.py` → `python3 ops/tests/content_guard.py`
 2. docs 内で `oosouji-kaden-oteire-matome.html` へのリンクが6記事から出ているか grep（`grep -l oosouji-kaden-oteire-matome docs/posts/*.html`）
+
+## 11/23 19:00 公開リハーサルの結果（カルク）
+- 6か所とも、今のファイルで差し込み位置の文が**各1か所だけ**（#1 122行目・#2 153行目・#3 174行目・#4 102行目・#5 141行目・#6 88行目）。ずれは #6 の位置だけで、上の表を直した
+- 差し込み後、6記事のHTMLにまとめ記事への本文リンクが各1本。リンク切れ0。記録：ops/audit/2026-11-23_1900_oosouji_rehearsal.md
+- 公開回は ops/drafts/publish_steps_2026-11-30.md のスクリプトで6か所＋逆方向1か所をまとめて入れられる
