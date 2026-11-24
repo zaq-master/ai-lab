@@ -139,6 +139,8 @@ def check_expiry_text(name, raw, now=None):
         k = l.split(":", 1)[0].strip()
         if k.startswith(("started_", "ended_")) or ":" not in l:
             continue  # 開催中だけ／期限後だけ使われる
+        if k in ("date", "updated"):
+            continue  # 書いた日・直した日（セールの期限ではない。BF終了日に直した記事の updated: 2026-11-25 を誤検知しないように 2026-11-25 追加）
         repl = meta.get(f"ended_{k}", "")
         swap = repl.split("|", 1)[0].strip() if k in ("title", "description") and "|" in repl else ""
         for tags, x in hits(l.split(":", 1)[1]):
