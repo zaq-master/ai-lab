@@ -61,7 +61,7 @@ category: 在宅ワーク
 |---|---|---|---|
 | 電気を使わない暖かさが好き・寝るとき足が冷える | 湯たんぽ | お湯を入れるタイプか充電式か、カバーの有無（販売ページで確認） | [寝るときの暖房 電気代くらべ](neru-danbou-denkidai-calculator.html) |
 | お茶やコーヒーをよく飲む | 電気ケトル | 容量と置き場所 | [電気ケトルと電気ポットの電気代](denki-kettle-vs-pot-denkidai.html) |
-| 帰省や外出でスマホの電池が心配 | モバイルバッテリー | **PSEマーク**の表示、相手のスマホの端子 | [モバイルバッテリー何時間もつ？計算](mobile-battery-jikan-calculator.html) |
+| 帰省や外出でスマホの電池が心配 | モバイルバッテリー | **PSEマーク**の表示、相手のスマホの端子 | [モバイルバッテリー何時間もつ？計算](mobile-battery-jikan-calculator.html)／[飛行機への持ち込みルール](hikouki-mobile-battery.html) |
 | 椅子に座ると足が浮きがち | フットレスト | 机の下の高さと奥行き | [デスク環境の整え方](desk-qol-guide.html) |
 
 <!-- products: yutanpo,denki-kettle,mobile-battery-10000,footrest -->
