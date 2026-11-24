@@ -1,5 +1,7 @@
 # 12/2（水）11:00 ご飯の保温vs冷凍記事 公開手順（2026-11-24 カルク 試しで通し確認済み）
 
+> **【2026-11-25 03:00 追加】`python3 ops/drafts/publish_gohan_2026-12-02.py` は日本時間の今日が 12/2 より前なら何も書かずに止まる**（早すぎる公開の防止。試しのときだけ `--allow-early`）
+
 1. `git pull --rebase`
 2. 下書きを移す：ops/drafts/article_gohan-hoon-vs-reitou_draft.md → content/posts/gohan-hoon-vs-reitou-denkidai.md（date は 2026-12-02 のままでよい）
 3. **消すのは先頭の `<!-- 下書きメモ…-->` 1つだけ**（7〜19行目。この下書きに「公開前に確認すること」メモは無い）

@@ -1,5 +1,7 @@
 # 12/8（火）11:00 帰省中の消し忘れ（スマートプラグ）記事 公開手順（2026-11-24 カルク 試しで通し確認済み）
 
+> **【2026-11-25 03:00 追加】`python3 ops/drafts/publish_kisei_2026-12-08.py` は日本時間の今日が 12/8 より前なら何も書かずに止まる**（早すぎる公開の防止。試しのときだけ `--allow-early`）
+
 1. `git pull --rebase`
 2. 下書きを移す：ops/drafts/article_kisei-rusu-smartplug_draft.md → content/posts/kisei-rusu-smartplug.md（date は 2026-12-08 のままでよい）
 3. **消すのは先頭の `<!-- 下書きメモ…-->` 1つだけ**（7〜14行目。`-->` が14行目に単独である形）

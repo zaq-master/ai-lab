@@ -5,9 +5,11 @@
   python3 ops/drafts/publish_oosouji_2026-11-30.py      # 記事を移す＋内部リンク6か所＋逆方向1か所
   python3 build.py && python3 ops/tests/content_guard.py && python3 ops/tests/mobile_check.py && python3 ops/check_affiliate.py
 差し込み位置の文が「ちょうど1か所」でなければ何も書かずに止まる（二重実行・文の変更を防ぐ）。
+日本時間の今日が 2026-11-30 より前なら何も書かずに止まる（早すぎる公開の防止。試しのときだけ --allow-early。2026-11-25 03:00 監査対応）。
 """
-import pathlib, re, sys
+import datetime, pathlib, re, sys
 
+PUBLISH_DATE = datetime.date(2026, 11, 30)
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 P = ROOT / "content/posts"
 SRC = ROOT / "ops/drafts/article_oosouji-matome_draft.md"
@@ -38,7 +40,13 @@ REVERSE = ("お手入れは各製品の取扱説明書の手順で行ってく�
            "お手入れは各製品の取扱説明書の手順で行ってください。ロボット掃除機を動かす前の床の片付けは[ロボット掃除機の電気代と大掃除前のチェック表](robot-cleaner-denkidai.html)へ。\n")
 
 
+def jst_today():
+    return datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).date()
+
+
 def main():
+    if jst_today() < PUBLISH_DATE and "--allow-early" not in sys.argv:
+        sys.exit(f"止めた：今日（日本時間 {jst_today()}）は公開日 {PUBLISH_DATE} より前です（試しのときだけ --allow-early）")
     if DST.exists():
         sys.exit("止めた：記事はもう content/posts にあります（二重実行）")
     s = SRC.read_text(encoding="utf-8")

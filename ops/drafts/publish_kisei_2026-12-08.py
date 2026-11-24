@@ -6,6 +6,7 @@
   python3 ops/drafts/publish_kisei_2026-12-08.py     # 記事を移す＋内部リンク4か所（K1〜K4）
   python3 build.py && python3 ops/tests/content_guard.py && python3 ops/tests/mobile_check.py && python3 ops/check_affiliate.py && python3 ops/tests/site_health.py
 止まる条件（止まったら何も書きかえない）：
+  - 日本時間の今日が 2026-12-08 より前（早すぎる公開を防ぐ。試しのときだけ --allow-early。2026-11-25 03:00 監査対応）
   - 記事がもう content/posts にある（二重実行）
   - 差し込み位置の文が「ちょうど1行」でない・すでにリンク済み
   - 下書きメモを消したあとのコメントが products の1個以外
@@ -14,8 +15,9 @@ KEYWORDS の追加・make_links の実行は不要（手順書4。2つの枠と�
 リンク追加だけなので、各記事の `updated` は変えない。
 公開前の宿題（スクリプトではやらない）：SwitchBot「暖房器具への使用について」と Nature「消し忘れアラート」の公式ページを開き、引用の文言が変わっていないか確認。
 """
-import json, pathlib, re, sys
+import datetime, json, pathlib, re, sys
 
+PUBLISH_DATE = datetime.date(2026, 12, 8)
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 P = ROOT / "content/posts"
 SRC = ROOT / "ops/drafts/article_kisei-rusu-smartplug_draft.md"
@@ -52,7 +54,13 @@ def insert_after(text, anchor, add):
     return "\n".join(lines)
 
 
+def jst_today():
+    return datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).date()
+
+
 def main():
+    if jst_today() < PUBLISH_DATE and "--allow-early" not in sys.argv:
+        sys.exit(f"止めた：今日（日本時間 {jst_today()}）は公開日 {PUBLISH_DATE} より前です（試しのときだけ --allow-early）")
     if DST.exists():
         sys.exit("止めた：記事はもう content/posts にあります（二重実行）")
     # 下書き：先頭の下書きメモだけ消す（products の目印は残す）

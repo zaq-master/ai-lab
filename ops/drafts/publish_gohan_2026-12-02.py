@@ -8,14 +8,16 @@
   → 確認後 commit & push（push前に git pull --rebase）
 
 止まる条件（何も書かずに終了する）：
+- 日本時間の今日が 2026-12-02 より前（早すぎる公開を防ぐ。試しのときだけ --allow-early。2026-11-25 03:00 監査対応）
 - 記事がもう content/posts にある（二重実行）
 - メモを消した後に残るコメントが「<!-- products: suihanki -->」1個でない／メモの文字が残っている／date が 2026-12-02 でない
 - 商品枠 suihanki が make_links の KEYWORDS か products.json（リンク入り）に無い（手順書4：登録済みのため追加・make_links 実行は不要。無ければ手で確認）
 - 内部リンクの差し込み位置の文が各記事で「ちょうど1か所」でない、またはリンク済み
 リンクを足すだけなので、リンク先3記事の updated は変えない。
 """
-import json, pathlib, re, sys
+import datetime, json, pathlib, re, sys
 
+PUBLISH_DATE = datetime.date(2026, 12, 2)
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 P = ROOT / "content/posts"
 SRC = ROOT / "ops/drafts/article_gohan-hoon-vs-reitou_draft.md"
@@ -50,7 +52,13 @@ def check_product():
         sys.exit("止めた：content/products.json の suihanki にリンクが入っていない（python3 ops/make_links.py を実行してから再実行）")
 
 
+def jst_today():
+    return datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).date()
+
+
 def main():
+    if jst_today() < PUBLISH_DATE and "--allow-early" not in sys.argv:
+        sys.exit(f"止めた：今日（日本時間 {jst_today()}）は公開日 {PUBLISH_DATE} より前です（試しのときだけ --allow-early）")
     if DST.exists():
         sys.exit("止めた：記事はもう content/posts にあります（二重実行）")
     check_product()
