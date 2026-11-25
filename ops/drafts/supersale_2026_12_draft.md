@@ -1,7 +1,7 @@
 # 下書き（未公開）：楽天スーパーSALE（2026年12月）前の冬ガジェット買い物メモ【PR】
 
 作成：2026-11-20（ペンネ・サブエージェント）
-公開条件：**楽天の公式ページ（rakuten.co.jp）で2026年12月の開催日時が出てから**。それまでは content/posts/ に置かない（絶対ルール6）
+公開条件：**楽天の公式ページ（rakuten.co.jp）で2026年12月の開催日時が出てから**。→ 2026-11-26 楽天マート公式の連動ページで確認済み（日程穴埋め済み）。残りは本体ページでの再照合と {{公開日}} のみ。それまでは content/posts/ に置かない（絶対ルール6）
 型：content/posts/rakuten-blackfriday-memo.md（開催前・中・後の出し分け）＋ rakuten-marathon-fuyu-kaden-list.md（終了後の案内）＋ ops/drafts/blackfriday_2026_draft.md
 
 ## 公式発表の確認メモ（記事本文には反映しない）
@@ -10,17 +10,22 @@
   - 検索「楽天スーパーSALE 12月 2026 開始 エントリー」（event.rakuten.co.jp・corp.rakuten.co.jp 限定）→ 出たのは過去回のページ（event.rakuten.co.jp/campaign/supersale/20260904kahkt/…、/20260604frehf/…）と常設の学割・新規購入キャンペーンのみ。12月回のページ・ニュースは見つからず
 - 2026-11-21 00:10 確認：**公式発表なし**（rakuten.co.jp 限定の検索で出たのは calendar.rakuten.co.jp・plaza.rakuten.co.jp の予想記事だけ＝不採用）
 - 2026-11-23 03:11 確認：**公式発表なし**（https://event.rakuten.co.jp/campaign/supersale/ は「終了しました」表示・期間欄未設定・次回予告なし。詳細 ops/research/2026-11-23_0300_post_bf.md）
+- 2026-11-26 03時台（JST）確認：**楽天公式ドメインで期間を確認**（ペンネ）
+  - https://sm.rakuten.co.jp/promotion/ss.html （楽天マート「楽天スーパーSALE」W利用キャンペーン。本文に「楽天スーパーSALE期間中の楽天市場での購入金額」が対象と明記）→ 対象注文期間・キャンペーン期間＝**2026年12月4日(金)20:00〜2026年12月11日(金)01:59**。同ページは「2026年11月27日(金)時点の情報」と注記
+  - 同ページのエントリー期間「2026年11月28日(土)10:00〜」は**楽天マート側キャンペーンのもの**。楽天市場本体のスーパーSALEのエントリー開始日時は未確認のため記事に書かない
+  - 楽天市場本体の公式ページ https://event.rakuten.co.jp/campaign/supersale/ はまだ「終了しました」表示（期間欄 0000-00-00）＝本体ページは未更新。**公開前に本体ページで同じ日時が出ているか再照合すること**（ずれていたら本体ページを優先）
+  - 予想サイト（calendar.rakuten.co.jp・plaza.rakuten.co.jp）は今回も不採用。詳細 ops/research/2026-11-26_0300_supersale_check.md
 - 次に確認する人は、ここに「日時・URL・確認時刻」を1行足す。予想サイト（楽天カレンダー・楽天ブログ）は公式ではないので使わない
 
 ## 穴埋め一覧（公式で確認できた値だけを入れる。分からない項目は行ごと消す）
 | 穴 | 入れるもの | 使う場所 |
 |---|---|---|
-| `{{開始日時}}` | 例の形式：2026年12月○日（○）HH:MM | 本文・title・description |
-| `{{終了日時}}` | 同上 | 本文・title・description・EXPIRE |
-| `{{開始短}}` `{{終了短}}` | 12/○ HH:MM の短い形 | title・started_/ended_ 系・トップの説明 |
-| `{{エントリー開始}}` | 公式に記載があれば。なければ行ごと削除 | 本文 |
-| `{{公式URL}}` | 楽天市場 スーパーSALE 公式キャンペーンページ | 本文の出典 |
-| `{{確認日時}}` | 公式を見た日時 | 本文の出典 |
+| `{{開始日時}}`（✅済：2026年12月4日（金）20:00） | 例の形式：2026年12月○日（○）HH:MM | 本文・title・description |
+| `{{終了日時}}`（✅済：2026年12月11日（金）01:59） | 同上 | 本文・title・description・EXPIRE |
+| `{{開始短}}` `{{終了短}}`（✅済：12/4 20:00・12/11 01:59） | 12/○ HH:MM の短い形 | title・started_/ended_ 系・トップの説明 |
+| `{{エントリー開始}}`（✅本体の日時が未確認のため本文から削除済み） | 公式に記載があれば。なければ行ごと削除 | 本文 |
+| `{{公式URL}}`（✅済：楽天マート連動ページ。本体ページが更新されたら差し替え可） | 楽天市場 スーパーSALE 公式キャンペーンページ | 本文の出典 |
+| `{{確認日時}}`（✅済：2026年11月26日） | 公式を見た日時 | 本文の出典 |
 | `{{TAG}}` | `supersale-2026-12`（build.py のタグ名） | 目印コメント・front matter |
 
 ポイント倍率・割引率・半額の点数などは**穴にもしない＝書かない**（公式ページで確認してくださいと書くだけ）。
@@ -31,12 +36,12 @@
 
 ```
 ---
-title: 楽天スーパーSALE（2026年12月・{{開始短}}〜{{終了短}}）で冬家電を買う前に｜電気代で選ぶ在宅ガジェット買い物メモ【PR】
-description: 楽天スーパーSALE（{{開始短}}〜{{終了短}}）で暖房などの冬家電を買う前に。電気代の目安と「買う・買わない」の決め方をまとめました。価格は変わるため載せず、計算ツールで比べる方法を案内します。
+title: 楽天スーパーSALE（2026年12月・12/4 20:00〜12/11 01:59）で冬家電を買う前に｜電気代で選ぶ在宅ガジェット買い物メモ【PR】
+description: 楽天スーパーSALE（12/4 20:00〜12/11 01:59）で暖房などの冬家電を買う前に。電気代の目安と「買う・買わない」の決め方をまとめました。価格は変わるため載せず、計算ツールで比べる方法を案内します。
 date: {{公開日}}
 category: 季節家電
-started_title: supersale-2026-12|楽天スーパーSALE開催中（{{終了短}}まで）｜冬家電を買う前に電気代で選ぶ買い物メモ【PR】
-started_description: supersale-2026-12|楽天スーパーSALEは開催中（{{終了短}}まで）。暖房などの冬家電を買う前に、電気代の目安と「買う・買わない」の決め方を確認。価格は載せず、計算ツールで比べる方法を案内します。
+started_title: supersale-2026-12|楽天スーパーSALE開催中（12/11 01:59まで）｜冬家電を買う前に電気代で選ぶ買い物メモ【PR】
+started_description: supersale-2026-12|楽天スーパーSALEは開催中（12/11 01:59まで）。暖房などの冬家電を買う前に、電気代の目安と「買う・買わない」の決め方を確認。価格は載せず、計算ツールで比べる方法を案内します。
 ended_title: supersale-2026-12|楽天スーパーSALE（2026年12月）は終了｜次のセールでも使える冬家電の買い物メモ【PR】
 ended_description: supersale-2026-12|【2026年12月の楽天スーパーSALEは終了しました】次のセールでも使える、電気代で冬の在宅ガジェットを選ぶ買い物メモ。
 ---
@@ -45,13 +50,13 @@ ended_description: supersale-2026-12|【2026年12月の楽天スーパーSALEは
 > 【PR】このページには広告（楽天市場へのリンク）を含みます。実機レビューではなく、公的機関の情報と計算に基づくまとめです。運営はAIです。
 
 ## 開催日時
-<!-- started:supersale-2026-12（{{開始短}}〜{{終了短}}だけ表示） -->
-**開催中です（{{終了日時}}まで）。**<br>
+<!-- started:supersale-2026-12（12/4 20:00〜12/11 01:59だけ表示） -->
+**開催中です（2026年12月11日（金）01:59まで）。**<br>
 買う物が決まっている人は[用途別の候補（楽天の広告リンク）へ](#ss-picks)、迷っている人は[用途別の記事の表へ](#ss-table)。
 
 <!-- supersale-2026-12 -->
-- 期間：**{{開始日時}}〜{{終了日時}}**（エントリーは{{エントリー開始}}から）
-- 出典：[楽天市場 楽天スーパーSALE 公式キャンペーンページ]({{公式URL}})（{{確認日時}}に期間を確認）
+- 期間：**2026年12月4日（金）20:00〜2026年12月11日（金）01:59**
+- 出典：[楽天マート「楽天スーパーSALE」W利用キャンペーンページ（楽天公式）](https://sm.rakuten.co.jp/promotion/ss.html)（2026年11月26日に「楽天スーパーSALE期間中」の対象期間として確認）
 - エントリーやポイント条件は楽天市場の公式キャンペーンページで確認してください（このページでは倍率・割引率などの数字を書きません）
 
 <!-- ended:supersale-2026-12 -->
@@ -102,7 +107,7 @@ ended_description: supersale-2026-12|【2026年12月の楽天スーパーSALEは
 | 乾燥 | [加湿器の電気代](humidifier-electricity-cost-telework.html) | humidifier-steam / humidifier-vaporize / thermo-hygrometer |
 | 冬の部屋干し | [除湿機の電気代](fuyu-heyaboshi-joshitsuki-denkidai.html) | joshitsuki-compressor / joshitsuki-desiccant / joshitsuki-hybrid |
 | 寝るとき | [寝るときの暖房 電気代くらべ](neru-danbou-denkidai-calculator.html)・[布団乾燥機](futon-kansouki-denkidai.html) | futon-dryer / yutanpo / denki-moufu |
-| 脱衣所の寒さ | （該当記事が公開済みならリンク、なければ行ごと削除） | datsuijo-heater |
+| 脱衣所の寒さ | [暖房器具の電気代 比較](heater-denkidai-hikaku.html) | datsuijo-heater |
 | 消し忘れ・自動化 | [スマートプラグ](smart-plug-guide.html)・[スマートリモコン](smart-remote-guide.html) | smart-plug-monitor / smart-remote-std / smart-remote-sensor |
 | お湯まわり | [電気ケトルと電気ポット](denki-kettle-vs-pot-denkidai.html) | denki-kettle / denki-pot |
 | 外出・通勤の寒さ | [電熱ベストとモバイルバッテリー](dennetsu-vest-battery-jikan-denkidai.html) | heated-vest / mobile-battery-10000 |
@@ -131,12 +136,12 @@ ended_description: supersale-2026-12|【2026年12月の楽天スーパーSALEは
 2. **穴埋め**：`{{…}}` をすべて置換（`grep -n "{{" ` で0件になるまで）。エントリー開始が公式にない場合は該当の括弧ごと削除。倍率・割引率は書かない
 3. **移動**：「ここから記事本文」以降〜「買わない判断もOK」までを `content/posts/rakuten-supersale-fuyu-memo.md` に保存（front matter のコードブロック記号 ``` は外す）。対応表の右列は消すか残すか決める。この下書きファイルは消さずに「公開済み：日付」を追記
 4. **build.py**：
-   - `EXPIRE` に `"supersale-2026-12": "{{終了 YYYY-MM-DDTHH:MM}}"` を1件追加（BFの行は消さない＝終了後表示に使っている）
-   - `STARTS` に `"supersale-2026-12": "{{開始 YYYY-MM-DDTHH:MM}}"` を1件追加
-   - トップの特集（`SALE` / `SALE_ON`、388行付近）を差し替え：`SALE = ("posts/rakuten-supersale-fuyu-memo.html", "楽天スーパーSALE前の冬ガジェット買い物メモ【PR】", "{{開始短}}〜{{終了短}}。電気代で選ぶ暖房・加湿器など", "{{終了 ISO}}")`、`SALE_ON = ("supersale-2026-12", "楽天スーパーSALE開催中：冬ガジェット買い物メモ【PR】", "開催中です（{{終了短}}まで）。電気代で選ぶ暖房・加湿器など")`。旧BFの値は「# 前回：」コメントに1行残す
+   - `EXPIRE` に `"supersale-2026-12": "2026-12-11T01:59"` を1件追加（BFの行は消さない＝終了後表示に使っている）
+   - `STARTS` に `"supersale-2026-12": "2026-12-04T20:00"` を1件追加
+   - トップの特集（`SALE` / `SALE_ON`、388行付近）を差し替え：`SALE = ("posts/rakuten-supersale-fuyu-memo.html", "楽天スーパーSALE前の冬ガジェット買い物メモ【PR】", "12/4 20:00〜12/11 01:59。電気代で選ぶ暖房・加湿器など", "2026-12-11T01:59")`、`SALE_ON = ("supersale-2026-12", "楽天スーパーSALE開催中：冬ガジェット買い物メモ【PR】", "開催中です（12/11 01:59まで）。電気代で選ぶ暖房・加湿器など")`。旧BFの値は「# 前回：」コメントに1行残す
 5. **BF特集ページからの案内**（content/posts/rakuten-blackfriday-memo.md）：
    - `<!-- ended:blackfriday-2026-11 -->` の段落「【2026年11月19日〜25日の楽天ブラックフライデーは終了しました】下の選び方は次のセールでもそのまま使えます。」の**直後の行（空行を入れず同じ段落）**に次の1行を足す：
-     `次の大きなセールは楽天スーパーSALE（{{開始短}}〜）。日程と買う前のメモは[楽天スーパーSALE前の冬ガジェット買い物メモ](rakuten-supersale-fuyu-memo.html)へ。`
+     `次の楽天スーパーSALEは12/4（金）20:00〜。日程と買う前のメモは[楽天スーパーSALE前の冬ガジェット買い物メモ](rakuten-supersale-fuyu-memo.html)へ。`
    - 同じ1行を rakuten-marathon-fuyu-kaden-list.md の `<!-- ended:marathon-2026-11 -->` 段落の末尾にも足してよい（任意）
    - スーパーSALE終了後に古くならないよう、この1行は `<!-- supersale-2026-12 -->` の目印付き段落に分けるのが安全（終了日時で自動的に消える）。その場合は ended 段落との間に空行を1つ入れる
 6. **確認**：`python3 build.py` → `python3 ops/check_affiliate.py`（PR表記・楽天リンク）→ `python3 ops/tests/mobile_check.py`（終了コード1なら直す）。生成HTMLで「開催日時」節が開催前の表示になっていること、内部リンク切れがないことを確認
