@@ -1,10 +1,10 @@
 ---
 title: 年賀状を家のプリンターで刷ると1枚いくら？｜インク代の出し方（メーカー公表値の探し方と計算式）
-date: 2026-12-09
+date: 2026-12-10
 description: 年賀状を家のプリンターで刷るときの1枚あたりの費用を、「インク代（メーカー公表値）×枚数＋はがき代」で出す方法をまとめました。公表値の探し方、測定条件の読み方、公式が案内している節約のコツつき。
 category: デスク環境
 ---
-<!-- 下書きメモ（2026-11-25 10:00 ペンネ）：公開日は未定（date は 2026-12-09 の仮置き）。**公開枠は11/30のAI経営会議で決める**。content/posts には置いていない。
+<!-- 下書きメモ（2026-11-25 10:00 ペンネ）：公開日は未定（date は案Cの 2026-12-10。案Bなら12/9。公開スクリプト ops/drafts/publish_nenga_2026-12-10.py の --date で公開時に書きかわる）。**公開枠は11/30のAI経営会議で決める**。content/posts には置いていない。
 公開手順：ops/drafts → content/posts/nenga-ink-dai.md に移す → python3 build.py → mobile_check.py / content_guard.py → commit & push。
 照合記録：ops/research/2026-11-25_1000_penne_nenga_check.md（「確認できた」ものだけ本文に書いた）。
 ・数字の出典（2026-11-25 公式ページで確認）：
@@ -50,15 +50,17 @@ category: デスク環境
 
 家のインクジェットプリンターで刷るなら、インクジェット向けの**無地（インクジェット紙）**が候補になります。2027年用の券種一覧には「インクジェット写真用」はありません。
 
+刷る日の目安：日本郵便によると、年賀状の受付（引受）開始は**12月20日（日）**、元日に届けるには**12月27日（日）まで**に出すのが目安です。
+
 ## 早見表：メーカー公表値を1つ当てはめた例
 
 ここでは、メーカーが年賀状のインクコストを公表している例として、キヤノンの公式ページに載っている **TS8730** の値を使います。
 
 - 裏面（印刷面）：**1枚あたり約11.3円（税込）**
 - 宛名面：**1枚あたり1.2円（税込）**
-- 条件：標準容量のインク使用時／キヤノン独自の測定方法／筆まめ Ver.32／裏面は**インクジェット写真用はがき・フチなし**、宛名面は**はがき・フチあり**
+- 条件：標準容量のインク使用時／キヤノン独自の測定方法／筆まめ Ver.32／裏面は**インクジェット写真用はがき・フチなし（はみ出し量小）**、宛名面は**はがき・フチあり**
 - キヤノンの注記：当社測定環境下の参考値で、原稿・使用頻度・印刷設定などで変わる
-- このページは「PIXUSで年賀状2026」の中にあり、インク価格の基準日の記載はありません（2026年11月25日に表示を確認）
+- この値は、キヤノンの「PIXUSで年賀状2026」（昨シーズン向けの特集）に載っているものです。2026年11月25日時点で2027年向けの特集は見つからず、インク価格の基準日の記載もありません。インクの価格が変わっていれば、実際の値は変わります
 
 | 枚数 | インク代（11.3＋1.2円/枚） | はがき代（85円/枚） | 合計の目安 |
 |---|---|---|---|
@@ -130,8 +132,10 @@ A. かかります。キヤノンTS8730の例では、宛名面は1枚あたり1
 関連記事：[家電の電気代計算ツール](denkidai-calculator.html)（W数と時間から出す、同じ「式で出す」型の記事）／[在宅ワークの人へのプレゼント、ガジェットの選び方](telework-gadget-present-erabikata.html)／[在宅ワークのデスク環境を快適にするガジェット7カテゴリ](desk-qol-guide.html)
 
 **出典**（2026年11月25日確認）
-- 日本郵便「2027（令和9）年用年賀はがきの券種一覧」https://files.japanpost.jp/assets/34d9d11432734cfaa759e78fe395b688/4b27121b92f94b64b5f3c50bca70dac7/20260831_02_07.pdf
-- 日本郵便「国内の料金表（手紙・はがき）」https://www.post.japanpost.jp/send/fee/kokunai/one_two.html
-- キヤノン「年賀状お役立ち機能をご紹介」https://personal.canon.jp/product/printer/pixus/branding/room/nenga/function
-- エプソン「各種数値計測条件」https://www.epson.jp/products/printer/sokutei.htm
-- エプソン「はがき印刷の注意点」https://www.epson.jp/katsuyou/nenga/support/support1.htm
+
+- [日本郵便「2027（令和9）年用年賀はがきの券種一覧」](https://files.japanpost.jp/assets/34d9d11432734cfaa759e78fe395b688/4b27121b92f94b64b5f3c50bca70dac7/20260831_02_07.pdf)
+- [日本郵便「国内の料金表（手紙・はがき）」](https://www.post.japanpost.jp/send/fee/kokunai/one_two.html)
+- [日本郵便「年賀状の引受開始日・元日配達の差出し目安」](https://www.post.japanpost.jp/question/140.html)
+- [キヤノン「年賀状お役立ち機能をご紹介」](https://personal.canon.jp/product/printer/pixus/branding/room/nenga/function)
+- [エプソン「各種数値計測条件」](https://www.epson.jp/products/printer/sokutei.htm)
+- [エプソン「はがき印刷の注意点」](https://www.epson.jp/katsuyou/nenga/support/support1.htm)

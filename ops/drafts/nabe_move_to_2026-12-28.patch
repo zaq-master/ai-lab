@@ -1,0 +1,172 @@
+diff --git a/ops/drafts/article_nabe-ih-vs-cassette_draft.md b/ops/drafts/article_nabe-ih-vs-cassette_draft.md
+index cc2ef82..d3d009f 100644
+--- a/ops/drafts/article_nabe-ih-vs-cassette_draft.md
++++ b/ops/drafts/article_nabe-ih-vs-cassette_draft.md
+@@ -1,10 +1,10 @@
+ ---
+ title: 卓上IHとカセットコンロ、鍋1回いくら？｜メーカー公表値と「自分の単価」で計算する方法
+-date: 2026-12-10
++date: 2026-12-28
+ description: 年末年始の鍋、卓上IHとカセットコンロはどっちが安い？卓上IHはメーカー公表の消費電力（W）×時間×電気の単価、カセットコンロは「買ったボンベの価格÷公表の燃焼時間」で、自分の条件の1回分を出す方法を早見表にまとめます。
+ category: 季節家電
+ ---
+-<!-- 下書きメモ（2026-11-24 03:00 ペンネ）：12/7〜12/13週の2本目（12/10公開候補）。content/posts には置いていない。
++<!-- 下書きメモ（2026-11-24 03:00 ペンネ）：12/7〜12/13週の2本目（12/10公開候補）→ 11/30 AI経営会議の案Cで**12/28公開**に移動。content/posts には置いていない。
+ 公開手順：ops/drafts → content/posts/nabe-ih-vs-cassette-denkidai.md に移す → python3 build.py → mobile_check.py / content_guard.py → commit & push。
+ 材料：ops/research/2026-11-24_0300_penne_nabe_check.md（公式照合表）の「一致」の値だけを書いた。
+ ・数字の出典（2026-11-24 公式ページを開いて確認）：
+@@ -168,7 +168,7 @@ category: 季節家電
+ 
+ <!-- 公開前に確認すること（2026-11-24 ペンネ）
+ 1. ✅（11/24 05:06）make_links.py に "takujo-ih"・"cassette-konro" を追加・実行済み→ products.json の html が埋まったか確認（足すまで公開しない）
+-2. ✅（11/25 03:00 ペンネ）アイリス5ページ・パナソニック製品ページと比較表・日立a115を開き、値が同じことを確認（パナソニックの各段W数を表に追加、出典URLを開けたページに差し替え。旧URL /KZ-PH34/spec.html は未確認のため外した）。12/10当日も時間があれば再度開き、1400W・6段階・75W相当～1400W・2.9kW/211g/約1時間11分・3.5kW/254g/約1時間・250gが変わっていないか確認
++2. ✅（11/25 03:00 ペンネ）アイリス5ページ・パナソニック製品ページと比較表・日立a115を開き、値が同じことを確認（パナソニックの各段W数を表に追加、出典URLを開けたページに差し替え。旧URL /KZ-PH34/spec.html は未確認のため外した）。12/28当日も時間があれば再度開き、1400W・6段階・75W相当～1400W・2.9kW/211g/約1時間11分・3.5kW/254g/約1時間・250gが変わっていないか確認
+ 3. イワタニ公式が開けたら、カセットフーの連続燃焼時間を表に1行足すか検討（開けなければ今のまま）
+ 4. ✅（11/25）日立a115で31円（2022年7月現在）を確認。公取協のページは未確認
+ 5. 計算の再確認：1400W×1h=43.4円、強火10分＋500W50分=0.65kWh→20.15円、早見表18マス（ops/research/2026-11-24_0300_penne_nabe_check.md に検算あり）
+diff --git a/ops/drafts/publish_nabe_2026-12-10.py b/ops/drafts/publish_nabe_2026-12-28.py
+similarity index 87%
+rename from ops/drafts/publish_nabe_2026-12-10.py
+rename to ops/drafts/publish_nabe_2026-12-28.py
+index f9037d2..0b2ddb0 100644
+--- a/ops/drafts/publish_nabe_2026-12-10.py
++++ b/ops/drafts/publish_nabe_2026-12-28.py
+@@ -1,23 +1,23 @@
+-"""12/10（木）11:00 卓上IH vs カセットコンロ（鍋1回いくら？）記事の公開スクリプト（2026-11-25 03:00 ペンネ作成・作業用コピーで通し確認済み）
++"""12/28（月）11:00 卓上IH vs カセットコンロ（鍋1回いくら？）記事の公開スクリプト（2026-11-25 03:00 ペンネ作成。11/30 AI経営会議の案Cで12/10→12/28に移動。作業用コピーで案Cの順に通し確認済み）
+ 
+-手順書 ops/drafts/publish_steps_2026-12-10.md の 2〜4・8 をそのままスクリプトにしたもの（作りは publish_gohan_2026-12-23.py〔もと12-02〕／publish_kisei_2026-12-08.py と同じ）。
++手順書 ops/drafts/publish_steps_2026-12-28_nabe.md の 2〜4・8 をそのままスクリプトにしたもの（作りは publish_gohan_2026-12-23.py〔もと12-02〕／publish_kisei_2026-12-08.py と同じ）。
+ 使い方（リポジトリ直下で）：
+   git pull --rebase
+-  python3 ops/drafts/publish_nabe_2026-12-10.py      # 記事を移す＋下書きメモ2つ削除＋内部リンク3〜4か所（N1〜N4）
++  python3 ops/drafts/publish_nabe_2026-12-28.py      # 記事を移す＋下書きメモ2つ削除＋内部リンク4か所（N1〜N4）
+   python3 build.py && python3 ops/tests/content_guard.py && python3 ops/tests/mobile_check.py && python3 ops/check_affiliate.py && python3 ops/tests/site_health.py
+   → 確認後 commit & push（push前に git pull --rebase）
+ 
+ 止まる条件（止まったら何も書きかえない）：
+-  - 日本時間の今日が 2026-12-10 より前（早すぎる公開を防ぐ。試しのときだけ --allow-early）
++  - 日本時間の今日が 2026-12-28 より前（早すぎる公開を防ぐ。試しのときだけ --allow-early）
+   - 記事がもう content/posts にある（二重実行）
+-  - 下書きの date が 2026-12-10 でない
++  - 下書きの date が 2026-12-28 でない
+   - メモ（先頭の「下書きメモ」と末尾の「公開前に確認すること」）を消した後に残るコメントが
+     「<!-- products: takujo-ih,cassette-konro -->」1個でない／メモの文字が残っている
+   - 【PR】・「おすすめの探し方（PR）」・「AI（電脳アリス）が作成」・実機レビューでない旨 が無い
+   - 文中リンク先（3記事）が無い／商品枠 takujo-ih・cassette-konro が KEYWORDS か products.json（リンク入り）に無い
+   - 内部リンクの差し込み位置の行が各記事で「行全体が一致してちょうど1行」でない、またはすでにリンク済み
+ N4（ご飯の保温vs冷凍の記事）は、その記事が content/posts に無ければ N4 だけ飛ばす。
+-  2026-11-25 ご飯記事は12/23公開に移ったので、12/10 時点では N4 は飛ばすのが正常。12/23 の publish_gohan_2026-12-23.py が同じ1段落をご飯記事に入れる。
++  案C（鍋12/28）ではご飯記事が12/23に先に公開されるので、12/28 時点では N4 が入るのが正常（publish_gohan_2026-12-23.py は鍋記事が無いので N4 を飛ばしている）。
+ KEYWORDS の追加・make_links の実行は不要（2つの枠とも 11/24 に登録・リンク入り済み）なので、make_links.py・products.json は書きかえない。
+ リンク追加だけなので、リンク元の各記事の `updated` は変えない。
+ """
+@@ -28,7 +28,7 @@ P = ROOT / "content/posts"
+ SRC = ROOT / "ops/drafts/article_nabe-ih-vs-cassette_draft.md"
+ DST = P / "nabe-ih-vs-cassette-denkidai.md"
+ SLUG = "nabe-ih-vs-cassette-denkidai"
+-PUBLISH_DATE = datetime.date(2026, 12, 10)
++PUBLISH_DATE = datetime.date(2026, 12, 28)
+ L = f"[卓上IHとカセットコンロ、鍋1回いくら？]({SLUG}.html)"
+ PRODUCTS = "<!-- products: takujo-ih,cassette-konro -->"
+ PRODUCT_KEYS = ["takujo-ih", "cassette-konro"]
+@@ -59,7 +59,7 @@ EDITS = [
+      "after",
+      f"- 冬の鍋で卓上IHとカセットコンロの1回分を比べるなら → {L}",
+      True),
+-    # N4 ご飯の保温vs冷凍（12/23公開に移動）：まとめの最後の段落の直後に空行＋1段落。記事が無ければ飛ばす（12/10時点では無いのが正常）
++    # N4 ご飯の保温vs冷凍（12/23公開に移動）：まとめの最後の段落の直後に空行＋1段落。記事が無ければ飛ばす（案Cの12/28時点では有るのが正常）
+     (GOHAN,
+      "お湯を沸かす家電でも同じように「時間でかかるか、回数でかかるか」で差が出ます。[電気ケトルと電気ポットの電気代比較](denki-kettle-vs-pot-denkidai.html) もあわせてどうぞ。冬の家電全体の電気代は [冬の電気代まとめ](fuyu-denkidai-matome.html) にまとめています。",
+      "after",
+@@ -88,8 +88,8 @@ def main():
+     if DST.exists():
+         sys.exit("止めた：記事はもう content/posts にあります（二重実行）")
+     s = SRC.read_text(encoding="utf-8")
+-    if not re.search(r"^date: 2026-12-10$", s, flags=re.M):
+-        sys.exit("止めた：下書きの date が 2026-12-10 ではない")
++    if not re.search(r"^date: 2026-12-28$", s, flags=re.M):
++        sys.exit("止めた：下書きの date が 2026-12-28 ではない")
+     # 下書きメモ（先頭）と「公開前に確認すること」（末尾）の2つを消す。products の目印は残す
+     s = re.sub(r"\n?<!-- (下書きメモ|公開前に確認).*?-->\n?", "\n", s, flags=re.S)
+     s = re.sub(r"\n{3,}", "\n\n", s).rstrip("\n") + "\n"
+@@ -138,7 +138,7 @@ def main():
+         sys.exit(f"止めた：書き込み中にエラー（元に戻しました）：{e}")
+     msg = f"OK：記事1本（{DST.name}）＋内部リンク{len(new)}か所（{'・'.join(new)}）。下書き（ops/drafts）は残しています"
+     if skipped:
+-        msg += f"\n注意：{'・'.join(skipped)} が無いので N4 は飛ばしました（ご飯記事は12/23公開。N4 は publish_gohan_2026-12-23.py が入れるので手作業は不要）"
++        msg += f"\n注意：{'・'.join(skipped)} が無いので N4 は飛ばしました（案Cではご飯記事は12/23に公開済みのはず。無い理由を確認し、ご飯記事を後で出すなら publish_gohan_2026-12-23.py が同じ1段落を入れる）"
+     print(msg)
+ 
+ 
+diff --git a/ops/drafts/publish_steps_2026-12-10.md b/ops/drafts/publish_steps_2026-12-28_nabe.md
+similarity index 54%
+rename from ops/drafts/publish_steps_2026-12-10.md
+rename to ops/drafts/publish_steps_2026-12-28_nabe.md
+index dd0e00c..2f201c7 100644
+--- a/ops/drafts/publish_steps_2026-12-10.md
++++ b/ops/drafts/publish_steps_2026-12-28_nabe.md
+@@ -1,32 +1,23 @@
+-# 12/10（木）11:00 卓上IH vs カセットコンロ（鍋1回いくら？）記事 公開手順（2026-11-25 03:00 ペンネ 作業用コピーで通し確認済み）
++# 12/28（月）11:00 卓上IH vs カセットコンロ（鍋1回いくら？）記事 公開手順（11/30 AI経営会議の案Cで 12/10→12/28 に移動。2026-11-25 ペンネ 作業用コピーで案Cの順に通し確認済み）
+ 
+-**1コマンド版**：`python3 ops/drafts/publish_nabe_2026-12-10.py`（下の2〜4・8をそのまま実行。止まったら何も書きかえない）
++> この手順書とスクリプトは ops/drafts/nabe_move_to_2026-12-28.patch で作られる（案Cに決まったら `git apply ops/drafts/nabe_move_to_2026-12-28.patch`）。案A・案Bなら鍋は12/10のまま（publish_nabe_2026-12-10.py）。
++
++**1コマンド版**：`python3 ops/drafts/publish_nabe_2026-12-28.py`（下の2〜4・8をそのまま実行。止まったら何も書きかえない）
+ 
+ 1. `git pull --rebase`
+-2. 下書きを移す：ops/drafts/article_nabe-ih-vs-cassette_draft.md → content/posts/nabe-ih-vs-cassette-denkidai.md（date は 2026-12-10 のままでよい）
+-   - スクリプトは**日本時間の今日が 12/10 より前なら止まる**（早すぎる公開の防止。試しのときだけ `--allow-early`）
+-3. **消すのはメモ2つ**：先頭の `<!-- 下書きメモ…-->`（7〜32行目）と、末尾の `<!-- 公開前に確認すること…-->`（169行目〜最後）
+-   - ⚠️ `<!-- products: takujo-ih,cassette-konro -->`（91行目）は**絶対に消さない**（楽天ボタン2個の目印）
++2. 下書きを移す：ops/drafts/article_nabe-ih-vs-cassette_draft.md → content/posts/nabe-ih-vs-cassette-denkidai.md（date は 2026-12-28 のままでよい）
++   - スクリプトは**日本時間の今日が 12/28 より前なら止まる**（早すぎる公開の防止。試しのときだけ `--allow-early`）
++3. **消すのはメモ2つ**：先頭の `<!-- 下書きメモ…-->` と、末尾の `<!-- 公開前に確認すること…-->`
++   - ⚠️ `<!-- products: takujo-ih,cassette-konro -->` は**絶対に消さない**（楽天ボタン2個の目印）
+    - 残るコメント**1個**。front matter の `---` の直後が `**【PR】…` の行になること
+-4. KEYWORDS の追加は**不要**：`takujo-ih`（"卓上IHコンロ"）・`cassette-konro`（"カセットコンロ"）は ops/make_links.py の KEYWORDS と content/products.json の両方に登録済み・リンク入り（11/24 05:06 追加、11/25確認）。make_links の実行もいらない
+-5. 公開前の宿題（スクリプトではやらない・任意）：出典のアイリス5ページ・パナソニック2ページを開き、数字（1400W・6段階、75W相当～1400W・7段階、2.9kW/約211g/時/約1時間11分、3.5kW/約254g/時/約1時間、250g）が変わっていないか確認。11/25 03:00 に全部開いて一致を確認済み
++4. KEYWORDS の追加は**不要**：`takujo-ih`（"卓上IHコンロ"）・`cassette-konro`（"カセットコンロ"）は登録済み・リンク入り。make_links の実行もいらない
++5. 公開前の宿題（スクリプトではやらない・任意）：出典のアイリス5ページ・パナソニック2ページを開き、数字（1400W・6段階、75W相当～1400W・7段階、2.9kW/約211g/時/約1時間11分、3.5kW/約254g/時/約1時間、250g）が変わっていないか確認
+ 6. `python3 build.py` → `python3 ops/tests/content_guard.py`・`python3 ops/tests/mobile_check.py`・`python3 ops/check_affiliate.py`・`python3 ops/tests/site_health.py`
+-7. 期待値（12/10 11:30 に時計をずらした試し。下の表は日程入替**前**の 11/30 大掃除まとめ→12/2 ご飯→12/8 帰省→この記事 の順の記録。今の日程〔12/2＝イルミ、ご飯は12/23〕の数字はすぐ下の⚠️の行）：
+-   - ⚠️【2026-11-25 カンサ監査】下の表は日程入替前（12/2＝ご飯）の数字。**入替後（12/2＝イルミ）の正しい期待値は 12/2 38本・164個 → 12/8 39本・166個 → 12/10 40本・168個・公開ページ43**（N4は飛ばすのが正常）。未使用の枠は cassette-konro・takujo-ih が埋まり suihanki・yutanpo-juden の2つ（12/14・12/23で埋まる）。2026-11-25 ペンネ再通し（時計12/10 11:30・実スクリプト順に適用）でも同じ：40本・168個・content_guard OK・check_affiliate OK・site_health 43ページ問題0・mobile_check 43ページ×4画面 問題0
+-   | 段階 | 記事 | 楽天ボタン | 公開ページ | content_guard／check_affiliate |
+-   |---|---|---|---|---|
+-   | 今（11/25の本体） | 36 | 157 | — | OK／OK |
+-   | ＋11/30 大掃除 | 37 | 162 | — | OK／OK |
+-   | ＋12/2 ご飯 | 38 | 163 | — | OK／OK |
+-   | ＋12/8 帰省 | 39 | 165 | — | OK／OK |
+-   | ＋12/10 この記事 | **40** | **167**（+2） | **43** | OK／OK（未使用の枠は yutanpo-juden の1つだけ＝別の下書き用） |
+-   - mobile_check 43ページ×4画面 問題0件／site_health 問題0件
+-   - PR表記（冒頭の【PR】行＋見出し「おすすめの探し方（PR）」）・AI作成の明記（「AI（電脳アリス）が作成」「実機で測ったレビューではありません」）あり
+-   - 目次の飛び先：冒頭「▶ おすすめの探し方（PR）へ」→ `id="pr-osusume"` 1個。そのすぐ下に楽天ボタン2個（卓上IHコンロ・カセットコンロ）
+-   - 表4つ（卓上IHの機種・火力別早見表・カセットコンロの機種・比べる項目）崩れなし。文中リンク先3記事（denkidai-calculator・fuyu-denkidai-matome・denki-kettle-vs-pot-denkidai）あり
+-   - サイトマップ・トップ・RSS に載る、アイキャッチ・OGP画像（og/nabe-ih-vs-cassette-denkidai.png）あり
+-   - HTMLに下書きメモの文字（下書きメモ・ペンネ・カンサ・照合・2026-11-2・ops/・content/posts）**0件**
+-   - ご飯記事が無い状態の試し（入替前の記録）：N4だけ飛ばして 37本・159個・40ページ・各チェック問題0。入替後は12/10時点でご飯記事が無いのが正常（上の⚠️の 40本・168個・43ページ）
++7. 期待値（2026-11-25 作業用コピーで時計を各公開日11:30にずらし、案Cの順＝11/30大掃除→12/2イルミ→12/8帰省→12/10年賀状→12/14湯たんぽ→12/16スマホ→12/21冷蔵庫→12/23ご飯→**12/28 この記事**→12/30便座 で実スクリプトを適用）：
++   - ＋12/23 ご飯まで：44本・173個（ご飯のスクリプトは鍋記事が無いので N4 を飛ばす＝正常）
++   - ＋**12/28 この記事：45本・175個（+2）**。N4（ご飯記事→鍋の1段落）もここで入る＝**内部リンク4か所**。未使用の枠0
++   - content_guard OK・check_affiliate OK（各段階）。12/30 便座まで入れた最終形で site_health 公開49ページ 問題0・mobile_check 49ページ×4画面 問題0
++   - 12/27 23:59 の時計では「公開日より前」で止まる
+ 8. 同時に内部リンク（下の4か所）。**リンク追加だけなので `updated` は変えない**。行番号は11/25時点。ずれていたら「位置の行」の文で検索（4か所とも各記事に1行だけ＝行全体一致で1を確認済み）
+ 9. 確認後 commit & push（push前に `git pull --rebase`）
+ 
+@@ -53,13 +44,13 @@
+ ```
+ （G2ご飯は最後の箇条＝湯たんぽの行の直後に足すので重ならない）
+ 
+-### N4. gohan-hoon-vs-reitou-denkidai.md（ご飯の保温vs冷凍、**12/23公開に移動**）まとめの最後の段落の**直後**に空行＋1段落
++### N4. gohan-hoon-vs-reitou-denkidai.md（ご飯の保温vs冷凍、12/23公開済みのはず）まとめの最後の段落の**直後**に空行＋1段落
+ 位置の行：`お湯を沸かす家電でも同じように「時間でかかるか、回数でかかるか」で差が出ます。[電気ケトルと電気ポットの電気代比較](denki-kettle-vs-pot-denkidai.html) もあわせてどうぞ。冬の家電全体の電気代は [冬の電気代まとめ](fuyu-denkidai-matome.html) にまとめています。`
+ ```
+ 
+ 年末年始の鍋を卓上IHとカセットコンロのどちらでするか迷ったら、火力（W）と時間で1回分を出す[卓上IHとカセットコンロ、鍋1回いくら？](nabe-ih-vs-cassette-denkidai.html)もどうぞ。
+ ```
+-（2026-11-25 日程変更：ご飯記事は12/23公開なので、12/10 は N4 を飛ばすのが正常。**手で足す必要はない**＝12/23 の publish_gohan_2026-12-23.py がご飯記事の本文に同じ1段落を入れる。11/25 の試しで 12/10 は 40本・168個・各チェック問題0）
++（案C：ご飯記事は12/23に先に公開され、そのときは鍋記事が無いので publish_gohan は N4 を飛ばす。**12/28 にこのスクリプトが N4 を入れる**のが正常。ご飯記事が無ければ N4 だけ飛ばす）
+ 
+ ## 下書きで直したところ（11/25 03:00 公式ページを開いて照合）
+ - パナソニック KZ-PH34：表の「各段のW数は製品ページに記載なし」→ 同社の比較表（panasonic.jp/ih/comparison.html）の注記に「75、150、260W相当、450、700、900、1400Wの7段階」とあったため、表に段階のW数を入れた
