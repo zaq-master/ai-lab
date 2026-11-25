@@ -32,3 +32,10 @@
 - 被リンク元：telework-gadget-present-erabikata.md、desk-qol-guide.md
 - 本文から：denkidai-calculator.md、telework-gadget-present-erabikata.md、desk-qol-guide.md（まとめ直下に記載済み）
 - 追加候補：rakuten-marathon-point-calculator.md（インク・はがきのまとめ買い）
+
+## 追記（2026-11-25 10:00 カンサ監査）
+- #5 キヤノン年賀状お役立ち機能ページを再取得：TS8730 印刷面約11.3円・宛名面1.2円（税込、標準容量）、測定条件・注記ともペンネの記録と一致。パンくず「PIXUSで年賀状2026」、2027表記なし、他機種の数値なし、インク価格の基準日なし。
+- キヤノン「測定環境について PIXUS/TR/PROシリーズ」https://personal.canon.jp/product/printer/pixus/lineup/cost-speed ：写真（L判・A4・A3ノビ）とA4文書の条件のみ。**はがきの記載なし**。インク価格は「2026年9月1日付のキヤノン オンラインショップ掲載価格（税込）」（はがきの値には使えない）。
+- キヤノン「PIXUSで年賀状2026」はがきページ https://personal.canon.jp/product/printer/pixus/branding/room/nenga/hagaki ：コスト数値なし。
+- 取得できず：cweb.canon.jp/pixus/lineup/cost-speed-nenga/（robots取得不可・プロキシ403）、personal.canon.jp/articles/review/nenga2026-review（取得の許可待ちで送信されず・curlは403）、nenga2027-review（403、存在も未確認）。→ 他機種の公表値は追加なし。
+- 日本郵便 券種一覧PDF 再取得：一致（広告付は「5種類」表記、「一部地域」の文言は確認できず）。エプソン計測条件ページ：一致。
