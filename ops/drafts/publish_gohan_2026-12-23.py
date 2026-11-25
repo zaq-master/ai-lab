@@ -1,23 +1,26 @@
-"""12/2（水）11:00 ご飯の保温vs冷凍記事の公開スクリプト（2026-11-24 19:00 ペンネ作成・一時コピーで通し確認済み）
-手順書 ops/drafts/publish_steps_2026-12-02.md の 2〜4・7 をそのまま実行する。
+"""12/23（水）11:00 ご飯の保温vs冷凍記事の公開スクリプト（2026-11-24 19:00 ペンネ作成。2026-11-25 公開日を12/2→12/23に移動・作業用コピーで通し確認済み）
+手順書 ops/drafts/publish_steps_2026-12-23_gohan.md の 2〜4・7 をそのまま実行する。
+（12/2 はイルミ記事＝publish_illumi_2026-12-02.py。司令塔の決定で、季節に縛られないこの記事を12/23へ移した）
 
 使い方（リポジトリ直下で）：
   git pull --rebase
-  python3 ops/drafts/publish_gohan_2026-12-02.py      # 記事を移す＋下書きメモ削除＋内部リンク3か所（G1〜G3）
+  python3 ops/drafts/publish_gohan_2026-12-23.py      # 記事を移す＋下書きメモ削除＋内部リンク3か所（G1〜G3）＋鍋記事への1段落（N4）
   python3 build.py && python3 ops/tests/content_guard.py && python3 ops/tests/mobile_check.py && python3 ops/check_affiliate.py && python3 ops/tests/site_health.py
   → 確認後 commit & push（push前に git pull --rebase）
 
 止まる条件（何も書かずに終了する）：
-- 日本時間の今日が 2026-12-02 より前（早すぎる公開を防ぐ。試しのときだけ --allow-early。2026-11-25 03:00 監査対応）
+- 日本時間の今日が 2026-12-23 より前（早すぎる公開を防ぐ。試しのときだけ --allow-early。2026-11-25 03:00 監査対応）
 - 記事がもう content/posts にある（二重実行）
-- メモを消した後に残るコメントが「<!-- products: suihanki -->」1個でない／メモの文字が残っている／date が 2026-12-02 でない
+- メモを消した後に残るコメントが「<!-- products: suihanki -->」1個でない／メモの文字が残っている／date が 2026-12-23 でない
 - 商品枠 suihanki が make_links の KEYWORDS か products.json（リンク入り）に無い（手順書4：登録済みのため追加・make_links 実行は不要。無ければ手で確認）
 - 内部リンクの差し込み位置の文が各記事で「ちょうど1か所」でない、またはリンク済み
 リンクを足すだけなので、リンク先3記事の updated は変えない。
+N4：12/10 の鍋記事（publish_nabe_2026-12-10.py）は、ご飯記事がまだ無いので N4（ご飯記事→鍋記事の1段落）を飛ばす。
+  そのため、このスクリプトが記事を移すときに、鍋記事が content/posts にあれば同じ1段落をご飯記事のまとめの直後に入れる（無ければ入れずに注意だけ出す）。
 """
 import datetime, json, pathlib, re, sys
 
-PUBLISH_DATE = datetime.date(2026, 12, 2)
+PUBLISH_DATE = datetime.date(2026, 12, 23)
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 P = ROOT / "content/posts"
 SRC = ROOT / "ops/drafts/article_gohan-hoon-vs-reitou_draft.md"
@@ -40,6 +43,10 @@ EDITS = [
      "\n👉 炊飯器の保温（1時間あたりのWh）と冷凍ご飯のレンジ温めを、何時間から冷凍が得かで比べた計算は → [ご飯の保温と冷凍→レンジ、電気代はどっち？](gohan-hoon-vs-reitou-denkidai.html)\n"),
 ]
 MEMO_WORDS = ("下書きメモ", "公開前に確認", "ペンネ", "カンサ", "照合", "2026-11-2")
+# N4（もとは publish_nabe_2026-12-10.py の中。ご飯記事が12/23に移ったので、こちらで記事本文に入れる）
+NABE = "nabe-ih-vs-cassette-denkidai"
+N4_ANCHOR = "お湯を沸かす家電でも同じように「時間でかかるか、回数でかかるか」で差が出ます。[電気ケトルと電気ポットの電気代比較](denki-kettle-vs-pot-denkidai.html) もあわせてどうぞ。冬の家電全体の電気代は [冬の電気代まとめ](fuyu-denkidai-matome.html) にまとめています。\n"
+N4_ADD = f"\n年末年始の鍋を卓上IHとカセットコンロのどちらでするか迷ったら、火力（W）と時間で1回分を出す[卓上IHとカセットコンロ、鍋1回いくら？]({NABE}.html)もどうぞ。\n"
 
 
 def check_product():
@@ -63,8 +70,8 @@ def main():
         sys.exit("止めた：記事はもう content/posts にあります（二重実行）")
     check_product()
     s = SRC.read_text(encoding="utf-8")
-    if not re.search(r"^date: 2026-12-02$", s, flags=re.M):
-        sys.exit("止めた：下書きの date が 2026-12-02 ではない")
+    if not re.search(r"^date: 2026-12-23$", s, flags=re.M):
+        sys.exit("止めた：下書きの date が 2026-12-23 ではない")
     s = re.sub(r"<!-- (下書きメモ|公開前に確認).*?-->\n?", "", s, flags=re.S)
     if s.count("<!--") != 1 or s.count("<!-- products: suihanki -->") != 1:
         sys.exit(f"止めた：残ったコメントが想定外（{s.count('<!--')}個。products: suihanki の1個だけのはず）")
@@ -73,6 +80,12 @@ def main():
         sys.exit(f"止めた：メモの文字が本文に残っている：{left}")
     if "【PR】" not in s or "AI（電脳アリス）が作成" not in s:
         sys.exit("止めた：PR表記かAI作成の明記が見つからない")
+    n4 = "飛ばした（鍋記事がまだ無い）"
+    if (P / f"{NABE}.md").exists() and NABE not in s:
+        if s.count(N4_ANCHOR) != 1:
+            sys.exit("止めた：ご飯記事のまとめの段落（N4の位置）が1か所ではない")
+        s = s.replace(N4_ANCHOR, N4_ANCHOR + N4_ADD)
+        n4 = "入れた"
     new = {}
     for f, anchor, add in EDITS:
         t = (P / f).read_text(encoding="utf-8")
@@ -90,7 +103,7 @@ def main():
             (P / f).write_text(t, encoding="utf-8")
         DST.unlink(missing_ok=True)
         sys.exit(f"止めた：書き込み中にエラー（元に戻しました）：{e}")
-    print("OK：記事1本（gohan-hoon-vs-reitou-denkidai.md）＋内部リンク3か所（G1〜G3）。下書き（ops/drafts）は残しています")
+    print(f"OK：記事1本（gohan-hoon-vs-reitou-denkidai.md）＋内部リンク3か所（G1〜G3）＋鍋記事への1段落（N4）は{n4}。下書き（ops/drafts）は残しています")
 
 
 if __name__ == "__main__":

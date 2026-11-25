@@ -12,6 +12,7 @@
    - シャープ AQUOS sense8（SH-M26）取扱説明書PDF：「温度は5℃～35℃、湿度は35%～85%の範囲で（充電も含む）」「充電は、適正な周囲温度（5℃～35℃）」「寒い場所から暖かい場所へ移動するときは端末が常温になってから」「冬場の屋外での使用など極端に温度が低い場合」（カメラ）の4つ
    - Apple 日本語ページ support.apple.com/ja-jp/118431（英語版は11/25に同じ内容を確認済み）
    - 文言が変わっていたら、その行を直すか消してから公開。開けなければ11/24の照合（ops/research/2026-11-24_1000_penne_samusa_check.md）を信用して公開してよい
+   - 11/25 10時に照合済み：シャープPDFは4つ（＋「極端な高温、低温は避けて」）とも原文どおり一致。Apple日本語ページは許可待ちで開けず、英語版は再取得で一致。下書きの修正なし（ops/audit/2026-11-25_1000_prepublish_homework.md）
 6. `python3 build.py` → `python3 ops/tests/content_guard.py`・`python3 ops/tests/mobile_check.py`・`python3 ops/check_affiliate.py`・`python3 ops/tests/site_health.py`
 7. 期待値（12/16 11:30 に時計をずらした試し）：
    - 大掃除(11/30)→ご飯(12/2)→帰省(12/8)→この記事 の順：記事 39→**40本**・公開ページ43・楽天ボタン 165→**166**
