@@ -1,6 +1,6 @@
 # 12/14（月）11:00 電気毛布と湯たんぽ（お湯・充電式）1晩いくら？ 公開手順（2026-11-25 03:00 ペンネ 試しで通し確認済み）
 
-**1コマンド版**：`python3 ops/drafts/publish_yutanpo_2026-12-14.py`（下の2〜4・7をそのまま実行。12/2ご飯・12/8帰省と同じ作り）
+**1コマンド版**：`python3 ops/drafts/publish_yutanpo_2026-12-14.py`（下の2〜4・7をそのまま実行。12/2イルミ・12/8帰省と同じ作り）
 
 1. `git pull --rebase`
 2. 下書きを移す：ops/drafts/article_yutanpo-vs-denki-blanket_draft.md → content/posts/yutanpo-vs-denki-blanket.md（date は 2026-12-14 のまま）
@@ -8,15 +8,14 @@
    - ⚠️ `<!-- products: denki-moufu,yutanpo,yutanpo-juden -->`（早見表の直後）は**絶対に消さない**（楽天ボタンの目印。残るコメントはこの1個だけ）
 4. KEYWORDS の追加は**不要**：denki-moufu・yutanpo・yutanpo-juden の3枠とも ops/make_links.py の KEYWORDS と content/products.json（リンク入り）に登録済み（yutanpo-juden は 11/24 追加）。make_links の実行もいらない
 5. `python3 build.py` → `python3 ops/tests/content_guard.py`・`python3 ops/tests/mobile_check.py`・`python3 ops/check_affiliate.py`・`python3 ops/tests/site_health.py`
-6. 期待値（12/14 11:30 に時計をずらした試し。11/30大掃除→12/2ご飯→12/8帰省→（12/10鍋）→この記事の順）：
+6. 期待値（2026-11-25 ペンネ 再通し：作業用コピーで時計を 12/14 11:30 にずらし、11/30大掃除→12/2 **LEDイルミ**→12/8帰省→12/10鍋→この記事 の順に実スクリプトを適用。日程入替でご飯記事は12/23へ移動したので、12/14時点ではご飯記事は**無い**のが正常）：
    | 状態 | 記事 | 楽天ボタン | 公開ページ |
    |---|---|---|---|
-   | 12/8 帰省まで | 39 | 165 | 42 |
-   | ＋この記事（鍋なし） | **40** | **168** | 43 |
-   | 12/10 鍋も公開済みの場合 | 40 | 167 | 43 |
-   | ＋この記事（鍋あり） | **41** | **170** | 44 |
+   | 12/10 鍋まで | 40 | 168 | 43 |
+   | ＋この記事 | **41** | **171**（+3） | **44** |
+   - （入替前の「12/2ご飯入り：帰省まで165・鍋あり170」の数字は古い。使わない。鍋が遅れて未公開の場合は今回試していないので、4つのチェックの結果で確認する）
    - この記事のボタンは**3個**（電気毛布・湯たんぽ・充電式湯たんぽ）
-   - content_guard OK／mobile_check 問題0件（4画面）／site_health 問題0件／check_affiliate OK（鍋なしなら未使用の枠 cassette-konro・takujo-ih の2つ＝鍋記事用。鍋ありなら0）
+   - content_guard OK（41記事）／mobile_check 44ページ×4画面 問題0件／site_health 公開44ページ 問題0件／check_affiliate OK（未使用の枠は **suihanki の1つだけ**＝12/23ご飯記事で埋まる）
    - 【PR】1・「AI（電脳アリス）が作成」1・実機レビューでない旨あり・`#pr-osusume` の飛び先あり・表6つ
    - サイトマップ・トップ・RSS に各1件、アイキャッチSVG（docs/posts/yutanpo-vs-denki-blanket.svg）・OGP画像（docs/og/yutanpo-vs-denki-blanket.png）あり
    - 文中リンク6本（neru-danbou-denkidai-calculator・denki-blanket-denkidai-1jikan・denki-kettle-vs-pot-denkidai・futon-kansouki-denkidai・smart-plug-guide・fuyu-denkidai-matome）の先あり
