@@ -61,6 +61,7 @@ KEYWORDS = {
     "aircon-filter-brush": "エアコン フィルター 掃除 ブラシ",
     "takujo-ih": "卓上IHコンロ",
     "cassette-konro": "カセットコンロ",
+    "led-illumination": "LEDイルミネーション 室内 USB",
 }
 
 
