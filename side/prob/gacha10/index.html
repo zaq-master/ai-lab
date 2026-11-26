@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="assets/lib/gsap.min.js"></script>
+    <script src="assets/lib/motion.js"></script>
+    <script src="assets/data.js"></script>
+    <style>
+      @font-face { font-family: R; src: url("assets/fonts/MPLUSRounded1c-ExtraBold.ttf"); font-weight: 800; }
+      @font-face { font-family: R; src: url("assets/fonts/MPLUSRounded1c-Bold.ttf"); font-weight: 700; }
+      :root { --navy: #1c2150; --gold: #ffc928; --gray: #8d93ad; --red: #ff5a4e; --blue: #4da3ff; --ink: #1c2150; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: #14183a; font-family: R, sans-serif; }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; }
+      #bg { position: absolute; inset: 0; }
+      #pat { position: absolute; inset: 0; background-image: radial-gradient(rgba(255,255,255,.06) 3px, transparent 3.5px); background-size: 48px 48px; }
+      #ui { position: absolute; inset: 0; }
+      .big { font-weight: 800; color: #fff; -webkit-text-stroke: 10px var(--navy); paint-order: stroke fill; text-shadow: 5px 5px 0 var(--navy); }
+      #title { position: absolute; left: 440px; width: 1440px; top: 26px; height: 100px; text-align: center; font-size: 66px; line-height: 100px; white-space: nowrap; }
+      #stage { position: absolute; left: 440px; top: 150px; width: 1440px; height: 740px; transform-origin: 720px 370px; }
+      #cv { position: absolute; left: 0; top: 0; width: 1440px; height: 740px; }
+      #layer { position: absolute; inset: 0; color: #fff; font-weight: 800; }
+      #cap { position: absolute; left: 430px; width: 1460px; top: 908px; height: 150px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 50px; white-space: pre-line; line-height: 1.32; }
+      #alice { position: absolute; left: -6px; top: 548px; width: 420px; height: 560px; transform-origin: 50% 100%; filter: drop-shadow(4px 0 0 #fff) drop-shadow(-4px 0 0 #fff) drop-shadow(0 -4px 0 #fff) drop-shadow(6px 8px 0 rgba(0,0,0,.35)); }
+      #alice img { position: absolute; inset: 0; width: 420px; height: 560px; transform: scaleX(0.9); transform-origin: 50% 100%; }
+      #mark { position: absolute; left: 318px; top: 500px; font-size: 90px; }
+      #side { position: absolute; left: 22px; top: 96px; width: 392px; }
+      .srow { height: 58px; margin-bottom: 8px; border-radius: 29px; padding: 0 18px; font-size: 27px; font-weight: 800; line-height: 58px; white-space: nowrap; }
+      #wipe { position: absolute; inset: -300px; pointer-events: none; }
+      #flash { position: absolute; inset: 0; background: #fff; opacity: 0; }
+      .panel { background: rgba(255,255,255,.97); border-radius: 30px; box-shadow: 0 0 0 7px #F7F9FB, 0 14px 0 rgba(0,0,0,.25); padding: 24px 34px; color: var(--ink); font-weight: 800; }
+      .abs { position: absolute; }
+      .num { font-variant-numeric: tabular-nums; font-feature-settings: 'tnum'; }
+      .tag { display: inline-block; white-space: nowrap; font-weight: 800; font-size: 36px; padding: 4px 24px; border-radius: 40px; color: #fff; box-shadow: 0 6px 0 rgba(0,0,0,.3); }
+      .hz { display: inline-block; font-weight: 800; color: #FFE23A; -webkit-text-stroke: 10px #fff; paint-order: stroke fill;
+        text-shadow: 7px 0 0 #FF3D7F, -7px 0 0 #FF3D7F, 0 7px 0 #FF3D7F, 0 -7px 0 #FF3D7F, 5px 5px 0 #FF3D7F, -5px 5px 0 #FF3D7F, 5px -5px 0 #FF3D7F, -5px -5px 0 #FF3D7F, 0 14px 0 #A3124F, 0 20px 0 #A3124F; }
+      .ball { display: inline-block; border-radius: 50%; vertical-align: middle; }
+      .g { color: var(--gold); }
+      .c { text-align: center; }
+      .lbl { font-size: 40px; color: rgba(255,255,255,.9); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="609.68" data-width="1920" data-height="1080">
+      <div id="bg" class="clip" data-start="0" data-duration="609.68" data-track-index="0"></div>
+      <div id="ui" class="clip" data-start="0" data-duration="609.68" data-track-index="1" data-layout-allow-overlap data-layout-allow-overflow>
+        <div id="pat"></div>
+        <div id="title" class="big"></div>
+        <div id="stage"><canvas id="cv" width="1440" height="740"></canvas><div id="layer"></div></div>
+        <div id="side"></div>
+        <div id="alice"></div>
+        <div id="mark" class="big"></div>
+        <div id="cap" class="big"></div>
+        <div id="wipe"></div>
+        <div id="flash"></div>
+        <div id="credit" style="position:absolute;left:26px;top:16px;font:700 24px R,sans-serif;color:rgba(255,255,255,.85);line-height:1.35;text-shadow:0 2px 4px rgba(0,0,0,.6)"></div>
+      </div>
+      <audio id="mix" class="clip" src="assets/mix.wav" data-start="0" data-duration="609.68" data-track-index="2"></audio>
+    </div>
+    <script>window.__timelines = window.__timelines || {}; window.__timelines["main"] = gsap.timeline({ paused: true });</script>
+    <script>
+      const D = window.DATA, K = D.K, T = D.txt, E1 = D.e1, E2 = D.e2, E3 = D.e3, E4 = D.e4, E5 = D.e5;
+      const { clamp, lerp, prog, easeOut, easeIn, smooth, backOut, spring, springTo, wob, shakeXY, roll, faceAct, hash, flyEase, kf } = window.M;
+      const $ = (id) => document.getElementById(id);
+      const op = (t, t0, d = 0.3) => clamp((t - t0) / d);
+      const pop = (t, t0, d = 0.45) => (t < t0 ? 0 : backOut((t - t0) / d));
+      const pct = (x) => Math.round(x * 100) + "%";
+      const GOLD = "#ffc928", GRAY = "#a0a6c0", EMPTY = "rgba(255,255,255,.10)";
+      $("credit").innerHTML = `AIのシミュレーション<br><span style="font-size:19px;color:rgba(255,255,255,.6)">各1万人・乱数の種 ${D.seed}／VOICEVOX:四国めたん</span>`;
+      const SC = Object.fromEntries(D.scenes.map((s) => [s.id, s]));
+      const firstOf = (vis) => D.scenes.find((s) => s.vis === vis);
+      const HARD = (v) => /^c\dt$|^sum|^end$/.test(v);
+      const VB = D.scenes.filter((s, i) => i && s.vis !== D.scenes[i - 1].vis && (HARD(s.vis) || HARD(D.scenes[i - 1].vis))).map((s) => s.start);
+      const g = $("cv").getContext("2d");
+      const A = (x, y, w, h, inner, st = "") => `<div class="abs" style="left:${x}px;top:${y}px;${w != null ? `width:${w}px;` : ""}${h != null ? `height:${h}px;` : ""}${st}">${inner}</div>`;
+      const ball = (s, col, st = "") => `<span class="ball" style="width:${s}px;height:${s}px;background:radial-gradient(circle at 34% 28%,rgba(255,255,255,.75) 0 9%,transparent 10%),${col};box-shadow:inset 0 -${s * 0.08}px 0 rgba(0,0,0,.18)${col === GOLD ? `,0 0 0 ${Math.max(2, s * 0.04)}px #8a5a00` : ""};${st}"></span>`;
+      const arrow = (s = 60, col = "rgba(255,255,255,.8)") => `<span style="font-size:${s}px;color:${col};font-weight:800">→</span>`;
+
+      function hz(t, t0, text, size = 110) {
+        return [...text].map((ch, i) => { const u = t - (t0 + 0.08 + i * 2 / 30); if (u < 0) return `<span class="hz" style="opacity:0;font-size:${size}px">${ch}</span>`;
+          const s = springTo(u), y = -90 * (1 - springTo(u, 0.55, 20)), r = [-7, 4, -3, 6, -5][i % 5] * (1 - springTo(u, 0.45, 18)) + 1.8 * Math.sin(2 * Math.PI * 1.15 * t + i);
+          return `<span class="hz" style="font-size:${size}px;transform:translate(0,${y + [6, -12, 8, -10, 4][i % 5]}px) rotate(${r}deg) scale(${s})">${ch}</span>`; }).join("");
+      }
+      // ---- ガチャの機械（自作SVG） ----
+      function machine(w, t = 0) {
+        const caps = [[62, 120, GRAY], [100, 132, GRAY], [138, 120, GRAY], [80, 92, GRAY], [120, 92, GOLD], [100, 60, GRAY], [56, 78, GRAY], [146, 82, GRAY]];
+        return `<svg width="${w}" height="${w * 1.5}" viewBox="0 0 200 300"><rect x="26" y="150" width="148" height="130" rx="16" fill="#7950f2" stroke="#fff" stroke-width="5"/>
+          <circle cx="100" cy="92" r="84" fill="rgba(190,225,255,.28)" stroke="#fff" stroke-width="5"/>
+          ${caps.map(([x, y, c], i) => `<circle cx="${x}" cy="${y + 1.5 * Math.sin(t * 2 + i)}" r="17" fill="${c}" stroke="${c === GOLD ? "#8a5a00" : "#5a5f86"}" stroke-width="2.5"/>`).join("")}
+          <path d="M40 60 Q60 22 96 16" stroke="rgba(255,255,255,.7)" stroke-width="6" fill="none" stroke-linecap="round"/>
+          <circle cx="100" cy="208" r="26" fill="#fff"/><rect x="92" y="184" width="16" height="48" rx="6" fill="#7950f2" transform="rotate(${20 * Math.sin(t * 1.5)} 100 208)"/>
+          <rect x="68" y="246" width="64" height="24" rx="8" fill="#2a2340"/><rect x="14" y="276" width="172" height="18" rx="9" fill="#5f3dc4" stroke="#fff" stroke-width="4"/></svg>`;
+      }
+      // ---- 点をまとめて描く（色ごとに1回で塗る） ----
+      function circles(list, r) { // list: {色: [x,y,...]}
+        for (const col in list) { const a = list[col]; g.fillStyle = col; g.beginPath(); for (let i = 0; i < a.length; i += 2) { g.moveTo(a[i] + r, a[i + 1]); g.arc(a[i], a[i + 1], r, 0, 6.2832); } g.fill(); }
+      }
+      const GX = 40, GY = 20, GS = 700;       // 1万人の点（100×100）の場所
+      // 100人ずつのかたまり（10×10）を10×10に並べる＝最初の100人が左上のかたまり
+      const trialAt = (i) => { const r = Math.floor(i / 100), c = i % 100; return (Math.floor(r / 10) * 10 + Math.floor(c / 10)) * 100 + (r % 10) * 10 + (c % 10); };
+      function grid(colorOf, z = 1, block = false) {
+        g.save(); g.beginPath(); g.rect(GX - 4, GY - 4, GS + 8, GS + 8); g.clip();
+        const cell = GS * z / 100, r = Math.max(1.2, cell * 0.41), lim = Math.min(100, Math.ceil(100 / z) + 1), L = {};
+        for (let rr = 0; rr < lim; rr++) for (let c = 0; c < lim; c++) { const i = rr * 100 + c, col = colorOf(block ? trialAt(i) : i); (L[col] = L[col] || []).push(GX + (c + 0.5) * cell, GY + (rr + 0.5) * cell); }
+        circles(L, r); g.restore();
+      }
+      const frame = () => `<div class="abs" style="left:${GX - 14}px;top:${GY - 14}px;width:${GS + 28}px;height:${GS + 28}px;border-radius:22px;background:rgba(14,17,48,.55);box-shadow:0 0 0 5px rgba(255,255,255,.85)"></div>`;
+      const legend = (x, y, a, b, o = 1) => A(x, y, null, null, `<div style="font-size:32px;white-space:nowrap;color:#fff;opacity:${o}">${ball(34, GOLD)} ${a}　${ball(34, GRAY)} ${b}</div>`);
+      const meter = (x, y, w, r, marks = []) => A(x, y, w, 36, `<div style="position:absolute;inset:0;border-radius:18px;background:#4a5078;overflow:hidden"><div style="position:absolute;left:0;top:0;bottom:0;width:${r * 100}%;background:${GOLD}"></div></div>` +
+        marks.map(([m, l]) => `<div style="position:absolute;left:${m * 100}%;top:-8px;width:4px;height:52px;background:#fff;border-radius:2px"></div><div style="position:absolute;left:${m * 100}%;top:48px;transform:translateX(-50%);font-size:24px;white-space:nowrap;color:rgba(255,255,255,.85)">${l}</div>`).join(""));
+      const bigNum = (txt, size, col = "#fff", s = 1) => `<div class="big num" style="font-size:${size}px;line-height:1.05;color:${col};transform:scale(${s});-webkit-text-stroke:10px #0e1130;text-shadow:none;white-space:nowrap">${txt}</div>`;
+      const steps = (t, cur, t0) => A(790, 0, 640, 70, `<div style="display:flex;justify-content:center;align-items:center;gap:10px;height:70px">${["1人", "10人", "100人", "1万人"].map((l, i) =>
+        `<div style="font-size:${i === cur ? 44 : 32}px;padding:0 20px;border-radius:30px;line-height:60px;white-space:nowrap;background:${i === cur ? "#fff" : "transparent"};color:${i === cur ? "#1c2150" : i < cur ? "rgba(255,255,255,.75)" : "rgba(255,255,255,.35)"};transform:scale(${i === cur ? Math.max(0.6, pop(t, t0)) : 1})">${l}</div>${i < 3 ? '<div style="color:rgba(255,255,255,.4);font-size:30px">→</div>' : ""}`).join("")}</div>`);
+
+      // ---- 実験②の並べ直し（当たった回数ごとに積む） ----
+      const HX0 = 20, HB = 640, PXD = 1.36, CW = 2.72;
+      const X2 = E2.x, N = X2.length, hx = new Float32Array(N), hy = new Float32Array(N), wx = new Float32Array(N), wy = new Float32Array(N);
+      (function () { const cnt = {}; let w = 0;
+        for (let i = 0; i < N; i++) { const b = Math.floor((X2[i] - 1) / 2), k = (cnt[b] = (cnt[b] || 0) + 1) - 1; hx[i] = HX0 + b * CW; hy[i] = HB - (k + 1) * CW;
+          if (X2[i] > E4.cap) { wx[i] = HX0 + E4.cap * PXD + 6 + (w % 14) * CW; wy[i] = HB - (Math.floor(w / 14) + 1) * CW; w++; } else { wx[i] = hx[i]; wy[i] = hy[i]; } } })();
+      const iMax = X2.indexOf(E2.max);
+      const hxAt = (d) => HX0 + d * PXD;
+      function histDots(k, wall = 0, wcol = "#4da3ff") {   // k: 0=点の表 → 1=積んだ図
+        g.fillStyle = GOLD; const cell = GS / 100; let late = [];
+        for (let i = 0; i < N; i++) {
+          const kk = k >= 1 ? 1 : flyEase(clamp(k * 1.35 - 0.35 * hash(i, 3)));
+          let x = lerp(GX + (i % 100 + 0.2) * cell, hx[i], kk), y = lerp(GY + (Math.floor(i / 100) + 0.2) * cell, hy[i], kk), s = lerp(cell * 0.7, CW - 0.6, kk);
+          if (wall > 0 && X2[i] > E4.cap) { const ww = flyEase(clamp(wall * 1.3 - 0.3 * hash(i, 5))); x = lerp(hx[i], wx[i], ww); y = lerp(hy[i], wy[i], ww) - 60 * Math.sin(Math.PI * ww); late.push(x, y); continue; }
+          g.fillRect(x, y, s, s);
+        }
+        g.fillStyle = wcol; for (let i = 0; i < late.length; i += 2) g.fillRect(late[i], late[i + 1], CW - 0.6, CW - 0.6);
+      }
+      function axis2(dim = 0) {
+        let h = A(HX0, HB + 2, 1000 * PXD + 20, 4, "", "background:rgba(255,255,255,.8);border-radius:2px");
+        for (let d = 0; d <= 1000; d += 100) h += A(hxAt(d) - 60, HB + 12, 120, 40, d === 0 ? "0" : d + "回", `text-align:center;font-size:28px;color:rgba(255,255,255,${dim && d > 200 ? 0.3 : 0.85})`) + A(hxAt(d) - 1.5, HB - 6, 3, 14, "", "background:rgba(255,255,255,.8)");
+        return h + A(1000, HB + 52, 400, 40, "当たった回数 →", "text-align:right;font-size:26px;color:rgba(255,255,255,.7)");
+      }
+      const vline = (x, y0, col, o = 1, w = 6) => A(x - w / 2, y0, w, HB - y0, "", `background:${col};border-radius:3px;opacity:${o}`);
+      // ---- 実験⑤の積んだ図 ----
+      const T5 = E5.t, X5 = 100, P5 = 26, C5 = 4, h5x = new Float32Array(N), h5y = new Float32Array(N);
+      (function () { const cnt = {}; for (let i = 0; i < N; i++) { const v = T5[i], k = (cnt[v] = (cnt[v] || 0) + 1) - 1; h5x[i] = X5 + (v - 6) * P5 + (k % 6) * C5; h5y[i] = HB - (Math.floor(k / 6) + 1) * C5; } })();
+      const x5 = (v) => X5 + (v - 6) * P5 + 12;
+      const KC = ["#ff6b6b", "#ffa94d", "#69db7c", "#4dabf7", "#b197fc", "#f783ac"];
+      const kball = (i, s, on = true) => `<span class="ball" style="width:${s}px;height:${s}px;line-height:${s}px;text-align:center;font-size:${s * 0.5}px;color:${on ? "#1c2150" : "rgba(255,255,255,.35)"};background:${on ? `radial-gradient(circle at 34% 28%,rgba(255,255,255,.7) 0 9%,transparent 10%),${KC[i]}` : "rgba(255,255,255,.06)"};box-shadow:${on ? "inset 0 -5px 0 rgba(0,0,0,.18)" : "inset 0 0 0 4px rgba(255,255,255,.35)"}">${i + 1}</span>`;
+
+      // 10人の棒（実験②・⑤共通）
+      function tenBars(t, data, go, end, ta, tb, tick, unit) {
+        const mx = Math.max(...data), mn = Math.min(...data), sc = 1120 / (mx * 1.08), cur = mx * prog(t, go, end - go);
+        let h = "";
+        data.forEach((v, i) => { const y = 24 + i * 62, len = Math.min(v, cur) * sc, done = cur >= v, hl = (t >= tb && v === mx) || (t >= ta && t < tb && v === mn) ? 1 : 0, dimd = t >= ta && !hl ? 0.45 : 1;
+          h += A(0, y, 130, 50, `${i + 1}人目`, `font-size:30px;line-height:50px;text-align:right;color:rgba(255,255,255,.85);opacity:${dimd}`) +
+            A(150, y + 9, len, 32, "", `background:${GRAY};border-radius:16px;opacity:${dimd}`) +
+            (done ? A(150 + len - 22, y + 3, 44, 44, ball(44, GOLD), `transform:scale(${Math.max(0.3, pop(t, go + (end - go) * v / mx, 0.3))});opacity:${dimd}`) +
+              A(150 + len + 34, y, 200, 50, `<span class="num" style="font-size:${hl ? 46 : 34}px;color:${hl ? GOLD : "#fff"}">${v}${unit}</span>`, `line-height:50px;white-space:nowrap;opacity:${dimd}`) : ""); });
+        const yb = 24 + 10 * 62 + 4; h += A(150, yb, 1120, 3, "", "background:rgba(255,255,255,.6)");
+        for (let d = 0; d <= mx * 1.08; d += tick) h += A(150 + d * sc - 50, yb + 8, 100, 36, d + unit, "text-align:center;font-size:26px;color:rgba(255,255,255,.8)");
+        return h;
+      }
+      const CHT = { c1t: ["実験①", "100回引いたら、<br>当たる？"], c2t: ["実験②", "じゃあ、何回引けば<br>安心？"], c3t: ["実験③", "200回外れた。<br>そろそろ出る？"], c4t: ["実験④", "天井があると、<br>どうなる？"], c5t: ["実験⑤", "全6種類、そろえるには<br>何回？"] };
+      const CHS = ["① 100回で当たる？", "② 何回引けば安心？", "③ そろそろ出る？", "④ 天井があると？", "⑤ 6種類そろえる"];
+      const g2n = (t) => Math.floor(kf(t, [[K.g2_go, 0], [SC.halfq.start, 28], [K.h_sil, E2.half.sim], [K.p90_go, E2.half.sim], [K.p90, E2.p90.sim], [K.p99_go, E2.p90.sim], [K.p99, E2.p99.sim], [K.m_go, E2.p99.sim], [K.m_sil, E2.max]], (x) => x));
+      let memoN = -1, memoC = 0;
+      const hitBy = (n) => { if (n !== memoN) { let c = 0; for (let i = 0; i < N; i++) c += X2[i] <= n; memoN = n; memoC = c; } return memoC; };
+
+      function stage(t, sc) {
+        const v = sc.vis, id = sc.id;
+        g.clearRect(0, 0, 1440, 740);
+        if (v === "hook") {
+          return { title: "", html: A(110, 20, 350, 530, machine(350, t)) +
+            A(520, 20, 900, 200, `<span class="big" style="font-size:150px;white-space:nowrap">確率<span class="g" style="font-size:190px">1%</span></span>`, `transform:scale(${Math.max(0.5, pop(t, 0.1))});transform-origin:0 50%`) +
+            A(520, 235, 900, 180, `<span class="big" style="font-size:140px;white-space:nowrap">× 100回引く</span>`, `opacity:${op(t, K.h_q)};transform:scale(${pop(t, K.h_q)});transform-origin:0 50%`) +
+            A(520, 420, 900, 200, `<span class="big" style="font-size:150px;white-space:nowrap">＝ 当たる<span class="g" style="display:inline-block;transform:scale(${1 + 0.08 * Math.sin(t * 6)})">？</span></span>`, `opacity:${op(t, K.h_q + 0.7)};transform:scale(${pop(t, K.h_q + 0.7)});transform-origin:0 50%`) +
+            A(10, 600, 480, 120, `<div class="panel c" style="background:#fff3b0;font-size:54px;padding:14px 6px;white-space:nowrap"><span style="color:#d9480f">1万人</span>でためした</div>`, `opacity:${op(t, K.h_1man)};transform:scale(${pop(t, K.h_1man)}) rotate(-3deg)`) };
+        }
+        if (v === "in1") {
+          let h = ""; for (let i = 0; i < 100; i++) { const gold = i === 37 && t >= K.in1_gold; h += A(70 + (i % 10) * 62, 50 + Math.floor(i / 10) * 62, 56, 56, ball(56, gold ? GOLD : GRAY), `transform:scale(${Math.max(0, pop(t, sc.start + 0.2 + (i % 10 + Math.floor(i / 10)) * 0.03, 0.3)) * (gold ? 1 + 0.5 * Math.max(0, wob(t - K.in1_gold, 3, 3)) + 0.25 : 1)});${gold ? "z-index:2;filter:drop-shadow(0 0 16px #ffc928)" : ""}`); }
+          return { title: `<span class="g">1%</span>って、どのくらい？`, html: h +
+            A(760, 130, 660, 400, `<div class="big" style="font-size:96px;line-height:1.35">100個に<br><span class="g" style="font-size:130px">1個</span>が当たり</div>`, `opacity:${op(t, K.in1_gold)};transform:scale(${pop(t, K.in1_gold)})`) };
+        }
+        if (v === "in2") {
+          const p = (t0, s) => `opacity:${op(t, t0)};transform:scale(${pop(t, t0)});display:inline-block;${s || ""}`;
+          return { title: `それを<span class="g">100回</span>引くと？`, html: A(0, 150, 1440, 260, `<div class="big c" style="font-size:124px;white-space:nowrap"><span style="${p(sc.start + 0.1)}">1%</span> <span style="${p(K.in2_100)}">× 100回</span> <span style="${p(K.in2_eq)}">＝ <span class="g">100%</span></span><span class="g" style="${p(K.in2_eq + 1.4)}">？</span></div>`) +
+            A(320, 470, 800, 130, `<div class="panel c" style="font-size:58px">かならず当たりそう…？</div>`, `opacity:${op(t, K.in2_eq + 1.4)};transform:scale(${pop(t, K.in2_eq + 1.4)}) rotate(-2deg)`) };
+        }
+        if (v === "in3") {
+          const cs = [["ほぼ100%", K.g1], ["90%くらい", K.g2], ["60%くらい", K.g3]];
+          return { title: `100回引いて当たる人は<span class="g">何%？</span>`, html: cs.map(([l, t0], i) => A(40 + i * 470, 160, 420, 300, `<div class="panel c" style="height:300px;font-size:76px;line-height:250px;padding:20px 0">${l}</div>`,
+            `opacity:${op(t, t0, 0.15)};transform:scale(${pop(t, t0)}) rotate(${[-2, 1.5, -1][i]}deg) translateY(${t >= K.g_q ? 10 * Math.sin(t * 4 + i * 2) : 0}px)`)).join("") +
+            A(0, 520, 1440, 150, `<div class="big c" style="font-size:100px">あなたの予想は<span class="g">どれ？</span></div>`, `opacity:${op(t, K.g_q)};transform:scale(${pop(t, K.g_q)})`) };
+        }
+        if (v === "in4") {
+          const L = ["100回引いたら、当たる？", "じゃあ、何回引けば安心？", "200回外れた。そろそろ出る？", "天井があると、どうなる？", "全6種類、そろえるには何回？"];
+          return { title: `<span class="g">5つの実験</span>で確かめる`, html: L.map((l, i) => A(170, 20 + i * 140, 1100, 118, `<div class="panel" style="font-size:56px;padding:16px 30px;white-space:nowrap"><span style="color:#d9480f">実験${"①②③④⑤"[i]}</span>　${l}</div>`,
+            `opacity:${op(t, K.in4 + i * 0.22, 0.15)};transform:translateX(${(1 - easeOut(prog(t, K.in4 + i * 0.22, 0.4))) * 300}px)`)).join("") };
+        }
+        if (CHT[v]) {
+          const s = M.slap(t, sc.start + 0.25);
+          return { title: "", html: A(0, 90, 1440, 160, `<div class="c"><span style="display:inline-block;background:${GOLD};color:#1c2150;font-size:100px;padding:6px 60px;border-radius:90px;box-shadow:0 12px 0 rgba(0,0,0,.3);transform:scale(${s.s}) rotate(${-s.r}deg);opacity:${s.o}">${CHT[v][0]}</span></div>`) +
+            A(0, 300, 1440, 340, `<div class="big c" style="font-size:118px;line-height:1.3;-webkit-text-stroke:14px #1c2150">${CHT[v][1]}</div>`, `opacity:${op(t, sc.start + 0.4)};transform:scale(${Math.max(0.6, pop(t, sc.start + 0.4))})`) };
+        }
+        if (v === "e1rule") {
+          return { title: `ルール`, html: A(110, 50, 400, 600, machine(400, t)) +
+            A(640, 110, 780, 220, `<div style="display:flex;align-items:center;gap:36px">${ball(150, GOLD)}<div class="big" style="font-size:100px;white-space:nowrap">当たり</div><div class="big g num" style="font-size:140px;opacity:${op(t, K.r_p)};transform:scale(${pop(t, K.r_p)})">1%</div></div>`, `opacity:${op(t, K.r_gold)};transform:scale(${Math.max(0.5, pop(t, K.r_gold))});transform-origin:0 50%`) +
+            A(640, 400, 780, 220, `<div style="display:flex;align-items:center;gap:36px">${ball(150, GRAY)}<div class="big" style="font-size:100px;white-space:nowrap;color:#dfe2f2">外れ</div><div class="big num" style="font-size:120px;color:#c9cde6">99%</div></div>`, `opacity:${op(t, K.r_gray)};transform:scale(${Math.max(0.5, pop(t, K.r_gray))});transform-origin:0 50%`) };
+        }
+        if (v === "e1one") {
+          const n = t < K.o_d1 ? 0 : t < K.o_d2 ? 1 : t < K.o_d3 ? 2 : t < K.o_ff ? 3 : Math.round(3 + 97 * prog(t, K.o_ff, K.o_ffend - K.o_ff));
+          const lands = [K.o_d1, K.o_d2, K.o_d3]; let h = A(40, 20, 700, 700, "", "border-radius:26px;background:rgba(14,17,48,.55);box-shadow:0 0 0 5px rgba(255,255,255,.85)"), w = 0;
+          for (let i = 0; i < 100; i++) { const on = i < n, hit = E1.p1_bits[i] === "1"; if (on && hit) w++;
+            h += A(62 + (i % 10) * 66, 42 + Math.floor(i / 10) * 66, 58, 58, on ? ball(58, hit ? GOLD : GRAY) : `<span class="ball" style="width:58px;height:58px;background:${EMPTY}"></span>`, on && i < 3 ? `transform:scale(${1 + 0.4 * Math.max(0, wob(t - lands[i], 4, 8))})` : ""); }
+          const ans = t >= K.o_ans, q = id === "o4" || (id === "o5" && !ans);
+          h += A(800, 60, 600, 60, `<div class="lbl">引いた回数</div>`) + A(800, 120, 600, 170, bigNum(`${n}<span style="font-size:70px">回</span>`, 150)) +
+            A(800, 360, 600, 60, `<div class="lbl">${ball(40, GOLD)} 当たり</div>`) +
+            A(800, 420, 600, 200, bigNum(ans ? roll(t, K.o_ans, E1.p1_hits + "", 3, 5) + `<span style="font-size:80px">回</span>` : q ? "？" : `${w}<span style="font-size:80px">回</span>`, 180, ans || q ? GOLD : "#fff", ans ? 1 + 0.15 * wob(t - K.o_ans, 3, 6) : 1));
+          return { title: `1人目が<span class="g">100回</span>引く`, html: h };
+        }
+        if (v === "e1ten") {
+          const p = prog(t, K.t10_go, K.t10_end - K.t10_go), k = Math.floor(p * 100), L = { [GRAY]: [], [GOLD]: [] }, B = { [GOLD]: [] }; let h = "", wins = 0;
+          for (let i = 0; i < 10; i++) { const y = 46 + i * 64, bits = E1.ten_bits[i], won = bits.includes("1"), done = t >= K.t10_end + i * 0.05;
+            for (let j = 0; j < k; j++) (bits[j] === "1" ? B[GOLD] : L[GRAY]).push(150 + j * 10.4 + 5, y);
+            h += A(0, y - 25, 130, 50, `${i + 1}人目`, "font-size:30px;line-height:50px;text-align:right;color:rgba(255,255,255,.85)") + A(1196, y - 30, 60, 60, arrow(44, "rgba(255,255,255,.5)"), "line-height:60px") +
+              A(1250, y - 26, 52, 52, done ? ball(52, won ? GOLD : GRAY) : `<span class="ball" style="width:52px;height:52px;background:${EMPTY}"></span>`, `transform:scale(${done ? 1 + 0.4 * Math.max(0, wob(t - K.t10_end - i * 0.05, 4, 8)) : 1})`) +
+              (done ? A(1312, y - 25, 130, 50, won ? "当たった" : "0回", `font-size:28px;line-height:50px;color:${won ? GOLD : "#c9cde6"}`) : ""); if (done && won) wins++; }
+          circles(L, 3.6); circles(B, 7.5);
+          h += A(150, 0, 1040, 30, "← 100回ぶん →", "text-align:center;font-size:24px;color:rgba(255,255,255,.7)") + A(1230, 0, 200, 30, "その人は", "font-size:24px;color:rgba(255,255,255,.7)") +
+            legend(150, 690, "1回でも当たった人", "1回も当たらなかった人", op(t, K.t10_end));
+          return { title: t >= K.t10r ? `当たった人は 10人のうち<span class="g" style="display:inline-block;transform:scale(${1 + 0.2 * wob(t - K.t10r, 3, 6)})">${E1.win10}人</span>` : `<span class="g">10人</span>が100回ずつ引く`, html: h };
+        }
+        if (v === "e1grid") {
+          const z = t < K.x1m ? 10 : 10 * Math.pow(0.1, flyEase(prog(t, K.x1m, 0.9)));
+          const n = t < K.x100 ? 0 : t < K.x1m_fill ? Math.round(100 * easeOut(prog(t, K.x100, 1.6))) : Math.round(100 + 9900 * Math.pow(prog(t, K.x1m_fill, K.x1m_done - K.x1m_fill), 2));
+          const sortK = smooth(prog(t, K.a_sort, 0.9)); let w = 0; for (let i = 0; i < n; i++) w += E1.bits.charCodeAt(i) === 49;
+          if (sortK > 0) { grid((i) => (i < E1.win ? GOLD : GRAY)); g.globalAlpha = 1 - sortK; if (sortK < 1) { g.fillStyle = "#151a40"; g.fillRect(GX - 4, GY - 4, GS + 8, GS + 8); grid((k) => (E1.bits[k] === "1" ? GOLD : GRAY), 1, true); } g.globalAlpha = 1; }
+          else grid((k) => (k < n ? (E1.bits[k] === "1" ? GOLD : GRAY) : EMPTY), z, true);
+          const big = t >= K.x1m, q = t >= SC.ansq.start, a1 = t >= K.a1, tot = big ? 10000 : 100;
+          let h = frame() + steps(t, big ? 3 : 2, big ? K.x1m : sc.start);
+          if (!q && !big) h += A(800, 150, 620, 60, `<div class="lbl">${ball(40, GOLD)} 1回でも当たった人</div>`) + A(800, 220, 620, 200, bigNum(`${w}<span style="font-size:70px">人</span><span style="font-size:50px;color:#c9cde6"> / 100人</span>`, 190, GOLD)) + legend(800, 620, "当たった人", "1回も当たらない人");
+          else if (!q) h += A(800, 150, 620, 60, `<div class="lbl">100回引きおわった人</div>`) + A(800, 220, 620, 200, bigNum(`${n.toLocaleString()}<span style="font-size:60px">人</span>`, 150)) +
+            (t >= K.x1m_fill ? legend(800, 560, "当たった人", "1回も当たらない人") + A(800, 620, 620, 40, "点1つ＝1人（100回引いた結果）", "font-size:28px;color:rgba(255,255,255,.75)") : "");
+          else {
+            h += A(800, 100, 620, 60, `<div class="lbl">${ball(40, GRAY)} 1回も当たらなかった人</div>`) +
+              A(800, 160, 620, 200, bigNum(a1 ? roll(t, K.a1, "約" + T.Z, 2, 5) : "？", a1 ? 170 : 190, a1 ? "#fff" : GOLD, a1 ? 1 + 0.15 * wob(t - K.a1, 3, 6) : 1 + 0.05 * Math.sin(t * 6))) +
+              A(800, 356, 620, 40, `計算の答え ${(E1.zero_theory * 100).toFixed(1)}%（${E1.zero.toLocaleString()}人）`, `font-size:28px;color:rgba(255,255,255,.75);opacity:${op(t, K.a_sort)}`);
+            if (t >= K.a2) h += A(800, 440, 620, 60, `<div class="lbl">${ball(40, GOLD)} 1回でも当たった人</div>`, `opacity:${op(t, K.a2)}`) +
+              A(800, 500, 620, 190, bigNum(t >= K.a2n ? roll(t, K.a2n, "約" + T.W, 4, 5) : "", 150, GOLD, t >= K.a2n ? 1 + 0.15 * wob(t - K.a2n, 3, 6) : 1));
+          }
+          return { title: q ? (a1 ? `<span class="g">3人に1人</span>より多く、当たらない` : `1回も当たらなかった人は…`) : big ? `<span class="g">1万人</span>が100回ずつ引く` : `<span class="g">100人</span>が100回ずつ引く`, html: h };
+        }
+        if (v === "e1why") {
+          const x0 = 150, yb = 620, H = 440, pw = 10;
+          const n = t < K.w1 ? 0 : t < K.w2 ? 1 : t < K.w3 ? 2 : Math.round(2 + 98 * smooth(prog(t, K.w3, K.w3end - K.w3)));
+          g.fillStyle = "rgba(255,255,255,.08)"; g.fillRect(x0, yb - H, 101 * pw, H);
+          for (let k = 0; k <= n; k++) { const hh = H * E1.pow[k]; g.fillStyle = k === n && n < 100 ? "#c9cde6" : GRAY; g.fillRect(x0 + k * pw + 1, yb - hh, pw - 2, hh); g.fillStyle = "rgba(255,201,40,.9)"; g.fillRect(x0 + k * pw + 1, yb - H, pw - 2, H - hh - 2); }
+          let h = A(x0, yb + 2, 101 * pw, 4, "", "background:#fff");
+          for (let d = 0; d <= 100; d += 20) h += A(x0 + d * pw - 54, yb + 10, 120, 40, d ? d + "回目" : "引く前", "text-align:center;font-size:28px;color:rgba(255,255,255,.85)");
+          [[1, "100%"], [0.5, "50%"], [0, "0%"]].forEach(([f, l]) => (h += A(30, yb - H * f - 20, 105, 40, l, "text-align:right;font-size:28px;color:rgba(255,255,255,.85)")));
+          const f = n === 0 ? `まだ1回も当たっていない人 <span class="g">100%</span>` : n === 1 ? `100% <span style="color:#c9cde6">×0.99</span> ＝ <span class="g">99%</span>` : n === 2 ? `99% <span style="color:#c9cde6">×0.99</span> ＝ <span class="g">約98%</span>` :
+            n < 100 ? `<span style="color:#c9cde6">×0.99 を くり返す…</span> ${n}回で <span class="g num">${Math.round(E1.pow[n] * 100)}%</span>` : `<span style="color:#c9cde6">×0.99</span> を100回 ＝ <span class="g">約${T.Z}</span>`;
+          h += A(0, 30, 1440, 100, `<div class="big c" style="font-size:66px;white-space:nowrap">${f}</div>`);
+          if (t >= K.w4) { const yy = yb - H * E1.pow[100]; h += A(x0, yy - 2, 101 * pw, 4, "", `background:repeating-linear-gradient(90deg,#fff 0 14px,transparent 14px 26px);opacity:${op(t, K.w4)}`) +
+            A(1185, yy + 20, 240, 130, `<div class="panel c" style="padding:10px 6px;font-size:30px;line-height:1.3;white-space:nowrap">${ball(30, GRAY)} 当たらない人<div class="num" style="font-size:60px">約${T.Z}</div></div>`, `opacity:${op(t, K.w4b)};transform:scale(${pop(t, K.w4b)})`) +
+            A(1185, yy - 220, 240, 130, `<div class="panel c" style="padding:10px 6px;font-size:30px;line-height:1.3;white-space:nowrap;background:#fff3b0">${ball(30, GOLD)} 当たった人<div class="num" style="font-size:60px;color:#d9480f">約${T.W}</div></div>`, `opacity:${op(t, K.w4b + 1.2)};transform:scale(${pop(t, K.w4b + 1.2)})`); }
+          return { title: `なぜ？ <span class="g">外れがつづく人</span>の割合`, html: h };
+        }
+        if (v === "e1why2") {
+          const x = t >= K.w5a + 2.0;
+          return { title: `足し算ではなく、<span class="g">掛け算</span>`, html:
+            A(60, 30, 1320, 260, `<div class="panel" style="height:260px;opacity:${t >= K.w5b ? 0.55 : 1}"><div style="font-size:40px;color:#e03131">1%を100回「足す」</div><div class="num c" style="font-size:84px;white-space:nowrap;margin-top:12px">1% ＋ 1% ＋ … ＋ 1% ＝ 100%</div></div>`, `opacity:${op(t, K.w5a)};transform:scale(${Math.max(0.6, pop(t, K.w5a))})`) +
+            (x ? A(520, 22, 120, 120, `<div style="font-size:120px;line-height:120px;color:#e03131;-webkit-text-stroke:8px #fff;paint-order:stroke fill;text-align:center">✕</div>`, `transform:scale(${pop(t, K.w5a + 2.0)}) rotate(8deg)`) : "") +
+            A(60, 360, 1320, 300, `<div class="panel" style="height:300px;background:#eaf4ff"><div style="font-size:40px;color:#1971c2">外れの99%を100回「掛ける」</div><div class="num c" style="font-size:80px;white-space:nowrap;margin-top:8px">99% × 99% × … × 99% ＝ <span style="color:#1971c2">約${T.Z}</span></div><div class="c" style="font-size:38px;color:#5a5f86;margin-top:4px">（100回ぜんぶ外れる人）</div></div>`, `opacity:${op(t, K.w5b)};transform:scale(${Math.max(0.6, pop(t, K.w5b))})`) +
+            (t >= K.w5c ? A(1150, 300, 280, 110, `<span class="tag" style="font-size:50px;background:#1971c2;transform:rotate(6deg) scale(${pop(t, K.w5c)})">ここが大事</span>`) : "") };
+        }
+        if (v === "e2one") {
+          const n = E2.first, cols = n <= 10 ? n : n <= 60 ? 12 : 25, pitch = Math.min(200, 1300 / cols), s = pitch * 0.8, rows = Math.ceil(n / cols), x0 = (1440 - cols * pitch) / 2, y0 = Math.max(120, 330 - rows * pitch / 2);
+          let h = "", cnt = 0;
+          for (let i = 0; i < n; i++) { const t0 = K.p1_go + i * D.step1; if (t < t0) break; cnt++; const last = i === n - 1;
+            h += A(x0 + (i % cols) * pitch + (pitch - s) / 2, y0 + Math.floor(i / cols) * pitch, s, s, ball(s, last ? GOLD : GRAY), `transform:scale(${Math.max(0.2, pop(t, t0, 0.3)) * (last ? 1.15 : 1)});${last ? "filter:drop-shadow(0 0 22px #ffc928)" : ""}`) +
+              (n <= 10 ? A(x0 + (i % cols) * pitch, y0 + s + 14, pitch, 50, `${i + 1}回目`, `text-align:center;font-size:36px;color:${last ? GOLD : "rgba(255,255,255,.85)"}`) : ""); }
+          h += A(0, 20, 1440, 90, `<div class="c lbl" style="font-size:46px">引いた回数 <span class="num" style="font-size:80px;color:#fff">${cnt}</span>回</div>`);
+          if (t >= K.p2) h += A(0, 500, 1440, 200, `<div class="c">${hz(t, K.p2, `${n}回目で当たり！`, 120)}</div>`);
+          return { title: `<span class="g">当たるまで</span>引く（1人目）`, html: h };
+        }
+        if (v === "e2ten") return { title: `<span class="g">10人</span>が当たるまで引く`, html: A(60, 0, 1380, 740, tenBars(t, E2.ten, K.p10_go, K.p10_end, K.p10a, K.p10b, 50, "回")) };
+        if (v === "e2grid") {
+          const n = g2n(t), c = hitBy(n), hideN = (t >= SC.halfq.start && t < K.half) || (t >= SC.maxq.start && t < K.mx);
+          grid((i) => (X2[i] <= n ? GOLD : GRAY));
+          let h = frame();
+          if (t >= K.mx) { const cx = GX + (iMax % 100 + 0.5) * 7, cy = GY + (Math.floor(iMax / 100) + 0.5) * 7, rr = 26 + 6 * Math.sin(t * 8);
+            h += A(cx - rr, cy - rr, rr * 2, rr * 2, "", "border:6px solid #ff5a4e;border-radius:50%;box-shadow:0 0 20px #ff5a4e") + A(Math.max(GX - 10, Math.min(GX + GS - 210, cx - 110)), cy + (cy > 600 ? -90 : 34), 220, 50, `<span class="tag" style="background:#e03131;font-size:30px">最後の1人</span>`, "text-align:center"); }
+          const land = [K.half, K.p90, K.p99, K.mx].filter((x) => t >= x).pop();
+          h += A(800, 0, 620, 50, `<div class="lbl">全員が引いた回数</div>`) +
+            A(800, 50, 620, 170, bigNum(`${hideN ? "？" : n}<span style="font-size:70px">回目</span>`, 150, hideN || (land && t - land < 3) ? GOLD : "#fff", land ? 1 + 0.15 * wob(t - land, 3, 6) : 1)) +
+            A(800, 236, 620, 60, `<div class="lbl">${ball(40, GOLD)} 当たった人 <span class="num" style="font-size:60px;color:#fff">${hideN && t >= K.h_sil - 0.2 && t < K.half ? "50" : Math.floor(c / 100)}%</span></div>`) +
+            meter(800, 318, 600, c / N, [[0.5, "半分"], [0.9, "9割"]]);
+          const ms = [[K.half, "半分の人が当たる", E2.half.sim], [K.p90, "10人のうち9人", E2.p90.sim], [K.p99, "100人のうち99人", E2.p99.sim], [K.mx, "最後の1人", E2.max]];
+          const curI = ms.filter((m) => t >= m[0]).length - 1;
+          ms.forEach(([t0, l, val], i) => { if (t >= t0) h += A(800, 420 + i * 78, 620, 68, `<div style="display:flex;justify-content:space-between;align-items:center;background:${i === curI ? "#fff" : "rgba(255,255,255,.14)"};color:${i === curI ? "#1c2150" : "rgba(255,255,255,.75)"};border-radius:20px;padding:0 24px;height:68px;font-size:34px"><span>${l}</span><span class="num" style="font-size:48px;color:${i === curI ? "#d9480f" : "inherit"}">${val}回</span></div>`, `transform:scale(${Math.max(0.5, pop(t, t0))})`); });
+          return { title: `<span class="g">1万人</span>が当たるまで引く`, html: h };
+        }
+        if (v === "e2hist") {
+          const k = prog(t, K.d_fly, 1.5); histDots(k);
+          let h = k > 0.6 ? `<div style="opacity:${op(t, K.d_fly + 0.9, 0.5)}">${axis2()}</div>` : frame();
+          if (id === "dist1") h += A(110, 20, 520, 70, `<span class="tag" style="background:#d9480f;font-size:40px">← 早く当たる人が多い</span>`, `transform:scale(${pop(t, sc.start + 0.2)});transform-origin:0 50%`) +
+            (t >= K.d_tail ? A(500, 400, 700, 70, `<span class="tag" style="background:#5a5f86;font-size:40px">右へ長くつづく →</span>`, `text-align:center;transform:translateX(${-200 * (1 - easeOut(prog(t, K.d_tail, 0.8)))}px);opacity:${op(t, K.d_tail)}`) +
+              (t >= K.d_tail + 1.2 ? A(hxAt(E2.max) - 16, HB - 20, 32, 32, "", `border:5px solid #ff5a4e;border-radius:50%;box-shadow:0 0 14px #ff5a4e`) + A(hxAt(E2.max) - 330, HB - 96, 340, 60, `<span class="tag" style="background:#e03131;font-size:32px;transform:scale(${pop(t, K.d_tail + 1.2)})">最後の1人 ${E2.max}回</span>`, "text-align:right") : "") : "");
+          const xm = hxAt(100), xh = hxAt(E2.half.sim);
+          if (t >= K.v1) h += vline(xm, 100, "#4da3ff", op(t, K.v1)) + A(xm + 16, 196, 420, 90, `<div class="panel" style="padding:8px 22px;font-size:40px;white-space:nowrap;display:inline-block;box-shadow:0 0 0 6px #4da3ff,0 10px 0 rgba(0,0,0,.25)">平均 <span class="num" style="font-size:60px;color:#1971c2">100回</span></div>`, `transform:scale(${pop(t, K.v1)});transform-origin:0 50%;opacity:${id === "avg2" ? 0.55 : 1}`);
+          if (t >= K.v2) h += vline(xh, 20, "#ff5a4e", op(t, K.v2)) + A(HX0, 20, xh - HX0, HB - 20, "", `background:rgba(255,90,78,.16);opacity:${op(t, K.v2) * (id === "avg2" ? 1 : 0.4)}`) +
+            A(xh + 16, 24, 700, 90, `<div class="panel" style="padding:8px 22px;font-size:40px;white-space:nowrap;display:inline-block;box-shadow:0 0 0 6px #ff5a4e,0 10px 0 rgba(0,0,0,.25)">半分の人はここまで <span class="num" style="font-size:60px;color:#e03131">${E2.half.sim}回</span> <span style="font-size:24px;color:#5a5f86">（計算の答え ${E2.half.theory}回）</span></div>`, `transform:scale(${pop(t, K.v2)});transform-origin:0 50%;opacity:${id === "avg2" ? 1 : 0.55}`);
+          if (id === "avg3") h += A(hxAt(240), 520, hxAt(1000) - hxAt(240), 14, "", `border:5px solid #fff;border-bottom:none;border-radius:10px 10px 0 0;opacity:${op(t, K.v3)}`) +
+            A(hxAt(240), 440, hxAt(1000) - hxAt(240), 70, `<span class="tag" style="background:#5a5f86;font-size:40px">運の悪い人たち（とても長い）</span>`, `text-align:center;transform:scale(${pop(t, K.v3)})`) +
+            (t >= K.v3b ? A(xm + 14, 300, 900, 90, `<span class="big" style="font-size:60px;color:#9fd0ff;white-space:nowrap">⇒ 平均を右へ引っぱる</span>`, `opacity:${op(t, K.v3b)};transform:translateX(${12 * Math.sin(t * 5)}px)`) : "");
+          if (id === "avg4") h += A(xm, 60, hxAt(1000) - xm, HB - 60, "", `background:rgba(77,163,255,.16);opacity:${op(t, K.v4)}`) +
+            (t >= K.v4 ? A(520, 300, 860, 190, `<div class="panel c" style="font-size:46px;white-space:nowrap">100回引いても当たらない人<div class="num" style="font-size:100px;color:#1971c2;line-height:1.1">約${T.OVER}</div></div>`, `transform:scale(${pop(t, K.v4)})`) : "");
+          return { title: id === "dist0" || id === "dist1" ? `当たった<span class="g">回数ごと</span>に並べる` : `「平均100回」と「半分は${E2.half.sim}回」`, html: h };
+        }
+        if (v === "e2safe") {
+          const R = [[K.sf1, "半分の人が当たる", E2.half.sim], [K.sf2, "10人のうち9人が当たる", E2.p90.sim], [K.sf3, "100人のうち99人が当たる", E2.p99.sim]], scl = 660 / E2.p99.sim;
+          let h = ""; R.forEach(([t0, l, val], i) => { if (t < t0) return; const len = val * scl * easeOut(prog(t, t0, 0.6)), cur = R.filter((r) => t >= r[0]).length - 1 === i && t < K.sf4;
+            h += A(0, 30 + i * 150, 440, 110, l, `font-size:36px;line-height:110px;text-align:right;white-space:nowrap;opacity:${op(t, t0)}`) + A(470, 50 + i * 150, len, 70, "", `background:${GOLD};border-radius:16px;opacity:${cur ? 1 : 0.6}`) +
+              A(470 + len + 18, 30 + i * 150, 300, 110, `<span class="big num" style="font-size:${cur ? 84 : 64}px;-webkit-text-stroke:8px #0e1130;text-shadow:none">${val}回</span>`, `line-height:110px;white-space:nowrap;opacity:${op(t, t0 + 0.4)}`); });
+          if (t >= K.sf4) h += A(0, 480, 440, 130, "絶対に当たる", `font-size:36px;line-height:130px;text-align:right;white-space:nowrap`) + A(470, 500, 900, 110, `<div class="panel" style="padding:10px 30px;font-size:60px;white-space:nowrap;display:inline-block;background:#fff3b0">そんな回数は <span style="color:#d9480f">ない</span></div>`, `transform:scale(${pop(t, K.sf4)});transform-origin:0 50%`);
+          return { title: `何回引けば<span class="g">安心？</span>`, html: h };
+        }
+        if (v === "e3coin") {
+          let h = ""; for (let i = 0; i < 6; i++) { const last = i === 5, t0 = last ? K.sc2 : K.sc1 + i * 0.12;
+            h += A(60 + i * 225, 170, 190, 190, `<div style="width:190px;height:190px;border-radius:50%;background:${last ? "#fff3b0" : "#e9ecf5"};box-shadow:inset 0 0 0 10px ${last ? "#ffc928" : "#aeb4cf"},0 10px 0 rgba(0,0,0,.3);color:${last ? "#d9480f" : "#1c2150"};font-size:${last ? 120 : 84}px;line-height:190px;text-align:center">${last ? "？" : "表"}</div>`, `opacity:${op(t, t0, 0.15)};transform:scale(${pop(t, t0)})`) +
+              A(60 + i * 225, 110, 190, 50, `${i + 1}回目`, `text-align:center;font-size:34px;color:rgba(255,255,255,.85);opacity:${op(t, t0, 0.15)}`); }
+          if (t >= K.sc2) h += A(700, 420, 720, 150, `<div class="panel c" style="font-size:60px;white-space:nowrap;padding:24px 10px">表 <span style="color:#d9480f">半分</span>・裏 <span style="color:#d9480f">半分</span></div>`, `transform:scale(${pop(t, K.sc2 + 0.3)}) rotate(-1.5deg)`);
+          return { title: `コインでも<span class="g">同じ</span>`, html: h };
+        }
+        if (v === "sum1" || v === "sum2") {
+          const C = v === "sum1" ? [[K.sm1a, "100回引いて当たる人", `約${T.W}`], [K.sm1b, "100人のうち99人が当たるのは", `約${T.SAFE}回をこえてから`]] : [[K.sm2a, "「そろそろ出る」は", "ない"], [K.sm2b, "天井があれば", "いちばん悪い回数が決まる"]];
+          return { title: `ここまでの<span class="g">まとめ</span>`, html: C.map(([t0, a, b], i) => A(120, 60 + i * 320, 1200, 270, `<div class="panel c" style="height:270px;padding-top:26px"><div style="font-size:50px;color:#5a5f86">${a}</div><div class="num" style="font-size:${b.length > 8 ? 78 : 120}px;color:#d9480f;line-height:${b.length > 8 ? 150 : 150}px;white-space:nowrap">${b}</div></div>`,
+            `opacity:${op(t, t0, 0.15)};transform:scale(${pop(t, t0)}) rotate(${i ? 1 : -1}deg)`)).join("") };
+        }
+        if (v === "e3a") {
+          const n = Math.round(200 * prog(t, K.s1a, 1.6)), L = { [GRAY]: [] };
+          for (let i = 0; i < n; i++) L[GRAY].push(80 + (i % 20) * 34 + 15, 200 + Math.floor(i / 20) * 34 + 15);
+          circles(L, 13);
+          return { title: `<span class="g">200回</span>つづけて外れた…`, html: A(60, 40, 700, 140, bigNum(`${n}<span style="font-size:60px">回 つづけて外れ</span>`, 120)) +
+            A(820, 150, 600, 420, `<div class="panel c" style="border-radius:50%;height:420px;padding-top:70px;font-size:76px;line-height:1.3">そろそろ<br>当たる<span style="color:#d9480f">？</span></div>`, `opacity:${op(t, K.s1b, 0.15)};transform:scale(${pop(t, K.s1b)}) rotate(${3 * Math.sin(t * 2)}deg)`) };
+        }
+        if (v === "e3b") {
+          const L = { [GRAY]: [], [GOLD]: [] };
+          if (t >= K.s2a) for (let i = 0; i < 90; i++) { const u = ((t - K.s2a) * 0.5 + hash(i, 1)) % 1, gold = hash(i, 2) < 0.6, x = 380 + (hash(i, 3) - 0.5) * 560 * (1 - u * 0.75), y = 150 + u * 330; if (gold && u > 0.55) continue; L[gold ? GOLD : GRAY].push(x, y); }
+          circles(L, 9);
+          return { title: `<span class="g">200回外れた人</span>だけを集める`, html:
+            `<svg class="abs" style="left:0;top:0" width="1440" height="740"><path d="M 60 130 L 700 130 L 470 500 L 470 640 L 290 640 L 290 500 Z" fill="rgba(255,255,255,.07)" stroke="#fff" stroke-width="7" stroke-linejoin="round" opacity="${op(t, K.s2a)}"/></svg>` +
+            A(60, 40, 640, 80, `<div class="c" style="font-size:44px;white-space:nowrap">200回引いた人たち${t >= K.s2c ? `　<span class="g num" style="display:inline-block;transform:scale(${pop(t, K.s2c)})">${T.TRIED}</span>` : ""}</div>`, `opacity:${op(t, K.s2a)}`) +
+            A(170, 650, 420, 60, `<div class="c" style="font-size:36px;white-space:nowrap">${ball(34, GRAY)} 200回ぜんぶ外れた人だけ通る</div>`, `opacity:${op(t, K.s2a + 0.6)}`) +
+            A(760, 300, 100, 100, arrow(110), `opacity:${op(t, K.s2b)}`) +
+            A(880, 170, 540, 400, `<div class="c"><div class="lbl" style="font-size:46px">200回外れた人</div>${bigNum("1万人", 190, "#fff", Math.max(0.5, pop(t, K.s2b)))}<div class="lbl" style="font-size:46px">を集めた</div></div>`, `opacity:${op(t, K.s2b, 0.15)}`) };
+        }
+        if (v === "e3grid") {
+          const n = Math.round(100 * prog(t, K.s3_go, K.s3_end - K.s3_go)), ans = t >= K.sa, sortK = smooth(prog(t, K.sa + 1.0, 0.9));
+          if (sortK > 0) { grid((i) => (i < E3.win ? GOLD : GRAY)); if (sortK < 1) { g.globalAlpha = 1 - sortK; g.fillStyle = "#151a40"; g.fillRect(GX - 4, GY - 4, GS + 8, GS + 8); grid((i) => (E3.more[i] <= 100 ? GOLD : GRAY)); g.globalAlpha = 1; } }
+          else grid((i) => (E3.more[i] <= n ? GOLD : GRAY));
+          let h = frame();
+          if (t < K.sa2) { h += A(800, 0, 620, 60, `<div class="lbl">200回外れたあと、さらに</div>`) + A(800, 56, 620, 150, bigNum(`${n}<span style="font-size:64px">回 引いた</span>`, 130)) +
+            A(800, 250, 620, 60, `<div class="lbl">${ball(40, GOLD)} 当たった人</div>`) +
+            A(800, 310, 620, 200, bigNum(ans ? roll(t, K.sa, "約" + T.W3, 6, 5) : "？", ans ? 170 : 190, GOLD, ans ? 1 + 0.15 * wob(t - K.sa, 3, 6) : 1 + 0.05 * Math.sin(t * 6))) +
+            A(800, 510, 620, 40, `計算の答え ${(E3.win_theory * 100).toFixed(1)}%`, `font-size:28px;color:rgba(255,255,255,.75);opacity:${op(t, K.sa + 1.0)}`);
+            if (t >= K.s4 && !ans) h += A(800, 590, 620, 110, `<div class="panel" style="padding:12px 22px;font-size:32px;white-space:nowrap;background:#eaf4ff">実験①（はじめての1万人）<span class="num" style="font-size:50px;color:#1971c2"> 約${T.W}</span><div style="font-size:30px;color:#d9480f">そろそろ出るなら → これより増えるはず</div></div>`, `transform:scale(${Math.max(0.5, pop(t, K.s4))});transform-origin:0 50%`);
+          } else {
+            const bar = (y, l, val, col, t0) => A(800, y, 620, 150, `<div style="font-size:36px;white-space:nowrap">${l}</div><div style="position:relative;height:74px;margin-top:8px;border-radius:16px;background:#4a5078;overflow:hidden"><div style="position:absolute;left:0;top:0;bottom:0;width:${val * 100 * easeOut(prog(t, t0, 0.6))}%;background:${col}"></div><div class="num" style="position:absolute;left:20px;top:0;line-height:74px;font-size:54px;color:#fff;-webkit-text-stroke:6px #1c2150;paint-order:stroke fill">約${pct(val)}</div></div>`, `opacity:${op(t, t0)}`);
+            h += bar(40, "実験① はじめての1万人", E1.win_rate, "#4da3ff", K.sa2 - 0.3) + bar(220, "実験③ 200回外れた1万人", E3.win_rate, "#ff5a4e", K.sa2 - 0.1) +
+              A(800, 390, 620, 150, `<div class="c">${hz(t, K.sa2 + 0.1, "同じ！", 120)}</div>`) +
+              (t >= K.sa3 ? A(790, 600, 640, 100, `<div class="panel c" style="padding:14px 4px;font-size:34px;white-space:nowrap">200回外れても<span style="color:#d9480f">当たりやすくならない</span></div>`, `transform:scale(${pop(t, K.sa3)})`) : "");
+          }
+          return { title: t >= K.sa ? `200回外れた人も 当たるのは<span class="g">約${T.W3}</span>` : `<span class="g">200回外れた1万人</span>が、あと100回引く`, html: h };
+        }
+        if (v === "e3why") {
+          const box = (x, l, inner, t0, hl) => A(x, 150, 200, 300, `<div class="panel c" style="height:300px;padding:14px 6px;${hl ? "background:#fff3b0;box-shadow:0 0 0 8px #ffc928,0 14px 0 rgba(0,0,0,.25)" : ""}"><div style="font-size:36px">${l}</div><div style="height:120px;line-height:120px">${inner}</div><div style="font-size:26px;color:#5a5f86">当たる確率</div><div class="num" style="font-size:60px;color:#d9480f;line-height:1.05">1%</div></div>`, `opacity:${op(t, t0, 0.15)};transform:scale(${pop(t, t0)})`);
+          const miss = ball(90, GRAY), q = `<span style="font-size:100px;color:#d9480f">？</span>`, t0 = K.sw1;
+          let h = A(30, 190, 300, 450, machine(300, t)) + (t >= K.sw1 ? A(10, 20, 380, 150, `<div class="panel c" style="font-size:36px;padding:14px;line-height:1.3">前の結果？<br><span style="color:#d9480f">覚えてないよ</span></div>`, `transform:scale(${pop(t, K.sw1)}) rotate(-3deg)`) : "") +
+            box(400, "1回目", miss, t0 + 0.3, t >= K.sw3) + box(620, "2回目", miss, t0 + 0.5) + A(826, 250, 70, 80, "…", `font-size:70px;text-align:center;opacity:${op(t, t0 + 0.7)}`) + box(900, "200回目", miss, t0 + 0.9) + box(1160, "201回目", q, K.sw2, true);
+          if (t >= K.sw3) h += `<svg class="abs" style="left:0;top:0" width="1440" height="740"><path d="M 500 470 Q 880 640 1260 470" fill="none" stroke="#ffc928" stroke-width="12" stroke-linecap="round" stroke-dasharray="${900 * easeOut(prog(t, K.sw3, 0.6))} 900"/></svg>` + A(700, 505, 360, 90, `<span class="tag" style="background:#d9480f;font-size:46px;transform:scale(${pop(t, K.sw3 + 0.3)})">同じ 1%</span>`, "text-align:center");
+          if (t >= K.s6) h += A(380, 610, 1060, 130, `<div class="c">${hz(t, K.s6, "そろそろは気のせい！", 86)}</div>`);
+          return { title: `ガチャは<span class="g">前の結果を覚えていない</span>`, html: h };
+        }
+        if (v === "e4a") {
+          const x0 = 100, w = 1000, p = easeOut(prog(t, K.t1, K.t1b - K.t1)), n = Math.round(200 * p), got = t >= K.t1c;
+          let h = A(x0, 300, w, 70, "", "background:#4a5078;border-radius:35px;box-shadow:0 0 0 5px rgba(255,255,255,.85)") + A(x0, 300, w * p, 70, "", `background:${GRAY};border-radius:35px`);
+          for (let d = 0; d <= 200; d += 50) h += A(x0 + w * d / 200 - 60, 390, 120, 50, d + "回", `text-align:center;font-size:36px;color:${d === 200 ? GOLD : "rgba(255,255,255,.85)"}`);
+          h += A(x0 + w * p - 150, 150, 300, 130, bigNum(`${n}<span style="font-size:50px">回</span>`, 110), "text-align:center") + A(x0 + w * p - 20, 262, 40, 40, "▼", "font-size:36px;text-align:center;color:#fff;line-height:40px") +
+            A(x0 + w - 10, 280, 20, 110, "", `background:${GOLD};border-radius:8px;box-shadow:0 0 24px ${GOLD}`) + A(x0 + w - 60, 40, 320, 90, `<span class="tag" style="background:#d9480f;font-size:46px">天井 200回</span>`, "text-align:center") +
+            A(1190, 250, 180, 180, ball(170, GOLD), `opacity:${got ? 1 : 0.25};transform:scale(${got ? 1 + 0.4 * Math.max(0, wob(t - K.t1c, 3, 5)) : 0.8});${got ? "filter:drop-shadow(0 0 30px #ffc928)" : ""}`) +
+            (t >= K.t1b ? A(120, 500, 1200, 170, `<div class="panel c" style="font-size:50px;white-space:nowrap;padding:30px 10px">200回引いても出なければ → <span style="color:#d9480f;display:inline-block;transform:scale(${got ? 1 + 0.2 * wob(t - K.t1c, 3, 6) : 1})">必ずもらえる</span></div>`, `transform:scale(${Math.max(0.5, pop(t, K.t1b))})`) : "");
+          return { title: `<span class="g">天井</span>＝決まった回数で必ずもらえる`, html: h };
+        }
+        if (v === "e4hist") {
+          const wall = prog(t, K.t3, 1.3), xc = hxAt(E4.cap), after = t >= K.t3 + 1.3; histDots(1, wall);
+          let h = axis2(after ? 1 : 0);
+          if (t >= K.t2) h += A(xc - 5, 60 - 700 * (1 - easeOut(prog(t, K.t2, 0.5))), 10, HB - 60, "", `background:${GOLD};border-radius:5px;box-shadow:0 0 22px ${GOLD}`) + A(xc - 150, 0, 300, 60, `<span class="tag" style="background:#d9480f;font-size:36px">天井 200回</span>`, `text-align:center;opacity:${op(t, K.t2 + 0.3)}`);
+          if (id === "t3" && t >= K.t3a && t < K.t3) h += A(xc + 10, 440, 1110, 150, "", `border:6px dashed #4da3ff;border-radius:20px;opacity:${op(t, K.t3a)}`) + A(xc + 10, 370, 1110, 70, `<span class="tag" style="background:#1971c2;font-size:38px">200回より右にいた人たち</span>`, `text-align:center;opacity:${op(t, K.t3a)}`);
+          const row = (y, t0, l, a, b, tb, on) => (t >= t0 ? A(470, y, 950, 190, `<div style="font-size:42px;color:rgba(255,255,255,.9)">${l}</div><div class="big num" style="font-size:104px;white-space:nowrap;line-height:1.2;-webkit-text-stroke:10px #0e1130;text-shadow:none">${a}${b ? ` <span style="display:inline-block;opacity:${op(t, tb, 0.1)};transform:scale(${Math.max(0.3, pop(t, tb))})">→ <span class="g">${b}</span></span>` : ""}</div>`, `opacity:${op(t, t0) * (on ? 1 : 0.4)}`) : "");
+          h += row(30, K.t4a, "いちばん運の悪い人", `<span style="color:#c9cde6">${E4.worst_nocap}回</span>`, `${E4.worst}回`, K.t4, id === "t4") + row(215, K.t5a, "平均の回数", `<span style="color:#c9cde6">100回</span>`, `約${T.M4}回`, K.t5, id === "t5") +
+            row(400, K.t6a, `<span style="color:#9fd0ff">■</span> 天井まで行った人`, `<span style="display:inline-block;transform:scale(${Math.max(0.3, pop(t, K.t6))});color:#9fd0ff">約${T.REACH}</span>${t >= K.t6b ? `<span style="font-size:56px;opacity:${op(t, K.t6b)}">（${T.ONE_IN}人に1人）</span>` : ""}`, "", 0, id === "t6");
+          if (id === "t6") h += A(470, 580, 900, 40, `計算の答え ${(E4.reach_theory * 100).toFixed(1)}%（${E4.reach.toLocaleString()}人）`, `font-size:26px;color:rgba(255,255,255,.75);opacity:${op(t, K.t6 + 0.8)}`);
+          return { title: `実験②の1万人に<span class="g">天井</span>をつける`, html: h };
+        }
+        if (v === "e4note") {
+          return { title: `天井があっても、<span class="g">1回1回は1%</span>`, html:
+            A(60, 90, 640, 500, `<div class="panel c" style="height:500px;padding-top:50px"><div style="font-size:54px;line-height:1.4">天井は<br><span style="color:#1971c2">運の悪い人を<br>助ける</span>仕組み</div><div style="margin-top:30px;font-size:44px;color:#5a5f86">最悪でも200回</div></div>`, `opacity:${op(t, K.t7a, 0.15)};transform:scale(${pop(t, K.t7a)}) rotate(-1.5deg)`) +
+            A(760, 90, 640, 500, `<div class="panel c" style="height:500px;padding-top:50px;background:#fff3b0"><div style="font-size:54px;line-height:1.4">でも、それまでの<br>1回1回は</div><div class="num" style="font-size:150px;color:#d9480f;line-height:1.15">1%</div><div style="font-size:54px">のまま</div></div>`, `opacity:${op(t, K.t7b, 0.15)};transform:scale(${pop(t, K.t7b)}) rotate(1.5deg)`) };
+        }
+        if (v === "e5a") {
+          const seq = E5.seq0, run = t >= K.k2q, pitch = Math.min(170, 1320 / seq.length), s = Math.min(120, pitch * 0.78), x0 = (1440 - seq.length * pitch) / 2;
+          const got = {}; let cnt = 0, h = "";
+          seq.forEach((c, i) => { const t0 = K.k2_go + i * D.step5; if (t < t0) return; cnt++; const dup = c in got; if (!dup) got[c] = t0;
+            h += A(x0 + i * pitch + (pitch - s) / 2, 400, s, s, kball(c, s), `transform:scale(${Math.max(0.2, pop(t, t0, 0.3))});opacity:${dup ? 0.55 : 1}`) +
+              A(x0 + i * pitch, 400 + s + 10, pitch, 44, dup ? `<span style="color:#ff8a80">ダブり</span>` : `<span style="color:#b9f6ca">新しい！</span>`, `text-align:center;font-size:${Math.min(32, pitch * 0.2)}px;white-space:nowrap`) +
+              A(x0 + i * pitch, 352, pitch, 40, `${i + 1}回目`, "text-align:center;font-size:28px;color:rgba(255,255,255,.75)"); });
+          for (let i = 0; i < 6; i++) { const on = !run || i in got, t0 = run ? got[i] ?? 0 : K.k1a + i * 0.1; h += A(170 + i * 190, 60, 150, 150, kball(i, 150, on), `transform:scale(${run ? (on ? 1 + 0.35 * Math.max(0, wob(t - t0, 3, 6)) : 1) : pop(t, t0)})`); }
+          h += A(120, 30, 1200, 210, "", "border:5px dashed rgba(255,255,255,.4);border-radius:30px") + A(0, 250, 1440, 60, run ? `そろった種類 <span class="num g" style="font-size:54px">${Object.keys(got).length}</span> / 6　　引いた回数 <span class="num" style="font-size:54px">${cnt}</span>回` : t >= K.k1b ? `<span style="opacity:${op(t, K.k1b)}">毎回、どれか1つが出る（どれも同じ確率）</span>` : "", "text-align:center;font-size:40px;white-space:nowrap");
+          if (t >= K.k3) h += A(0, 590, 1440, 150, `<div class="c">${hz(t, K.k3, `${E5.first}回でそろった！`, 100)}</div>`);
+          return { title: run ? `<span class="g">6回</span>で全部そろう？（1人目）` : `全部で<span class="g">6種類</span>のガチャ`, html: h };
+        }
+        if (v === "e5ten") return { title: `<span class="g">10人</span>が全部そろうまで引く`, html: A(60, 0, 1380, 740, tenBars(t, E5.ten, K.k10_go, K.k10_end, K.k10a, K.k10b, 5, "回")) };
+        if (v === "e5hist") {
+          const n = Math.round(N * Math.pow(prog(t, K.k1m_go, K.k1m_end - K.k1m_go), 1.6)); g.fillStyle = GOLD;
+          for (let i = 0; i < n; i++) g.fillRect(h5x[i], h5y[i], C5 - 0.8, C5 - 0.8);
+          let h = A(X5 - 10, HB + 2, (E5.max - 5) * P5 + 20, 4, "", "background:rgba(255,255,255,.8)");
+          for (const d of [6, 10, 20, 30, 40, 50]) if (d <= E5.max) h += A(x5(d) - 50, HB + 12, 100, 40, d + "回", "text-align:center;font-size:28px;color:rgba(255,255,255,.85)");
+          h += A(940, HB + 52, 500, 40, "全部そろった回数 →", "text-align:right;font-size:26px;color:rgba(255,255,255,.7)");
+          const q = t >= SC.kq.start, ans = t >= K.ka;
+          if (!q) h += A(700, 120, 700, 200, `<div class="lbl">積んだ人数</div>${bigNum(n.toLocaleString() + `<span style="font-size:60px">人</span>`, 130)}`);
+          else { h += A(760, 70, 660, 60, `<div class="lbl" style="font-size:46px">全部そろうまでの平均</div>`) + A(760, 130, 660, 200, bigNum(ans ? roll(t, K.ka, E5.mean.toFixed(1), 8, 5) + `<span style="font-size:80px">回</span>` : "？", 190, GOLD, ans ? 1 + 0.15 * wob(t - K.ka, 3, 6) : 1 + 0.05 * Math.sin(t * 6))) +
+            A(760, 330, 660, 40, `計算の答え ${E5.mean_theory}回`, `font-size:28px;color:rgba(255,255,255,.75);opacity:${op(t, K.ka + 1.0)}`);
+            if (ans) h += vline(x5(E5.mean), 30, "#4da3ff", op(t, K.ka)) + A(x5(E5.mean) + 10, 30, 120, 50, `<span class="tag" style="background:#1971c2;font-size:30px">平均</span>`, `opacity:${op(t, K.ka)}`); }
+          if (t >= K.ka2 && id !== "k90") h += A(x5(6) - 3, 76, 6, HB - 76 - (E5.min_count / 6) * C5 - 16, "", "background:#fff;border-radius:3px") + A(20, 0, 560, 76, `<div class="panel" style="padding:6px 20px;font-size:38px;white-space:nowrap;display:inline-block">6回ぴったり <span class="num" style="color:#d9480f;font-size:52px">${E5.min_count}人</span>だけ</div>`, `transform:scale(${pop(t, K.ka2)});transform-origin:0 50%`);
+          if (id === "k90" && t >= K.k90) { const xe = x5(E5.p90) + 13; h += A(X5 - 6, 30, xe - X5 + 6, HB - 30, "", `background:rgba(255,90,78,.14);border-right:6px solid #ff5a4e;opacity:${op(t, K.k90)}`) +
+            A(xe + 16, 400, 700, 90, `<div class="panel" style="padding:8px 22px;font-size:40px;white-space:nowrap;display:inline-block;box-shadow:0 0 0 6px #ff5a4e,0 10px 0 rgba(0,0,0,.25)">10人のうち9人はここまで <span class="num" style="font-size:60px;color:#e03131">${E5.p90}回</span></div>`, `transform:scale(${pop(t, K.k90)});transform-origin:0 50%`); }
+          if (t >= K.kmax) h += A(x5(E5.max) - 3, 500, 6, 120, "", "background:#ff5a4e;border-radius:3px") + A(x5(E5.max) - 470, 420, 500, 80, `<div class="panel" style="padding:6px 20px;font-size:38px;white-space:nowrap;display:inline-block;float:right">いちばんかかった人 <span class="num" style="color:#e03131;font-size:52px">${E5.max}回</span></div>`, `transform:scale(${pop(t, K.kmax)});transform-origin:100% 50%`);
+          return { title: `<span class="g">1万人</span>が全部そろうまでの回数`, html: h };
+        }
+        if (v === "e5why") {
+          const U = 105, ts = [K.kw1, K.kw2, K.kw2 + 0.5, K.kw2 + 1.0, K.kw2 + 1.5, K.kw3]; let h = "";
+          for (let i = 0; i < 6; i++) { if (t < ts[i]) continue; const y = 14 + i * 104, last = i === 5, len = E5.stage_theory[i] * U * easeOut(prog(t, ts[i] + 0.1, 0.5)), dimd = id === "kwhy3" && !last ? 0.5 : 1;
+            let alb = ""; for (let j = 0; j < 6; j++) alb += `<span class="ball" style="width:30px;height:30px;margin-right:5px;background:${j < i ? "rgba(255,255,255,.25)" : KC[j]}"></span>`;
+            h += `<div style="opacity:${op(t, ts[i], 0.2) * dimd}">` + A(0, y, 190, 84, `${i + 1}種類目`, `font-size:40px;line-height:84px;text-align:right;color:${last ? GOLD : "#fff"}`) +
+              A(215, y, 230, 84, `<div style="line-height:40px;white-space:nowrap">${alb}</div><div style="font-size:24px;line-height:40px;color:rgba(255,255,255,.85);white-space:nowrap">新しいのは 6個中${6 - i}個</div>`) +
+              A(480, y + 12, len, 60, "", `background:${last ? GOLD : "#4da3ff"};border-radius:14px`) +
+              A(480 + len + 16, y, 300, 84, `<span class="num" style="font-size:${last ? 64 : 46}px;color:${last ? GOLD : "#fff"}">平均${E5.stage[i].toFixed(i ? 1 : 0).replace(/\.0$/, "")}回</span>`, `line-height:84px;white-space:nowrap;opacity:${op(t, ts[i] + 0.4)}`) + `</div>`; }
+          if (t >= K.kw4) h += A(1010, 40, 420, 300, `<div class="panel c" style="height:300px;background:#fff3b0;padding:24px 10px"><div style="font-size:46px">全部足すと</div><div class="num" style="font-size:104px;color:#d9480f;line-height:1.2;white-space:nowrap">${E5.mean_theory}回</div><div style="font-size:30px;color:#5a5f86">1＋1.2＋1.5＋2＋3＋6</div></div>`, `transform:scale(${pop(t, K.kw4)}) rotate(2deg)`);
+          return { title: id === "kwhy0" ? `なぜ、<span class="g">こんなにかかる？</span>` : `<span class="g">最後の1種類</span>が出にくい`, html: h + (id === "kwhy0" ? A(0, 200, 1440, 300, `<div class="big c" style="font-size:240px;color:${GOLD};transform:scale(${1 + 0.06 * Math.sin(t * 5)})">？</div>`) : "") };
+        }
+        if (v === "end") {
+          const C = [[K.e1, "①", `1%を100回引いても 当たるのは<span style="color:#d9480f">約${T.W}</span>`], [K.e2, "②", `「そろそろ出る」は <span style="color:#d9480f">ない</span>`], [K.e3, "③", `回数とお金は <span style="color:#d9480f">引く前に決める</span>`]];
+          return { title: `今日の<span class="g">まとめ</span>`, html: C.map(([t0, n, l], i) => A(70, 30 + i * 230, 1300, 190, `<div class="panel" style="height:190px;font-size:62px;line-height:142px;white-space:nowrap"><span style="color:#1971c2;font-size:80px;vertical-align:-6px">${n}</span> ${l}</div>`,
+            `opacity:${op(t, t0, 0.15)};transform:translateX(${(1 - easeOut(prog(t, t0, 0.4))) * 300}px) rotate(${[-0.8, 0.8, -0.8][i]}deg)`)).join("") };
+        }
+        // end2：冒頭の問いに答える
+        const ans = t >= K.e5;
+        if (ans) { g.save(); g.translate(60, 250); g.scale(0.62, 0.62); g.translate(-GX, -GY); grid((i) => (i < E1.win ? GOLD : GRAY)); g.restore(); }
+        return { title: `最初の問いの<span class="g">答え</span>`, html:
+          A(0, 20, 1440, 180, `<div class="big c" style="font-size:96px;white-space:nowrap">1% × 100回 ＝ 当たる<span class="g">？</span></div>`, `transform:scale(${Math.max(0.6, pop(t, K.e4))})`) +
+          (ans ? A(540, 200, 880, 150, `<div class="c">${hz(t, K.e5, "3人に1人は", 96)}</div>`) + A(540, 350, 880, 170, `<div class="c">${hz(t, K.e5 + 0.4, "当たらない", 120)}</div>`) +
+            A(60, 695, 440, 40, `${ball(26, GOLD)} 当たった 約${T.W}　${ball(26, GRAY)} 0回 約${T.Z}`, "font-size:26px;white-space:nowrap;text-align:center") : "") +
+          (t >= K.e6 ? A(560, 590, 840, 140, `<div class="panel c" style="font-size:42px;line-height:1.35;padding:14px">次に確かめてほしい確率を<br><span style="color:#1971c2">コメントで教えてね！</span></div>`, `transform:scale(${pop(t, K.e6)}) rotate(-1.5deg)`) : "") };
+      }
+
+      // ---- 左の目次（いまどの実験か） ----
+      function side(t) {
+        if (t < K.in4 - 0.2) { $("side").innerHTML = ""; return; }
+        let ci = 0; D.chapters.forEach((c, i) => { if (t >= c.start) ci = i; });
+        $("side").style.opacity = op(t, K.in4 - 0.2, 0.5);
+        $("side").innerHTML = CHS.map((l, i) => { const cur = ci === i + 1, done = ci > i + 1;
+          return `<div class="srow" style="background:${cur ? GOLD : "rgba(14,17,48,.5)"};color:${cur ? "#1c2150" : done ? "rgba(255,255,255,.8)" : "rgba(255,255,255,.4)"};transform:scale(${cur ? 1 + 0.06 * Math.max(0, wob(t - D.chapters[ci].start, 3, 5)) : 1});transform-origin:0 50%">${done ? '<span style="color:#69db7c">✓</span> ' : ""}${l}</div>`; }).join("");
+      }
+      // ---- アリス ----
+      const NAMES = ["base", "talk", "talk_half", "blink", "happy", "surprised", "troubled", "pose_thinking", "pose_thinking_talk", "pose_thinking_half", "pose_pointing", "pose_pointing_talk", "pose_pointing_half", "pose_excited", "pose_excited_talk"];
+      $("alice").innerHTML = NAMES.map((n) => `<img id="a_${n}" src="assets/alice/${n}_768.png" alt="${n === "base" ? "電脳アリス" : ""}" style="opacity:0">`).join("");
+      const AMT = { surprised: 1.0, pose_excited: 0.8, troubled: 0.5 }, MARK = { surprised: "！", pose_thinking: "？", pose_excited: "✨" };
+      function alice(t, sc, u) {
+        const f = Math.floor(t * D.fps), mo = +D.mouth[Math.min(f, D.mouth.length - 1)] || 0, face = sc.face || "base";
+        const half = { base: "talk_half", pose_thinking: "pose_thinking_half", pose_pointing: "pose_pointing_half", pose_excited: "pose_excited" };
+        const f0 = face.startsWith("pose_") ? face : (mo ? "base" : face);
+        const show = mo === 2 ? (f0 === "base" ? "talk" : f0 + "_talk") : mo === 1 ? half[f0] : (f0 === "base" && t % 3.4 < 0.12 ? "blink" : f0);
+        for (const n of NAMES) $("a_" + n).style.opacity = n === show ? 1 : 0;
+        const i = D.scenes.indexOf(sc), prev = D.scenes[i - 1], changed = !prev || prev.face !== sc.face;
+        const nx = D.scenes[i + 1], pre = nx && nx.face !== sc.face ? faceAct(t, nx.start, 0) : { sx: 1, sy: 1 };
+        const act = changed ? faceAct(t, sc.start, AMT[face] ?? 0.3) : { sx: 1, sy: 1 };
+        const en = easeOut(prog(t, 0.1, 0.6)), lean = face === "pose_pointing" ? 2 : 0;
+        $("alice").style.transform = `translate(${-(1 - en) * 500 + (lean ? 10 : 0)}px, ${Math.sin(t * 2.2) * 5 + Math.sin(t * 3.7) * 2 + (mo ? -3 : 0)}px) rotate(${Math.sin(t * 1.3) * 0.8 + lean}deg) scale(${act.sx * pre.sx},${act.sy * pre.sy})`;
+        const mk = changed && MARK[face] && u < 1.2 ? MARK[face] : "";
+        $("mark").innerHTML = mk; $("mark").style.transform = mk ? `scale(${backOut(prog(t, sc.start, .35))}) rotate(${Math.sin(t * 9) * 6}deg)` : ""; $("mark").style.opacity = mk ? 1 - prog(t, sc.start + 0.9, 0.3) : 0;
+      }
+      function caption(sc, u, t) {
+        if (u > sc.voice_len + 0.35) return "";
+        const parts = sc.sub.match(/[^。？！…]+[。？！…]*/g) || [sc.sub]; let k = 0;
+        for (let i = 0; i < sc.marks.length; i++) if (t >= sc.marks[i][1] - 0.05) k = i;
+        let line = (parts[k] || "").replace(/。$/, "");
+        if (line.length > 24) { const m = line.length / 2; let b = -1; for (let i = 0; i < line.length - 1; i++) if ("、".includes(line[i]) && (b < 0 || Math.abs(i - m) < Math.abs(b - m))) b = i; if (b < 0 || Math.max(b + 1, line.length - b - 1) > 27) b = Math.floor(m); line = line.slice(0, b + 1) + "\n" + line.slice(b + 1); }
+        return line;
+      }
+      const CBG = { intro: "#2d3577", c1: "#1f558f", c2: "#4f2f86", c3: "#17605e", c4: "#7a3345", c5: "#2f6a3a", end: "#6a5a1f" };
+      const hex = (h) => [1, 3, 5].map((j) => parseInt(h.slice(j, j + 2), 16));
+      function bgAt(t) {
+        let ci = 0; D.chapters.forEach((c, i) => { if (t >= c.start) ci = i; });
+        const a = hex(CBG[D.chapters[Math.max(0, ci - 1)].id]), b = hex(CBG[D.chapters[ci].id]), k = prog(t, D.chapters[ci].start, 0.6);
+        const dark = D.sil.some(([x, y]) => t >= x && t < y) ? 0.5 : 0;
+        return `linear-gradient(rgba(0,0,0,${dark}),rgba(0,0,0,${dark})), radial-gradient(ellipse at 60% 40%, rgb(${a.map((v, j) => Math.round(lerp(v, b[j], k))).join(",")}) 0%, #171b42 70%, #0e1130 100%)`;
+      }
+      const WCOL = ["#ffc928", "#4da3ff", "#ff6b6b", "#3ccf7a"], TR = 0.3;
+      function wipe(t) {
+        const j = VB.findIndex((b) => Math.abs(t - b) < TR), w = $("wipe");
+        if (j < 0) { if (w.innerHTML) w.innerHTML = ""; return; }
+        const p = (t - (VB[j] - TR)) / (2 * TR), dir = j % 2 ? -1 : 1;
+        w.innerHTML = [0, 0.14, 0.06, 0.18, 0.1].map((d, i) => { const q = p < 0.5 ? easeOut(clamp((p * 2 - d) / (1 - d))) : easeIn(clamp(((p - 0.5) * 2 - d) / (1 - d)));
+          const x0 = p < 0.5 ? 0 : q, x1 = p < 0.5 ? q : 1;
+          return `<div style="position:absolute;top:${i * 20}%;height:21%;left:${(dir > 0 ? x0 : 1 - x1) * 100}%;width:${(x1 - x0) * 100}%;background:${WCOL[(j + i) % 4]};transform:skewY(-4deg)"></div>`; }).join("");
+      }
+      function renderAt(t) {
+        t = Math.max(0, Math.min(D.total - 0.001, t));
+        let sc = D.scenes[0]; for (const s of D.scenes) if (t >= s.start) sc = s;
+        const u = t - sc.start, first = firstOf(sc.vis);
+        $("bg").style.background = bgAt(t);
+        $("pat").style.backgroundPosition = `0 ${(t * 12) % 48}px`;
+        const r = stage(t, sc);
+        $("layer").innerHTML = r.html;
+        if ($("title").innerHTML !== r.title) $("title").innerHTML = r.title;
+        $("title").style.transform = `scale(${0.8 + 0.2 * backOut(prog(t, first.start, 0.5))})`;
+        const soft = !VB.includes(first.start) && first.start > 1 ? easeOut(prog(t, first.start, 0.3)) : 1;
+        const z = 1 + 0.004 * Math.min(t - first.start, 6), hit = D.hits.find((h) => t >= h && t < h + 0.35);
+        const [sx, sy] = hit ? shakeXY(t, 10 * (1 - (t - hit) / 0.35)) : [0, 0], bump = D.hits.reduce((s, h) => s + spring(t, h, 7, 22), 0) * 0.012;
+        $("stage").style.transform = `translate(${sx + (1 - soft) * 60}px,${sy}px) scale(${z + bump})`;
+        $("stage").style.opacity = soft;
+        $("cap").textContent = t < D.lead ? "" : caption(sc, u, t);
+        side(t); alice(t, sc, u); wipe(t);
+        $("flash").style.opacity = hit ? 0.3 * (1 - (t - hit) / 0.35) : 0;
+      }
+      window.addEventListener("hf-seek", (e) => renderAt(e.detail.time));
+      document.fonts.ready.then(() => renderAt(0));
+      renderAt(0);
+    </script>
+  </body>
+</html>

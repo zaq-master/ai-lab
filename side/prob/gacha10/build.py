@@ -104,6 +104,7 @@ S = [
     dict(id="avg2", face="pose_pointing", vis="e2hist", sub=f"でも、半分の人は{HALF}回までに当たっています。", pad=1.6),
     dict(id="avg3", face="base", vis="e2hist", sub="右のほうの運の悪い人たちが、平均を引き上げているんです。", pad=1.8),
     dict(id="avg4", face="troubled", vis="e2hist", sub=f"平均の100回を引いても、当たらない人が約{OVER}。「平均まで引けば安心」ではありません。", pad=2.0),
+    dict(id="safe", face="pose_pointing", vis="e2safe", sub=f"何回引けば安心か。半分の人でいいなら、{HALF}回。10人のうち9人なら、{P90}回。100人のうち99人なら、{P99}回。でも、絶対に当たる回数は、ありません。", pad=2.2),
     dict(id="sum1", face="pose_pointing", vis="sum1", sub=f"ここまでのまとめです。100回引いて当たるのは、約{W}。100人のうち99人が当たるのは、約{SAFE}回をこえてから。", pad=2.0),
     # ---- 実験③ ----
     dict(id="c3t", face="pose_excited", vis="c3t", sub="実験3。200回外れた。そろそろ出る？", pad=1.2),
@@ -116,6 +117,7 @@ S = [
     dict(id="sa2", face="base", vis="e3grid", sub="実験1と、同じです。200回外れても、当たりやすくはなりません。", pad=2.2),
     dict(id="swhy1", face="pose_pointing", vis="e3why", sub="理由はかんたん。ガチャは、前の結果を覚えていません。", pad=1.2),
     dict(id="swhy2", face="base", vis="e3why", sub="201回目も、1回目と同じ1%です。", pad=2.0),
+    dict(id="scoin", face="base", vis="e3coin", sub="コインも同じです。表が5回つづいても、次はやっぱり半分半分。", pad=1.8),
     dict(id="s6", face="pose_excited", vis="e3why", sub="「そろそろ出る」は、気のせいなんです！", pad=2.2),
     # ---- 実験④ ----
     dict(id="c4t", face="pose_excited", vis="c4t", sub="実験4。天井があると、どうなる？", pad=1.2),
@@ -139,6 +141,7 @@ S = [
     dict(id="kq", face="pose_thinking", vis="e5hist", sub="全部そろうまでの平均は…", pad=0.9),
     dict(id="ka", face="surprised", vis="e5hist", sub=f"{E5['mean']}回。", pad=2.8),
     dict(id="ka2", face="base", vis="e5hist", sub=f"6回の2倍以上です。6回ぴったりでそろった人は、{E5['min_count']}人だけ。", pad=2.0),
+    dict(id="k90", face="pose_pointing", vis="e5hist", sub=f"10人のうち9人は、{E5['p90']}回までにそろいました。", pad=2.0),
     dict(id="kmax", face="troubled", vis="e5hist", sub=f"いちばんかかった人は、{E5['max']}回でした。", pad=2.2),
     dict(id="kwhy0", face="pose_thinking", vis="e5why", sub="なぜ、こんなにかかるのでしょう？", pad=0.5),
     dict(id="kwhy1", face="pose_pointing", vis="e5why", sub="1種類目は、何が出ても新しい種類。1回で進みます。", pad=1.0),
@@ -160,6 +163,28 @@ CH = [("intro", "hook"), ("c1", "c1t"), ("c2", "c2t"), ("c3", "c3t"), ("c4", "c4
 BGM = {"intro": "nandeshou", "c1": "nandeshou", "c2": "morning", "c3": "morning", "c4": "summer_triangle", "c5": "summer_triangle", "end": "nandeshou"}
 
 
+CACHE = "/tmp/claude-0/-home-user-ai-lab/587706be-8e83-540a-b422-97e0b25b1803/scratchpad/ttscache"
+
+
+def tts_cached(p, *a):
+    """同じ文は作り直さない（作業用の一時フォルダに置く。コミットしない）"""
+    import hashlib
+    os.makedirs(CACHE, exist_ok=True)
+    f = os.path.join(CACHE, hashlib.md5(repr((p, a)).encode()).hexdigest() + ".npy")
+    if os.path.exists(f):
+        return np.load(f), vv_ja.SR
+    x, sr = vv_ja.tts(p, *a)
+    assert sr == vv_ja.SR
+    np.save(f, x)
+    return x, sr
+
+
+def mixs(*xs):
+    n = max(len(x) for x in xs); out = np.zeros(n, np.float32)
+    for x in xs: out[: len(x)] += x
+    return out
+
+
 def tts_marks(text):
     """vv_ja.tts_script と同じ読み方で、文ごとの開始時刻（marks）も返す"""
     parts = [p for p in re.findall(SPLIT, text) if p.strip()]
@@ -168,7 +193,7 @@ def tts_marks(text):
         is_q = "？" in p
         has_num = bool(re.search(r"[0-9０-９]|パーセント|万円|分の", p))
         bright = is_q or "！" in p
-        x, sr = vv_ja.tts(p, "amaama" if bright else "normal", 1.0 if has_num else 1.08, 0.02 if bright else 0.0, 1.3 if bright else 1.15)
+        x, sr = tts_cached(p, "amaama" if bright else "normal", 1.0 if has_num else 1.08, 0.02 if bright else 0.0, 1.3 if bright else 1.15)
         x = np.interp(np.arange(int(len(x) * SR / sr)) / SR, np.arange(len(x)) / sr, x).astype(np.float32)
         marks.append(round(t, 3)); out.append(x); t += len(x) / SR
         gap = 0.4 if is_q else 0.5 if "…" in p else 0.2
@@ -200,7 +225,7 @@ def sweep(d, f0=300, f1=800, a=0.03):
 
 def main():
     for s in S:
-        s["say"] = to_say(s["sub"]).replace("「", "").replace("」", "")
+        s["say"] = to_say(s["sub"]).replace("「", "").replace("」", "").replace("表が", "おもてが")
         kana, bad = check(s["say"])
         if bad:
             raise SystemExit(f"読みの問題 {s['id']}: {bad} {kana}")
@@ -218,7 +243,7 @@ def main():
         acc, mk = 0, []
         for i, p in enumerate(sp):
             mk.append([acc, round(t + marks[i], 3)]); acc += len(p)
-        pad = s.get("pad", 0.4)
+        pad = s.get("pad", 0.4) + 0.25
         s["start"], s["voice_len"], s["dur"], s["marks"] = round(t, 3), round(len(x) / SR, 3), round(len(x) / SR + pad, 3), mk
         b = np.zeros(int(round(s["dur"] * SR)), np.float32); b[: len(x)] = x
         parts.append(b); t += len(b) / SR
@@ -260,6 +285,8 @@ def main():
         m_go=st("maxq"), m_sil=end("maxq"), mx=st("max") + 0.05,
         d_fly=at("dist0", "並べ直します") - 0.3, d_tail=at("dist1", "そして右へ"),
         v1=at("avg1", "平均100回"), v2=at("avg2", "半分の人は"), v3=at("avg3", "右のほう"), v3b=at("avg3", "平均を"), v4=at("avg4", "当たらない人"), v4b=at("avg4", "「平均まで"),
+        sf1=at("safe", "半分の人で"), sf2=at("safe", "10人のうち9人"), sf3=at("safe", "100人のうち99人"), sf4=at("safe", "でも、絶対"),
+        sc1=at("scoin", "表が5回"), sc2=at("scoin", "次は"), k90=at("k90", "10人のうち"),
         sm1a=at("sum1", "100回引いて"), sm1b=at("sum1", "100人のうち"),
         s1a=st("s1") + 0.1, s1b=at("s1", "そろそろ"),
         s2a=at("s2", "200回つづけて"), s2b=at("s2", "1万人集め"), s2c=at("s2", "集めるのに"),
@@ -322,17 +349,17 @@ def main():
         a = int(tm * SR)
         if 0 <= a < len(mix): mix[a:a + len(c)] += c[: len(mix) - a]
     kiran = sum(tone(f, 1.0, 0.07, 0.3) for f in (1318.5, 1760, 2637))
-    don = tone(196, 0.5, 0.12, 0.15) + noise(0.25, 0.08, 0.05, 5)
+    don = mixs(tone(196, 0.5, 0.12, 0.15), noise(0.25, 0.08, 0.05, 5))
     pon = tone(880, 0.25, 0.05, 0.08)
     low = tone(330, 0.25, 0.06, 0.08)
     hi = tone(1046.5, 0.3, 0.07, 0.1)
     HITS = ["a1", "half", "mx", "sa", "ka", "e5"]
     for k in HITS: put(K[k], kiran)
-    put(K["o_ans"], low + tone(247, 0.4, 0.06, 0.15))
+    put(K["o_ans"], mixs(low, tone(247, 0.4, 0.06, 0.15)))
     for c, sid in CH[1:6]: put(SC[sid]["start"] - 0.25, noise(0.5, 0.06, 0.2, 9)); put(SC[sid]["start"] + 0.05, don)
     for k in ("h_1man", "in2_eq", "g1", "g2", "g3", "r_gold", "r_gray", "in1_gold", "t10r", "x100r", "a2n", "w1", "w2", "w4", "w5a", "w5b", "p10a", "p10b",
               "p90", "p99", "v1", "v2", "v4", "sm1a", "sm1b", "s2b", "s4", "sa2", "sw2", "sw3", "t1c", "t4", "t5", "t6", "sm2a", "sm2b", "k1a",
-              "ka2", "kmax", "kw1", "kw3", "kw4", "e1", "e2", "e3", "e6", "p2", "k3", "s6"):
+              "ka2", "kmax", "sf1", "sf2", "sf3", "sf4", "sc2", "k90", "kw1", "kw3", "kw4", "e1", "e2", "e3", "e6", "p2", "k3", "s6"):
         put(K[k], pon)
     for k in ("o_d1", "o_d2", "o_d3"): put(K[k], low)
     for k, e in (("o_ff", "o_ffend"), ("t10_go", "t10_end"), ("x1m_fill", "x1m_done"), ("p10_go", "p10_end"), ("g2_go", "h_sil"), ("p90_go", "p90"), ("p99_go", "p99"),
@@ -358,6 +385,10 @@ def main():
                 txt=dict(Z=Z, W=W, OVER=OVER, TRIED=TRIED, ONE_IN=ONE_IN, SAFE=SAFE, M4=M4, W3=pc(E3["win_rate"]), REACH=pc(E4["reach_rate"]), MAXX=MAXX))
     with open(os.path.join(HERE, "assets", "data.js"), "w") as f:
         f.write("window.DATA=" + json.dumps(data, ensure_ascii=False, separators=(",", ":")) + ";")
+    idx = os.path.join(HERE, "index.html")
+    if os.path.exists(idx):      # 動画の長さを index.html に書き込む
+        h = open(idx).read()
+        open(idx, "w").write(re.sub(r'data-duration="[0-9.]+"', f'data-duration="{total:.2f}"', h))
     print(f"total {total:.2f}s")
     for c in chapters: print(c)
     print(K)
