@@ -38,6 +38,7 @@ def main():
                      p1_bits="".join("1" if b else "0" for b in draws[0]), p1_hits=int(cnt[0]),
                      p1_first=int(first[0]) + 1 if len(first) else 0,
                      win10=int(win[:10].sum()), win100=int(win[:100].sum()),
+                     ten_bits=["".join("1" if b else "0" for b in draws[i]) for i in range(10)],
                      bits="".join("1" if b else "0" for b in win), most=int(cnt.max()),
                      multi=int((cnt >= 2).sum()),
                      pow=[round(Q ** k, 4) for k in range(0, 101)])
@@ -74,7 +75,7 @@ def main():
     near(r3, 1 - th0, math.sqrt(th0 * (1 - th0) / N), "③次の100回")
     near(N / y_all_tried, Q ** 200, 0.004, "③200回外れる割合")
     out["e3"] = dict(tried=y_all_tried, win=int(w3.sum()), win_rate=round(r3, 4), win_theory=round(1 - th0, 4),
-                     miss200_theory=round(Q ** 200, 4), bits="".join("1" if b else "0" for b in w3))
+                     miss200_theory=round(Q ** 200, 4), more=np.minimum(more, 101).tolist())
 
     # ---- 実験④ 天井200（200回引いても出なければ、もらえる）。実験②と同じ1万人 ----
     capped = np.minimum(x, 200)
@@ -112,7 +113,7 @@ def main():
                      p90=int(np.sort(t5)[int(0.9 * N) - 1]), mode=int(np.bincount(t5).argmax()))
     json.dump(out, open(os.path.join(HERE, "results.json"), "w"), ensure_ascii=False)
     for k in ("e1", "e2", "e3", "e4", "e5"):
-        print(k, {a: b for a, b in out[k].items() if not isinstance(b, (list, str)) or len(b) <= 12})
+        print(k, {a: b for a, b in out[k].items() if not isinstance(b, (list, str)) or len(b) <= 10})
 
 
 if __name__ == "__main__":

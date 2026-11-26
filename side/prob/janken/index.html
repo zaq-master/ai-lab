@@ -20,8 +20,8 @@
       #cam { position: absolute; inset: 0; transform-origin: 1210px 490px; }
       .big { font-weight: 800; color: #fff; -webkit-text-stroke: 12px var(--navy); paint-order: stroke fill; text-shadow: 6px 6px 0 var(--navy); }
       #title { position: absolute; left: 30px; width: 470px; top: 90px; text-align: center; font-size: 66px; line-height: 1.2; }
-      #stage { position: absolute; left: 540px; width: 1340px; top: 80px; height: 820px; }
-      #cv { position: absolute; left: 800px; top: 80px; width: 820px; height: 820px; border-radius: 14px; }
+      #stage { position: absolute; left: 570px; width: 1290px; top: 100px; height: 790px; }
+      #cv { position: absolute; left: 805px; top: 86px; width: 820px; height: 820px; border-radius: 14px; }
       #cap { position: absolute; left: 540px; width: 1340px; top: 922px; text-align: center; font-size: 52px; white-space: pre-line; line-height: 1.28; }
       #alice { position: absolute; left: 10px; bottom: -230px; width: 520px; height: 693px; transform-origin: 50% 100%; filter: drop-shadow(5px 0 0 #fff) drop-shadow(-5px 0 0 #fff) drop-shadow(0 -5px 0 #fff) drop-shadow(8px 10px 0 rgba(0,0,0,.35)); }
       #alice img { position: absolute; inset: 0; width: 520px; height: 693px; transform: scaleX(0.9); transform-origin: 50% 100%; }
@@ -146,26 +146,26 @@
               <div style="flex:1;text-align:right"><span class="badge" style="font-size:46px;background:${ok ? GOLD : "#d5d8e6"};color:${ok ? "#1c2150" : "#4a4f72"}">${ok ? "決まる" : "あいこ"}</span></div></div>`).join("")}
             <div class="note">※全員がグー・チョキ・パーを同じくらいの割合で、でたらめに出す前提</div></div>` };
         }
-        if (v === "guess") return { title: `5人で<br>1回で<br>決まるのは`, html: `<div style="display:flex;gap:40px;justify-content:center;margin-top:90px">
+        if (v === "guess") return { title: `5人で<br>1回で<br>決まるのは`, html: `<div style="display:flex;gap:40px;justify-content:center;margin-top:30px">
           ${[["多い", K.g_a, "⬆"], ["少ない", K.g_b, "⬇"]].map(([l, t0, ar], i) => `<div class="panel" style="width:430px;text-align:center;opacity:${t < t0 ? 0 : 1};transform:scale(${pop(t, t0)}) rotate(${i ? 3 : -3}deg)">
-            <div style="font-size:52px;font-weight:800;color:#5a5f86">半分より</div><div style="font-size:120px;font-weight:800">${l}</div><div style="font-size:90px;font-weight:800;color:${i ? "#4da3ff" : "#ff5a4e"}">${ar}</div></div>`).join("")}</div>
-          <div class="big" style="text-align:center;font-size:72px;margin-top:70px;opacity:${op(t, K.g_b + 0.8)}">どっち？</div>` };
+            <div style="font-size:52px;font-weight:800;color:#5a5f86">半分より</div><div style="font-size:104px;font-weight:800;white-space:nowrap">${l}</div><div style="font-size:90px;font-weight:800;color:${i ? "#4da3ff" : "#ff5a4e"}">${ar}</div></div>`).join("")}</div>
+          <div class="big" style="text-align:center;font-size:72px;margin-top:40px;opacity:${op(t, K.g_b + 0.8)}">どっち？</div>` };
         if (v === "ten") {
           let n = 0;
           const rows = D.H10.map((h, i) => { const t0 = K.ten_go + i * 0.3, on = t >= t0, ok = dec[i] === "1"; if (on && ok) n++;
-            return `<div style="display:flex;align-items:center;gap:10px;height:76px;opacity:${on ? 1 : 0};transform:translateX(${(1 - easeOut(prog(t, t0, 0.25))) * 80}px)">
+            return `<div style="display:flex;align-items:center;gap:10px;height:66px;opacity:${on ? 1 : 0};transform:translateX(${(1 - easeOut(prog(t, t0, 0.25))) * 80}px)">
               <div class="num" style="width:120px;font-size:34px;font-weight:800;color:#5a5f86">${i + 1}回目</div>
-              <div style="display:flex;gap:6px">${h.map((x) => hand(x, 66, { label: false, state: ok ? "win" : "gray" })).join("")}</div>
+              <div style="display:flex;gap:6px">${h.map((x) => hand(x, 58, { label: false, state: ok ? "win" : "gray" })).join("")}</div>
               <div style="flex:1;text-align:right"><span class="badge" style="font-size:36px;background:${ok ? GOLD : "#d5d8e6"};color:${ok ? "#1c2150" : "#4a4f72"}">${ok ? "決まる" : "あいこ"}</span></div></div>`; }).join("");
           const title = t >= K.ten_num ? `10回中<br><span class="num" style="color:var(--gold);font-size:120px">${roll(t, K.ten_num, D.first10 + "回", 1, 5)}</span>` : `まず<span style="color:var(--gold)">10回</span>`;
-          return { title, html: `<div class="panel" style="padding:20px 34px">${rows}</div>` };
+          return { title, html: `<div class="panel" style="padding:18px 60px;width:900px;margin:0 auto">${rows}</div>` };
         }
         if (v === "hund") {
           const sh = Math.round(100 * easeInOut(prog(t, K.hu_go, 2.6)));
           const ds = Array.from({ length: 100 }, (_, i) => { const on = i < sh, ok = dec[i] === "1";
-            return `<div style="width:56px;height:56px;border-radius:50%;background:${on ? (ok ? GOLD : GRAY) : "#eef0f7"}"></div>`; }).join("");
+            return `<div style="width:52px;height:52px;border-radius:50%;background:${on ? (ok ? GOLD : GRAY) : "#eef0f7"}"></div>`; }).join("");
           const title = t >= K.hu_num ? `100回中<br><span class="num" style="color:var(--gold);font-size:120px">${roll(t, K.hu_num, D.first100 + "回", 2, 5)}</span>` : `次は<span style="color:var(--gold)">100回</span>`;
-          return { title, html: `<div class="panel"><div style="display:grid;grid-template-columns:repeat(10,56px);gap:12px;justify-content:center">${ds}</div>
+          return { title, html: `<div class="panel"><div style="display:grid;grid-template-columns:repeat(10,52px);gap:10px;justify-content:center">${ds}</div>
             <div style="display:flex;justify-content:center;gap:40px;margin-top:22px;font-size:40px;font-weight:800;opacity:${op(t, K.hu_col)}">
               <span><span style="color:${GOLD}">●</span> 決まった</span><span><span style="color:${GRAY}">●</span> あいこ</span></div></div>` };
         }
@@ -191,7 +191,7 @@
               <text x="${x + BW / 2}" y="586" text-anchor="middle" font-size="34" font-weight="800" fill="#5a5f86">${n}人</text>${lab}`; }).join("");
           const arrow = t > K.p_all ? `<path d="M 130 70 Q 470 100 790 400" fill="none" stroke="#ff3d7f" stroke-width="12" stroke-linecap="round" stroke-dasharray="${1000 * easeOut(prog(t, K.p_all, 0.8))} 2000"/>` : "";
           return { title: `人数を<br><span style="color:var(--gold)">変えると？</span>`, html: `<div class="panel"><div class="ph">1回で決まる割合（各1万回）</div>
-            <svg width="904" height="600" style="display:block;font-family:R">${bars}${arrow}</svg>
+            <svg width="904" height="600" style="display:block;margin:0 auto;font-family:R">${bars}${arrow}</svg>
             <div class="note" style="font-size:28px;margin-top:0">横の線＝計算で出した答え</div></div>` };
         }
         if (v === "tenr") {
@@ -218,7 +218,7 @@
             <div class="note">□1つ＝5人の手の出し方1通り</div></div>` };
         }
         if (v === "why4") {
-          const rows = [3, 5, 10].map((n, i) => { const t0 = K.w4_go + i * 0.7, gw = easeOut(prog(t, t0, 0.6)), q = P[n], W = 900;
+          const rows = [3, 5, 10].map((n, i) => { const t0 = K.w4_go + i * 0.7, gw = easeOut(prog(t, t0, 0.6)), q = P[n], W = 1180;
             const d = q.ways_dec / q.ways, s = q.ways_same / q.ways, th = q.ways_three / q.ways;
             return `<div style="opacity:${op(t, t0)};margin:12px 0 26px"><div style="font-size:44px;font-weight:800;margin-bottom:8px">${n}人</div>
               <div style="display:flex;height:92px;width:${W * gw}px;border-radius:16px;overflow:hidden">
@@ -232,7 +232,7 @@
           const pk = D.pick, mx = pk.all10_sim;
           const bar = (lab, sub, val, col, t0, t1) => { const gw = easeOut(prog(t, t0, 0.8));
             return `<div style="opacity:${op(t, t0)};margin:18px 0 38px"><div style="font-size:46px;font-weight:800">${lab}</div><div style="font-size:32px;font-weight:700;color:#5a5f86;margin-bottom:10px">${sub}</div>
-              <div style="display:flex;align-items:center;gap:20px"><div style="height:96px;border-radius:18px;background:${col};width:${640 * val / mx * gw}px"></div>
+              <div style="display:flex;align-items:center;gap:20px"><div style="height:96px;border-radius:18px;background:${col};width:${860 * val / mx * gw}px"></div>
               <div class="num" style="font-size:70px;font-weight:800;color:${col};opacity:${op(t, t1)}">${t >= t1 ? roll(t, t1, "約" + Math.round(val) + "回", 5, 5) : ""}</div></div></div>`; };
           const g10 = Array.from({ length: 10 }, () => "●").join(""), g5 = "●●●●●";
           return { title: `大人数なら<br><span style="color:var(--gold)">分けよう</span>`, html: `<div class="panel"><div class="ph" style="font-size:40px">10人から1人を選ぶまで、じゃんけんの回数</div>
@@ -300,7 +300,7 @@
         $("title").style.transform = `scale(${0.7 + 0.3 * backOut(prog(t, first.start, 0.5))})`;
         // 答えの直前（無音）は画面も止める：カメラの寄りをその間だけ止める
         const still = t > K.a_num - 0.6 && t < K.a_num;
-        const z = 1 + 0.01 * Math.min(t - first.start, 6), hit = HITS.find((h) => t >= h && t < h + 0.35);
+        const z = 1 + 0.004 * Math.min(t - first.start, 6), hit = HITS.find((h) => t >= h && t < h + 0.35);
         const [sx, sy] = hit ? shakeXY(t, 12 * (1 - (t - hit) / 0.35)) : [0, 0], bump = HITS.reduce((s, h) => s + spring(t, h, 7, 22), 0) * 0.015;
         $("cam").style.transform = still ? `scale(${z})` : `translate(${sx + 4 * Math.sin(t * 0.5)}px,${sy}px) scale(${z + bump})`;
         $("cap").textContent = t < D.lead ? "" : caption(sc, u, t);

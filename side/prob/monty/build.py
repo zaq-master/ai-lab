@@ -59,7 +59,7 @@ S = [
     dict(id="h100b", face="base", vis="h100", sub="あなたが1枚選んで、私が外れを98枚開けます。"),
     dict(id="h100c", face="surprised", vis="h100", sub="残ったこの1枚、あやしくないですか？あなたの1枚が当たりなのは、100枚に1枚だけです。"),
     dict(id="life", face="base", vis="life", sub="後から新しい情報が出たら、選び直すと得なこともあります。ただし今回は、司会が答えを知っている時のお話です。"),
-    dict(id="end", face="happy", vis="end", sub="答えは、選び直す。当たりが約2倍になります。これはAIのシミュレーションです。次に確かめてほしいこと、コメントで教えてね！"),
+    dict(id="end", face="happy", vis="end", sub="答えは、選び直す。当たりが約2倍になります。次に確かめてほしいこと、コメントで教えてね！"),
 ]
 SPLIT = r"[^。？！…]+[。？！…]*"
 
@@ -101,7 +101,7 @@ def noise(d, a, decay, seed=1):
 PAD = {"hook": 0.5, "hook2": 1.0, "rule1": 0.6, "rule2": 0.9, "rule3": 1.5, "rule4": 1.0, "ask": 1.6, "guess": 0.8, "guess2": 1.0,
        "ex1": 0.8, "x1": 1.8, "x1r": 0.8, "x10": 2.4, "x10r": 1.2, "x100": 2.6, "x100r": 1.2, "x1m": 2.6, "ansq": 0.8,
        "ans1": 1.6, "ans2": 2.8, "why0": 0.4, "why1": 1.2, "why2": 1.4, "why3": 2.0, "h100a": 1.4, "h100b": 3.4, "h100c": 1.6,
-       "life": 1.2, "end": 1.8}
+       "life": 1.2, "end": 2.2}
 
 
 def main():
@@ -150,7 +150,7 @@ def main():
         h_grid=SC["h100a"]["start"] + 0.2, h_pick=at("h100b", "1枚選んで"), h_open=at("h100b", "外れを98枚"),
         h_sus=at("h100c", "残った"), h_1in100=at("h100c", "あなたの1枚"),
         l_info=at("life", "後から"), l_but=at("life", "ただし"),
-        e_ans=at("end", "答えは"), e_x2=at("end", "当たりが"), e_ai=at("end", "これは"), e_cm=at("end", "次に"),
+        e_ans=at("end", "答えは"), e_x2=at("end", "当たりが"), e_cm=at("end", "次に"),
     )
     # 1万回の点は「1万回です」から、声が終わって間の終わり0.3秒前までに埋める
     K["x1m_fill"] = round(K["x1m"] + 1.0, 3)
