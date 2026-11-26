@@ -160,6 +160,7 @@ S = [
 SPLIT = r"[^。？！…]+[。？！…]*"
 # 章（BGM・背景・左の目次に使う）
 CH = [("intro", "hook"), ("c1", "c1t"), ("c2", "c2t"), ("c3", "c3t"), ("c4", "c4t"), ("c5", "c5t"), ("end", "e0")]
+BGM_GAIN = {"morning": 0.72, "summer_triangle": 0.72}   # 曲ごとの聞こえ方の差をならす（声のない所の音量をそろえる）
 BGM = {"intro": "nandeshou", "c1": "nandeshou", "c2": "morning", "c3": "morning", "c4": "summer_triangle", "c5": "summer_triangle", "end": "nandeshou"}
 
 
@@ -326,7 +327,7 @@ def main():
         name = BGM[c["id"]]; path = os.path.join(P3, "assets", "bgm", name + ".mp3")
         if not os.path.exists(path): continue
         if name not in cache:
-            m = load_mp3(path); cache[name] = m / (np.sqrt((m ** 2).mean()) + 1e-9) * 0.11
+            m = load_mp3(path); cache[name] = m / (np.sqrt((m ** 2).mean()) + 1e-9) * 0.11 * BGM_GAIN.get(name, 1.0)
         a = int(max(0, c["start"] - 0.5) * SR); b = int((chapters[i + 1]["start"] + 0.5) * SR) if i + 1 < len(chapters) else len(vo)
         if i and BGM[chapters[i - 1]["id"]] == name:      # 同じ曲がつづく章は切らない
             continue

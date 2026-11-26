@@ -100,12 +100,12 @@
       // 100人ずつのかたまり（10×10）を10×10に並べる＝最初の100人が左上のかたまり
       const trialAt = (i) => { const r = Math.floor(i / 100), c = i % 100; return (Math.floor(r / 10) * 10 + Math.floor(c / 10)) * 100 + (r % 10) * 10 + (c % 10); };
       function grid(colorOf, z = 1, block = false) {
-        g.save(); g.beginPath(); g.rect(GX - 4, GY - 4, GS + 8, GS + 8); g.clip();
-        const cell = GS * z / 100, r = Math.max(1.2, cell * 0.41), lim = Math.min(100, Math.ceil(100 / z) + 1), L = {};
-        for (let rr = 0; rr < lim; rr++) for (let c = 0; c < lim; c++) { const i = rr * 100 + c, col = colorOf(block ? trialAt(i) : i); (L[col] = L[col] || []).push(GX + (c + 0.5) * cell, GY + (rr + 0.5) * cell); }
+        g.save(); g.fillStyle = "rgba(14,17,48,.55)"; g.beginPath(); g.roundRect(GX - 14, GY - 14, GS + 28, GS + 28, 22); g.fill(); g.beginPath(); g.rect(GX - 4, GY - 4, GS + 8, GS + 8); g.clip();
+        const cell = GS * z / 100, r = Math.max(1.2, cell * (z > 5 ? 0.42 : 0.48)), lim = Math.min(100, Math.ceil(100 / z) + 1), L = {};
+        for (let rr = 0; rr < lim; rr++) for (let c = 0; c < lim; c++) { const i = rr * 100 + c, c0 = colorOf(block ? trialAt(i) : i), col = z > 5 ? c0 : c0 === GRAY ? "#8187a6" : c0; (L[col] = L[col] || []).push(GX + (c + 0.5) * cell, GY + (rr + 0.5) * cell); }
         circles(L, r); g.restore();
       }
-      const frame = () => `<div class="abs" style="left:${GX - 14}px;top:${GY - 14}px;width:${GS + 28}px;height:${GS + 28}px;border-radius:22px;background:rgba(14,17,48,.55);box-shadow:0 0 0 5px rgba(255,255,255,.85)"></div>`;
+      const frame = () => `<div class="abs" style="left:${GX - 14}px;top:${GY - 14}px;width:${GS + 28}px;height:${GS + 28}px;border-radius:22px;box-shadow:0 0 0 5px rgba(255,255,255,.85)"></div>`;
       const legend = (x, y, a, b, o = 1) => A(x, y, null, null, `<div style="font-size:32px;white-space:nowrap;color:#fff;opacity:${o}">${ball(34, GOLD)} ${a}　${ball(34, GRAY)} ${b}</div>`);
       const meter = (x, y, w, r, marks = []) => A(x, y, w, 36, `<div style="position:absolute;inset:0;border-radius:18px;background:#4a5078;overflow:hidden"><div style="position:absolute;left:0;top:0;bottom:0;width:${r * 100}%;background:${GOLD}"></div></div>` +
         marks.map(([m, l]) => `<div style="position:absolute;left:${m * 100}%;top:-8px;width:4px;height:52px;background:#fff;border-radius:2px"></div><div style="position:absolute;left:${m * 100}%;top:48px;transform:translateX(-50%);font-size:24px;white-space:nowrap;color:rgba(255,255,255,.85)">${l}</div>`).join(""));
@@ -231,7 +231,7 @@
           const z = t < K.x1m ? 10 : 10 * Math.pow(0.1, flyEase(prog(t, K.x1m, 0.9)));
           const n = t < K.x100 ? 0 : t < K.x1m_fill ? Math.round(100 * easeOut(prog(t, K.x100, 1.6))) : Math.round(100 + 9900 * Math.pow(prog(t, K.x1m_fill, K.x1m_done - K.x1m_fill), 2));
           const sortK = smooth(prog(t, K.a_sort, 0.9)); let w = 0; for (let i = 0; i < n; i++) w += E1.bits.charCodeAt(i) === 49;
-          if (sortK > 0) { grid((i) => (i < E1.win ? GOLD : GRAY)); g.globalAlpha = 1 - sortK; if (sortK < 1) { g.fillStyle = "#151a40"; g.fillRect(GX - 4, GY - 4, GS + 8, GS + 8); grid((k) => (E1.bits[k] === "1" ? GOLD : GRAY), 1, true); } g.globalAlpha = 1; }
+          if (sortK > 0) { grid((i) => (i < E1.win ? GOLD : GRAY)); g.globalAlpha = 1 - sortK; if (sortK < 1) { g.fillStyle = "#151a40"; g.fillRect(GX - 4, GY - 4, GS + 8, GS + 8); g.globalAlpha = 1 - sortK; grid((k) => (E1.bits[k] === "1" ? GOLD : GRAY), 1, true); } g.globalAlpha = 1; }
           else grid((k) => (k < n ? (E1.bits[k] === "1" ? GOLD : GRAY) : EMPTY), z, true);
           const big = t >= K.x1m, q = t >= SC.ansq.start, a1 = t >= K.a1, tot = big ? 10000 : 100;
           let h = frame() + steps(t, big ? 3 : 2, big ? K.x1m : sc.start);
@@ -241,11 +241,11 @@
           else {
             h += A(800, 100, 620, 60, `<div class="lbl">${ball(40, GRAY)} 1回も当たらなかった人</div>`) +
               A(800, 160, 620, 200, bigNum(a1 ? roll(t, K.a1, "約" + T.Z, 2, 5) : "？", a1 ? 170 : 190, a1 ? "#fff" : GOLD, a1 ? 1 + 0.15 * wob(t - K.a1, 3, 6) : 1 + 0.05 * Math.sin(t * 6))) +
-              A(800, 356, 620, 40, `計算の答え ${(E1.zero_theory * 100).toFixed(1)}%（${E1.zero.toLocaleString()}人）`, `font-size:28px;color:rgba(255,255,255,.75);opacity:${op(t, K.a_sort)}`);
+              A(800, 356, 620, 40, `今回 ${E1.zero.toLocaleString()}人（${(E1.zero_rate * 100).toFixed(1)}%）／計算の答え ${(E1.zero_theory * 100).toFixed(1)}%`, `font-size:28px;color:rgba(255,255,255,.75);opacity:${op(t, K.a_sort)}`);
             if (t >= K.a2) h += A(800, 440, 620, 60, `<div class="lbl">${ball(40, GOLD)} 1回でも当たった人</div>`, `opacity:${op(t, K.a2)}`) +
               A(800, 500, 620, 190, bigNum(t >= K.a2n ? roll(t, K.a2n, "約" + T.W, 4, 5) : "", 150, GOLD, t >= K.a2n ? 1 + 0.15 * wob(t - K.a2n, 3, 6) : 1));
           }
-          return { title: q ? (a1 ? `<span class="g">3人に1人</span>より多く、当たらない` : `1回も当たらなかった人は…`) : big ? `<span class="g">1万人</span>が100回ずつ引く` : `<span class="g">100人</span>が100回ずつ引く`, html: h };
+          return { title: q ? (t >= SC.ans2.start ? `<span class="g">3人に1人</span>より多く、当たらない` : a1 ? `1回も当たらない人が<span class="g">約${T.Z}</span>` : `1回も当たらなかった人は…`) : big ? `<span class="g">1万人</span>が100回ずつ引く` : `<span class="g">100人</span>が100回ずつ引く`, html: h };
         }
         if (v === "e1why") {
           const x0 = 150, yb = 620, H = 440, pw = 10;
@@ -355,19 +355,19 @@
         }
         if (v === "e3grid") {
           const n = Math.round(100 * prog(t, K.s3_go, K.s3_end - K.s3_go)), ans = t >= K.sa, sortK = smooth(prog(t, K.sa + 1.0, 0.9));
-          if (sortK > 0) { grid((i) => (i < E3.win ? GOLD : GRAY)); if (sortK < 1) { g.globalAlpha = 1 - sortK; g.fillStyle = "#151a40"; g.fillRect(GX - 4, GY - 4, GS + 8, GS + 8); grid((i) => (E3.more[i] <= 100 ? GOLD : GRAY)); g.globalAlpha = 1; } }
+          if (sortK > 0) { grid((i) => (i < E3.win ? GOLD : GRAY)); if (sortK < 1) { g.globalAlpha = 1 - sortK; g.fillStyle = "#151a40"; g.fillRect(GX - 4, GY - 4, GS + 8, GS + 8); g.globalAlpha = 1 - sortK; grid((i) => (E3.more[i] <= 100 ? GOLD : GRAY)); g.globalAlpha = 1; } }
           else grid((i) => (E3.more[i] <= n ? GOLD : GRAY));
           let h = frame();
           if (t < K.sa2) { h += A(800, 0, 620, 60, `<div class="lbl">200回外れたあと、さらに</div>`) + A(800, 56, 620, 150, bigNum(`${n}<span style="font-size:64px">回 引いた</span>`, 130)) +
             A(800, 250, 620, 60, `<div class="lbl">${ball(40, GOLD)} 当たった人</div>`) +
             A(800, 310, 620, 200, bigNum(ans ? roll(t, K.sa, "約" + T.W3, 6, 5) : "？", ans ? 170 : 190, GOLD, ans ? 1 + 0.15 * wob(t - K.sa, 3, 6) : 1 + 0.05 * Math.sin(t * 6))) +
-            A(800, 510, 620, 40, `計算の答え ${(E3.win_theory * 100).toFixed(1)}%`, `font-size:28px;color:rgba(255,255,255,.75);opacity:${op(t, K.sa + 1.0)}`);
+            A(800, 510, 620, 40, `今回 ${E3.win.toLocaleString()}人（${(E3.win_rate * 100).toFixed(1)}%）／計算の答え ${(E3.win_theory * 100).toFixed(1)}%`, `font-size:28px;color:rgba(255,255,255,.75);opacity:${op(t, K.sa + 1.0)}`);
             if (t >= K.s4 && !ans) h += A(800, 590, 620, 110, `<div class="panel" style="padding:12px 22px;font-size:32px;white-space:nowrap;background:#eaf4ff">実験①（はじめての1万人）<span class="num" style="font-size:50px;color:#1971c2"> 約${T.W}</span><div style="font-size:30px;color:#d9480f">そろそろ出るなら → これより増えるはず</div></div>`, `transform:scale(${Math.max(0.5, pop(t, K.s4))});transform-origin:0 50%`);
           } else {
             const bar = (y, l, val, col, t0) => A(800, y, 620, 150, `<div style="font-size:36px;white-space:nowrap">${l}</div><div style="position:relative;height:74px;margin-top:8px;border-radius:16px;background:#4a5078;overflow:hidden"><div style="position:absolute;left:0;top:0;bottom:0;width:${val * 100 * easeOut(prog(t, t0, 0.6))}%;background:${col}"></div><div class="num" style="position:absolute;left:20px;top:0;line-height:74px;font-size:54px;color:#fff;-webkit-text-stroke:6px #1c2150;paint-order:stroke fill">約${pct(val)}</div></div>`, `opacity:${op(t, t0)}`);
             h += bar(40, "実験① はじめての1万人", E1.win_rate, "#4da3ff", K.sa2 - 0.3) + bar(220, "実験③ 200回外れた1万人", E3.win_rate, "#ff5a4e", K.sa2 - 0.1) +
               A(800, 390, 620, 150, `<div class="c">${hz(t, K.sa2 + 0.1, "同じ！", 120)}</div>`) +
-              (t >= K.sa3 ? A(790, 600, 640, 100, `<div class="panel c" style="padding:14px 4px;font-size:34px;white-space:nowrap">200回外れても<span style="color:#d9480f">当たりやすくならない</span></div>`, `transform:scale(${pop(t, K.sa3)})`) : "");
+              (t >= K.sa3 ? A(790, 600, 640, 100, `<div class="panel c" style="padding:16px 4px;font-size:30px;white-space:nowrap">200回外れても<span style="color:#d9480f">当たりやすくならない</span></div>`, `transform:scale(${pop(t, K.sa3)})`) : "");
           }
           return { title: t >= K.sa ? `200回外れた人も 当たるのは<span class="g">約${T.W3}</span>` : `<span class="g">200回外れた1万人</span>が、あと100回引く`, html: h };
         }
@@ -398,7 +398,7 @@
           const row = (y, t0, l, a, b, tb, on) => (t >= t0 ? A(470, y, 950, 190, `<div style="font-size:42px;color:rgba(255,255,255,.9)">${l}</div><div class="big num" style="font-size:104px;white-space:nowrap;line-height:1.2;-webkit-text-stroke:10px #0e1130;text-shadow:none">${a}${b ? ` <span style="display:inline-block;opacity:${op(t, tb, 0.1)};transform:scale(${Math.max(0.3, pop(t, tb))})">→ <span class="g">${b}</span></span>` : ""}</div>`, `opacity:${op(t, t0) * (on ? 1 : 0.4)}`) : "");
           h += row(30, K.t4a, "いちばん運の悪い人", `<span style="color:#c9cde6">${E4.worst_nocap}回</span>`, `${E4.worst}回`, K.t4, id === "t4") + row(215, K.t5a, "平均の回数", `<span style="color:#c9cde6">100回</span>`, `約${T.M4}回`, K.t5, id === "t5") +
             row(400, K.t6a, `<span style="color:#9fd0ff">■</span> 天井まで行った人`, `<span style="display:inline-block;transform:scale(${Math.max(0.3, pop(t, K.t6))});color:#9fd0ff">約${T.REACH}</span>${t >= K.t6b ? `<span style="font-size:56px;opacity:${op(t, K.t6b)}">（${T.ONE_IN}人に1人）</span>` : ""}`, "", 0, id === "t6");
-          if (id === "t6") h += A(470, 580, 900, 40, `計算の答え ${(E4.reach_theory * 100).toFixed(1)}%（${E4.reach.toLocaleString()}人）`, `font-size:26px;color:rgba(255,255,255,.75);opacity:${op(t, K.t6 + 0.8)}`);
+          if (id === "t6") h += A(470, 580, 900, 40, `今回 ${E4.reach.toLocaleString()}人（${(E4.reach_rate * 100).toFixed(1)}%）／計算の答え ${(E4.reach_theory * 100).toFixed(1)}%`, `font-size:26px;color:rgba(255,255,255,.75);opacity:${op(t, K.t6 + 0.8)}`);
           return { title: `実験②の1万人に<span class="g">天井</span>をつける`, html: h };
         }
         if (v === "e4note") {
