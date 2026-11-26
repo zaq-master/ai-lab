@@ -58,6 +58,8 @@ ended_description: xmas-2026|年末年始や冬の贈り物に、在宅ワーク
 
 相手の環境がまったく分からないときは、表の中でも**温湿度計・電気ひざ掛け・着る毛布**のように、パソコンの端子やモニターの形に左右されにくいものが選びやすいです。
 
+クリスマスにツリーライトやイルミネーションを飾る家なら、1日何円かかるかを[LEDイルミネーションの電気代の計算](led-illumination-denkidai.html)で先に確かめておくと、つけっぱなしの心配が減ります。
+
 <!-- products: foot-warmer,kiru-moufu,heated-vest,monitor-light-curved -->
 
 <!-- xmas-2026 -->
