@@ -1,3 +1,4 @@
+# 退役：2026-11-26 に content/posts/led-illumination-denkidai.md として統合公開済みのため退役（実行しない）
 """12/2（水）11:00 クリスマスのLEDイルミネーション 1か月の電気代 記事の公開スクリプト（2026-11-25 ペンネ作成・作業用コピーで通し確認済み）
 
 手順書 ops/drafts/publish_steps_2026-12-02_illumi.md の 2〜5・8 をそのままスクリプトにしたもの（作りは publish_reizouko_2026-12-21.py と同じ。

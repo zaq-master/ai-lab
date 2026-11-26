@@ -60,6 +60,7 @@ category: 季節家電
 | 何から対策すればいいかわからない | [冬の寒さ対策診断（5問）](winter-heating-shindan.html) |
 | 暖房をいつから・何℃でつけるか迷う | [暖房は何℃からつける？（外の気温・室温の目安と電気代の計算）](danbou-nando-kion-denkidai.html) |
 | 自分の暖房の電気代をすぐ知りたい | [家電の電気代計算ツール](denkidai-calculator.html) |
+| クリスマスのイルミネーションの電気代を知りたい | [クリスマスのLEDイルミネーション・ツリーライトの電気代は？](led-illumination-denkidai.html) |
 | エアコン暖房の電気代を知りたい | [エアコン暖房の電気代 計算ツール](aircon-danbou-denkidai-calculator.html) |
 | 暖房器具どうしを比べたい | [暖房器具の電気代 比較ツール](heater-denkidai-hikaku.html) |
 | 寝るときの暖房の電気代を比べたい | [寝るときの暖房 一晩の電気代くらべ](neru-danbou-denkidai-calculator.html) |
