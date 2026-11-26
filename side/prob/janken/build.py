@@ -79,7 +79,7 @@ S = [
          sub=f"大人数なら、分けるのがコツ。10人で1人を選ぶとき、全員いっぺんだと、最後の1人まで平均{round(PK['all10_sim'])}回。"),
     dict(id="tip2", face="happy", vis="tip", sub=f"5人ずつ2組で代表を決めて、決勝をすると、合わせて平均{round(PK['split_sim'])}回です。"),
     dict(id="sum", face="base", vis="sum", sub=f"まとめ。5人のじゃんけんが1回で決まるのは、{pc(p5)}。人数が多いほど、あいこが増えます。"),
-    dict(id="end", face="happy", vis="end", sub="これはAIのシミュレーションです。次に確かめてほしいこと、コメントで教えてね！"),
+    dict(id="end", face="happy", vis="end", sub="次に確かめてほしいこと、コメントで教えてね！"),
 ]
 
 

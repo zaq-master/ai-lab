@@ -43,9 +43,9 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="178.691" data-width="1080" data-height="1920">
-      <div id="bg" class="clip" data-start="0" data-duration="178.691" data-track-index="0"></div>
-      <div id="ui" class="clip" data-start="0" data-duration="178.691" data-track-index="1" data-layout-allow-overlap data-layout-allow-overflow>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="176.547" data-width="1080" data-height="1920">
+      <div id="bg" class="clip" data-start="0" data-duration="176.547" data-track-index="0"></div>
+      <div id="ui" class="clip" data-start="0" data-duration="176.547" data-track-index="1" data-layout-allow-overlap data-layout-allow-overflow>
         <div id="dots"></div>
         <div id="cam"><div id="title" class="big"></div><div id="stage"></div><canvas id="cv" width="820" height="820"></canvas></div>
         <div id="alice"></div>
@@ -56,7 +56,7 @@
         <div style="position:absolute;right:28px;top:24px;font:700 26px R,sans-serif;color:rgba(255,255,255,.85);text-shadow:0 2px 4px rgba(0,0,0,.6)">VOICEVOX:四国めたん</div>
         <div id="credit" style="position:absolute;left:28px;top:24px;font:700 26px R,sans-serif;color:rgba(255,255,255,.7)"></div>
       </div>
-      <audio id="mix" class="clip" src="assets/mix.wav" data-start="0" data-duration="178.691" data-track-index="2"></audio>
+      <audio id="mix" class="clip" src="assets/mix.wav" data-start="0" data-duration="176.547" data-track-index="2"></audio>
     </div>
     <script>window.__timelines = window.__timelines || {}; window.__timelines["main"] = gsap.timeline({ paused: true });</script>
     <script>
@@ -245,9 +245,7 @@
             <div style="opacity:${op(t, K.s1)}"><div style="font-size:48px;font-weight:800;color:#5a5f86">5人のじゃんけんが<br>1回で決まるのは</div><div class="num" style="font-size:180px;font-weight:800;color:var(--goldd);line-height:1.1">${pc(P[5].p_sim)}</div></div>
             <div style="opacity:${op(t, K.s2)};font-size:56px;font-weight:800;margin-top:24px;border-top:3px dashed #c9cde6;padding-top:24px">人数が多いほど<br><span style="color:#6a6f92">あいこが増える</span></div></div>` };
         }
-        return { title: `次に確かめてほしい<br><span style="color:var(--gold)">ふしぎ</span>は？`, html: `<div class="panel" style="margin-top:20px;text-align:center">
-          <div class="ph" style="font-size:44px">これはAIのシミュレーションです</div><div class="note" style="font-size:34px">全員がでたらめに手を出す前提です<br>人数ごとに1万回ずつ計算しました</div></div>
-          <div class="panel" style="margin-top:28px;text-align:center"><div style="font-size:58px;font-weight:800">コメントで<br><span style="color:#e03131">教えてね！</span></div></div>` };
+        return { title: `次に確かめてほしい<br><span style="color:var(--gold)">ふしぎ</span>は？`, html: `<div class="panel" style="margin-top:120px;text-align:center"><div style="font-size:58px;font-weight:800">コメントで<br><span style="color:#e03131">教えてね！</span></div></div>` };
       }
 
       // ---- アリス ----

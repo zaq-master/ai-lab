@@ -69,7 +69,7 @@ S = [
     dict(id="three", face="surprised", vis="three", sub=f"当たりが3本なら？1万回ためすと、どの順番も約{pc(P3MIN)}。やっぱり同じでした。"),
     dict(id="sum", face="base", vis="sum", sub="答えです。戻さない、ズルなしのくじなら、先に引いても後に引いても、当たる確率は同じ。"),
     dict(id="sum2", face="happy", vis="sum", sub="残り物には福がある、も、早い者勝ち、も、当たる確率については、気のせいでした。"),
-    dict(id="end", face="happy", vis="end", sub="これはAIのシミュレーションです。次に確かめてほしい言い伝え、コメントで教えてね！"),
+    dict(id="end", face="happy", vis="end", sub="戻さないくじなら、順番は気にしなくて大丈夫。次に確かめてほしい言い伝え、コメントで教えてね！"),
 ]
 SPLIT = r"[^。？！…]+[。？！…]*"
 
@@ -170,7 +170,7 @@ def main():
         dl_give=at("deal", "10本を"), dl_open=at("deal", "一斉"), dl_same=at("deal2", "10人とも"),
         f_seen=at("feel2", "3人"), f_up=at("feel2", "約"), f_before=at("feel3", "先に"), f_keep=at("feel4", "ちょうど"),
         th_go=at("three", "1万回"), th_num=at("three", "どの順番"),
-        s1=at("sum", "戻さない"), s1b=at("sum", "先に引いても"), s2a=at("sum2", "残り物"), s2b=at("sum2", "早い者勝ち"), s2c=at("sum2", "気のせい"),
+        s1=at("sum", "戻さない"), s1b=at("sum", "先に引いても"), s2a=at("sum2", "残り物"), s2b=at("sum2", "早い者勝ち"), s2c=at("sum2", "気のせい"), e_sum=SC["end"]["start"], e_cm=at("end", "次に"),
     )
     vo = np.concatenate([np.zeros(int(lead * SR), np.float32)] + parts)
     total = len(vo) / SR
