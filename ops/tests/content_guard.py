@@ -301,6 +301,28 @@ def selftest():
     return ok
 
 
+def check_pending_duplicates():
+    """③ 公開待ちの下書きとの重複（2026-11-26 追加）
+    ops/drafts/publish_*.py の公開予定日より前の date で、同じ記事名の記事が content/posts にあれば NG。
+    （11/26 11時の回が、12/2公開予定で監査済みの記事と同じ記事名で別の版を先に出したため）"""
+    import re as _re, datetime as _dt
+    for s in sorted((ROOT / "ops/drafts").glob("publish_*.py")):
+        src = s.read_text(encoding="utf-8")
+        m_slug = _re.search(r'^SLUG\s*=\s*"([^"]+)"', src, _re.M) or _re.search(r'^DST\s*=\s*P\s*/\s*"([^"]+)\.md"', src, _re.M)
+        dates = [_dt.date(*map(int, d)) for line in _re.findall(r'^(?:PUBLISH_DATE|DEFAULT_DATE|ALLOWED_DATES)\s*=.*$', src, _re.M)
+                 for d in _re.findall(r'datetime\.date\((\d+),\s*(\d+),\s*(\d+)\)', line)]
+        if not (m_slug and dates):
+            continue
+        pub = min(dates)  # 案が複数あるときは一番早い公開候補日
+        post = POSTS / f"{m_slug.group(1)}.md"
+        if not post.exists():
+            continue
+        m = _re.search(r'^date:\s*(\d{4})-(\d{2})-(\d{2})', post.read_text(encoding="utf-8"), _re.M)
+        if m and _dt.date(*map(int, m.groups())) < pub:
+            add("公開待ちと重複", post.relative_to(ROOT), 1,
+                f"{s.name}（{pub}公開予定）と同じ記事名。新しく書かず下書きを使うか、下書きを ops/drafts/retired/ へ", post.name)
+
+
 def main():
     if "--selftest" in sys.argv:
         sys.exit(0 if selftest() else 1)
@@ -312,6 +334,7 @@ def main():
             add("期限の直書き", rel, n, msg + "が期限の目印の外にある（終了後もページに残る）", text)
         for n, msg, text in check_price_premise(p.name, raw):
             add("単価前提", rel, n, msg, text)
+    check_pending_duplicates()
     if not issues:
         print(f"content_guard: OK（{len(files)}記事・期限の直書き0件・単価前提の漏れ0件）")
         sys.exit(0)
