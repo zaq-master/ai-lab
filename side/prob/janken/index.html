@@ -2,7 +2,7 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=1080, height=1920" />
+    <meta name="viewport" content="width=1920, height=1080" />
     <script src="assets/lib/gsap.min.js"></script>
     <script src="assets/lib/motion.js"></script>
     <script src="assets/lib/dots.js"></script>
@@ -12,20 +12,20 @@
       @font-face { font-family: R; src: url("assets/fonts/MPLUSRounded1c-Bold.ttf"); font-weight: 700; }
       :root { --navy: #1c2150; --gold: #ffc928; --goldd: #d99a00; --gray: #a9adc4; --red: #ff5a4e; --blue: #4da3ff; --ink: #1c2150; }
       * { margin: 0; padding: 0; box-sizing: border-box; }
-      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #14183a; font-family: R, sans-serif; }
-      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: #14183a; font-family: R, sans-serif; }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; }
       #bg { position: absolute; inset: 0; }
       #dots { position: absolute; inset: 0; background-image: radial-gradient(rgba(255,255,255,.07) 3px, transparent 3.5px); background-size: 48px 48px; }
       #ui { position: absolute; inset: 0; }
-      #cam { position: absolute; inset: 0; transform-origin: 540px 800px; }
+      #cam { position: absolute; inset: 0; transform-origin: 1210px 490px; }
       .big { font-weight: 800; color: #fff; -webkit-text-stroke: 12px var(--navy); paint-order: stroke fill; text-shadow: 6px 6px 0 var(--navy); }
-      #title { position: absolute; left: 0; right: 0; top: 100px; text-align: center; font-size: 84px; line-height: 1.18; }
-      #stage { position: absolute; left: 50px; right: 50px; top: 400px; height: 860px; }
-      #cv { position: absolute; left: 130px; top: 410px; width: 820px; height: 820px; border-radius: 14px; }
-      #cap { position: absolute; left: 30px; right: 30px; top: 1290px; text-align: center; font-size: 50px; white-space: pre-line; line-height: 1.28; }
-      #alice { position: absolute; right: 150px; bottom: -260px; width: 520px; height: 693px; transform-origin: 50% 100%; filter: drop-shadow(5px 0 0 #fff) drop-shadow(-5px 0 0 #fff) drop-shadow(0 -5px 0 #fff) drop-shadow(8px 10px 0 rgba(0,0,0,.35)); }
+      #title { position: absolute; left: 30px; width: 470px; top: 90px; text-align: center; font-size: 66px; line-height: 1.2; }
+      #stage { position: absolute; left: 540px; width: 1340px; top: 80px; height: 820px; }
+      #cv { position: absolute; left: 800px; top: 80px; width: 820px; height: 820px; border-radius: 14px; }
+      #cap { position: absolute; left: 540px; width: 1340px; top: 922px; text-align: center; font-size: 52px; white-space: pre-line; line-height: 1.28; }
+      #alice { position: absolute; left: 10px; bottom: -230px; width: 520px; height: 693px; transform-origin: 50% 100%; filter: drop-shadow(5px 0 0 #fff) drop-shadow(-5px 0 0 #fff) drop-shadow(0 -5px 0 #fff) drop-shadow(8px 10px 0 rgba(0,0,0,.35)); }
       #alice img { position: absolute; inset: 0; width: 520px; height: 693px; transform: scaleX(0.9); transform-origin: 50% 100%; }
-      #mark { position: absolute; left: 640px; top: 1450px; font-size: 110px; }
+      #mark { position: absolute; left: 400px; top: 560px; font-size: 100px; }
       #wipe { position: absolute; inset: -300px; pointer-events: none; }
       #flash { position: absolute; inset: 0; background: #fff; opacity: 0; }
       .panel { background: rgba(255,255,255,.97); border-radius: 36px; box-shadow: 0 0 0 8px #F7F9FB, 0 16px 0 rgba(0,0,0,.25); padding: 30px 38px; color: var(--ink); }
@@ -43,7 +43,7 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="176.547" data-width="1080" data-height="1920">
+    <div id="root" data-composition-id="main" data-start="0" data-duration="176.547" data-width="1920" data-height="1080">
       <div id="bg" class="clip" data-start="0" data-duration="176.547" data-track-index="0"></div>
       <div id="ui" class="clip" data-start="0" data-duration="176.547" data-track-index="1" data-layout-allow-overlap data-layout-allow-overflow>
         <div id="dots"></div>
@@ -103,7 +103,7 @@
         const kk = done ? (k === 2 ? `<div style="margin-top:46px">${hz(t, res, HN[w] + "の勝ち！", 112)}</div>` :
           `<div style="margin-top:46px">${hz(t, res, "あいこ", 130, "hzg")}</div><div class="big" style="font-size:54px;margin-top:10px;opacity:${op(t, res + 0.4)}">${k === 3 ? "3種類ぜんぶ出た" : "全員同じ"}</div>`) : "";
         const cnt = t >= go + 1.0 ? `<div class="big" style="font-size:50px;margin-top:22px;opacity:${op(t, go + 1.0)}">出た手は <span style="color:${k === 2 ? GOLD : "#d5d8e6"};font-size:80px">${k}種類</span></div>` : "";
-        return { title: label, html: `<div style="display:flex;gap:14px;justify-content:center;margin-top:130px">${hs}</div><div style="text-align:center">${cnt}${kk}</div>` };
+        return { title: label, html: `<div style="display:flex;gap:14px;justify-content:center;margin-top:70px">${hs}</div><div style="text-align:center">${cnt}${kk}</div>` };
       }
 
       // ---- 1万回の点（canvas） ----
@@ -129,7 +129,7 @@
         if (v === "hook") {
           const hs = [0, 1, 2, 1, 0].map((k, i) => { const kk = (k + Math.floor(t * 2.5 + i * 0.4)) % 3, b = Math.abs(Math.sin(t * 7.85 + i)) * 26;
             return hand(kk, 160, { tf: `translate(0,${-b}px) scale(${pop(t, 0.3 + i * 0.08)})` }); }).join("");
-          return { title: `<span style="font-size:100px">5人でじゃんけん</span>`,
+          return { title: `5人で<br>じゃんけん`,
             html: `<div style="display:flex;gap:18px;justify-content:center;margin-top:30px">${hs}</div>
               <div style="text-align:center;margin-top:60px;opacity:${op(t, K.h_q)};transform:scale(${0.6 + 0.4 * pop(t, K.h_q)})"><div class="big" style="font-size:96px;color:var(--gold)">1回で決まる<br>確率は？</div></div>
               <div style="text-align:center;margin-top:36px;opacity:${op(t, K.h2)};transform:scale(${pop(t, K.h2)}) rotate(-4deg)"><span class="badge" style="background:#ff3d7f;color:#fff;font-size:62px">1万回 ためす！</span></div>` };
@@ -146,7 +146,7 @@
               <div style="flex:1;text-align:right"><span class="badge" style="font-size:46px;background:${ok ? GOLD : "#d5d8e6"};color:${ok ? "#1c2150" : "#4a4f72"}">${ok ? "決まる" : "あいこ"}</span></div></div>`).join("")}
             <div class="note">※全員がグー・チョキ・パーを同じくらいの割合で、でたらめに出す前提</div></div>` };
         }
-        if (v === "guess") return { title: `5人で1回で決まるのは`, html: `<div style="display:flex;gap:40px;justify-content:center;margin-top:90px">
+        if (v === "guess") return { title: `5人で<br>1回で<br>決まるのは`, html: `<div style="display:flex;gap:40px;justify-content:center;margin-top:90px">
           ${[["多い", K.g_a, "⬆"], ["少ない", K.g_b, "⬇"]].map(([l, t0, ar], i) => `<div class="panel" style="width:430px;text-align:center;opacity:${t < t0 ? 0 : 1};transform:scale(${pop(t, t0)}) rotate(${i ? 3 : -3}deg)">
             <div style="font-size:52px;font-weight:800;color:#5a5f86">半分より</div><div style="font-size:120px;font-weight:800">${l}</div><div style="font-size:90px;font-weight:800;color:${i ? "#4da3ff" : "#ff5a4e"}">${ar}</div></div>`).join("")}</div>
           <div class="big" style="text-align:center;font-size:72px;margin-top:70px;opacity:${op(t, K.g_b + 0.8)}">どっち？</div>` };
@@ -157,27 +157,27 @@
               <div class="num" style="width:120px;font-size:34px;font-weight:800;color:#5a5f86">${i + 1}回目</div>
               <div style="display:flex;gap:6px">${h.map((x) => hand(x, 66, { label: false, state: ok ? "win" : "gray" })).join("")}</div>
               <div style="flex:1;text-align:right"><span class="badge" style="font-size:36px;background:${ok ? GOLD : "#d5d8e6"};color:${ok ? "#1c2150" : "#4a4f72"}">${ok ? "決まる" : "あいこ"}</span></div></div>`; }).join("");
-          const title = t >= K.ten_num ? `10回中 <span class="num" style="color:var(--gold);font-size:120px">${roll(t, K.ten_num, D.first10 + "回", 1, 5)}</span>` : `まず<span style="color:var(--gold)">10回</span>`;
+          const title = t >= K.ten_num ? `10回中<br><span class="num" style="color:var(--gold);font-size:120px">${roll(t, K.ten_num, D.first10 + "回", 1, 5)}</span>` : `まず<span style="color:var(--gold)">10回</span>`;
           return { title, html: `<div class="panel" style="padding:20px 34px">${rows}</div>` };
         }
         if (v === "hund") {
           const sh = Math.round(100 * easeInOut(prog(t, K.hu_go, 2.6)));
           const ds = Array.from({ length: 100 }, (_, i) => { const on = i < sh, ok = dec[i] === "1";
             return `<div style="width:56px;height:56px;border-radius:50%;background:${on ? (ok ? GOLD : GRAY) : "#eef0f7"}"></div>`; }).join("");
-          const title = t >= K.hu_num ? `100回中 <span class="num" style="color:var(--gold);font-size:120px">${roll(t, K.hu_num, D.first100 + "回", 2, 5)}</span>` : `次は<span style="color:var(--gold)">100回</span>`;
+          const title = t >= K.hu_num ? `100回中<br><span class="num" style="color:var(--gold);font-size:120px">${roll(t, K.hu_num, D.first100 + "回", 2, 5)}</span>` : `次は<span style="color:var(--gold)">100回</span>`;
           return { title, html: `<div class="panel"><div style="display:grid;grid-template-columns:repeat(10,56px);gap:12px;justify-content:center">${ds}</div>
             <div style="display:flex;justify-content:center;gap:40px;margin-top:22px;font-size:40px;font-weight:800;opacity:${op(t, K.hu_col)}">
               <span><span style="color:${GOLD}">●</span> 決まった</span><span><span style="color:${GRAY}">●</span> あいこ</span></div></div>` };
         }
         if (v === "man") {
           const shown = Math.round(100 + 9900 * Math.pow(prog(t, K.m_go, K.m_end - K.m_go), 2.2)), n = cum[shown];
-          const title = `<span style="font-size:64px">${shown.toLocaleString()}回中</span><br>決まった <span class="num" style="color:var(--gold);font-size:110px">${n.toLocaleString()}回</span>`;
+          const title = `<span class="num" style="font-size:58px">${shown.toLocaleString()}回中</span><br>決まった<br><span class="num" style="color:var(--gold);font-size:100px">${n.toLocaleString()}回</span>`;
           const note = t < K.m_go + 1.5 ? `<div class="big" style="position:absolute;left:0;right:0;top:-6px;text-align:center;font-size:40px;color:#ff9ec0">↑さっきの100回</div>` : "";
-          return { title: t < K.m_go - 0.3 ? `いよいよ<span style="color:var(--gold)">1万回</span><br><span style="font-size:56px">点1つ＝じゃんけん1回</span>` : title, html: "" };
+          return { title: t < K.m_go - 0.3 ? `いよいよ<br><span style="color:var(--gold);font-size:96px">1万回</span><br><span style="font-size:46px">点1つ＝<br>じゃんけん1回</span>` : title, html: "" };
         }
         if (v === "ans") {
-          const big = t >= K.a_num ? `<div style="line-height:1">${hz(t, K.a_num, pc(D.all / 10000), 190)}</div>` : `<span style="font-size:72px">1万回中 ${D.all.toLocaleString()}回</span><br>決まったのは…`;
-          const th = `<div class="big" style="font-size:36px;text-align:center;margin-top:6px;opacity:${op(t, K.a_th)}">計算で出した答え：${(P[5].p_theory * 100).toFixed(1)}%（シミュレーション ${(P[5].p_sim * 100).toFixed(1)}%）</div>`;
+          const big = t >= K.a_num ? `<div style="line-height:1">${hz(t, K.a_num, pc(D.all / 10000), 170)}</div>` : `<span class="num" style="font-size:54px">1万回中<br>${D.all.toLocaleString()}回</span><br>決まったのは…`;
+          const th = `<div class="big" style="font-size:34px;text-align:center;margin-top:16px;-webkit-text-stroke:8px var(--navy);opacity:${op(t, K.a_th)}">計算で出した答え<br>${(P[5].p_theory * 100).toFixed(1)}%<br><span style="font-size:28px">（シミュレーション ${(P[5].p_sim * 100).toFixed(1)}%）</span></div>`;
           return { title: big + th, html: "" };
         }
         if (v === "ppl") {
@@ -190,7 +190,7 @@
               <line x1="${x - 4}" x2="${x + BW + 4}" y1="${th}" y2="${th}" stroke="#1c2150" stroke-width="4" opacity="${g0 >= 0.99 ? 0.8 : 0}"/>
               <text x="${x + BW / 2}" y="586" text-anchor="middle" font-size="34" font-weight="800" fill="#5a5f86">${n}人</text>${lab}`; }).join("");
           const arrow = t > K.p_all ? `<path d="M 130 70 Q 470 100 790 400" fill="none" stroke="#ff3d7f" stroke-width="12" stroke-linecap="round" stroke-dasharray="${1000 * easeOut(prog(t, K.p_all, 0.8))} 2000"/>` : "";
-          return { title: `人数を<span style="color:var(--gold)">変えると？</span>`, html: `<div class="panel"><div class="ph">1回で決まる割合（各1万回）</div>
+          return { title: `人数を<br><span style="color:var(--gold)">変えると？</span>`, html: `<div class="panel"><div class="ph">1回で決まる割合（各1万回）</div>
             <svg width="904" height="600" style="display:block;font-family:R">${bars}${arrow}</svg>
             <div class="note" style="font-size:28px;margin-top:0">横の線＝計算で出した答え</div></div>` };
         }
@@ -212,7 +212,7 @@
             const col = k === 2 && t >= K.w_dec ? GOLD : k === 1 && t >= K.w_same ? "#1c2150" : k === 3 && t >= K.w_three ? GRAY : "#e4e6f2";
             return `<div style="position:absolute;left:${x}px;top:${y}px;width:${CS - 4}px;height:${CS - 4}px;border-radius:6px;background:${col};opacity:${t < appear ? 0 : 1}"></div>`; }).join("");
           const lab = (t0, col, a, b) => `<div style="display:flex;align-items:center;justify-content:space-between;height:84px;opacity:${op(t, t0)};font-size:46px;font-weight:800"><span><span style="color:${col}">■</span> ${a}</span><span class="num">${b}</span></div>`;
-          return { title: `5人の手の出し方<br><span class="num" style="color:var(--gold);opacity:${op(t, K.w_num)}">全部で${P[5].ways}通り</span>`, html: `<div class="panel">
+          return { title: `5人の<br>手の出し方<br><span class="num" style="color:var(--gold);opacity:${op(t, K.w_num)}">全部で<br>${P[5].ways}通り</span>`, html: `<div class="panel">
             <div style="position:relative;width:${COLS * CS}px;height:${9 * CS}px;margin:0 auto">${cells}</div>
             <div style="margin-top:28px">${lab(K.w_dec, GOLD, "ちょうど2種類 → 決まる", P[5].ways_dec + "通り")}${lab(K.w_same, "#1c2150", "全員同じ → あいこ", P[5].ways_same + "通り")}${lab(K.w_three, GRAY, "3種類ぜんぶ → あいこ", P[5].ways_three + "通り")}</div>
             <div class="note">□1つ＝5人の手の出し方1通り</div></div>` };
@@ -225,7 +225,7 @@
                 <div style="width:${d * 100}%;background:${GOLD};display:flex;align-items:center;justify-content:center;font-size:38px;font-weight:800;white-space:nowrap">${d > 0.12 ? "決まる" : ""}</div>
                 <div style="width:${s * 100}%;background:#1c2150"></div>
                 <div style="width:${th * 100}%;background:${GRAY};outline:${t > K.w4_more ? "8px solid #ff3d7f" : "none"};outline-offset:-8px;display:flex;align-items:center;justify-content:center;font-size:38px;font-weight:800;color:#3a3f62;white-space:nowrap">${th > 0.25 ? "3種類ぜんぶ" : ""}</div></div></div>`; }).join("");
-          return { title: `人数が<span style="color:var(--gold)">増える</span>と`, html: `<div class="panel">${rows}
+          return { title: `人数が<br><span style="color:var(--gold)">増える</span>と`, html: `<div class="panel">${rows}
             <div class="note" style="opacity:${op(t, K.w4_more)}">灰色（3種類ぜんぶ出る）が、どんどん広がる</div></div>` };
         }
         if (v === "tip") {
@@ -235,7 +235,7 @@
               <div style="display:flex;align-items:center;gap:20px"><div style="height:96px;border-radius:18px;background:${col};width:${640 * val / mx * gw}px"></div>
               <div class="num" style="font-size:70px;font-weight:800;color:${col};opacity:${op(t, t1)}">${t >= t1 ? roll(t, t1, "約" + Math.round(val) + "回", 5, 5) : ""}</div></div></div>`; };
           const g10 = Array.from({ length: 10 }, () => "●").join(""), g5 = "●●●●●";
-          return { title: `大人数なら<span style="color:var(--gold)">分けよう</span>`, html: `<div class="panel"><div class="ph" style="font-size:40px">10人から1人を選ぶまで、じゃんけんの回数</div>
+          return { title: `大人数なら<br><span style="color:var(--gold)">分けよう</span>`, html: `<div class="panel"><div class="ph" style="font-size:40px">10人から1人を選ぶまで、じゃんけんの回数</div>
             ${bar(`全員いっぺん <span style="color:#e03131;letter-spacing:-6px">${g10}</span>`, "10人で勝ち残り", pk.all10_sim, "#e03131", K.tp_all, K.tp_all + 1.6)}
             ${bar(`5人ずつ2組 <span style="color:#1971c2;letter-spacing:-6px">${g5}</span> <span style="color:#1971c2;letter-spacing:-6px">${g5}</span>`, "それぞれ代表1人 → 代表2人で決勝（合計）", pk.split_sim, "#1971c2", K.tp_split, K.tp_num)}
             <div class="note">各1万回の平均（2組を同時にやらず、順番にやった回数）</div></div>` };
@@ -245,7 +245,7 @@
             <div style="opacity:${op(t, K.s1)}"><div style="font-size:48px;font-weight:800;color:#5a5f86">5人のじゃんけんが<br>1回で決まるのは</div><div class="num" style="font-size:180px;font-weight:800;color:var(--goldd);line-height:1.1">${pc(P[5].p_sim)}</div></div>
             <div style="opacity:${op(t, K.s2)};font-size:56px;font-weight:800;margin-top:24px;border-top:3px dashed #c9cde6;padding-top:24px">人数が多いほど<br><span style="color:#6a6f92">あいこが増える</span></div></div>` };
         }
-        return { title: `次に確かめてほしい<br><span style="color:var(--gold)">ふしぎ</span>は？`, html: `<div class="panel" style="margin-top:120px;text-align:center"><div style="font-size:58px;font-weight:800">コメントで<br><span style="color:#e03131">教えてね！</span></div></div>` };
+        return { title: `次に<br>確かめて<br>ほしい<br><span style="color:var(--gold)">ふしぎ</span>は？`, html: `<div class="panel" style="margin-top:120px;text-align:center"><div style="font-size:58px;font-weight:800">コメントで<br><span style="color:#e03131">教えてね！</span></div></div>` };
       }
 
       // ---- アリス ----
@@ -271,7 +271,7 @@
         const parts = sc.sub.match(/[^。？！…]+[。？！…]*/g) || [sc.sub]; let k = 0;
         for (let i = 0; i < sc.marks.length; i++) if (t >= sc.marks[i][1] - 0.05) k = i;
         let line = (parts[k] || "").replace(/。$/, "");
-        if (line.length > 19) { const m = line.length / 2; let b = -1; for (let i = 0; i < line.length; i++) if ("、".includes(line[i]) && (b < 0 || Math.abs(i - m) < Math.abs(b - m))) b = i; if (b < 0) b = Math.floor(m); line = line.slice(0, b + 1) + "\n" + line.slice(b + 1); }
+        if (line.length > 24) { const m = line.length / 2; let b = -1; for (let i = 0; i < line.length; i++) if ("、".includes(line[i]) && (b < 0 || Math.abs(i - m) < Math.abs(b - m))) b = i; if (b < 0) b = Math.floor(m); line = line.slice(0, b + 1) + "\n" + line.slice(b + 1); }
         return line;
       }
       // ---- 背景の色の流れ・カメラ・場面転換 ----
