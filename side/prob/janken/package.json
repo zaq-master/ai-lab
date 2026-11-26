@@ -1,0 +1,15 @@
+{
+  "name": "pachi3d",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npx --yes hyperframes@0.9.64 preview",
+    "check": "npx --yes hyperframes@0.9.64 check",
+    "render": "npx --yes hyperframes@0.9.64 render",
+    "publish": "npx --yes hyperframes@0.9.64 publish"
+  },
+  "dependencies": {
+    "gsap": "^3.12.5",
+    "three": "^0.170.0"
+  }
+}
