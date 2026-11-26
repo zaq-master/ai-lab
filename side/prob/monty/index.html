@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/lib/gsap.min.js"></script>
+    <script src="assets/lib/motion.js"></script>
+    <script src="assets/lib/dots.js"></script>
+    <script src="assets/data.js"></script>
+    <style>
+      @font-face { font-family: R; src: url("assets/fonts/MPLUSRounded1c-ExtraBold.ttf"); font-weight: 800; }
+      @font-face { font-family: R; src: url("assets/fonts/MPLUSRounded1c-Bold.ttf"); font-weight: 700; }
+      :root { --navy: #1c2150; --gold: #ffc928; --gray: #8d93ad; --red: #ff5a4e; --blue: #4da3ff; --ink: #1c2150; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #14183a; font-family: R, sans-serif; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; }
+      #bg { position: absolute; inset: 0; }
+      #pat { position: absolute; inset: 0; background-image: radial-gradient(rgba(255,255,255,.07) 3px, transparent 3.5px); background-size: 48px 48px; }
+      #ui { position: absolute; inset: 0; }
+      #cam { position: absolute; inset: 0; transform-origin: 540px 820px; }
+      .big { font-weight: 800; color: #fff; -webkit-text-stroke: 12px var(--navy); paint-order: stroke fill; text-shadow: 6px 6px 0 var(--navy); }
+      #title { position: absolute; left: 0; right: 0; top: 100px; text-align: center; font-size: 80px; line-height: 1.18; }
+      #stage { position: absolute; left: 40px; top: 380px; width: 1000px; height: 880px; }
+      #layer { position: absolute; inset: 0; }
+      #exp { position: absolute; inset: 0; display: none; }
+      #cap { position: absolute; left: 30px; right: 30px; top: 1318px; text-align: center; font-size: 50px; white-space: pre-line; line-height: 1.28; }
+      #alice { position: absolute; right: 150px; bottom: -270px; width: 520px; height: 693px; transform-origin: 50% 100%; filter: drop-shadow(5px 0 0 #fff) drop-shadow(-5px 0 0 #fff) drop-shadow(0 -5px 0 #fff) drop-shadow(8px 10px 0 rgba(0,0,0,.35)); }
+      #alice img { position: absolute; inset: 0; width: 520px; height: 693px; transform: scaleX(0.9); transform-origin: 50% 100%; }
+      #mark { position: absolute; left: 330px; top: 1500px; font-size: 110px; }
+      #wipe { position: absolute; inset: -300px; pointer-events: none; }
+      #flash { position: absolute; inset: 0; background: #fff; opacity: 0; }
+      .panel { background: rgba(255,255,255,.97); border-radius: 36px; box-shadow: 0 0 0 8px #F7F9FB, 0 16px 0 rgba(0,0,0,.25); padding: 30px 38px; color: var(--ink); }
+      .abs { position: absolute; }
+      .num { font-variant-numeric: tabular-nums; font-feature-settings: 'tnum'; }
+      .tag { position: absolute; transform: translateX(-50%); white-space: nowrap; font-weight: 800; font-size: 42px; padding: 6px 26px; border-radius: 40px; color: #fff; box-shadow: 0 6px 0 rgba(0,0,0,.3); }
+      .hz { display: inline-block; font-weight: 800; color: #FFE23A; -webkit-text-stroke: 10px #fff; paint-order: stroke fill;
+        text-shadow: 7px 0 0 #FF3D7F, -7px 0 0 #FF3D7F, 0 7px 0 #FF3D7F, 0 -7px 0 #FF3D7F, 5px 5px 0 #FF3D7F, -5px 5px 0 #FF3D7F, 5px -5px 0 #FF3D7F, -5px -5px 0 #FF3D7F, 0 14px 0 #A3124F, 0 20px 0 #A3124F; }
+      .frac { display: inline-flex; flex-direction: column; align-items: center; line-height: 1; vertical-align: middle; }
+      .frac i { font-style: normal; } .frac b { display: block; width: 100%; height: 0.09em; background: currentColor; margin: 0.06em 0; border-radius: 4px; }
+      .col { position: absolute; top: 96px; width: 470px; height: 784px; background: #20264f; border-radius: 30px; box-shadow: 0 0 0 6px rgba(255,255,255,.9), 0 14px 0 rgba(0,0,0,.3); }
+      .colh { position: absolute; left: 20px; right: 20px; top: 18px; height: 72px; border-radius: 22px; text-align: center; font-size: 46px; font-weight: 800; line-height: 72px; color: #fff; }
+      canvas.dc { position: absolute; left: 5px; top: 106px; width: 460px; height: 460px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="173.85" data-width="1080" data-height="1920">
+      <div id="bg" class="clip" data-start="0" data-duration="173.85" data-track-index="0"></div>
+      <div id="ui" class="clip" data-start="0" data-duration="173.85" data-track-index="1" data-layout-allow-overlap data-layout-allow-overflow>
+        <div id="pat"></div>
+        <div id="cam"><div id="title" class="big"></div>
+          <div id="stage">
+            <div id="exp">
+              <div id="steps" class="abs" style="left:0;right:0;top:0;height:80px"></div>
+              <div class="col" style="left:0"><div class="colh" style="background:#e03131">そのまま派</div><canvas class="dc" id="cv0" width="460" height="460"></canvas><div id="c0" class="abs" style="left:0;right:0;top:570px"></div></div>
+              <div class="col" style="left:530px"><div class="colh" style="background:#1971c2">選び直す派</div><canvas class="dc" id="cv1" width="460" height="460"></canvas><div id="c1" class="abs" style="left:0;right:0;top:570px"></div></div>
+              <div id="expo" class="abs" style="inset:0"></div>
+            </div>
+            <div id="layer"></div>
+          </div>
+        </div>
+        <div id="alice"></div>
+        <div id="mark" class="big"></div>
+        <div id="cap" class="big"></div>
+        <div id="wipe"></div>
+        <div id="flash"></div>
+        <div style="position:absolute;right:28px;top:24px;font:700 26px R,sans-serif;color:rgba(255,255,255,.85);text-shadow:0 2px 4px rgba(0,0,0,.6)">VOICEVOX:四国めたん</div>
+        <div id="credit" style="position:absolute;left:28px;top:24px;font:700 26px R,sans-serif;color:rgba(255,255,255,.75)"></div>
+      </div>
+      <audio id="mix" class="clip" src="assets/mix.wav" data-start="0" data-duration="173.85" data-track-index="2"></audio>
+    </div>
+    <script>window.__timelines = window.__timelines || {}; window.__timelines["main"] = gsap.timeline({ paused: true });</script>
+    <script>
+      const D = window.DATA, K = D.K;
+      const { clamp, lerp, prog, easeOut, easeIn, smooth, backOut, spring, springTo, wob, shakeXY, roll, faceAct, hash, flyEase, kf } = window.M;
+      const $ = (id) => document.getElementById(id);
+      const op = (t, t0, d = 0.3) => clamp((t - t0) / d);
+      const pop = (t, t0, d = 0.45) => backOut((t - t0) / d);
+      const pct = (x) => Math.round(x * 100) + "%";
+      const frac = (a, b, size, col) => `<span class="frac" style="font-size:${size}px;color:${col}"><i>${a}</i><b></b><i>${b}</i></span>`;
+      $("credit").textContent = `AIのシミュレーション（各${(D.n / 10000)}万回・乱数の種 ${D.seed}）`;
+      const SC = Object.fromEntries(D.scenes.map((s) => [s.id, s]));
+      const firstOf = (vis) => D.scenes.find((s) => s.vis === vis);
+      const VB = D.scenes.filter((s, i) => i && s.vis !== D.scenes[i - 1].vis).map((s) => s.start);
+      const HITS = [K.ans1, K.ans2, K.e_ans];
+      const BITS = [D.stay.bits, D.sw.bits];
+      K.ansq = D.scenes.find((s) => s.id === "ansq").start; K.w_pair = D.scenes.find((s) => s.id === "why2").start + 0.1;
+
+      function hz(t, t0, text, size = 110) {
+        return [...text].map((ch, i) => { const u = t - (t0 + 0.08 + i * 2 / 30); if (u < 0) return `<span class="hz" style="opacity:0;font-size:${size}px">${ch}</span>`;
+          const s = springTo(u), y = -90 * (1 - springTo(u, 0.55, 20)), r = [-7, 4, -3, 6, -5][i % 5] * (1 - springTo(u, 0.45, 18)) + 1.8 * Math.sin(2 * Math.PI * 1.15 * t + i);
+          return `<span class="hz" style="font-size:${size}px;transform:translate(0,${y + [6, -12, 8, -10, 4][i % 5]}px) rotate(${r}deg) scale(${s})">${ch}</span>`; }).join("");
+      }
+
+      // ---- 扉（自作のHTML/CSS）。open=0〜1、prize='gold'|'empty'、ring=色 ----
+      function chest(w) {
+        return `<svg width="${w}" height="${w * 0.8}" viewBox="0 0 100 80"><path d="M8 34 Q8 8 50 8 Q92 8 92 34 Z" fill="#ffd84a" stroke="#8a5a00" stroke-width="4"/>
+          <rect x="8" y="34" width="84" height="40" rx="5" fill="#ffc928" stroke="#8a5a00" stroke-width="4"/><rect x="8" y="34" width="84" height="8" fill="#e0a400"/>
+          <rect x="43" y="38" width="14" height="18" rx="3" fill="#8a5a00"/><circle cx="50" cy="45" r="3" fill="#ffd84a"/><path d="M20 20 l4 -6 l4 6" stroke="#fff6c0" stroke-width="3" fill="none"/></svg>`;
+      }
+      function door(x, y, w, h, o = {}) {
+        const open = o.open || 0, ring = o.ring ? `box-shadow:0 0 0 ${o.rw || 12}px ${o.ring}, 0 0 ${o.glow || 0}px ${o.glow ? o.glow / 2 : 0}px ${o.ring};` : "";
+        const inner = o.prize === "gold" ? chest(w * 0.7) : o.prize === "empty" ? `<div style="font-size:${w * 0.2}px;font-weight:800;color:#8d93ad">外れ</div>` : "";
+        return `<div class="abs" style="left:${x}px;top:${y}px;width:${w}px;height:${h}px;perspective:${w * 4}px;opacity:${o.op ?? 1}">
+          <div class="abs" style="inset:0;border-radius:${w * 0.08}px ${w * 0.08}px 6px 6px;background:#2a2340;border:${w * 0.04}px solid #f1e2c0;${ring}display:flex;align-items:center;justify-content:center">${open > 0.05 || o.peek ? inner : ""}</div>
+          <div class="abs" style="left:${w * 0.04}px;top:${w * 0.04}px;right:${w * 0.04}px;bottom:${w * 0.04}px;transform-origin:0 50%;transform:rotateY(${-open * 78}deg);border-radius:${w * 0.05}px ${w * 0.05}px 4px 4px;background:linear-gradient(90deg,#b9783e,#d39a5c 60%,#b06f36);box-shadow:inset 0 0 0 ${w * 0.03}px #8c5426">
+            ${o.num ? `<div style="position:absolute;left:50%;top:22%;transform:translateX(-50%);width:${w * 0.36}px;height:${w * 0.36}px;border-radius:50%;background:#fff3dc;color:#7a4a1c;font-weight:800;font-size:${w * 0.24}px;text-align:center;line-height:${w * 0.36}px">${o.num}</div>` : ""}
+            <div style="position:absolute;right:${w * 0.1}px;top:55%;width:${w * 0.08}px;height:${w * 0.08}px;border-radius:50%;background:#ffe08a"></div></div></div>`;
+      }
+      const tag = (x, y, text, bg, o = 1, s = 1) => `<div class="tag" style="left:${x}px;top:${y}px;background:${bg};opacity:${o};transform:translateX(-50%) scale(${s})">${text}</div>`;
+      // 3枚の扉の並び（stage 座標）
+      const DW = 270, DH = 400, DX = [45, 365, 685], DY = 130;
+
+      // ---- 実験：1万個の点。100個ずつのかたまり（10×10）を10×10に並べる＝最初の100回が左上のかたまり ----
+      const trialAt = (i) => { const r = Math.floor(i / 100), c = i % 100; return (Math.floor(r / 10) * 10 + Math.floor(c / 10)) * 100 + (r % 10) * 10 + (c % 10); };
+      const POS = new Int32Array(10000); for (let i = 0; i < 10000; i++) POS[trialAt(i)] = i;
+      const fillStart = () => Math.max(K.x1m_fill, K.x1m + 1.0);
+      function count(t, side) {
+        const d = side * 0.35;
+        if (t < K.x1 + d) return 0;
+        if (t < K.x10) return 1;
+        if (t < K.x100) return Math.min(10, 2 + Math.floor((t - K.x10) / 0.14));
+        if (t < fillStart()) return 10 + Math.round(90 * easeOut(prog(t, K.x100, 1.6)));
+        const p = prog(t, fillStart(), K.x1m_done - fillStart());
+        return Math.round(100 + 9900 * p * p);
+      }
+      const wins = (side, n) => { let s = 0; const b = BITS[side]; for (let i = 0; i < n; i++) s += b.charCodeAt(i) === 49; return s; };
+      function zoomAt(t) { return t < K.x1m ? 10 : 10 * Math.pow(0.1, flyEase(prog(t, K.x1m, 0.9))); }
+      function drawDots(t, side, n, sortK) {
+        const g = $("cv" + side).getContext("2d"), z = zoomAt(t), size = 460 * z, b = BITS[side];
+        g.clearRect(0, 0, 460, 460);
+        const W = Math.round(D[side ? "sw" : "stay"].wins);
+        if (z > 9.99) {   // 最初のかたまり（100回）だけ大きく描く。出た瞬間にポン
+          const cell = 46;
+          for (let k = 0; k < 100; k++) {
+            const r = Math.floor(k / 10), c = k % 10, cx = (c + 0.5) * cell, cy = (r + 0.5) * cell;
+            let col = "rgba(255,255,255,.10)", rad = 17;
+            if (k < n) { col = b[k] === "1" ? "#ffc928" : "#8d93ad";
+              const land = k === 0 ? K.x1 + side * 0.35 : k < 10 ? K.x10 + (k - 1) * 0.14 : K.x100 + 1.6 * (1 - Math.cbrt(1 - (k - 9) / 90));
+              rad = 19 * (1 + (k < 10 ? 0.45 : 0.2) * Math.max(0, wob(t - land, 4, 8))); }
+            g.fillStyle = col; g.beginPath(); g.arc(cx, cy, rad, 0, 6.2832); g.fill();
+          }
+          return;
+        }
+        if (sortK > 0) {   // 並べ直し：当たりを上に集める（1万回ぶん）
+          DOTS.draw(g, { x: 0, y: 0, size: 460, n: 10000, shown: 10000, color: (i) => (i < W ? "#ffc928" : "#8d93ad") });
+          g.globalAlpha = 1 - sortK; DOTS.draw(g, { x: 0, y: 0, size: 460, n: 10000, shown: 10000, color: (i) => { const k = trialAt(i); return k < n ? (b[k] === "1" ? "#ffc928" : "#8d93ad") : "rgba(255,255,255,.10)"; } }); g.globalAlpha = 1;
+          return;
+        }
+        DOTS.draw(g, { x: 0, y: 0, size, n: 10000, shown: 10000, color: (i) => { const k = trialAt(i); return k < n ? (b[k] === "1" ? "#ffc928" : "#8d93ad") : "rgba(255,255,255,.10)"; } });
+      }
+      function expScene(t, sc) {
+        const steps = [["1回", K.x1], ["10回", K.x10], ["100回", K.x100], ["1万回", K.x1m]];
+        let cur = -1; steps.forEach(([, s], i) => { if (t >= s - 0.4) cur = i; });
+        $("steps").innerHTML = `<div style="display:flex;justify-content:center;align-items:center;gap:14px;height:80px">${steps.map(([l], i) =>
+          `<div class="num" style="font-size:${i === cur ? 50 : 36}px;font-weight:800;padding:2px 22px;border-radius:30px;background:${i === cur ? "#fff" : "transparent"};color:${i === cur ? "#1c2150" : i < cur ? "rgba(255,255,255,.75)" : "rgba(255,255,255,.35)"};transform:scale(${i === cur ? pop(t, steps[i][1] - 0.4) : 1})">${l}</div>${i < 3 ? '<div style="color:rgba(255,255,255,.4);font-size:36px;font-weight:800">→</div>' : ""}`).join("")}</div>`;
+        $("steps").style.opacity = op(t, K.x1 - 1.0, 0.4) * (1 - op(t, K.ans_x2 - 0.3, 0.3));
+        const sortK = smooth(prog(t, K.sort, 0.9));
+        const ansOn = t >= K.ansq;
+        for (const side of [0, 1]) {
+          const n = count(t, side), w = wins(side, n), r = n ? w / n : 0, R = side ? D.sw : D.stay;
+          const dimHead = (side ? t < K.e_right : t < K.e_left) ? 0.15 : 1;
+          document.querySelectorAll(".col")[side].style.opacity = dimHead;
+          drawDots(t, side, n, sortK);
+          const tA = side ? K.ans1 : K.ans2;
+          let bigTxt = n ? pct(r) : "", bigCol = "#fff", bigS = 1;
+          if (ansOn && t < tA) { bigTxt = "？"; }
+          if (t >= tA) { bigTxt = roll(t, tA, "約" + pct(R.rate), side + 3, 5); bigCol = "#ffd84a"; bigS = 1 + 0.25 * Math.max(0, 1 - prog(t, tA, 0.25)) * 0 + 0.15 * wob(t - tA, 3, 6); }
+          const big = `<div class="big num" style="text-align:center;font-size:${t >= tA ? 112 : 100}px;color:${bigCol};transform:scale(${bigS});-webkit-text-stroke:10px #0e1130;text-shadow:none;height:126px">${bigTxt}</div>`;
+          const cnt = n && t < K.ansq ? `<div class="num" style="text-align:center;font-size:36px;font-weight:800;color:rgba(255,255,255,.85);height:46px">当たり <span style="color:#ffd84a">${w.toLocaleString()}</span> / ${n.toLocaleString()}回</div>` :
+            `<div style="text-align:center;font-size:30px;font-weight:700;color:rgba(255,255,255,.75);height:46px;opacity:${op(t, K.sort)}">計算の答え ${(R.theory * 100).toFixed(1)}%</div>`;
+          const meter = `<div style="position:relative;margin:10px 20px 0;height:34px;border-radius:17px;background:#4a5078;overflow:hidden"><div style="position:absolute;left:0;top:0;bottom:0;width:${(n ? r : 0) * 100}%;background:#ffc928"></div></div>`;
+          $("c" + side).innerHTML = cnt + big + meter;
+          $("c" + side).style.opacity = t < K.e_col ? 0 : 1;
+        }
+        // 重ね書き：色の見方 → 1回目の結果 → 約2倍
+        let o = "";
+        if (t >= K.e_col && t < K.x1 - 0.2) o += `<div class="abs" style="left:0;right:0;top:330px;text-align:center;opacity:${op(t, K.e_col)}"><div class="panel" style="display:inline-block;padding:24px 40px;font-size:52px;font-weight:800">
+          <span style="display:inline-block;width:50px;height:50px;border-radius:50%;background:#ffc928;vertical-align:-8px;box-shadow:0 0 0 3px #8a5a00"></span> 当たり　<span style="display:inline-block;width:50px;height:50px;border-radius:50%;background:#8d93ad;vertical-align:-8px"></span> 外れ</div></div>`;
+        if (t >= K.ans_x2) o += `<div class="abs" style="left:0;right:0;top:-85px;text-align:center">${hz(t, K.ans_x2, "当たり約2倍！", 104)}</div>`;
+        $("expo").innerHTML = o;
+        return { title: ansOn ? (t < K.ans1 ? `結果は…` : `選び直すと<span style="color:var(--gold)">当たりが多い</span>`) : `<span style="color:var(--gold)">1万回</span>ためす` };
+      }
+
+      function stage(t, sc) {
+        const v = sc.vis, id = sc.id;
+        if (v === "hook") {
+          const k1 = K.h_1man;
+          return { title: `3つの扉<br><span style="color:var(--gold);font-size:110px">選び直す？</span>`,
+            html: door(DX[0], DY, DW, DH, { num: 1, ring: "#fff" }) + door(DX[1], DY, DW, DH, { num: 2 }) + door(DX[2], DY, DW, DH, { num: 3, open: 1, prize: "empty" }) +
+              tag(DX[0] + DW / 2, DY - 80, "あなた", "#5a5f86") +
+              `<div class="big abs" style="left:${DX[1]}px;width:${DW}px;top:${DY + 150}px;text-align:center;font-size:200px;color:var(--gold);transform:scale(${1 + 0.05 * Math.sin(t * 5)})">？</div>` +
+              `<div class="abs" style="left:0;right:0;top:610px;text-align:center;opacity:${op(t, k1)};transform:scale(${t < k1 ? 0 : pop(t, k1)})"><span class="big" style="font-size:96px">各<span style="color:var(--gold)">1万回</span>ためした</span></div>` };
+        }
+        if (v === "rule") {
+          const pick = t >= K.r_pick, op3 = easeOut(prog(t, K.r_open, 0.6)), ask = t >= K.a_stay;
+          const ttl = { rule1: "ルール", rule2: `①あなたが<span style="color:var(--gold)">1つ選ぶ</span>`, rule3: `②司会が<span style="color:var(--gold)">外れを開ける</span>`, rule4: `司会は<span style="color:var(--gold)">必ず外れ</span>を開ける`, ask: `③<span style="color:var(--gold)">選び直す？</span>` }[id];
+          let h = [0, 1, 2].map((i) => { const s = t < K.r_doors ? 0 : pop(t, K.r_doors + i * 0.15);
+            const ring = ask ? (i === 0 ? "#e03131" : i === 1 ? "#1971c2" : null) : pick && i === 0 ? "#fff" : null;
+            return `<div style="transform:scale(${s});transform-origin:${DX[i] + DW / 2}px ${DY + DH}px" class="abs" ><div style="position:absolute;left:0;top:0">${door(DX[i], DY, DW, DH, { num: i + 1, ring, open: i === 2 ? op3 : 0, prize: i === 2 ? "empty" : null, glow: ask && i < 2 ? 30 : 0 })}</div></div>`; }).join("");
+          if (pick && !ask) h += tag(DX[0] + DW / 2, DY - 80, "あなた", "#5a5f86", 1, pop(t, K.r_pick));
+          if (ask) h += tag(DX[0] + DW / 2, DY - 80, "そのまま", "#e03131", 1, pop(t, K.a_stay)) + (t >= K.a_sw ? tag(DX[1] + DW / 2, DY - 80, "選び直す", "#1971c2", 1, pop(t, K.a_sw)) +
+            `<svg class="abs" style="left:0;top:${DY + DH + 10}px" width="1000" height="120"><path d="M ${DX[0] + DW / 2} 10 Q ${(DX[0] + DX[1] + DW) / 2} 120 ${DX[1] + DW / 2 - 10} 24" fill="none" stroke="#4da3ff" stroke-width="12" stroke-linecap="round" stroke-dasharray="${900 * easeOut(prog(t, K.a_sw, 0.5))} 900"/><path d="M ${DX[1] + DW / 2 - 40} 10 L ${DX[1] + DW / 2 - 6} 22 L ${DX[1] + DW / 2 - 30} 52" fill="none" stroke="#4da3ff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" opacity="${op(t, K.a_sw + 0.4)}"/></svg>` : "");
+          // 下の説明（1つずつ）
+          let low = "";
+          if (id === "rule1" && t >= K.r_gold) low = `<div style="display:flex;justify-content:center;gap:60px;align-items:center">
+            <div style="text-align:center;transform:scale(${pop(t, K.r_gold)})">${chest(150)}<div class="big" style="font-size:52px;color:var(--gold)">当たり 1つ</div></div>
+            <div style="text-align:center;opacity:${op(t, K.r_miss)};transform:scale(${t < K.r_miss ? 0 : pop(t, K.r_miss)})"><div style="height:120px;font-size:90px;font-weight:800;color:#8d93ad;line-height:120px">✕</div><div class="big" style="font-size:52px;color:#c9cde6">外れ 2つ</div></div></div>`;
+          if (id === "rule3" && t >= K.r_know) low = `<div class="panel" style="text-align:center;font-size:50px;font-weight:800;transform:scale(${pop(t, K.r_know)})">司会のアリスは<br><span style="color:#d9480f">当たりの場所を知っている</span></div>`;
+          if (id === "rule4" && t >= K.r_must) low = `<div class="panel" style="text-align:center;font-size:58px;font-weight:800;background:#fff3b0;transform:scale(${pop(t, K.r_must)}) rotate(-2deg)">司会は<span style="color:#d9480f">必ず外れ</span>を開ける<div style="font-size:32px;color:#5a5f86;margin-top:6px">（当たりは絶対に開けない）</div></div>`;
+          return { title: ttl, html: h + `<div class="abs" style="left:0;right:0;top:${DY + DH + 40}px">${low}</div>` };
+        }
+        if (v === "guess") {
+          const cards = [["そのまま", "#e03131", K.g1], ["選び直す", "#1971c2", K.g2], ["どっちでも同じ", "#5a5f86", K.g3]];
+          const half = t >= K.g_half;
+          return { title: `あなたは<span style="color:var(--gold)">どれ？</span>`, html: cards.map(([l, c, t0], i) => `<div class="panel abs" style="left:60px;right:60px;top:${60 + i * 250}px;height:200px;display:flex;align-items:center;justify-content:center;font-size:82px;font-weight:800;color:${c};
+            opacity:${t < t0 ? 0 : half && i < 2 ? 0.35 : 1};transform:scale(${t < t0 ? 0 : pop(t, t0)}) rotate(${[-1.5, 1.5, -1][i]}deg)">${l}</div>`).join("") +
+            (half ? `<div class="abs" style="right:40px;top:${60 + 2 * 250 - 70}px;transform:rotate(10deg) scale(${pop(t, K.g_half)})"><div class="big" style="font-size:80px;color:var(--gold)">半分半分？</div></div>` : "") };
+        }
+        if (v === "why") {
+          const open3 = easeOut(prog(t, K.w_open, 0.6)), mv = flyEase(prog(t, K.w_move + 0.3, 1.2));
+          let h = door(DX[0], DY, DW, DH, { num: 1, ring: t >= K.w_pick ? "#e03131" : null }) + door(DX[1], DY, DW, DH, { num: 2 }) + door(DX[2], DY, DW, DH, { num: 3, open: open3, prize: "empty", op: 1 - 0.5 * mv });
+          if (t >= K.w_pick) h += tag(DX[0] + DW / 2, DY - 84, "あなた", "#e03131", 1, pop(t, K.w_pick));
+          if (t >= K.w_13) h += `<div class="abs" style="left:${DX[0]}px;width:${DW}px;top:${DY + DH + 30}px;text-align:center;transform:scale(${pop(t, K.w_13)})"><div class="panel" style="display:inline-block;padding:10px 40px">${frac(1, 3, 110, "#e03131")}</div></div>`;
+          if (t >= K.w_pair) { const x0 = DX[1] - 18, x1 = lerp(DX[2] + DW + 18, DX[1] + DW + 18, mv);
+            h += `<div class="abs" style="left:${x0}px;width:${x1 - x0}px;top:${DY - 22}px;height:${DH + 44}px;border:12px solid #4da3ff;border-radius:30px;box-shadow:0 0 40px #4da3ff;opacity:${op(t, K.w_pair)}"></div>
+              <div class="abs" style="left:${(x0 + x1) / 2}px;top:${DY + DH + 30}px;opacity:${t < K.w_23 ? 0 : 1};transform:translateX(-50%) scale(${pop(t, K.w_23) * (1 + 0.15 * wob(t - K.w_move - 1.5, 3, 5))})"><div class="panel" style="padding:10px 40px">${frac(2, 3, 110, "#1971c2")}</div></div>`; }
+          if (t >= K.w_open && t < K.w_move) h += `<div class="abs" style="left:${DX[2] - 40}px;width:${DW + 80}px;top:${DY - 100}px;text-align:center"><span class="tag" style="position:relative;left:50%;background:#5a5f86;font-size:36px">外れと知って開ける</span></div>`;
+          if (t >= K.w_move + 1.5) h += `<div class="abs" style="left:${DX[1] - 40}px;width:${DW + 80}px;top:${DY - 100}px;text-align:center"><span class="tag" style="position:relative;left:50%;background:#1971c2;font-size:38px;transform:translateX(-50%) scale(${pop(t, K.w_move + 1.5)})">まるごと乗る</span></div>`;
+          return { title: t < K.w_pick ? `<span style="color:var(--gold)">なぜ？</span>` : `当たりの<span style="color:var(--gold)">確率</span>`, html: h };
+        }
+        if (v === "h100") {
+          const PICK = 23, LEFT = 67, cw = 96, ch = 64, x0 = 20, y0 = 30;
+          const order = [...Array(100).keys()].filter((i) => i !== PICK && i !== LEFT).sort((a, b) => hash(a, 5) - hash(b, 5));
+          const rank = {}; order.forEach((d, j) => (rank[d] = j));
+          let h = "";
+          for (let i = 0; i < 100; i++) {
+            const r = Math.floor(i / 10), c = i % 10, s = t < K.h_grid ? 0 : pop(t, K.h_grid + (r + c) * 0.03);
+            const ot = rank[i] !== undefined ? K.h_open + 0.9 + rank[i] * 0.022 : 1e9, o = easeOut(prog(t, ot, 0.18));
+            const ring = i === PICK && t >= K.h_pick ? "#e03131" : i === LEFT && t >= K.h_sus ? "#4da3ff" : null;
+            h += `<div class="abs" style="left:${x0 + c * cw + 22}px;top:${y0 + r * ch}px;width:52px;height:${ch - 8}px;transform:scale(${s});border-radius:8px 8px 3px 3px;
+              background:${o > 0.5 ? "#2a2340" : "linear-gradient(90deg,#b9783e,#d39a5c)"};box-shadow:inset 0 0 0 4px ${o > 0.5 ? "#5a5070" : "#8c5426"}${ring ? `,0 0 0 8px ${ring},0 0 ${i === LEFT ? 30 + 15 * Math.sin(t * 8) : 0}px ${ring}` : ""};opacity:${o > 0.5 ? 0.45 : 1}"></div>`;
+          }
+          const px = (i) => x0 + (i % 10) * cw + cw / 2, py = (i) => y0 + Math.floor(i / 10) * ch;
+          if (t >= K.h_pick) h += tag(px(PICK), py(PICK) - 70, "あなた", "#e03131", 1, pop(t, K.h_pick));
+          if (t >= K.h_sus) h += tag(px(LEFT), py(LEFT) + ch + 6, "残った1枚", "#1971c2", 1, pop(t, K.h_sus));
+          const opened = order.filter((d) => t >= K.h_open + 0.9 + rank[d] * 0.022 + 0.09).length;
+          let low = t >= K.h_open + 0.9 ? `<div class="big num" style="font-size:64px">外れを開けた <span style="color:#c9cde6">${opened}</span>枚</div>` : "";
+          if (t >= K.h_1in100) low = `<div class="panel" style="display:inline-block;font-size:50px;font-weight:800;transform:scale(${pop(t, K.h_1in100)})">あなたの扉が当たり＝<span style="color:#e03131">100枚に1枚</span></div>`;
+          return { title: `扉が<span style="color:var(--gold)">100枚</span>なら`, html: h + `<div class="abs" style="left:0;right:0;top:${y0 + 10 * ch + 30}px;text-align:center">${low}</div>` };
+        }
+        if (v === "life") {
+          return { title: `ふだんの<span style="color:var(--gold)">ヒント</span>`, html: `<div class="panel abs" style="left:40px;right:40px;top:40px;text-align:center;opacity:${op(t, K.l_info)};transform:scale(${pop(t, K.l_info)})">
+              <div style="font-size:46px;font-weight:700;color:#5a5f86">後から新しい情報が出たら</div><div style="font-size:90px;margin:10px 0">↓</div><div style="font-size:66px;font-weight:800;color:#1971c2">選び直しも考える</div></div>
+            <div class="panel abs" style="left:80px;right:80px;top:520px;text-align:center;background:#fff3b0;opacity:${op(t, K.l_but)};transform:scale(${t < K.l_but ? 0 : pop(t, K.l_but)}) rotate(-1.5deg)">
+              <div style="font-size:40px;font-weight:800">ただし今回は</div><div style="font-size:46px;font-weight:800;color:#d9480f">司会が答えを知っていて<br>必ず外れを開ける時の話</div></div>` };
+        }
+        // end：冒頭の問いに答える（例の1回：選び直して当たり）
+        const o2 = easeOut(prog(t, K.e_ans + 0.3, 0.6)), sY = 0.75, dy = 20;
+        const doors = `<div class="abs" style="left:0;top:0;width:1000px;transform:scale(${sY});transform-origin:500px 0">${door(DX[0], dy, DW, DH, { num: 1 }) + door(DX[1], dy, DW, DH, { num: 2, ring: "#1971c2", open: o2, prize: "gold", glow: 30 }) + door(DX[2], dy, DW, DH, { num: 3, open: 1, prize: "empty" })}</div>`;
+        return { title: `答えは<span style="color:var(--gold)">選び直す</span>`, html: doors +
+          `<div class="abs" style="left:0;right:0;top:350px;text-align:center">${t >= K.e_x2 ? hz(t, K.e_x2, "当たり約2倍", 110) : ""}</div>
+          <div class="abs" style="left:0;right:0;top:520px;text-align:center;font-size:36px;font-weight:800;color:rgba(255,255,255,.9);opacity:${op(t, K.e_x2 + 0.6)}">選び直す 約${pct(D.sw.rate)}（3回に2回）／そのまま 約${pct(D.stay.rate)}</div>
+          <div class="panel abs" style="left:60px;right:60px;top:600px;text-align:center;opacity:${op(t, K.e_ai)}"><div style="font-size:44px;font-weight:800">これはAIのシミュレーションです</div>
+            <div style="font-size:40px;font-weight:800;color:#1971c2;margin-top:10px;opacity:${op(t, K.e_cm)}">次に確かめてほしいこと<br>コメントで教えてね！</div></div>` };
+      }
+
+      // ---- アリス ----
+      const NAMES = ["base", "talk", "talk_half", "blink", "happy", "surprised", "troubled", "pose_thinking", "pose_thinking_talk", "pose_thinking_half", "pose_pointing", "pose_pointing_talk", "pose_pointing_half", "pose_excited", "pose_excited_talk"];
+      $("alice").innerHTML = NAMES.map((n) => `<img id="a_${n}" src="assets/alice/${n}_768.png" alt="${n === "base" ? "電脳アリス" : ""}" style="opacity:0">`).join("");
+      const AMT = { surprised: 1.0, pose_excited: 0.8, troubled: 0.5 }, MARK = { surprised: "！", pose_thinking: "？", pose_excited: "✨" };
+      function alice(t, sc, u) {
+        const f = Math.floor(t * D.fps), mo = D.mouth[Math.min(f, D.mouth.length - 1)] || 0, face = sc.face || "base";
+        const half = { base: "talk_half", pose_thinking: "pose_thinking_half", pose_pointing: "pose_pointing_half", pose_excited: "pose_excited" };
+        const f0 = face.startsWith("pose_") ? face : (mo ? "base" : face);
+        const show = mo === 2 ? (f0 === "base" ? "talk" : f0 + "_talk") : mo === 1 ? half[f0] : (f0 === "base" && t % 3.4 < 0.12 ? "blink" : f0);
+        for (const n of NAMES) $("a_" + n).style.opacity = n === show ? 1 : 0;
+        const i = D.scenes.indexOf(sc), prev = D.scenes[i - 1], changed = !prev || prev.face !== sc.face;
+        const nx = D.scenes[i + 1], pre = nx && nx.face !== sc.face ? faceAct(t, nx.start, 0) : { sx: 1, sy: 1 };
+        const act = changed ? faceAct(t, sc.start, AMT[face] ?? 0.3) : { sx: 1, sy: 1 };
+        const en = easeOut(prog(t, 0.1, 0.6)), lean = face === "pose_pointing" ? -2 : 0;
+        $("alice").style.transform = `translate(${(1 - en) * 600 + (lean ? -20 : 0)}px, ${Math.sin(t * 2.2) * 6 + Math.sin(t * 3.7) * 2 + (mo ? -3 : 0)}px) rotate(${Math.sin(t * 1.3) * 0.8 + lean}deg) scale(${act.sx * pre.sx},${act.sy * pre.sy})`;
+        const mk = changed && MARK[face] && u < 1.2 ? MARK[face] : "";
+        $("mark").innerHTML = mk; $("mark").style.transform = mk ? `scale(${backOut(prog(t, sc.start, .35))}) rotate(${Math.sin(t * 9) * 6}deg)` : ""; $("mark").style.opacity = mk ? 1 - prog(t, sc.start + 0.9, 0.3) : 0;
+      }
+      function caption(sc, u, t) {
+        if (u > sc.voice_len + 0.3) return "";
+        const parts = sc.sub.match(/[^。？！…]+[。？！…]*/g) || [sc.sub]; let k = 0;
+        for (let i = 0; i < sc.marks.length; i++) if (t >= sc.marks[i][1] - 0.05) k = i;
+        let line = (parts[k] || "").replace(/。$/, "");
+        if (line.length > 19) { const m = line.length / 2; let b = -1; for (let i = 0; i < line.length - 1; i++) if ("、".includes(line[i]) && (b < 0 || Math.abs(i - m) < Math.abs(b - m))) b = i; if (b < 0) b = Math.floor(m); line = line.slice(0, b + 1) + "\n" + line.slice(b + 1); }
+        return line;
+      }
+      const BG = { hook: "#2d3577", rule: "#2d3577", guess: "#3a2f6a", exp: "#24508f", why: "#4a2f7a", h100: "#3a2f6a", life: "#2b4a7a", end: "#6a5a1f" };
+      function bgAt(t, sc) { const i = D.scenes.indexOf(sc), prev = D.scenes[i - 1]; const a = prev ? BG[prev.vis] : BG[sc.vis], b = BG[sc.vis], k = prog(t, sc.start, 1.0);
+        const mix = (x, y) => { const p = (h) => [1, 3, 5].map((j) => parseInt(h.slice(j, j + 2), 16)); const A = p(x), B = p(y); return `rgb(${A.map((v, j) => Math.round(lerp(v, B[j], k))).join(",")})`; };
+        let dark = 0; if (t >= K.silence && t < K.ans1) dark = 0.5;
+        return `linear-gradient(rgba(0,0,0,${dark}),rgba(0,0,0,${dark})), radial-gradient(ellipse at 50% 30%, ${mix(a, b)} 0%, #171b42 62%, #0e1130 100%)`; }
+      const WCOL = ["#ffc928", "#4da3ff", "#ff6b6b", "#3ccf7a"], TR = 0.3;
+      function wipe(t) {
+        const j = VB.findIndex((b) => Math.abs(t - b) < TR), w = $("wipe");
+        if (j < 0) { w.innerHTML = ""; return; }
+        const p = (t - (VB[j] - TR)) / (2 * TR), dir = j % 2 ? -1 : 1;
+        w.innerHTML = [0, 0.14, 0.06, 0.18, 0.1].map((d, i) => { const q = p < 0.5 ? easeOut(clamp((p * 2 - d) / (1 - d))) : easeIn(clamp(((p - 0.5) * 2 - d) / (1 - d)));
+          const x0 = p < 0.5 ? 0 : q, x1 = p < 0.5 ? q : 1;
+          return `<div style="position:absolute;top:${i * 20}%;height:21%;left:${(dir > 0 ? x0 : 1 - x1) * 100}%;width:${(x1 - x0) * 100}%;background:${WCOL[(j + i) % 4]};transform:skewY(-6deg)"></div>`; }).join("");
+      }
+      function renderAt(t) {
+        let sc = D.scenes[0]; for (const s of D.scenes) if (t >= s.start) sc = s;
+        const u = t - sc.start, first = firstOf(sc.vis);
+        $("bg").style.background = bgAt(t, sc);
+        $("pat").style.backgroundPosition = `0 ${(t * 12) % 48}px`;
+        let r;
+        if (sc.vis === "exp") { $("exp").style.display = "block"; $("layer").innerHTML = ""; r = expScene(t, sc); }
+        else { $("exp").style.display = "none"; r = stage(t, sc); $("layer").innerHTML = r.html; }
+        if ($("title").innerHTML !== r.title) $("title").innerHTML = r.title;
+        $("title").style.transform = `scale(${0.7 + 0.3 * backOut(prog(t, first.start, 0.5))})`;
+        const z = 1 + 0.005 * Math.min(t - first.start, 6), hit = HITS.find((h) => t >= h && t < h + 0.35);
+        const [sx, sy] = hit ? shakeXY(t, 12 * (1 - (t - hit) / 0.35)) : [0, 0], bump = HITS.reduce((s, h) => s + spring(t, h, 7, 22), 0) * 0.015;
+        $("cam").style.transform = `translate(${sx + 4 * Math.sin(t * 0.5)}px,${sy}px) scale(${z + bump})`;
+        $("cap").textContent = t < D.lead ? "" : caption(sc, u, t);
+        alice(t, sc, u); wipe(t);
+        $("flash").style.opacity = hit ? 0.3 * (1 - (t - hit) / 0.35) : 0;
+      }
+      window.addEventListener("hf-seek", (e) => renderAt(e.detail.time));
+      document.fonts.ready.then(() => renderAt(0));
+      renderAt(0);
+    </script>
+  </body>
+</html>
