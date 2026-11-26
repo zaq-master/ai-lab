@@ -39,37 +39,37 @@ peak = max(C["1ヶ月"]["win"], C["3ヶ月"]["win"])
 S = [
     dict(id="hook", face="surprised", vis="hook", sub="パチンコで勝ってる人、まわりにいますよね？"),
     dict(id="hook2", face="pose_pointing", vis="hook",
-         sub="じゃあ、打つ期間が長くなると、勝ってる人は増える？減る？今日は1万人で、5年分ためします。"),
+         sub="じゃあ、打つ期間が長くなると、勝ってる人は増える？減る？1万人で、5年分ためします。"),
     dict(id="rule", face="base", vis="rule",
          sub="台は、e東京喰種のスペック。1000円で16回転、等価。週に2回、1回最大4時間、財布は2万円までです。"),
     dict(id="rule2", face="pose_pointing", vis="rule", sub="全員まったく同じルールで、変えるのは、打った期間だけです。"),
     dict(id="guess", face="pose_thinking", vis="guess", sub="1回だけと、5年間。プラスの人が多いのは、どっちだと思いますか？"),
     dict(id="d1", face="pose_thinking", vis="d1", sub="まずは、1回だけ。プラスで帰れた人は…"),
     dict(id="d1r", face="surprised", vis="d1",
-         sub=f"{pc(C['1回']['win'])}。5人に1人だけ。平均の収支はマイナス{yen100(C['1回']['mean'])}なのに、真ん中の人は、2万円をほぼ全部なくしています。"),
+         sub=f"{pc(C['1回']['win'])}。5人に1人だけ。平均の収支はマイナス{yen100(C['1回']['mean'])}なのに、真ん中の人は、2万円をほぼ全部なくしています。4時間打つつもりでも、{"4回に3回" if 0.7 < A["day_broke_mean"] < 0.8 else pc(A["day_broke_mean"])}は、財布が先に空になるんです。"),
     dict(id="m1", face="pose_thinking", vis="m1", sub="じゃあ、1ヶ月から3ヶ月、続けたら？"),
     dict(id="m1r", face="pose_excited", vis="m1", sub=f"約{pc(peak)}。プラスの人が、むしろ増えました！"),
     dict(id="why1", face="pose_pointing", vis="why1",
-         sub=f"理由は2つ。1回で負けるのは最大2万円なのに、勝つときは、上位1割の人で{man(C['1回']['p90'])}以上。それに、何回か足すと、運の偏りがならされるからです。"),
+         sub=f"理由は2つ。1回で負けるのは最大2万円なのに、勝つときは、上位1割の人で{man(C['1回']['p90'])}以上。それに、何回か足すと、運の偏りがならされるから。"),
     dict(id="line", face="pose_pointing", vis="line",
          sub=f"では、もっと続けると…半年で{pc(C['半年']['win'])}。1年で{pc(y1['win'])}。2年で{pc(C['2年']['win'])}。5年で{pc(C['5年']['win'])}。"
-             + ("1回だけのときより、少なくなりました。" if FIVE_BELOW_ONE else "ゆっくり、減り続けます。")),
+             + ("1回だけのときより、少なくなりました。" if FIVE_BELOW_ONE else "1回だけのときと、ほぼ同じまで戻りました。" if C["5年"]["win"] - C["1回"]["win"] < 0.02 else "ゆっくり、減り続けます。")),
     dict(id="house", face="base", vis="house",
          sub=f"下がっていく理由は、お店の取り分。1時間あたり平均{round(abs(y1['yen_per_hour']), -1):.0f}円ずつ削られて、1年、約{round(y1['hours'], -1):.0f}時間遊ぶと、平均マイナス{man(y1['mean'])}です。"),
     dict(id="zero", face="pose_pointing", vis="zero",
-         sub=f"仮に、お店の取り分がゼロの台だったら？線は下がらずに、1年で{pc(CZ['1年']['win'])}、5年で{pc(CZ['5年']['win'])}。"),
+         sub=f"仮に、お店の取り分がゼロの台だったら？プラスの人は減らずに、1年で{pc(CZ['1年']['win'])}、5年で{pc(CZ['5年']['win'])}。"),
     dict(id="compare", face="surprised", vis="compare",
-         sub=f"でも、1年後のプラスの人は、{pc(y1['win'])}と{pc(CZ['1年']['win'])}。これだけだと、見分けにくい。差がはっきり出るのは金額で、真ん中の人は、マイナス{man(y1['median'])}と、マイナス{man(CZ['1年']['median'])}です。"),
+         sub=f"でも、1年後のプラスの人は、{pc(y1['win'])}と{pc(CZ['1年']['win'])}。これだと見分けにくい。差がはっきり出るのは金額で、真ん中の人は、マイナス{man(y1['median'])}と、マイナス{man(CZ['1年']['median'])}です。"),
     dict(id="money", face="troubled", vis="money",
          sub=f"16回転の台の1年後は、下位1割の人がマイナス{man(y1['p10'])}以下。上位1割はプラス{man(y1['p90'])}以上。負ける側のほうが、大きいんです。"),
     dict(id="ten", face="pose_pointing", vis="ten",
-         sub=f"10人だけ、1年の動きを見ると…ほとんどの人は、じわじわ下がっていきます。でも、ときどき、ドンと上がる人がいるんです。"),
+         sub=f"10人だけ、1年の動きを見ると…{"半分以上" if n_up < 5 else "多く"}の人は、じわじわ下がっていきます。でも、ときどき、ドンと上がる人がいるんです。"),
     dict(id="hist", face="pose_thinking", vis="hist",
-         sub="1年後の1万人を並べると、山はマイナスの側。プラスの側には、細く長いすそ。それに、負けた人はやめて話さなくなるので、勝った話ばかり聞こえてくるんです。"),
+         sub="1年後の1万人を並べると、山はマイナス側。プラス側には、細く長いすそ。負けた人はやめて話さなくなるので、勝った話ばかり聞こえるんです。"),
     dict(id="sum", face="base", vis="sum",
          sub="まとめです。プラスの人の割合は、損の大きさを表しません。勝ってる人がいても、甘い台とは限りません。長く続けるほど、お店の取り分が積み重なります。"),
     dict(id="end", face="happy", vis="end",
-         sub="これはAIのシミュレーションで、必勝法ではありません。遊ぶお金と時間は、先に決めておこうね。次に確かめてほしいこと、コメントで教えてね！"),
+         sub="これはAIのシミュレーションで、必勝法ではありません。遊ぶお金と時間は、先に決めておこうね。次のネタ、コメントで教えてね！"),
 ]
 
 
@@ -108,7 +108,7 @@ def main():
             raise SystemExit(f"読みの問題 {s['id']}: {bad} {kana}")
     lead, t, parts = 0.4, 0.4, []
     # 結論の直前は本当の無音（声のあと pad）。数字の場面は読み終わってから長めに止める
-    PAD = {"d1": 0.9, "d1r": 0.8, "m1": 0.6, "m1r": 1.2, "line": 1.0, "zero": 0.8, "compare": 0.8, "money": 0.8, "ten": 0.6, "end": 1.5}
+    PAD = {"d1": 0.9, "d1r": 0.8, "m1": 0.6, "m1r": 0.9, "line": 0.9, "zero": 0.8, "compare": 0.8, "money": 0.8, "ten": 0.5, "end": 1.0}
     for s in S:
         x, marks = tts_marks(s["say"])
         # marks は say（読み）の文字位置。表示の sub と文の数は同じなので、文の順で sub の位置に直す
@@ -116,7 +116,7 @@ def main():
         acc, mk = 0, []
         for i, p in enumerate(sp):
             mk.append([acc, round(t + (marks[i][1] if i < len(marks) else marks[-1][1]), 3)]); acc += len(p)
-        pad = PAD.get(s["id"], 0.35)
+        pad = PAD.get(s["id"], 0.22)
         s["start"], s["voice_len"], s["dur"], s["marks"] = round(t, 3), round(len(x) / SR, 3), round(len(x) / SR + pad, 3), mk
         b = np.zeros(int(s["dur"] * SR), np.float32); b[: len(x)] = x
         parts.append(b); t += s["dur"]
@@ -133,13 +133,13 @@ def main():
     # ---- 時刻の表（絵と音が同じものを使う） ----
     K = dict(
         h2=at("hook2", "1万人"), r_rule=at("rule", "台"), r_rate=at("rule", "1000円"), r_week=at("rule", "週に"), r_wallet=at("rule", "財布"), r_same=at("rule2", "全員"),
-        d1_num=at("d1r", pc(C["1回"]["win"])), d1_mean=at("d1r", "平均"), d1_med=at("d1r", "真ん中"),
+        d1_num=at("d1r", pc(C["1回"]["win"])), d1_mean=at("d1r", "平均"), d1_med=at("d1r", "真ん中"), d1_broke=at("d1r", "4時間"),
         m1_num=at("m1r", "約"), why_lose=at("why1", "1回で"), why_win=at("why1", "上位"), why_sum=at("why1", "それに"),
         l_start=at("line", "では"), l6=at("line", "半年"), l1y=at("line", "1年で"), l2y=at("line", "2年で"), l5y=at("line", "5年で"),
-        hour=at("house", "1時間"), h_year=at("house", "1年"), z_q=at("zero", "仮に"), z_num=at("zero", "線は"),
+        hour=at("house", "1時間"), h_year=at("house", "1年"), z_q=at("zero", "仮に"), z_num=at("zero", "プラスの人"),
         c_num=at("compare", "1年後"), c_med=at("compare", "真ん中"), c_money=at("compare", "差が"),
         mo_p10=at("money", "下位"), mo_med=at("money", "下位") + 0.6, mo_p90=at("money", "上位"),
-        ten_up=at("ten", "ときどき"), hist_tail=at("hist", "プラスの側"), hist_you=at("hist", "負けた人"),
+        ten_up=at("ten", "ときどき"), hist_tail=at("hist", "プラス側"), hist_you=at("hist", "負けた人"),
         s1=at("sum", "プラスの人"), s2=at("sum", "勝ってる人"), s3=at("sum", "長く"),
     )
     vo = np.concatenate([np.zeros(int(lead * SR), np.float32)] + parts)
@@ -180,7 +180,7 @@ def main():
                 CZ={k: {q: CZ[k][q] for q in ("win", "mean", "median", "p10", "p90")} for k in PER},
                 S16=dict(win=[round(x, 4) for x in A["series"]["win"]]), SZ=dict(win=[round(x, 4) for x in Z["series"]["win"]]),
                 perhour=y1["yen_per_hour"], hours=y1["hours"], d1_p90=C["1回"]["p90"], traj=A["traj10"], hist=A["year_hist"], edges=A["year_edges"],
-                cond=A["cond"], n=A["n"])
+                cond=A["cond"], n=A["n"], broke=A["day_broke_mean"], dayhours=A["day_hours_mean"])
     with open(os.path.join(HERE, "assets", "data.js"), "w") as f:
         f.write("window.DATA=" + json.dumps(data, ensure_ascii=False, separators=(",", ":")) + ";")
     print(f"total {total:.1f}s", K)

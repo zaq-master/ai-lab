@@ -37,9 +37,9 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="180" data-width="1080" data-height="1920">
-      <div id="bg" class="clip" data-start="0" data-duration="180" data-track-index="0"></div>
-      <div id="ui" class="clip" data-start="0" data-duration="180" data-track-index="1" data-layout-allow-overlap data-layout-allow-overflow>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="179.716" data-width="1080" data-height="1920">
+      <div id="bg" class="clip" data-start="0" data-duration="179.716" data-track-index="0"></div>
+      <div id="ui" class="clip" data-start="0" data-duration="179.716" data-track-index="1" data-layout-allow-overlap data-layout-allow-overflow>
         <div id="dots"></div>
         <div id="cam"><div id="title" class="big"></div><div id="stage"></div></div>
         <div id="alice"></div>
@@ -50,7 +50,7 @@
         <div style="position:absolute;right:28px;top:24px;font:700 26px R,sans-serif;color:rgba(255,255,255,.85);text-shadow:0 2px 4px rgba(0,0,0,.6)">VOICEVOX:四国めたん</div>
         <div style="position:absolute;left:28px;top:24px;font:700 26px R,sans-serif;color:rgba(255,255,255,.7)">AIのシミュレーション（1万人・乱数の種 20261127）</div>
       </div>
-      <audio id="mix" class="clip" src="assets/mix.wav" data-start="0" data-duration="180" data-track-index="2"></audio>
+      <audio id="mix" class="clip" src="assets/mix.wav" data-start="0" data-duration="179.716" data-track-index="2"></audio>
     </div>
     <script>window.__timelines = window.__timelines || {}; window.__timelines["main"] = gsap.timeline({ paused: true });</script>
     <script>
@@ -78,13 +78,13 @@
           return `<span class="hz" style="font-size:${size}px;transform:translate(0,${y + [6, -12, 8, -10, 4][i % 5]}px) rotate(${r}deg) scale(${s})">${ch}</span>`; }).join("");
       }
       // ---- 100人のドット（プラスの人を青に） ----
-      function grid(t, n, t0, label) {
+      function grid(t, n, t0, label, extra = "") {
         const shown = Math.round(n * easeOut(prog(t, t0, 1.2)));
         const dots = Array.from({ length: 100 }, (_, i) => { const on = i < shown; const land = t0 + 1.2 * (1 - Math.cbrt(1 - (i + 1) / Math.max(1, n)));
           const sc = on ? 1 + 0.35 * Math.max(0, wob(t - land, 4, 9)) : 1;
-          return `<div style="width:64px;height:64px;border-radius:50%;background:${on ? "var(--blue)" : "#d5d8ec"};transform:scale(${sc})"></div>`; }).join("");
-        return `<div class="panel"><div class="ph">${label}</div><div style="display:grid;grid-template-columns:repeat(10,64px);gap:12px;justify-content:center">${dots}</div>
-          <div class="ph num" style="margin-top:22px;font-size:84px;color:var(--blue)">${t >= t0 ? roll(t, t0, n + "人", 3, 6) || "" : "？"}<span style="font-size:40px;color:#5a5f86"> / 100人</span></div></div>`;
+          return `<div style="width:38px;height:38px;border-radius:50%;background:${on ? "var(--blue)" : "#d5d8ec"};transform:scale(${sc})"></div>`; }).join("");
+        return `<div class="panel"><div class="ph">${label}</div><div style="display:grid;grid-template-columns:repeat(10,38px);gap:8px;justify-content:center">${dots}</div>
+          <div class="ph num" style="margin:8px 0 4px;font-size:64px;color:var(--blue)">${t >= t0 ? roll(t, t0, n + "人", 3, 6) || "" : "？"}<span style="font-size:38px;color:#5a5f86"> / 100人</span></div>${extra}</div>`;
       }
       // ---- 折れ線：プラスの人の割合（横軸は回数の対数） ----
       const X = (d) => 70 + 830 * Math.log(d) / Math.log(D.days), Y = (w) => 560 - w / 0.55 * 520;
@@ -94,20 +94,20 @@
         const grid = [0, 0.1, 0.2, 0.3, 0.4, 0.5].map((w) => `<line x1="70" x2="900" y1="${Y(w)}" y2="${Y(w)}" stroke="#d9dcef" stroke-dasharray="4 8"/><text x="58" y="${Y(w) + 10}" text-anchor="end" font-size="28" fill="#7a7fa6">${w * 100}%</text>`).join("");
         const xt = ticks.map(([d, l]) => `<text x="${X(d)}" y="600" text-anchor="middle" font-size="28" fill="#5a5f86">${l}</text>`).join("");
         const end = (S, up, col, lab) => { if (up < 1) return ""; const d = Math.min(up, S.length) | 0, w = S[d - 1];
-          return `<circle cx="${X(d)}" cy="${Y(w)}" r="12" fill="${col}" stroke="#fff" stroke-width="5"/><text x="${X(d) + (d > 300 ? -18 : 18)}" y="${Y(w) - 20}" text-anchor="${d > 300 ? "end" : "start"}" font-size="40" font-weight="800" fill="${col}">${lab}${pc(w)}</text>`; };
+          return `<circle cx="${X(d)}" cy="${Y(w)}" r="12" fill="${col}" stroke="#fff" stroke-width="5"/><text x="${X(d) + (d > 60 ? -18 : 18)}" y="${Y(w) - 22}" text-anchor="${d > 60 ? "end" : "start"}" font-size="40" font-weight="800" fill="${col}">${lab}${pc(w)}</text>`; };
         return `<div class="panel"><div class="ph">通算でプラスの人の割合</div><svg width="940" height="620" style="display:block;font-family:R">
           ${grid}${xt}<line x1="${X(1)}" x2="900" y1="${Y(C["1回"].win)}" y2="${Y(C["1回"].win)}" stroke="#ffb3ad" stroke-width="3" stroke-dasharray="10 8" opacity="${upto > 104 ? 1 : 0}"/>
           ${uptoZ > 0 ? `<path d="${path(SZ.win, uptoZ)}" fill="none" stroke="#f2b705" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>` : ""}
           <path d="${path(S16.win, upto)}" fill="none" stroke="var(--red)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
-          ${end(SZ.win, uptoZ, "#d99a00", "取り分ゼロ ")}${end(S16.win, upto, "#e03131", "")}</svg>${notes}</div>`;
+          ${end(SZ.win, uptoZ, "#d99a00", "ゼロの台 ")}${end(S16.win, upto, "#e03131", "")}</svg>${notes}</div>`;
       }
       // ---- 横棒（0を真ん中に、負けは左・勝ちは右） ----
       function centerBars(t, rows, scale) {
-        return `<div style="position:relative">${rows.map((r, i) => { const g = easeOut(prog(t, r.t0, 0.6)), w = Math.abs(r.v) / scale * 400 * g, neg = r.v < 0;
-          return `<div style="display:flex;align-items:center;height:120px;opacity:${op(t, r.t0 - 0.1)}"><div style="width:230px;font-size:38px;font-weight:800;color:#5a5f86">${r.label}</div>
+        return `<div style="position:relative">${rows.map((r, i) => { const g = easeOut(prog(t, r.t0, 0.6)), w = Math.abs(r.v) / scale * 130 * g, neg = r.v < 0;
+          return `<div style="display:flex;align-items:center;height:120px;opacity:${op(t, r.t0 - 0.1)}"><div style="width:240px;font-size:34px;font-weight:800;color:#5a5f86;white-space:nowrap">${r.label}</div>
             <div style="position:relative;width:640px;height:70px"><div style="position:absolute;left:320px;top:-20px;bottom:-20px;width:4px;background:#1c2150"></div>
             <div style="position:absolute;top:0;height:70px;border-radius:14px;${neg ? `right:320px;background:var(--red)` : `left:324px;background:var(--blue)`};width:${Math.min(w, 316)}px"></div>
-            <div class="num" style="position:absolute;top:8px;${neg ? "left:0" : "right:0"};font-size:46px;font-weight:800;color:${neg ? "#e03131" : "#1971c2"};opacity:${op(t, r.t0 + 0.3)}">${man(r.v * g)}</div></div></div>`; }).join("")}</div>`;
+            <div class="num" style="position:absolute;top:10px;${neg ? `right:${334 + w}px` : `left:${334 + w}px`};white-space:nowrap;font-size:40px;font-weight:800;color:${neg ? "#e03131" : "#1971c2"};opacity:${op(t, r.t0 + 0.3)}">${man(r.v * g)}</div></div></div>`; }).join("")}</div>`;
       }
 
       function stage(t, sc) {
@@ -128,14 +128,15 @@
           ${["1回だけ", "5年間"].map((l, i) => `<div class="panel" style="width:420px;text-align:center;transform:scale(${pop(t, sc.start + 0.3 + i * 0.25)}) rotate(${i ? 3 : -3}deg)"><div style="font-size:72px;font-weight:800">${l}</div><div style="font-size:120px">${i ? "📅" : "🎰"}</div></div>`).join("")}</div>` };
         if (v === "d1") {
           const n = Math.round(C["1回"].win * 100);
-          return { title: `<span style="color:var(--gold)">1回だけ</span>なら？`, html: grid(t, n, K.d1_num, "100人にすると（1回目）") +
-            `<div class="panel" style="margin-top:24px;text-align:center;opacity:${op(t, K.d1_mean)}"><div style="font-size:36px;font-weight:700;color:#5a5f86">平均の収支 <b class="num" style="color:#e03131">${man(C["1回"].mean)}</b></div>
-            <div style="font-size:46px;font-weight:800;opacity:${op(t, K.d1_med)}">でも真ん中の人は <span class="num" style="color:#e03131">${man(C["1回"].median)}</span></div></div>` };
+          const extra = `<div style="text-align:center;border-top:3px dashed #c9cde6;padding-top:12px;opacity:${op(t, K.d1_mean)}"><div style="font-size:30px;font-weight:700;color:#5a5f86">平均の収支 <b class="num" style="color:#e03131">−${Math.round(-C["1回"].mean / 100) * 100}円</b></div>
+            <div style="font-size:38px;font-weight:800;opacity:${op(t, K.d1_med)}">でも真ん中の人は <span class="num" style="color:#e03131">${man(C["1回"].median)}</span></div>
+            <div style="font-size:30px;font-weight:800;color:#e03131;opacity:${op(t, K.d1_broke)}">4回に3回は財布が先に空に</div></div>`;
+          return { title: `<span style="color:var(--gold)">1回だけ</span>なら？`, html: grid(t, n, K.d1_num, "100人にすると（1回目）", extra) };
         }
         if (v === "m1") {
           const n = Math.round(C["3ヶ月"].win * 100);
           return { title: `<span style="color:var(--gold)">1〜3ヶ月</span>続けたら？`, html: grid(t, n, K.m1_num, "100人にすると（3ヶ月）") +
-            `<div style="text-align:center;margin-top:16px">${t > K.m1_num + 0.6 ? hz(t, K.m1_num + 0.6, "増えた！", 120) : ""}</div>` };
+            `<div style="position:absolute;left:0;right:0;top:300px;text-align:center">${t > K.m1_num + 0.6 ? hz(t, K.m1_num + 0.6, "増えた！", 130) : ""}</div>` };
         }
         if (v === "why1") {
           return { title: `増えた<span style="color:var(--gold)">理由</span>`, html: `<div class="panel"><div class="ph">1回の収支</div>
@@ -143,7 +144,7 @@
             <div class="ph" style="margin-top:24px;font-size:46px;opacity:${op(t, K.why_sum)}">何回か足すと、運がならされる</div></div>` };
         }
         if (v === "line") {
-          const up = M.kf(t, [[K.l_start, 26], [K.l6, 52], [K.l1y, 104], [K.l2y, 208], [K.l5y, 520]], easeOut);
+          const up = M.kf(t, [[K.l_start, 26], [K.l6, 26], [K.l6 + 0.6, 52], [K.l1y, 52], [K.l1y + 0.6, 104], [K.l2y, 104], [K.l2y + 0.6, 208], [K.l5y, 208], [K.l5y + 0.9, 520]], easeOut);
           return { title: `もっと<span style="color:var(--gold)">続けると</span>…`, html: lineChart(t, t < K.l_start ? 26 : up, 0,
             `<div class="note" style="opacity:${op(t, K.l5y + 0.5)}">点線＝1回だけのときの${pc(C["1回"].win)}</div>`) };
         }
@@ -157,7 +158,7 @@
           return { title: `仮に<span style="color:var(--gold)">取り分ゼロ</span>の台なら`, html: lineChart(t, 520, up, `<div class="note" style="opacity:${op(t, K.z_num)}">取り分ゼロの台は下がらない＝下がる理由はお店の取り分</div>`) };
         }
         if (v === "compare") {
-          const card = (lab, w, med, col, i) => `<div class="panel" style="width:460px;text-align:center;transform:scale(${pop(t, K.c_num + i * 0.3)})"><div style="font-size:38px;font-weight:800;color:${col}">${lab}</div>
+          const card = (lab, w, med, col, i) => `<div class="panel" style="width:460px;text-align:center;opacity:${t < K.c_num + i * 0.3 ? 0 : 1};transform:scale(${pop(t, K.c_num + i * 0.3)})"><div style="font-size:38px;font-weight:800;color:${col}">${lab}</div>
             <div style="font-size:30px;color:#5a5f86;margin-top:10px">1年後プラスの人</div><div class="num" style="font-size:110px;font-weight:800">${pc(w)}</div>
             <div style="font-size:30px;color:#5a5f86;opacity:${op(t, K.c_med)}">真ん中の人</div><div class="num" style="font-size:66px;font-weight:800;color:#e03131;opacity:${op(t, K.c_med)}">${man(med)}</div></div>`;
           return { title: `割合では<span style="color:var(--gold)">見分けられない</span>`, html: `<div style="display:flex;gap:20px;justify-content:center">${card("16回転の台", C["1年"].win, C["1年"].median, "#e03131", 0)}${card("取り分ゼロの台", CZ["1年"].win, CZ["1年"].median, "#d99a00", 1)}</div>
