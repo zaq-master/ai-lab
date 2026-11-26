@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/lib/gsap.min.js"></script>
+    <script src="assets/lib/motion.js"></script>
+    <script src="assets/data.js"></script>
+    <style>
+      @font-face { font-family: R; src: url("assets/fonts/MPLUSRounded1c-ExtraBold.ttf"); font-weight: 800; }
+      @font-face { font-family: R; src: url("assets/fonts/MPLUSRounded1c-Bold.ttf"); font-weight: 700; }
+      :root { --navy: #1c2150; --gold: #ffd84a; --red: #ff5a4e; --blue: #4da3ff; --ink: #1c2150; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #14183a; font-family: R, sans-serif; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; }
+      #bg { position: absolute; inset: 0; }
+      #dots { position: absolute; inset: 0; background-image: radial-gradient(rgba(255,255,255,.07) 3px, transparent 3.5px); background-size: 48px 48px; }
+      #ui { position: absolute; inset: 0; }
+      #cam { position: absolute; inset: 0; transform-origin: 540px 800px; }
+      .big { font-weight: 800; color: #fff; -webkit-text-stroke: 12px var(--navy); paint-order: stroke fill; text-shadow: 6px 6px 0 var(--navy); }
+      #title { position: absolute; left: 0; right: 0; top: 110px; text-align: center; font-size: 78px; line-height: 1.18; }
+      #stage { position: absolute; left: 50px; right: 50px; top: 400px; height: 860px; }
+      #cap { position: absolute; left: 30px; right: 30px; top: 1300px; text-align: center; font-size: 46px; white-space: pre-line; line-height: 1.3; }
+      #alice { position: absolute; right: 150px; bottom: -260px; width: 520px; height: 693px; transform-origin: 50% 100%; filter: drop-shadow(5px 0 0 #fff) drop-shadow(-5px 0 0 #fff) drop-shadow(0 -5px 0 #fff) drop-shadow(8px 10px 0 rgba(0,0,0,.35)); }
+      #alice img { position: absolute; inset: 0; width: 520px; height: 693px; transform: scaleX(0.9); transform-origin: 50% 100%; }
+      #mark { position: absolute; left: 640px; top: 1450px; font-size: 110px; }
+      #wipe { position: absolute; inset: -300px; pointer-events: none; }
+      #flash { position: absolute; inset: 0; background: #fff; opacity: 0; }
+      .panel { background: rgba(255,255,255,.97); border-radius: 36px; box-shadow: 0 0 0 8px #F7F9FB, 0 16px 0 rgba(0,0,0,.25); padding: 30px 38px; color: var(--ink); }
+      .ph { font-weight: 800; font-size: 44px; text-align: center; margin-bottom: 18px; }
+      .note { font-size: 30px; font-weight: 700; color: #5a5f86; text-align: center; margin-top: 12px; }
+      .cond { display: flex; justify-content: space-between; align-items: center; height: 86px; border-bottom: 3px dashed #c9cde6; font-size: 42px; font-weight: 800; }
+      .cond b { color: #d9480f; }
+      .num { font-variant-numeric: tabular-nums; }
+      .hz { display: inline-block; font-weight: 800; color: #FFE23A; -webkit-text-stroke: 10px #fff; paint-order: stroke fill;
+        text-shadow: 7px 0 0 #FF3D7F, -7px 0 0 #FF3D7F, 0 7px 0 #FF3D7F, 0 -7px 0 #FF3D7F, 5px 5px 0 #FF3D7F, -5px 5px 0 #FF3D7F, 5px -5px 0 #FF3D7F, -5px -5px 0 #FF3D7F, 0 14px 0 #A3124F, 0 20px 0 #A3124F; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="180" data-width="1080" data-height="1920">
+      <div id="bg" class="clip" data-start="0" data-duration="180" data-track-index="0"></div>
+      <div id="ui" class="clip" data-start="0" data-duration="180" data-track-index="1" data-layout-allow-overlap data-layout-allow-overflow>
+        <div id="dots"></div>
+        <div id="cam"><div id="title" class="big"></div><div id="stage"></div></div>
+        <div id="alice"></div>
+        <div id="mark" class="big"></div>
+        <div id="cap" class="big"></div>
+        <div id="wipe"></div>
+        <div id="flash"></div>
+        <div style="position:absolute;right:28px;top:24px;font:700 26px R,sans-serif;color:rgba(255,255,255,.85);text-shadow:0 2px 4px rgba(0,0,0,.6)">VOICEVOX:四国めたん</div>
+        <div style="position:absolute;left:28px;top:24px;font:700 26px R,sans-serif;color:rgba(255,255,255,.7)">AIのシミュレーション（1万人・乱数の種 20261127）</div>
+      </div>
+      <audio id="mix" class="clip" src="assets/mix.wav" data-start="0" data-duration="180" data-track-index="2"></audio>
+    </div>
+    <script>window.__timelines = window.__timelines || {}; window.__timelines["main"] = gsap.timeline({ paused: true });</script>
+    <script>
+      const D = window.DATA, K = D.K, C = D.C, CZ = D.CZ, S16 = D.S16, SZ = D.SZ;
+      const { clamp, lerp, prog, easeOut, easeIn, smooth, backOut, spring, springTo, wob, shakeXY, roll, faceAct, hash } = window.M;
+      const $ = (id) => document.getElementById(id);
+      const op = (t, t0, d = 0.3) => clamp((t - t0) / d);
+      const pop = (t, t0, d = 0.45) => backOut((t - t0) / d);
+      const pc = (x) => Math.round(x * 100) + "%";
+      const man = (y) => (y < 0 ? "−" : "+") + (Math.abs(y) / 10000).toFixed(1) + "万円";
+      const SC = Object.fromEntries(D.scenes.map((s) => [s.id, s]));
+      const at = (id, word) => { const s = SC[id], i = Math.max(0, s.sub.indexOf(word)); let m = s.marks[0];
+        for (const mk of s.marks) if (mk[0] <= i) m = mk;
+        const nx = s.marks.find((mk) => mk[0] > i) || [s.sub.length, s.start + s.voice_len];
+        return m[1] + (nx[1] - m[1]) * (i - m[0]) / Math.max(1, nx[0] - m[0]); };
+      const firstOf = (vis) => D.scenes.find((s) => s.vis === vis);
+      const VB = D.scenes.filter((s, i) => i && s.vis !== D.scenes[i - 1].vis).map((s) => s.start);
+      const NOWIPE = new Set([firstOf("m1")?.start, firstOf("zero")?.start]);   // 同じ図が変形してつながる所は帯を使わない
+      const HITS = [K.d1_num, K.m1_num, K.l1y, K.l5y, K.z_num, K.c_num].filter((x) => x);
+
+      // ---- 決めの一言（花字）：1文字ずつバネで落ちてくる ----
+      function hz(t, t0, text, size = 110) {
+        return [...text].map((ch, i) => { const u = t - (t0 + 0.08 + i * 2 / 30); if (u < 0) return `<span class="hz" style="opacity:0;font-size:${size}px">${ch}</span>`;
+          const s = springTo(u), y = -90 * (1 - springTo(u, 0.55, 20)), r = [-7, 4, -3, 6, -5][i % 5] * (1 - springTo(u, 0.45, 18)) + 1.8 * Math.sin(2 * Math.PI * 1.15 * t + i);
+          return `<span class="hz" style="font-size:${size}px;transform:translate(0,${y + [6, -12, 8, -10, 4][i % 5]}px) rotate(${r}deg) scale(${s})">${ch}</span>`; }).join("");
+      }
+      // ---- 100人のドット（プラスの人を青に） ----
+      function grid(t, n, t0, label) {
+        const shown = Math.round(n * easeOut(prog(t, t0, 1.2)));
+        const dots = Array.from({ length: 100 }, (_, i) => { const on = i < shown; const land = t0 + 1.2 * (1 - Math.cbrt(1 - (i + 1) / Math.max(1, n)));
+          const sc = on ? 1 + 0.35 * Math.max(0, wob(t - land, 4, 9)) : 1;
+          return `<div style="width:64px;height:64px;border-radius:50%;background:${on ? "var(--blue)" : "#d5d8ec"};transform:scale(${sc})"></div>`; }).join("");
+        return `<div class="panel"><div class="ph">${label}</div><div style="display:grid;grid-template-columns:repeat(10,64px);gap:12px;justify-content:center">${dots}</div>
+          <div class="ph num" style="margin-top:22px;font-size:84px;color:var(--blue)">${t >= t0 ? roll(t, t0, n + "人", 3, 6) || "" : "？"}<span style="font-size:40px;color:#5a5f86"> / 100人</span></div></div>`;
+      }
+      // ---- 折れ線：プラスの人の割合（横軸は回数の対数） ----
+      const X = (d) => 70 + 830 * Math.log(d) / Math.log(D.days), Y = (w) => 560 - w / 0.55 * 520;
+      function path(series, upto) { let p = ""; for (let d = 1; d <= Math.min(upto, series.length); d++) p += (d === 1 ? "M" : "L") + X(d).toFixed(1) + " " + Y(series[d - 1]).toFixed(1); return p; }
+      function lineChart(t, upto, uptoZ, notes = "") {
+        const ticks = [[1, "1回"], [8, "1ヶ月"], [52, "半年"], [104, "1年"], [208, "2年"], [520, "5年"]];
+        const grid = [0, 0.1, 0.2, 0.3, 0.4, 0.5].map((w) => `<line x1="70" x2="900" y1="${Y(w)}" y2="${Y(w)}" stroke="#d9dcef" stroke-dasharray="4 8"/><text x="58" y="${Y(w) + 10}" text-anchor="end" font-size="28" fill="#7a7fa6">${w * 100}%</text>`).join("");
+        const xt = ticks.map(([d, l]) => `<text x="${X(d)}" y="600" text-anchor="middle" font-size="28" fill="#5a5f86">${l}</text>`).join("");
+        const end = (S, up, col, lab) => { if (up < 1) return ""; const d = Math.min(up, S.length) | 0, w = S[d - 1];
+          return `<circle cx="${X(d)}" cy="${Y(w)}" r="12" fill="${col}" stroke="#fff" stroke-width="5"/><text x="${X(d) + (d > 300 ? -18 : 18)}" y="${Y(w) - 20}" text-anchor="${d > 300 ? "end" : "start"}" font-size="40" font-weight="800" fill="${col}">${lab}${pc(w)}</text>`; };
+        return `<div class="panel"><div class="ph">通算でプラスの人の割合</div><svg width="940" height="620" style="display:block;font-family:R">
+          ${grid}${xt}<line x1="${X(1)}" x2="900" y1="${Y(C["1回"].win)}" y2="${Y(C["1回"].win)}" stroke="#ffb3ad" stroke-width="3" stroke-dasharray="10 8" opacity="${upto > 104 ? 1 : 0}"/>
+          ${uptoZ > 0 ? `<path d="${path(SZ.win, uptoZ)}" fill="none" stroke="#f2b705" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>` : ""}
+          <path d="${path(S16.win, upto)}" fill="none" stroke="var(--red)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+          ${end(SZ.win, uptoZ, "#d99a00", "取り分ゼロ ")}${end(S16.win, upto, "#e03131", "")}</svg>${notes}</div>`;
+      }
+      // ---- 横棒（0を真ん中に、負けは左・勝ちは右） ----
+      function centerBars(t, rows, scale) {
+        return `<div style="position:relative">${rows.map((r, i) => { const g = easeOut(prog(t, r.t0, 0.6)), w = Math.abs(r.v) / scale * 400 * g, neg = r.v < 0;
+          return `<div style="display:flex;align-items:center;height:120px;opacity:${op(t, r.t0 - 0.1)}"><div style="width:230px;font-size:38px;font-weight:800;color:#5a5f86">${r.label}</div>
+            <div style="position:relative;width:640px;height:70px"><div style="position:absolute;left:320px;top:-20px;bottom:-20px;width:4px;background:#1c2150"></div>
+            <div style="position:absolute;top:0;height:70px;border-radius:14px;${neg ? `right:320px;background:var(--red)` : `left:324px;background:var(--blue)`};width:${Math.min(w, 316)}px"></div>
+            <div class="num" style="position:absolute;top:8px;${neg ? "left:0" : "right:0"};font-size:46px;font-weight:800;color:${neg ? "#e03131" : "#1971c2"};opacity:${op(t, r.t0 + 0.3)}">${man(r.v * g)}</div></div></div>`; }).join("")}</div>`;
+      }
+
+      function stage(t, sc) {
+        const v = sc.vis;
+        if (v === "hook") {
+          return { title: `勝ってる人<br><span style="color:var(--gold);font-size:104px">まわりにいる？</span>`,
+            html: `<div style="text-align:center;margin-top:130px;opacity:${op(t, K.h2)};transform:scale(${0.6 + 0.4 * pop(t, K.h2)})">
+              <div class="big" style="font-size:150px">1万人<span style="font-size:90px">×</span>5年</div>
+              <div class="big" style="font-size:66px;color:var(--gold);margin-top:14px">打つ期間で、どう変わる？</div></div>` };
+        }
+        if (v === "rule") {
+          const rows = [["台", "e東京喰種のスペック", K.r_rule], ["回る数", "1000円で<b>16回転</b>・等価", K.r_rate], ["頻度", "週2回・1回<b>最大4時間</b>", K.r_week], ["財布", "1回2万円まで", K.r_wallet], ["変えるのは", "<b>打った期間だけ</b>", K.r_same]];
+          return { title: `ルールは<span style="color:var(--gold)">全員同じ</span>`, html: `<div class="panel"><div class="ph">今回の条件</div>${rows.map(([a, b, t0]) =>
+            `<div class="cond" style="opacity:${op(t, t0)};transform:translateX(${(1 - easeOut(prog(t, t0, .35))) * 60}px)"><span style="color:#5a5f86">${a}</span><span>${b}</span></div>`).join("")}
+            <div class="note" style="opacity:${op(t, K.r_same)}">※等価・16回転は、お店によっては打つ人に有利な側の条件です</div></div>` };
+        }
+        if (v === "guess") return { title: `プラスの人が<br><span style="color:var(--gold)">多いのはどっち？</span>`, html: `<div style="display:flex;gap:40px;justify-content:center;margin-top:120px">
+          ${["1回だけ", "5年間"].map((l, i) => `<div class="panel" style="width:420px;text-align:center;transform:scale(${pop(t, sc.start + 0.3 + i * 0.25)}) rotate(${i ? 3 : -3}deg)"><div style="font-size:72px;font-weight:800">${l}</div><div style="font-size:120px">${i ? "📅" : "🎰"}</div></div>`).join("")}</div>` };
+        if (v === "d1") {
+          const n = Math.round(C["1回"].win * 100);
+          return { title: `<span style="color:var(--gold)">1回だけ</span>なら？`, html: grid(t, n, K.d1_num, "100人にすると（1回目）") +
+            `<div class="panel" style="margin-top:24px;text-align:center;opacity:${op(t, K.d1_mean)}"><div style="font-size:36px;font-weight:700;color:#5a5f86">平均の収支 <b class="num" style="color:#e03131">${man(C["1回"].mean)}</b></div>
+            <div style="font-size:46px;font-weight:800;opacity:${op(t, K.d1_med)}">でも真ん中の人は <span class="num" style="color:#e03131">${man(C["1回"].median)}</span></div></div>` };
+        }
+        if (v === "m1") {
+          const n = Math.round(C["3ヶ月"].win * 100);
+          return { title: `<span style="color:var(--gold)">1〜3ヶ月</span>続けたら？`, html: grid(t, n, K.m1_num, "100人にすると（3ヶ月）") +
+            `<div style="text-align:center;margin-top:16px">${t > K.m1_num + 0.6 ? hz(t, K.m1_num + 0.6, "増えた！", 120) : ""}</div>` };
+        }
+        if (v === "why1") {
+          return { title: `増えた<span style="color:var(--gold)">理由</span>`, html: `<div class="panel"><div class="ph">1回の収支</div>
+            ${centerBars(t, [{ label: "負けは最大", v: -20000, t0: K.why_lose }, { label: "上位1割の勝ち", v: D.d1_p90, t0: K.why_win }], 60000)}
+            <div class="ph" style="margin-top:24px;font-size:46px;opacity:${op(t, K.why_sum)}">何回か足すと、運がならされる</div></div>` };
+        }
+        if (v === "line") {
+          const up = M.kf(t, [[K.l_start, 26], [K.l6, 52], [K.l1y, 104], [K.l2y, 208], [K.l5y, 520]], easeOut);
+          return { title: `もっと<span style="color:var(--gold)">続けると</span>…`, html: lineChart(t, t < K.l_start ? 26 : up, 0,
+            `<div class="note" style="opacity:${op(t, K.l5y + 0.5)}">点線＝1回だけのときの${pc(C["1回"].win)}</div>`) };
+        }
+        if (v === "house") {
+          return { title: `<span style="color:var(--gold)">お店の取り分</span>`, html: `<div class="panel" style="text-align:center"><div class="ph">1時間あたりの平均の収支</div>
+            <div class="num" style="font-size:150px;font-weight:800;color:#e03131">${t >= K.hour ? roll(t, K.hour, "−" + Math.round(-D.perhour / 10) * 10 + "円", 4, 6) || "" : ""}</div>
+            <div style="font-size:44px;font-weight:800;opacity:${op(t, K.h_year)}">1年で約${Math.round(D.hours)}時間 → 平均 <span style="color:#e03131">${man(C["1年"].mean)}</span></div></div>` };
+        }
+        if (v === "zero") {
+          const up = M.kf(t, [[K.z_q, 1], [K.z_num, 104], [K.z_num + 2.5, 520]], easeOut);
+          return { title: `仮に<span style="color:var(--gold)">取り分ゼロ</span>の台なら`, html: lineChart(t, 520, up, `<div class="note" style="opacity:${op(t, K.z_num)}">取り分ゼロの台は下がらない＝下がる理由はお店の取り分</div>`) };
+        }
+        if (v === "compare") {
+          const card = (lab, w, med, col, i) => `<div class="panel" style="width:460px;text-align:center;transform:scale(${pop(t, K.c_num + i * 0.3)})"><div style="font-size:38px;font-weight:800;color:${col}">${lab}</div>
+            <div style="font-size:30px;color:#5a5f86;margin-top:10px">1年後プラスの人</div><div class="num" style="font-size:110px;font-weight:800">${pc(w)}</div>
+            <div style="font-size:30px;color:#5a5f86;opacity:${op(t, K.c_med)}">真ん中の人</div><div class="num" style="font-size:66px;font-weight:800;color:#e03131;opacity:${op(t, K.c_med)}">${man(med)}</div></div>`;
+          return { title: `割合では<span style="color:var(--gold)">見分けられない</span>`, html: `<div style="display:flex;gap:20px;justify-content:center">${card("16回転の台", C["1年"].win, C["1年"].median, "#e03131", 0)}${card("取り分ゼロの台", CZ["1年"].win, CZ["1年"].median, "#d99a00", 1)}</div>
+            <div style="text-align:center;margin-top:30px">${t > K.c_money ? hz(t, K.c_money, "差は金額に出る", 90) : ""}</div>` };
+        }
+        if (v === "money") {
+          const r = C["1年"];
+          return { title: `1年後の<span style="color:var(--gold)">金額</span>`, html: `<div class="panel"><div class="ph">16回転の台・1年後（1万人）</div>
+            ${centerBars(t, [{ label: "下位1割", v: r.p10, t0: K.mo_p10 }, { label: "真ん中", v: r.median, t0: K.mo_med }, { label: "上位1割", v: r.p90, t0: K.mo_p90 }], Math.max(-r.p10, r.p90))}
+            <div class="note" style="opacity:${op(t, K.mo_p90 + 0.8)}">プラスの人は${pc(r.win)}。でも負ける側の金額のほうが大きい</div></div>` };
+        }
+        if (v === "ten") {
+          const T = D.traj, mx = Math.max(...T.flat().map(Math.abs)), up = 104 * smooth(prog(t, sc.start + 0.4, sc.voice_len - 0.6));
+          const lines = [...Array(10).keys()].map((p) => { let s = ""; for (let d = 0; d < Math.max(1, up | 0); d++) s += (d ? "L" : "M") + (60 + d / 103 * 840).toFixed(1) + " " + (300 - T[d][p] / mx * 270).toFixed(1);
+            const fin = T[103][p] > 0; return `<path d="${s}" fill="none" stroke="${fin ? "#1971c2" : "#e03131"}" stroke-width="${fin && t > K.ten_up ? 9 : 5}" opacity="${fin || t < K.ten_up ? 0.9 : 0.35}"/>`; }).join("");
+          return { title: `<span style="color:var(--gold)">10人</span>の1年`, html: `<div class="panel"><div class="ph">10人の通算収支（1年・104回）</div><svg width="940" height="620" style="display:block;font-family:R">
+            <line x1="60" x2="900" y1="300" y2="300" stroke="#1c2150" stroke-width="3"/><text x="50" y="310" text-anchor="end" font-size="28" fill="#5a5f86">0円</text>${lines}
+            <text x="900" y="40" text-anchor="end" font-size="30" fill="#1971c2" font-weight="800">青＝1年でプラス</text><text x="900" y="600" text-anchor="end" font-size="30" fill="#e03131" font-weight="800">赤＝マイナス</text></svg></div>` };
+        }
+        if (v === "hist") {
+          const H = D.hist, E = D.edges, mx = Math.max(...H), g = prog(t, sc.start + 0.3, 2.0);
+          const bars = H.map((h, i) => { const mid = (E[i] + E[i + 1]) / 2, pos = mid > 0, on = i / H.length < g;
+            return `<rect x="${60 + i * 21}" y="${540 - h / mx * 480 * (on ? 1 : 0)}" width="18" height="${h / mx * 480 * (on ? 1 : 0)}" rx="4" fill="${pos ? (t > K.hist_tail ? "#1971c2" : "#8fb8e8") : "#ff8a80"}"/>`; }).join("");
+          const zx = 60 + (0 - E[0]) / (E[E.length - 1] - E[0]) * 840;
+          return { title: `1年後の<span style="color:var(--gold)">1万人</span>`, html: `<div class="panel"><div class="ph">収支の順に並べると</div><svg width="940" height="600" style="display:block;font-family:R">
+            ${bars}<line x1="${zx}" x2="${zx}" y1="40" y2="560" stroke="#1c2150" stroke-width="4"/><text x="${zx}" y="590" text-anchor="middle" font-size="30" font-weight="800">0円</text>
+            <text x="${zx - 20}" y="40" text-anchor="end" font-size="34" font-weight="800" fill="#e03131">← 負け</text><text x="${zx + 20}" y="40" font-size="34" font-weight="800" fill="#1971c2">勝ち →</text></svg>
+            <div class="note" style="opacity:${op(t, K.hist_you)}">負けた人はやめて話さなくなる → 勝った話ばかり聞こえる</div></div>` };
+        }
+        if (v === "sum") {
+          const ls = [["プラスの人の割合は", "損の大きさを表さない", K.s1], ["勝ってる人がいても", "甘い台とは限らない", K.s2], ["長く続けるほど", "お店の取り分が積み重なる", K.s3]];
+          return { title: `<span style="color:var(--gold)">まとめ</span>`, html: `<div class="panel">${ls.map(([a, b, t0], i) => `<div style="opacity:${op(t, t0)};transform:translateY(${(1 - easeOut(prog(t, t0, .4))) * 24}px);margin:18px 0">
+            <div style="font-size:38px;font-weight:700;color:#5a5f86">${i + 1}. ${a}</div><div style="font-size:58px;font-weight:800">${b}</div></div>`).join("")}</div>` };
+        }
+        return { title: `次に確かめてほしい<br><span style="color:var(--gold)">言い伝え</span>は？`, html: `<div class="panel" style="margin-top:20px;text-align:center">
+          <div class="ph" style="font-size:42px">これはAIのシミュレーションです</div><div class="note" style="font-size:34px">必勝法ではありません／18歳未満は遊技できません<br>台・お店の条件で結果は変わります</div></div>
+          <div class="panel" style="margin-top:28px;text-align:center"><div style="font-size:54px;font-weight:800">遊ぶお金と時間は<br><span style="color:#e03131">先に決めておこう</span></div></div>` };
+      }
+
+      // ---- アリス ----
+      const NAMES = ["base", "talk", "talk_half", "blink", "happy", "surprised", "troubled", "pose_thinking", "pose_thinking_talk", "pose_thinking_half", "pose_pointing", "pose_pointing_talk", "pose_pointing_half", "pose_excited", "pose_excited_talk"];
+      $("alice").innerHTML = NAMES.map((n) => `<img id="a_${n}" src="assets/alice/${n}_768.png" alt="${n === "base" ? "電脳アリス" : ""}" style="opacity:0">`).join("");
+      const AMT = { surprised: 1.0, pose_excited: 0.8, troubled: 0.5 }, MARK = { surprised: "！", pose_thinking: "？", troubled: "💦", pose_excited: "✨" };
+      function alice(t, sc, u) {
+        const f = Math.floor(t * D.fps), mo = D.mouth[Math.min(f, D.mouth.length - 1)] || 0, face = sc.face || "base";
+        const half = { base: "talk_half", pose_thinking: "pose_thinking_half", pose_pointing: "pose_pointing_half", pose_excited: "pose_excited" };
+        const f0 = face.startsWith("pose_") ? face : (mo ? "base" : face);
+        const show = mo === 2 ? (f0 === "base" ? "talk" : f0 + "_talk") : mo === 1 ? half[f0] : (f0 === "base" && t % 3.4 < 0.12 ? "blink" : f0);
+        for (const n of NAMES) $("a_" + n).style.opacity = n === show ? 1 : 0;
+        const prev = D.scenes[D.scenes.indexOf(sc) - 1], changed = !prev || prev.face !== sc.face;
+        const nx = D.scenes[D.scenes.indexOf(sc) + 1], pre = nx && nx.face !== sc.face ? faceAct(t, nx.start, 0) : { sx: 1, sy: 1 };
+        const act = changed ? faceAct(t, sc.start, AMT[face] ?? 0.3) : { sx: 1, sy: 1 };
+        const en = easeOut(prog(t, 0.2, 0.7)), lean = face === "pose_pointing" ? -2 : 0;
+        $("alice").style.transform = `translate(${(1 - en) * 600 + (lean ? -20 : 0)}px, ${Math.sin(t * 2.2) * 6 + Math.sin(t * 3.7) * 2 + (mo ? -3 : 0)}px) rotate(${Math.sin(t * 1.3) * 0.8 + lean}deg) scale(${act.sx * pre.sx},${act.sy * pre.sy})`;
+        const mk = changed && MARK[face] && u < 1.2 ? MARK[face] : "";
+        $("mark").innerHTML = mk; $("mark").style.transform = mk ? `scale(${backOut(prog(t, sc.start, .35))}) rotate(${Math.sin(t * 9) * 6}deg)` : ""; $("mark").style.opacity = mk ? 1 - prog(t, sc.start + 0.9, 0.3) : 0;
+      }
+      function caption(sc, u, t) {
+        if (u > sc.voice_len + 0.3) return "";
+        const parts = sc.sub.match(/[^。？！…]+[。？！…]*/g) || [sc.sub]; let k = 0;
+        for (let i = 0; i < sc.marks.length; i++) if (t >= sc.marks[i][1] - 0.05) k = i;
+        let line = (parts[k] || "").replace(/。$/, "");
+        if (line.length > 22) { const m = line.length / 2; let b = -1; for (let i = 0; i < line.length; i++) if ("、".includes(line[i]) && (b < 0 || Math.abs(i - m) < Math.abs(b - m))) b = i; if (b < 0) b = Math.floor(m); line = line.slice(0, b + 1) + "\n" + line.slice(b + 1); }
+        return line;
+      }
+      // ---- 背景の色の流れ・カメラ・場面転換 ----
+      const BG = { hook: "#2d3577", rule: "#2d3577", guess: "#2d3577", d1: "#24508f", m1: "#24508f", why1: "#2b4a7a", line: "#4a2f7a", house: "#7a2f45", zero: "#5a4a1f", compare: "#5a4a1f", money: "#7a2f45", ten: "#3a2f6a", hist: "#3a2f6a", sum: "#6a5a1f", end: "#2d3577" };
+      function bgAt(t, sc) { const i = D.scenes.indexOf(sc), prev = D.scenes[i - 1]; const a = prev ? BG[prev.vis] : BG[sc.vis], b = BG[sc.vis], k = prog(t, sc.start, 1.0);
+        const mix = (x, y) => { const p = (h) => [1, 3, 5].map((j) => parseInt(h.slice(j, j + 2), 16)); const A = p(x), B = p(y); return `rgb(${A.map((v, j) => Math.round(lerp(v, B[j], k))).join(",")})`; };
+        return `radial-gradient(ellipse at 50% 30%, ${mix(a, b)} 0%, #171b42 62%, #0e1130 100%)`; }
+      const WCOL = ["#ffc928", "#4da3ff", "#ff6b6b", "#3ccf7a"], TR = 0.3;
+      function wipe(t) {
+        const j = VB.findIndex((b) => Math.abs(t - b) < TR && !NOWIPE.has(b)), w = $("wipe");
+        if (j < 0) { w.innerHTML = ""; return; }
+        const p = (t - (VB[j] - TR)) / (2 * TR), dir = j % 2 ? -1 : 1;
+        w.innerHTML = [0, 0.14, 0.06, 0.18, 0.1].map((d, i) => { const q = p < 0.5 ? easeOut(clamp((p * 2 - d) / (1 - d))) : easeIn(clamp(((p - 0.5) * 2 - d) / (1 - d)));
+          const x0 = p < 0.5 ? 0 : q, x1 = p < 0.5 ? q : 1;
+          return `<div style="position:absolute;top:${i * 20}%;height:21%;left:${(dir > 0 ? x0 : 1 - x1) * 100}%;width:${(x1 - x0) * 100}%;background:${WCOL[(j + i) % 4]};transform:skewY(-6deg)"></div>`; }).join("");
+      }
+      function renderAt(t) {
+        let sc = D.scenes[0]; for (const s of D.scenes) if (t >= s.start) sc = s;
+        const u = t - sc.start, first = firstOf(sc.vis);
+        $("bg").style.background = bgAt(t, sc);
+        $("dots").style.backgroundPosition = `0 ${(t * 12) % 48}px`;
+        const r = stage(t, sc);
+        $("stage").innerHTML = r.html; $("title").innerHTML = r.title;
+        $("title").style.transform = `scale(${0.7 + 0.3 * backOut(prog(t, first.start, 0.5))})`;
+        const z = 1 + 0.012 * Math.min(t - first.start, 6), hit = HITS.find((h) => t >= h && t < h + 0.35);
+        const [sx, sy] = hit ? shakeXY(t, 12 * (1 - (t - hit) / 0.35)) : [0, 0], bump = HITS.reduce((s, h) => s + spring(t, h, 7, 22), 0) * 0.015;
+        $("cam").style.transform = `translate(${sx + 5 * Math.sin(t * 0.5)}px,${sy}px) scale(${z + bump})`;
+        $("cap").textContent = t < D.lead ? "" : caption(sc, u, t);
+        alice(t, sc, u); wipe(t);
+        $("flash").style.opacity = hit ? 0.3 * (1 - (t - hit) / 0.35) : 0;
+      }
+      window.addEventListener("hf-seek", (e) => renderAt(e.detail.time));
+      document.fonts.ready.then(() => renderAt(0));
+      renderAt(0);
+    </script>
+  </body>
+</html>
