@@ -1,5 +1,7 @@
 # 運用マニュアル（定時タスクは毎回最初にこれを読む）
 
+> **最重要：オーナーへの返事・途中経過・報告は、短いひとことも含めて必ず日本語で書く（英語で返さない）。** 決まりは `.claude/skills/japanese-reply/SKILL.md`。会話の要約をはさんだ後や、自動の通知に続けて書くときも同じ。
+
 ## ミッション
 「電脳アリス × QOLガジェット」ブランドで、オーナー（松本りょうが）の関与ほぼゼロで収益を上げる。
 長期目標：3ヶ月で300万円（2026-11-02開始）。現実的な中間目標は ops/goals.md を参照。
@@ -56,6 +58,7 @@
 - daily-report：数字集めと日報（17:00・21:00）
 - ai-meeting：月曜07:00のAI経営会議
 - deep-session：深掘りセッション（03:00・10:00・13:00・19:00）
+- japanese-reply：オーナーへの返事は必ず日本語（全部の回で守る）
 - pachi-sim-video：電脳アリスのパチンコ1万人シミュレーション動画（ショート毎日・ロング週1）
 - 外部スキル（2026-11-03導入、オーナー指定の動画「Claudeに入れるべき神スキル」より）：
   - hyperframes／hyperframes-cli／hyperframes-registry（HeyGen製、Apache-2.0）：HTMLで動画を作る。YouTubeショート・Instagramリール・Xの動画に使う（エイゾウ担当）。**無料のローカル描画だけ**：HeyGenへのサインイン、クレジット、cloud render／lambda／publish、有料素材は禁止（ルール8）。音声はVOICEVOX（クレジット表記）か `npx hyperframes tts`（端末内のKokoro）。npmに繋がらず `npx hyperframes` が動かない回は、ffmpeg＋Python（PIL/matplotlib）で静止画を連結し字幕を焼き込む方式に切り替える
