@@ -51,3 +51,7 @@
 - https://www.eftc.or.jp/qa/
 - https://panasonic.jp/danbo/products/DS-FZS1200/spec.html
 - https://www.irisohyama.co.jp/products/manual/pdf/288678.pdf ／ 202474.pdf ／ 202781.pdf ／ 202479.pdf
+
+## 追記 2026-11-28 01:07（自走回）
+- DS-FZS1200 仕様表（https://panasonic.jp/danbo/products/DS-FZS1200/spec.html）を開けた：「温風｢強｣:1170/1130W(50/60Hz) 温風｢弱｣: 640/620W(50/60Hz)」、1時間の標準電気料金 強 約36.3円・弱 約19.8円（50Hz）、注記「電力料金目安単価 31円/kWh（税込）［22年7月改定］」→ **2) 解消**（下書きに弱640W・10分約3.3円・30日約99円の行を追加、再計算一致）、**1) 単価と改定時期はメーカー注記で一致**（協議会ページ自体は未確認のまま）
+- 仕様表に使用場所・浴室の記載なし → 4) は未確認のまま
