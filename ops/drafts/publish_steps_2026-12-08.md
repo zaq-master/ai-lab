@@ -2,6 +2,8 @@
 
 > **【2026-11-25 03:00 追加】`python3 ops/drafts/publish_kisei_2026-12-08.py` は日本時間の今日が 12/8 より前なら何も書かずに止まる**（早すぎる公開の防止。試しのときだけ `--allow-early`）
 
+> **【2026-11-27 23:06 追加・期待値の更新】12/2が年賀状（nenga）に変わった場合の通し結果**：作業用コピーで 11/30大掃除 →（12/10版 nenga を ops/drafts/retired/ へ移す）→ 12/2年賀状 → この記事 の順に実スクリプトを適用 → 記事 **40本**・公開ページ **43**・楽天ボタン **167**（大掃除+5→年賀状+1→この記事+2）。content_guard／mobile_check（43ページ×4画面）／check_affiliate（未使用4枠は同じ）／site_health すべて問題0。各スクリプトの2回目は「二重実行」で止まることも確認。下の7.の数字（38→39・164→166）はLEDイルミ前提の古い値
+
 1. `git pull --rebase`
 2. 下書きを移す：ops/drafts/article_kisei-rusu-smartplug_draft.md → content/posts/kisei-rusu-smartplug.md（date は 2026-12-08 のままでよい）
 3. **消すのは先頭の `<!-- 下書きメモ…-->` 1つだけ**（7〜14行目。`-->` が14行目に単独である形）
