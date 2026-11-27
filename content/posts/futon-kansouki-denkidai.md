@@ -162,3 +162,4 @@ A. いいえ。パナソニックと日立の取扱説明書は、ダニ対策�
 - [暖房器具の電気代 比較](heater-denkidai-hikaku.html)
 - [電気ブランケット（着る毛布・ひざ掛け）の電気代は1時間いくら？](denki-blanket-denkidai-1jikan.html)
 - [電気毛布・着る毛布・こたつの電気代](denki-moufu-kotatsu-denkidai-telework.html)
+- [ロボット掃除機の電気代は1回・1ヶ月いくら？（布団まわりのほこり対策にも）](robot-cleaner-denkidai.html)
